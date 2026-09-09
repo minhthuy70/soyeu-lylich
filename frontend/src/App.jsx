@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import "./App.css";
+import { registerUser } from "./services/authService";
 
 export default function App() {
   const [form, setForm] = useState({
@@ -11,6 +12,7 @@ export default function App() {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,12 +22,11 @@ export default function App() {
       [name]: value,
     }));
 
-    // Xóa thông báo khi người dùng nhập lại
     setError("");
     setSuccess("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setError("");
@@ -61,11 +62,29 @@ export default function App() {
       return;
     }
 
-    // Tạm thời chưa gọi API.
-    // Sau khi tạo backend, đoạn này sẽ được thay bằng API đăng ký.
-    setSuccess(
-      "Thông tin hợp lệ. Sẵn sàng kết nối hệ thống đăng ký."
-    );
+    try {
+      setLoading(true);
+
+      // Gọi Backend
+      const result = await registerUser({
+        email,
+        password,
+        confirmPassword,
+      });
+
+      setSuccess(result.message || "Đăng ký tài khoản thành công.");
+
+      // Xóa form sau khi đăng ký thành công
+      setForm({
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (err) {
+      setError(err.message || "Đăng ký thất bại.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -93,6 +112,7 @@ export default function App() {
               value={form.email}
               onChange={handleChange}
               autoComplete="email"
+              disabled={loading}
             />
           </div>
 
@@ -107,6 +127,7 @@ export default function App() {
               value={form.password}
               onChange={handleChange}
               autoComplete="new-password"
+              disabled={loading}
             />
           </div>
 
@@ -123,6 +144,7 @@ export default function App() {
               value={form.confirmPassword}
               onChange={handleChange}
               autoComplete="new-password"
+              disabled={loading}
             />
           </div>
 
@@ -138,8 +160,8 @@ export default function App() {
             </div>
           )}
 
-          <button type="submit">
-            Đăng ký
+          <button type="submit" disabled={loading}>
+            {loading ? "Đang đăng ký..." : "Đăng ký"}
           </button>
         </form>
       </div>
