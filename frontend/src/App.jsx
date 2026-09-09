@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import "./App.css";
 
@@ -12,10 +13,16 @@ export default function App() {
   const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Xóa thông báo khi người dùng nhập lại
+    setError("");
+    setSuccess("");
   };
 
   const handleSubmit = (e) => {
@@ -24,17 +31,41 @@ export default function App() {
     setError("");
     setSuccess("");
 
-    if (!form.email || !form.password || !form.confirmPassword) {
+    const email = form.email.trim();
+    const password = form.password;
+    const confirmPassword = form.confirmPassword;
+
+    // 1. Kiểm tra nhập đầy đủ
+    if (!email || !password || !confirmPassword) {
       setError("Vui lòng nhập đầy đủ thông tin.");
       return;
     }
 
-    if (form.password !== form.confirmPassword) {
+    // 2. Kiểm tra email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      setError("Email không hợp lệ.");
+      return;
+    }
+
+    // 3. Kiểm tra độ dài mật khẩu
+    if (password.length < 8) {
+      setError("Mật khẩu phải có ít nhất 8 ký tự.");
+      return;
+    }
+
+    // 4. Kiểm tra xác nhận mật khẩu
+    if (password !== confirmPassword) {
       setError("Mật khẩu xác nhận không khớp.");
       return;
     }
 
-    setSuccess("Đăng ký thành công!");
+    // Tạm thời chưa gọi API.
+    // Sau khi tạo backend, đoạn này sẽ được thay bằng API đăng ký.
+    setSuccess(
+      "Thông tin hợp lệ. Sẵn sàng kết nối hệ thống đăng ký."
+    );
   };
 
   return (
@@ -61,6 +92,7 @@ export default function App() {
               placeholder="Nhập email của bạn"
               value={form.email}
               onChange={handleChange}
+              autoComplete="email"
             />
           </div>
 
@@ -74,6 +106,7 @@ export default function App() {
               placeholder="Nhập mật khẩu"
               value={form.password}
               onChange={handleChange}
+              autoComplete="new-password"
             />
           </div>
 
@@ -89,17 +122,18 @@ export default function App() {
               placeholder="Nhập lại mật khẩu"
               value={form.confirmPassword}
               onChange={handleChange}
+              autoComplete="new-password"
             />
           </div>
 
           {error && (
-            <div className="error-message">
+            <div className="error-message" role="alert">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="success-message">
+            <div className="success-message" role="status">
               {success}
             </div>
           )}
