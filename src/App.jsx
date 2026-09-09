@@ -40,26 +40,35 @@ export default function App() {
   return (
     <div className="register-page">
       <div className="register-card">
-        <h1>Đăng ký</h1>
-        <p className="subtitle">
-          Tạo tài khoản để sử dụng hệ thống sơ yếu lý lịch
-        </p>
+        <div className="register-header">
+          <div className="register-logo">CV</div>
+
+          <h1>Tạo tài khoản</h1>
+
+          <p className="subtitle">
+            Đăng ký để bắt đầu tạo sơ yếu lý lịch của bạn
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
+
             <input
+              id="email"
               type="email"
               name="email"
-              placeholder="Nhập email"
+              placeholder="Nhập email của bạn"
               value={form.email}
               onChange={handleChange}
             />
           </div>
 
           <div className="form-group">
-            <label>Mật khẩu</label>
+            <label htmlFor="password">Mật khẩu</label>
+
             <input
+              id="password"
               type="password"
               name="password"
               placeholder="Nhập mật khẩu"
@@ -69,8 +78,12 @@ export default function App() {
           </div>
 
           <div className="form-group">
-            <label>Xác nhận mật khẩu</label>
+            <label htmlFor="confirmPassword">
+              Xác nhận mật khẩu
+            </label>
+
             <input
+              id="confirmPassword"
               type="password"
               name="confirmPassword"
               placeholder="Nhập lại mật khẩu"
@@ -79,10 +92,21 @@ export default function App() {
             />
           </div>
 
-          {error && <div className="error-message">{error}</div>}
-          {success && <div className="success-message">{success}</div>}
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
 
-          <button type="submit">Đăng ký</button>
+          {success && (
+            <div className="success-message">
+              {success}
+            </div>
+          )}
+
+          <button type="submit">
+            Đăng ký
+          </button>
         </form>
       </div>
     </div>

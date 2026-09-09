@@ -1,103 +1,356 @@
-#root {
-  min-height: 100vh;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
+/* ========================================
+   REGISTER PAGE
+   ======================================== */
 
 .register-page {
   min-height: 100vh;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #111827, #374151);
-  padding: 20px;
+
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  padding: 32px 20px;
+
+  background:
+    radial-gradient(
+      circle at 8% 15%,
+      rgba(14, 165, 233, 0.22),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 92% 15%,
+      rgba(250, 204, 21, 0.18),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(220, 38, 38, 0.16),
+      transparent 27%
+    ),
+    linear-gradient(
+      135deg,
+      #041b29 0%,
+      #082f49 48%,
+      #075985 100%
+    );
 }
+
+/* ========================================
+   DECORATIVE GLOW
+   ======================================== */
+
+.register-page::before,
+.register-page::after {
+  content: "";
+
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  border-radius: 50%;
+
+  filter: blur(110px);
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+.register-page::before {
+  top: -220px;
+  left: -150px;
+
+  background: rgba(14, 165, 233, 0.3);
+}
+
+.register-page::after {
+  right: -180px;
+  bottom: -220px;
+
+  background: rgba(220, 38, 38, 0.2);
+}
+
+/* ========================================
+   REGISTER CARD
+   ======================================== */
 
 .register-card {
   width: 100%;
-  max-width: 420px;
-  background: white;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  max-width: 440px;
+
+  position: relative;
+  z-index: 2;
+
+  padding: 42px;
+
+  background: rgba(255, 255, 255, 0.98);
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+
+  border-radius: var(--radius-xl);
+
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.3),
+    0 0 50px rgba(14, 165, 233, 0.1);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.register-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+/* ========================================
+   LOGO
+   ======================================== */
+
+.register-logo {
+  width: 58px;
+  height: 58px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #facc15 0%,
+      #eab308 100%
+    );
+
+  color: #082f49;
+
+  font-size: 19px;
+  font-weight: 800;
+
+  letter-spacing: -0.5px;
+
+  box-shadow:
+    0 10px 25px rgba(234, 179, 8, 0.3),
+    0 0 25px rgba(250, 204, 21, 0.15);
+}
+
+/* ========================================
+   TITLE
+   ======================================== */
 
 .register-card h1 {
   margin: 0;
-  text-align: center;
+
+  color: var(--color-primary-dark);
+
   font-size: 30px;
-  color: #111827;
+  font-weight: 750;
+
+  line-height: 1.2;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
-  text-align: center;
-  color: #6b7280;
-  margin: 10px 0 30px;
-  line-height: 1.5;
+  max-width: 340px;
+
+  margin: 10px auto 0;
+
+  color: var(--color-text-muted);
+
+  font-size: 14px;
+  line-height: 1.6;
 }
 
+/* ========================================
+   FORM
+   ======================================== */
+
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 7px;
-  font-weight: 600;
-  color: #374151;
+
+  margin-bottom: 8px;
+
+  color: var(--color-text-secondary);
+
+  font-size: 14px;
+  font-weight: 650;
 }
 
 .form-group input {
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+
+  padding: 13px 14px;
+
+  border: 1px solid var(--color-border-strong);
+
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+
+  color: var(--color-text-primary);
+
   font-size: 15px;
+
   outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: var(--color-text-disabled);
+}
+
+.form-group input:hover {
+  border-color: #94a3b8;
 }
 
 .form-group input:focus {
-  border-color: #2563eb;
+  border-color: var(--color-primary);
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px rgba(7, 89, 133, 0.12),
+    0 2px 8px rgba(7, 89, 133, 0.06);
 }
+
+/* ========================================
+   BUTTON
+   ======================================== */
 
 button {
   width: 100%;
-  padding: 13px;
-  margin-top: 8px;
+
+  padding: 14px 18px;
+
+  margin-top: 4px;
+
   border: none;
-  border-radius: 8px;
-  background: #2563eb;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #facc15 0%,
+      #eab308 100%
+    );
+
+  color: #082f49;
+
+  font-size: 15px;
+  font-weight: 750;
+
+  box-shadow:
+    0 8px 20px rgba(234, 179, 8, 0.25);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
 button:hover {
-  background: #1d4ed8;
+  transform: translateY(-1px);
+
+  filter: brightness(1.04);
+
+  box-shadow:
+    0 12px 26px rgba(234, 179, 8, 0.35);
 }
+
+button:active {
+  transform: translateY(0);
+}
+
+/* ========================================
+   ERROR MESSAGE
+   ======================================== */
 
 .error-message {
-  margin-bottom: 15px;
-  padding: 10px;
-  border-radius: 6px;
-  background: #fee2e2;
-  color: #b91c1c;
+  margin-bottom: 16px;
+
+  padding: 11px 13px;
+
+  border: 1px solid rgba(220, 38, 38, 0.18);
+
+  border-radius: 9px;
+
+  background: var(--color-error-light);
+
+  color: var(--color-red-dark);
+
   font-size: 14px;
+
+  line-height: 1.4;
 }
 
+/* ========================================
+   SUCCESS MESSAGE
+   ======================================== */
+
 .success-message {
-  margin-bottom: 15px;
-  padding: 10px;
-  border-radius: 6px;
-  background: #dcfce7;
-  color: #15803d;
+  margin-bottom: 16px;
+
+  padding: 11px 13px;
+
+  border: 1px solid rgba(22, 163, 74, 0.18);
+
+  border-radius: 9px;
+
+  background: var(--color-success-light);
+
+  color: var(--color-success);
+
   font-size: 14px;
+
+  line-height: 1.4;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 480px) {
+  .register-page {
+    padding: 20px 14px;
+  }
+
+  .register-card {
+    padding: 32px 22px;
+
+    border-radius: 16px;
+  }
+
+  .register-card h1 {
+    font-size: 26px;
+  }
+
+  .register-logo {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 14px;
+
+    font-size: 17px;
+  }
 }
