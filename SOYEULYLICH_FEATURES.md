@@ -38,6 +38,30 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - View account creation date - Xem ngày tạo tài khoản
 [ ] - Manual logout - Đăng xuất
 
+1.5. Social Login (Đăng nhập mạng xã hội)
+[ ] - Login bằng Google - Đăng nhập với Google OAuth
+[ ] - Login bằng GitHub - Đăng nhập với GitHub OAuth
+[ ] - Login bằng Facebook - Đăng nhập với Facebook OAuth
+[ ] - Login bằng LinkedIn - Đăng nhập với LinkedIn OAuth
+[ ] - Link social account - Liên kết tài khoản mạng xã hội với tài khoản hiện tại
+[ ] - Unlink social account - Hủy liên kết tài khoản mạng xã hội
+
+1.6. Two-Factor Authentication (Xác thực 2 yếu tố)
+[ ] - Enable 2FA - Bật xác thực 2 yếu tố
+[ ] - 2FA via TOTP (Google Authenticator) - Xác thực qua ứng dụng Authenticator
+[ ] - 2FA via SMS - Xác thực qua SMS
+[ ] - 2FA via Email OTP - Xác thực qua email OTP
+[ ] - Backup codes - Mã dự phòng khi mất thiết bị 2FA
+[ ] - Disable 2FA - Tắt xác thực 2 yếu tố
+[ ] - 2FA recovery - Khôi phục truy cập khi mất 2FA
+
+1.7. Session Management (Quản lý phiên)
+[ ] - Active session list - Danh sách phiên đang hoạt động
+[ ] - Device info per session - Thông tin thiết bị của từng phiên
+[ ] - Remote logout - Đăng xuất từ xa trên thiết bị khác
+[ ] - Logout all devices - Đăng xuất tất cả thiết bị
+[ ] - Session expiry notification - Thông báo phiên sắp hết hạn
+
 
 ================================================================================
 
@@ -54,14 +78,20 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Marital status - Tình trạng hôn nhân
 [ ] - Personal photo - Ảnh cá nhân
 [ ] - Personal introduction - Giới thiệu bản thân
+[ ] - Religion - Tôn giáo (tùy chọn)
+[ ] - Ethnicity - Dân tộc
+[ ] - Blood type - Nhóm máu
+[ ] - Height/Weight - Chiều cao/Cân nặng (tùy chọn)
 
 2.2. Contact Information (Thông tin liên hệ)
 [ ] - Phone number - Số điện thoại
+[ ] - Secondary phone - Số điện thoại phụ
 [ ] - Email address - Địa chỉ email
 [ ] - Current address - Địa chỉ hiện tại
 [ ] - Permanent address - Địa chỉ thường trú
 [ ] - Social links - Liên kết mạng xã hội
 [ ] - Personal website - Website cá nhân
+[ ] - Emergency contact - Liên hệ khẩn cấp
 
 2.3. Identity Information (Thông tin định danh)
 [ ] - Identity document information - Thông tin giấy tờ tùy thân
@@ -71,6 +101,23 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Issue place - Nơi cấp
 [ ] - Expiry date - Ngày hết hạn
 [ ] - Validation - Kiểm tra dữ liệu nhập
+
+2.4. Career Objective (Mục tiêu nghề nghiệp)
+[ ] - Career objective text - Mục tiêu nghề nghiệp ngắn hạn/dài hạn
+[ ] - Desired position - Vị trí mong muốn
+[ ] - Expected salary - Mức lương kỳ vọng
+[ ] - Work location preference - Địa điểm làm việc mong muốn
+[ ] - Work type preference - Hình thức làm việc mong muốn (remote, onsite, hybrid)
+[ ] - Available from date - Ngày có thể bắt đầu làm việc
+
+2.5. References (Người tham chiếu)
+[ ] - Add reference - Thêm người tham chiếu
+[ ] - Reference name - Tên người tham chiếu
+[ ] - Reference position - Chức vụ người tham chiếu
+[ ] - Reference company - Công ty người tham chiếu
+[ ] - Reference contact - Liên hệ người tham chiếu
+[ ] - Reference relationship - Mối quan hệ
+[ ] - Edit/Delete reference - Chỉnh sửa/Xóa người tham chiếu
 
 
 ================================================================================
@@ -93,6 +140,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - GPA - Điểm trung bình
 [ ] - Academic achievements - Thành tích học tập
 [ ] - Education description - Mô tả quá trình học tập
+[ ] - Thesis/Graduation topic - Đề tài luận văn/đồ án tốt nghiệp
+[ ] - Relevant coursework - Môn học liên quan
+[ ] - Study abroad experience - Kinh nghiệm du học
 
 3.2. Certificates (Chứng chỉ)
 [ ] - Add certificate - Thêm chứng chỉ
@@ -105,6 +155,18 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Certificate ID - Mã chứng chỉ
 [ ] - Certificate URL - Liên kết chứng chỉ
 [ ] - Certificate image - Ảnh chứng chỉ
+[ ] - Certificate expiry reminder - Nhắc nhở chứng chỉ sắp hết hạn
+[ ] - Certificate category - Phân loại chứng chỉ
+
+3.3. Online Courses (Khóa học trực tuyến)
+[ ] - Add online course - Thêm khóa học trực tuyến
+[ ] - Course name - Tên khóa học
+[ ] - Platform - Nền tảng (Coursera, Udemy, edX...)
+[ ] - Instructor - Giảng viên
+[ ] - Completion date - Ngày hoàn thành
+[ ] - Course URL - Liên kết khóa học
+[ ] - Certificate URL - Liên kết chứng chỉ khóa học
+[ ] - Edit/Delete course - Chỉnh sửa/Xóa khóa học
 
 
 ================================================================================
@@ -128,6 +190,22 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Responsibilities - Trách nhiệm
 [ ] - Achievements - Thành tích
 [ ] - Technologies used - Công nghệ sử dụng
+[ ] - Company website - Website công ty
+[ ] - Company logo - Logo công ty
+[ ] - Work location - Địa điểm làm việc
+[ ] - Work type - Hình thức làm việc (remote/onsite/hybrid)
+[ ] - Salary range (optional) - Mức lương (tùy chọn)
+[ ] - Reason for leaving - Lý do nghỉ việc (tùy chọn)
+[ ] - Supervisor name - Tên người quản lý trực tiếp
+
+4.2. Freelance / Contract Work
+[ ] - Add freelance project - Thêm dự án freelance
+[ ] - Client name - Tên khách hàng
+[ ] - Project scope - Phạm vi dự án
+[ ] - Rate/Budget - Mức phí/ngân sách
+[ ] - Duration - Thời gian thực hiện
+[ ] - Technologies - Công nghệ sử dụng
+[ ] - Outcome - Kết quả đạt được
 
 
 ================================================================================
@@ -145,6 +223,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Years of experience - Số năm kinh nghiệm
 [ ] - Skill description - Mô tả kỹ năng
 [ ] - Skill progress display - Hiển thị mức độ kỹ năng
+[ ] - Skill tags/badges - Tag/Badge kỹ năng
+[ ] - Skill endorsement count - Số lần được xác nhận kỹ năng
+[ ] - Skill portfolio link - Liên kết portfolio theo kỹ năng
 
 5.2. Soft Skills (Kỹ năng mềm)
 [ ] - Communication - Giao tiếp
@@ -154,6 +235,10 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Time management - Quản lý thời gian
 [ ] - Critical thinking - Tư duy phản biện
 [ ] - Custom soft skills - Kỹ năng mềm tùy chỉnh
+[ ] - Adaptability - Khả năng thích nghi
+[ ] - Creativity - Sáng tạo
+[ ] - Negotiation - Đàm phán
+[ ] - Emotional intelligence - Trí tuệ cảm xúc
 
 5.3. Language Skills (Ngoại ngữ)
 [ ] - Add language - Thêm ngoại ngữ
@@ -164,6 +249,14 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Writing level - Mức độ viết
 [ ] - Certificate score - Điểm chứng chỉ
 [ ] - Certificate information - Thông tin chứng chỉ
+[ ] - CEFR level - Mức độ theo khung CEFR
+
+5.4. Tool & Software Skills (Kỹ năng công cụ)
+[ ] - Add tool/software - Thêm công cụ/phần mềm
+[ ] - Tool category - Phân loại công cụ
+[ ] - Proficiency level - Mức độ thành thạo
+[ ] - Years of use - Số năm sử dụng
+[ ] - Edit/Delete tool - Chỉnh sửa/Xóa công cụ
 
 
 ================================================================================
@@ -186,6 +279,26 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Demo URL - Liên kết Demo
 [ ] - Project status - Trạng thái dự án
 [ ] - Project ordering - Sắp xếp dự án
+[ ] - Project category - Phân loại dự án
+[ ] - Team size - Quy mô nhóm
+[ ] - Project highlights - Điểm nổi bật dự án
+[ ] - Challenges faced - Thách thức gặp phải
+[ ] - Solutions applied - Giải pháp áp dụng
+[ ] - Project impact - Tác động/kết quả dự án
+[ ] - Client/Company - Khách hàng/Công ty
+
+6.2. Project Gallery (Thư viện dự án)
+[ ] - Project image gallery - Thư viện ảnh dự án
+[ ] - Image upload - Tải ảnh lên
+[ ] - Image reordering - Sắp xếp ảnh
+[ ] - Image caption - Chú thích ảnh
+[ ] - Delete image - Xóa ảnh
+[ ] - Thumbnail selection - Chọn ảnh đại diện
+
+6.3. Project Analytics (Phân tích dự án)
+[ ] - Project view count - Đếm lượt xem dự án
+[ ] - Most viewed projects - Dự án được xem nhiều nhất
+[ ] - Project click tracking - Theo dõi click vào link dự án
 
 
 ================================================================================
@@ -204,6 +317,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Description - Mô tả
 [ ] - Evidence URL - Liên kết minh chứng
 [ ] - Achievement image - Hình ảnh minh chứng
+[ ] - Achievement category - Phân loại thành tích (học thuật, nghề nghiệp, thể thao...)
+[ ] - Achievement level - Cấp độ thành tích (cấp trường, cấp tỉnh, quốc gia...)
 
 7.2. Activities (Hoạt động)
 [ ] - Add activity - Thêm hoạt động
@@ -214,6 +329,36 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Activity period - Thời gian
 [ ] - Activity description - Mô tả hoạt động
 [ ] - Achievements - Thành tích đạt được
+[ ] - Activity type - Loại hoạt động (tình nguyện, CLB, thể thao...)
+[ ] - Member count - Số lượng thành viên tham gia
+
+7.3. Volunteering (Tình nguyện)
+[ ] - Add volunteer experience - Thêm kinh nghiệm tình nguyện
+[ ] - Organization - Tổ chức
+[ ] - Role - Vai trò
+[ ] - Duration - Thời gian
+[ ] - Impact - Tác động
+[ ] - Skills gained - Kỹ năng thu được
+[ ] - Edit/Delete volunteer - Chỉnh sửa/Xóa kinh nghiệm tình nguyện
+
+7.4. Publications (Công bố/Bài viết)
+[ ] - Add publication - Thêm công bố/bài viết
+[ ] - Publication title - Tiêu đề
+[ ] - Journal/Conference - Tạp chí/Hội nghị
+[ ] - Publication date - Ngày công bố
+[ ] - Co-authors - Đồng tác giả
+[ ] - DOI/URL - Liên kết/DOI
+[ ] - Abstract - Tóm tắt
+[ ] - Edit/Delete publication - Chỉnh sửa/Xóa
+
+7.5. Patents & Intellectual Property (Bằng sáng chế & SHTT)
+[ ] - Add patent - Thêm bằng sáng chế
+[ ] - Patent number - Số bằng sáng chế
+[ ] - Patent title - Tiêu đề
+[ ] - Filing date - Ngày nộp đơn
+[ ] - Status - Trạng thái
+[ ] - Description - Mô tả
+[ ] - Edit/Delete patent - Chỉnh sửa/Xóa
 
 
 ================================================================================
@@ -230,6 +375,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Preview resume - Xem trước sơ yếu lý lịch
 [ ] - Auto-save changes - Tự động lưu thay đổi
 [ ] - Form validation - Kiểm tra biểu mẫu
+[ ] - Custom section name - Tùy chỉnh tên phần
+[ ] - Section description - Mô tả từng phần
 
 8.2. Resume Templates (Mẫu sơ yếu lý lịch)
 [ ] - Template list - Danh sách mẫu
@@ -237,9 +384,14 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Professional template - Mẫu chuyên nghiệp
 [ ] - Minimal template - Mẫu tối giản
 [ ] - Academic template - Mẫu học thuật
+[ ] - Creative template - Mẫu sáng tạo
+[ ] - Two-column template - Mẫu 2 cột
+[ ] - Infographic template - Mẫu infographic
 [ ] - Template preview - Xem trước mẫu
 [ ] - Select template - Chọn mẫu
 [ ] - Customize template - Tùy chỉnh mẫu
+[ ] - Template color scheme - Bảng màu mẫu
+[ ] - Template font selection - Chọn font chữ mẫu
 
 8.3. Resume Preview (Xem trước)
 [ ] - Full resume preview - Xem toàn bộ sơ yếu lý lịch
@@ -247,6 +399,16 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Mobile preview - Xem trên mobile
 [ ] - Print preview - Xem trước khi in
 [ ] - Real-time preview - Xem trước theo thời gian thực
+[ ] - A4/Letter size preview - Xem theo khổ giấy A4/Letter
+
+8.4. Multiple Resumes (Nhiều sơ yếu lý lịch)
+[ ] - Create multiple resumes - Tạo nhiều sơ yếu lý lịch
+[ ] - Rename resume - Đổi tên sơ yếu lý lịch
+[ ] - Duplicate resume - Nhân bản sơ yếu lý lịch
+[ ] - Delete resume - Xóa sơ yếu lý lịch
+[ ] - Set default resume - Đặt sơ yếu lý lịch mặc định
+[ ] - Resume version history - Lịch sử phiên bản sơ yếu lý lịch
+[ ] - Compare resumes - So sánh 2 phiên bản sơ yếu lý lịch
 
 
 ================================================================================
@@ -257,12 +419,16 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 
 9.1. Export Resume (Xuất sơ yếu lý lịch)
 [ ] - Export PDF - Xuất file PDF
+[ ] - Export DOCX - Xuất file Word
 [ ] - Export JSON - Xuất dữ liệu JSON
+[ ] - Export HTML - Xuất file HTML
+[ ] - Export TXT - Xuất file văn bản thuần
 [ ] - Print resume - In sơ yếu lý lịch
 [ ] - PDF page settings - Cài đặt trang PDF
 [ ] - File naming - Đặt tên file
 [ ] - Export loading state - Trạng thái đang xuất
 [ ] - Export error handling - Xử lý lỗi khi xuất
+[ ] - Watermark option - Tùy chọn thêm watermark
 
 9.2. Public Resume (Sơ yếu lý lịch công khai)
 [ ] - Generate public URL - Tạo URL công khai
@@ -270,8 +436,18 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Enable/disable public access - Bật/tắt truy cập công khai
 [ ] - Custom public slug - Tùy chỉnh đường dẫn
 [ ] - QR code generation - Tạo mã QR
+[ ] - QR code download - Tải về mã QR
 [ ] - Share resume link - Chia sẻ liên kết
 [ ] - Public view counter - Đếm lượt xem
+[ ] - Password-protected public URL - Bảo vệ URL công khai bằng mật khẩu
+[ ] - Expiry date for public URL - Thời hạn URL công khai
+[ ] - Social sharing buttons - Nút chia sẻ mạng xã hội
+
+9.3. Import Resume (Nhập dữ liệu)
+[ ] - Import from JSON - Nhập từ JSON
+[ ] - Import from LinkedIn - Nhập từ LinkedIn
+[ ] - Import from existing PDF (OCR) - Nhập từ PDF bằng OCR
+[ ] - Data backup & restore - Sao lưu và khôi phục dữ liệu
 
 
 ================================================================================
@@ -290,6 +466,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Certificate count - Số lượng chứng chỉ
 [ ] - Quick actions - Các thao tác nhanh
 [ ] - Recent updates - Cập nhật gần đây
+[ ] - Activity feed - Luồng hoạt động gần đây
+[ ] - Resume view statistics chart - Biểu đồ thống kê lượt xem
+[ ] - Upcoming certificate expiry - Chứng chỉ sắp hết hạn
 
 10.2. Profile Completion (Độ hoàn thiện hồ sơ)
 [ ] - Completion progress bar - Thanh tiến độ hoàn thiện
@@ -297,6 +476,15 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Completion suggestions - Gợi ý bổ sung thông tin
 [ ] - Section completion status - Trạng thái hoàn thiện từng phần
 [ ] - Complete profile CTA - Nút hoàn thiện hồ sơ
+[ ] - Completion score gamification - Gamification điểm hoàn thiện
+
+10.3. Analytics Dashboard (Dashboard phân tích)
+[ ] - Resume view chart - Biểu đồ lượt xem sơ yếu lý lịch
+[ ] - Weekly/Monthly view trends - Xu hướng xem theo tuần/tháng
+[ ] - Top viewed sections - Phần được xem nhiều nhất
+[ ] - Visitor geography - Địa lý người xem
+[ ] - Device breakdown - Phân tích thiết bị truy cập
+[ ] - Referral sources - Nguồn truy cập
 
 
 ================================================================================
@@ -314,13 +502,24 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Real-time search - Tìm kiếm thời gian thực
 [ ] - Clear search - Xóa từ khóa
 [ ] - No results message - Thông báo không có kết quả
+[ ] - Global search across all sections - Tìm kiếm toàn bộ hệ thống
+[ ] - Search history - Lịch sử tìm kiếm
 
 11.2. Filtering
 [ ] - Filter projects by technology - Lọc dự án theo công nghệ
 [ ] - Filter experience by period - Lọc kinh nghiệm theo thời gian
 [ ] - Filter certificates by organization - Lọc chứng chỉ theo đơn vị
 [ ] - Filter skills by category - Lọc kỹ năng theo danh mục
+[ ] - Filter by date range - Lọc theo khoảng thời gian
+[ ] - Filter by status - Lọc theo trạng thái
 [ ] - Clear filters - Xóa bộ lọc
+[ ] - Save filter presets - Lưu bộ lọc yêu thích
+
+11.3. Sorting
+[ ] - Sort by date - Sắp xếp theo ngày
+[ ] - Sort by name - Sắp xếp theo tên
+[ ] - Sort by relevance - Sắp xếp theo độ phù hợp
+[ ] - Custom sort order - Thứ tự sắp xếp tùy chỉnh
 
 
 ================================================================================
@@ -335,6 +534,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Project statistics - Thống kê dự án
 [ ] - Public view statistics - Thống kê lượt xem công khai
 [ ] - System activity overview - Tổng quan hoạt động hệ thống
+[ ] - Registration trend chart - Biểu đồ xu hướng đăng ký
+[ ] - Active users chart - Biểu đồ người dùng hoạt động
+[ ] - System health status - Trạng thái hệ thống
 
 12.2. User Management
 [ ] - User list - Danh sách người dùng
@@ -344,12 +546,35 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Disable user - Vô hiệu hóa người dùng
 [ ] - Delete user - Xóa người dùng
 [ ] - User role management - Quản lý vai trò người dùng
+[ ] - Filter users by role/status - Lọc người dùng theo vai trò/trạng thái
+[ ] - Export user list - Xuất danh sách người dùng
+[ ] - Bulk user actions - Thao tác hàng loạt
+[ ] - User activity log - Nhật ký hoạt động người dùng
+[ ] - Impersonate user - Xem hệ thống dưới góc độ người dùng (debug)
 
 12.3. Content Management
 [ ] - Manage resume templates - Quản lý mẫu sơ yếu lý lịch
 [ ] - Manage skill categories - Quản lý danh mục kỹ năng
 [ ] - Manage system settings - Quản lý cài đặt hệ thống
 [ ] - Manage public content - Quản lý nội dung công khai
+[ ] - Manage announcement banners - Quản lý banner thông báo
+[ ] - Manage FAQ - Quản lý câu hỏi thường gặp
+
+12.4. System Logs & Audit
+[ ] - System error logs - Nhật ký lỗi hệ thống
+[ ] - API request logs - Nhật ký request API
+[ ] - Security audit log - Nhật ký kiểm tra bảo mật
+[ ] - User action audit trail - Vết kiểm tra hành động người dùng
+[ ] - Log export - Xuất nhật ký
+[ ] - Log search & filter - Tìm kiếm và lọc nhật ký
+
+12.5. System Configuration (Cấu hình hệ thống)
+[ ] - General settings - Cài đặt chung
+[ ] - Email configuration - Cấu hình email
+[ ] - Storage configuration - Cấu hình lưu trữ
+[ ] - AI service configuration - Cấu hình dịch vụ AI
+[ ] - Feature flags - Bật/tắt tính năng theo cờ
+[ ] - Maintenance mode - Chế độ bảo trì
 
 
 ================================================================================
@@ -370,6 +595,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Touch-friendly controls - Điều khiển thân thiện cảm ứng
 [ ] - Responsive resume preview - Preview sơ yếu lý lịch responsive
 [ ] - Mobile form layout - Form tối ưu cho mobile
+[ ] - Swipe gestures - Cử chỉ vuốt trên mobile
+[ ] - Bottom sheet navigation - Navigation dạng bottom sheet
 
 13.3. Desktop Layout
 [ ] - Sidebar navigation - Sidebar điều hướng
@@ -377,6 +604,15 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Hover effects - Hiệu ứng hover
 [ ] - Keyboard navigation - Điều hướng bằng bàn phím
 [ ] - Tooltips - Tooltip hướng dẫn
+[ ] - Context menus - Menu ngữ cảnh
+
+13.4. Progressive Web App (PWA)
+[ ] - PWA manifest - File manifest PWA
+[ ] - Service worker - Service worker offline
+[ ] - Offline mode - Chế độ offline cơ bản
+[ ] - Install prompt - Gợi ý cài đặt ứng dụng
+[ ] - Push notifications - Thông báo đẩy
+[ ] - Background sync - Đồng bộ nền
 
 
 ================================================================================
@@ -391,6 +627,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Persist theme preference - Lưu lựa chọn theme
 [ ] - Dark theme components - Theme tối cho toàn bộ component
 [ ] - Smooth theme transition - Chuyển đổi theme mượt mà
+[ ] - High contrast mode - Chế độ tương phản cao
 
 14.2. UI Customization
 [ ] - Primary color selection - Chọn màu chủ đạo
@@ -398,6 +635,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Resume accent color - Màu nhấn sơ yếu lý lịch
 [ ] - Layout customization - Tùy chỉnh bố cục
 [ ] - Preview customization - Xem trước tùy chỉnh
+[ ] - Font size adjustment - Điều chỉnh cỡ chữ
+[ ] - Spacing customization - Tùy chỉnh khoảng cách
+[ ] - Border radius customization - Tùy chỉnh bo góc
+[ ] - Animation toggle - Bật/tắt animation
+[ ] - Sidebar width adjustment - Điều chỉnh độ rộng sidebar
+[ ] - Reset to default - Đặt lại giao diện mặc định
 
 
 ================================================================================
@@ -416,6 +659,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - 500 Server Error handling - Xử lý lỗi server
 [ ] - Error toast notifications - Thông báo lỗi toast
 [ ] - Retry actions - Nút thử lại
+[ ] - Offline error page - Trang báo lỗi mất kết nối
+[ ] - Rate limit error handling - Xử lý lỗi vượt giới hạn request
 
 15.2. Loading States
 [ ] - Loading spinner - Spinner tải dữ liệu
@@ -423,6 +668,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Disabled buttons during submit - Khóa nút khi gửi form
 [ ] - Loading overlays - Overlay đang tải
 [ ] - Progress indicators - Chỉ báo tiến độ
+[ ] - Optimistic UI updates - Cập nhật UI lạc quan
+
+15.3. Form Validation
+[ ] - Required field validation - Kiểm tra trường bắt buộc
+[ ] - Email format validation - Kiểm tra định dạng email
+[ ] - Date range validation - Kiểm tra khoảng thời gian hợp lệ
+[ ] - URL format validation - Kiểm tra định dạng URL
+[ ] - File size validation - Kiểm tra kích thước file
+[ ] - File type validation - Kiểm tra loại file
+[ ] - Max length validation - Kiểm tra độ dài tối đa
+[ ] - Real-time inline validation - Kiểm tra theo thời gian thực
 
 
 ================================================================================
@@ -438,6 +694,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Secure password storage - Lưu mật khẩu an toàn
 [ ] - Rate limiting - Giới hạn tốc độ request
 [ ] - Session management - Quản lý phiên
+[ ] - Refresh token rotation - Xoay vòng refresh token
+[ ] - Secure cookie flags - Cờ bảo mật cookie (HttpOnly, Secure, SameSite)
 
 16.2. Authorization Security
 [ ] - Role-based access control - Phân quyền theo vai trò
@@ -445,15 +703,29 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - User data isolation - Cô lập dữ liệu người dùng
 [ ] - Admin-only routes - Route chỉ dành cho admin
 [ ] - Public/private profile control - Kiểm soát hồ sơ công khai/riêng tư
+[ ] - Resource ownership validation - Kiểm tra quyền sở hữu tài nguyên
 
 16.3. Data Security
 [ ] - Input validation - Kiểm tra dữ liệu đầu vào
 [ ] - DTO validation - Kiểm tra DTO
 [ ] - SQL injection protection - Bảo vệ SQL injection
 [ ] - XSS prevention - Phòng chống XSS
+[ ] - CSRF protection - Bảo vệ CSRF
 [ ] - Environment variables - Sử dụng biến môi trường
 [ ] - Secret management - Quản lý secret
 [ ] - Sensitive data protection - Bảo vệ dữ liệu nhạy cảm
+[ ] - Data encryption at rest - Mã hóa dữ liệu lưu trữ
+[ ] - HTTPS enforcement - Bắt buộc sử dụng HTTPS
+[ ] - Content Security Policy (CSP) - Chính sách bảo mật nội dung
+[ ] - Security headers - Headers bảo mật
+
+16.4. Privacy (Quyền riêng tư)
+[ ] - GDPR compliance - Tuân thủ GDPR
+[ ] - Data export request - Yêu cầu xuất toàn bộ dữ liệu cá nhân
+[ ] - Data deletion request - Yêu cầu xóa toàn bộ dữ liệu
+[ ] - Privacy settings - Cài đặt quyền riêng tư
+[ ] - Cookie consent - Đồng ý sử dụng cookie
+[ ] - Data retention policy - Chính sách lưu giữ dữ liệu
 
 
 ================================================================================
@@ -476,6 +748,14 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - resumes - Bảng sơ yếu lý lịch
 [ ] - resume_templates - Bảng mẫu sơ yếu lý lịch
 [ ] - social_links - Bảng liên kết mạng xã hội
+[ ] - online_courses - Bảng khóa học trực tuyến
+[ ] - volunteer_experiences - Bảng tình nguyện
+[ ] - publications - Bảng công bố/bài viết
+[ ] - references - Bảng người tham chiếu
+[ ] - notifications - Bảng thông báo
+[ ] - audit_logs - Bảng nhật ký kiểm tra
+[ ] - user_sessions - Bảng phiên người dùng
+[ ] - resume_views - Bảng lượt xem sơ yếu lý lịch
 
 17.2. Relationships (Mối quan hệ)
 [ ] - User → Profile (1:1) - Người dùng → Hồ sơ
@@ -486,6 +766,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - User → Project (1:N) - Người dùng → Dự án
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
+[ ] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
+[ ] - User → Notification (1:N) - Người dùng → Thông báo
 
 17.3. Database Constraints
 [ ] - User.email unique - Email người dùng duy nhất
@@ -493,6 +775,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Cascade delete - Xóa dữ liệu liên quan
 [ ] - Required field constraints - Ràng buộc trường bắt buộc
 [ ] - Data type validation - Kiểm tra kiểu dữ liệu
+[ ] - Soft delete - Xóa mềm (lưu trước khi xóa hẳn)
 
 
 ================================================================================
@@ -507,11 +790,19 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - GET /auth/me - Lấy thông tin người dùng hiện tại
 [ ] - POST /auth/forgot-password - Quên mật khẩu
 [ ] - POST /auth/reset-password - Đặt lại mật khẩu
+[ ] - POST /auth/logout - Đăng xuất
+[ ] - POST /auth/refresh-token - Làm mới token
+[ ] - POST /auth/verify-email - Xác thực email
+[ ] - POST /auth/2fa/enable - Bật 2FA
+[ ] - POST /auth/2fa/verify - Xác thực 2FA
+[ ] - GET /auth/sessions - Danh sách phiên
+[ ] - DELETE /auth/sessions/:id - Đăng xuất phiên cụ thể
 
 18.2. Profile Endpoints
 [ ] - GET /profile - Lấy hồ sơ
 [ ] - PUT /profile - Cập nhật hồ sơ
 [ ] - POST /profile/avatar - Cập nhật ảnh đại diện
+[ ] - DELETE /profile/avatar - Xóa ảnh đại diện
 
 18.3. Education Endpoints
 [ ] - GET /educations - Lấy danh sách học vấn
@@ -536,6 +827,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - POST /projects - Thêm dự án
 [ ] - PUT /projects/:id - Cập nhật dự án
 [ ] - DELETE /projects/:id - Xóa dự án
+[ ] - POST /projects/:id/images - Thêm ảnh dự án
+[ ] - DELETE /projects/:id/images/:imageId - Xóa ảnh dự án
 
 18.7. Resume Endpoints
 [ ] - GET /resumes - Lấy danh sách sơ yếu lý lịch
@@ -543,10 +836,31 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - POST /resumes - Tạo sơ yếu lý lịch
 [ ] - PUT /resumes/:id - Cập nhật sơ yếu lý lịch
 [ ] - DELETE /resumes/:id - Xóa sơ yếu lý lịch
+[ ] - POST /resumes/:id/duplicate - Nhân bản sơ yếu lý lịch
 [ ] - GET /resumes/:id/preview - Xem trước
 [ ] - GET /resumes/:id/export/pdf - Xuất PDF
+[ ] - GET /resumes/:id/export/docx - Xuất DOCX
 [ ] - POST /resumes/:id/public - Tạo link công khai
 [ ] - DELETE /resumes/:id/public - Hủy link công khai
+[ ] - GET /public/:slug - Xem sơ yếu lý lịch công khai (không cần auth)
+
+18.8. Admin Endpoints
+[ ] - GET /admin/users - Danh sách người dùng
+[ ] - GET /admin/stats - Thống kê hệ thống
+[ ] - PUT /admin/users/:id - Chỉnh sửa người dùng
+[ ] - DELETE /admin/users/:id - Xóa người dùng
+[ ] - GET /admin/logs - Nhật ký hệ thống
+
+18.9. Upload Endpoints
+[ ] - POST /upload/image - Tải ảnh lên
+[ ] - DELETE /upload/:fileId - Xóa file
+[ ] - GET /upload/:fileId - Lấy file
+
+18.10. Notification Endpoints
+[ ] - GET /notifications - Lấy danh sách thông báo
+[ ] - PUT /notifications/:id/read - Đánh dấu đã đọc
+[ ] - PUT /notifications/read-all - Đánh dấu tất cả đã đọc
+[ ] - DELETE /notifications/:id - Xóa thông báo
 
 
 ================================================================================
@@ -564,12 +878,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - React rendering optimization - Tối ưu rendering
 [ ] - Code splitting - Chia code
 [ ] - API response optimization - Tối ưu response API
+[ ] - CDN for static assets - CDN cho tài nguyên tĩnh
+[ ] - Gzip/Brotli compression - Nén dữ liệu response
+[ ] - Web Vitals monitoring - Theo dõi Web Vitals
 
 19.2. Caching
 [ ] - Browser caching - Cache trình duyệt
 [ ] - API response caching - Cache response API
 [ ] - LocalStorage caching - Cache dữ liệu phù hợp
 [ ] - Image caching - Cache hình ảnh
+[ ] - Redis caching (server-side) - Cache phía server với Redis
+[ ] - Query result caching - Cache kết quả truy vấn
 
 
 ================================================================================
@@ -587,6 +906,10 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Screen reader support - Hỗ trợ screen reader
 [ ] - Semantic HTML - HTML ngữ nghĩa
 [ ] - Touch target sizing - Kích thước vùng cảm ứng phù hợp
+[ ] - Skip navigation links - Link bỏ qua điều hướng
+[ ] - Focus trap in modals - Bẫy focus trong modal
+[ ] - Reduced motion support - Hỗ trợ giảm chuyển động
+[ ] - Text zoom compatibility - Tương thích phóng to chữ
 
 
 ================================================================================
@@ -602,12 +925,25 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - System notifications - Thông báo hệ thống
 [ ] - Notification center - Trung tâm thông báo
 [ ] - Notification preferences - Tùy chỉnh thông báo
+[ ] - Mark as read - Đánh dấu đã đọc
+[ ] - Mark all as read - Đánh dấu tất cả đã đọc
+[ ] - Delete notification - Xóa thông báo
+[ ] - Notification badge count - Số thông báo chưa đọc
+[ ] - Certificate expiry reminder - Nhắc nhở chứng chỉ sắp hết hạn
 
 21.2. Email Notifications
 [ ] - Account verification email - Email xác thực tài khoản
 [ ] - Password reset email - Email đặt lại mật khẩu
 [ ] - Security alert email - Email cảnh báo bảo mật
 [ ] - Resume sharing notification - Thông báo chia sẻ sơ yếu lý lịch
+[ ] - Weekly summary email - Email tóm tắt tuần
+[ ] - Certificate expiry email - Email nhắc hết hạn chứng chỉ
+[ ] - Profile view milestone email - Email khi đạt mốc lượt xem
+
+21.3. Push Notifications (PWA)
+[ ] - Browser push notifications - Thông báo đẩy trình duyệt
+[ ] - Push notification opt-in - Đồng ý nhận thông báo đẩy
+[ ] - Push notification preferences - Tùy chỉnh thông báo đẩy
 
 
 ================================================================================
@@ -624,6 +960,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - AI skill suggestions - AI gợi ý kỹ năng
 [ ] - AI grammar correction - AI sửa lỗi ngữ pháp
 [ ] - AI writing suggestions - AI gợi ý cách viết chuyên nghiệp
+[ ] - AI translation - AI dịch nội dung sang ngôn ngữ khác
+[ ] - AI tone adjustment - AI điều chỉnh giọng văn (formal/casual)
+[ ] - AI bullet point generation - AI tạo bullet points cho kinh nghiệm
 
 22.2. Resume Analysis
 [ ] - Resume completeness analysis - Phân tích độ đầy đủ hồ sơ
@@ -631,12 +970,6 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Missing section suggestions - Gợi ý phần còn thiếu
 [ ] - Keyword suggestions - Gợi ý từ khóa
 [ ] - Job-oriented resume suggestions - Gợi ý tối ưu theo vị trí ứng tuyển
-
-
-================================================================================
-
-
-23. FUTURE FEATURES (TÍNH NĂNG TƯƠNG LAI)
 ================================================================================
 
 23.1. Advanced Resume
