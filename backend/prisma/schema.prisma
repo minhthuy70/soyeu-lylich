@@ -29,6 +29,7 @@ model User {
   experiences             Experience[]
   freelanceProjects       FreelanceProject[]
   skills                  Skill[]
+  softSkills               SoftSkill[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -236,4 +237,16 @@ model Skill {
   portfolioLink     String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+}
+
+model SoftSkill {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  level       String? // 'Beginner', 'Intermediate', 'Advanced', 'Expert'
+  description String?
+  progress    Int? @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

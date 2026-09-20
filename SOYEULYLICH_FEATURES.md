@@ -228,17 +228,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Skill portfolio link - Liên kết portfolio theo kỹ năng
 
 5.2. Soft Skills (Kỹ năng mềm)
-[ ] - Communication - Giao tiếp
-[ ] - Teamwork - Làm việc nhóm
-[ ] - Problem solving - Giải quyết vấn đề
-[ ] - Leadership - Lãnh đạo
-[ ] - Time management - Quản lý thời gian
-[ ] - Critical thinking - Tư duy phản biện
-[ ] - Custom soft skills - Kỹ năng mềm tùy chỉnh
-[ ] - Adaptability - Khả năng thích nghi
-[ ] - Creativity - Sáng tạo
-[ ] - Negotiation - Đàm phán
-[ ] - Emotional intelligence - Trí tuệ cảm xúc
+[X] - Communication - Giao tiếp
+[X] - Teamwork - Làm việc nhóm
+[X] - Problem solving - Giải quyết vấn đề
+[X] - Leadership - Lãnh đạo
+[X] - Time management - Quản lý thời gian
+[X] - Critical thinking - Tư duy phản biện
+[X] - Custom soft skills - Kỹ năng mềm tùy chỉnh
+[X] - Adaptability - Khả năng thích nghi
+[X] - Creativity - Sáng tạo
+[X] - Negotiation - Đàm phán
+[X] - Emotional intelligence - Trí tuệ cảm xúc
 
 5.3. Language Skills (Ngoại ngữ)
 [ ] - Add language - Thêm ngoại ngữ
@@ -752,6 +752,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - experiences - Bảng kinh nghiệm
 [X] - freelanceProjects - Bảng dự án freelance
 [X] - skills - Bảng kỹ năng
+[X] - softSkills - Bảng kỹ năng mềm
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -782,6 +783,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [X] - User → FreelanceProject (1:N) - Người dùng → Dự án freelance
 [X] - User → Skill (1:N) - Người dùng → Kỹ năng
+[X] - User → SoftSkill (1:N) - Người dùng → Kỹ năng mềm
 [ ] - User → Project (1:N) - Người dùng → Dự án
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
@@ -909,6 +911,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /skills/:id - Lấy chi tiết kỹ năng
 [X] - PUT /skills/:id - Cập nhật kỹ năng
 [X] - DELETE /skills/:id - Xóa kỹ năng
+
+18.11. Soft Skill Endpoints
+[X] - GET /soft-skills - Lấy danh sách kỹ năng mềm
+[X] - POST /soft-skills - Thêm kỹ năng mềm
+[X] - GET /soft-skills/:id - Lấy chi tiết kỹ năng mềm
+[X] - PUT /soft-skills/:id - Cập nhật kỹ năng mềm
+[X] - DELETE /soft-skills/:id - Xóa kỹ năng mềm
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1125,7 +1134,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 171
+Số lượng tính năng đã implement: 181
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
