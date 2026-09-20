@@ -4,6 +4,7 @@ import { ProfileModule } from './profile/profile.module';
 import { IdentityModule } from './identity/identity.module';
 import { ReferenceModule } from './reference/reference.module';
 import { EducationModule } from './education/education.module';
+import { CertificateModule } from './certificate/certificate.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -14,6 +15,7 @@ import { PrismaModule } from './prisma/prisma.module';
     IdentityModule,
     ReferenceModule,
     EducationModule,
+    CertificateModule,
   ],
 })
 export class AppModule {}

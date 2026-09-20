@@ -24,6 +24,7 @@ model User {
   identityDocuments        IdentityDocument[]
   references              Reference[]
   educations              Education[]
+  certificates            Certificate[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -140,4 +141,21 @@ model Education {
   studyAbroad        String?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model Certificate {
+  id                  Int      @id @default(autoincrement())
+  userId              Int
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name                String
+  issuingOrganization String?
+  issueDate           DateTime?
+  expiryDate          DateTime?
+  certificateId       String?
+  certificateUrl      String?
+  certificateImage    String?
+  expiryReminderDays  Int? @default(30)
+  category            String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }

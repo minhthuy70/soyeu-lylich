@@ -145,18 +145,18 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Study abroad experience - Kinh nghiệm du học
 
 3.2. Certificates (Chứng chỉ)
-[ ] - Add certificate - Thêm chứng chỉ
-[ ] - Edit certificate - Chỉnh sửa chứng chỉ
-[ ] - Delete certificate - Xóa chứng chỉ
-[ ] - Certificate name - Tên chứng chỉ
-[ ] - Issuing organization - Đơn vị cấp
-[ ] - Issue date - Ngày cấp
-[ ] - Expiry date - Ngày hết hạn
-[ ] - Certificate ID - Mã chứng chỉ
-[ ] - Certificate URL - Liên kết chứng chỉ
-[ ] - Certificate image - Ảnh chứng chỉ
-[ ] - Certificate expiry reminder - Nhắc nhở chứng chỉ sắp hết hạn
-[ ] - Certificate category - Phân loại chứng chỉ
+[X] - Add certificate - Thêm chứng chỉ
+[X] - Edit certificate - Chỉnh sửa chứng chỉ
+[X] - Delete certificate - Xóa chứng chỉ
+[X] - Certificate name - Tên chứng chỉ
+[X] - Issuing organization - Đơn vị cấp
+[X] - Issue date - Ngày cấp
+[X] - Expiry date - Ngày hết hạn
+[X] - Certificate ID - Mã chứng chỉ
+[X] - Certificate URL - Liên kết chứng chỉ
+[X] - Certificate image - Ảnh chứng chỉ
+[X] - Certificate expiry reminder - Nhắc nhở chứng chỉ sắp hết hạn
+[X] - Certificate category - Phân loại chứng chỉ
 
 3.3. Online Courses (Khóa học trực tuyến)
 [ ] - Add online course - Thêm khóa học trực tuyến
@@ -747,6 +747,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - identityDocuments - Bảng giấy tờ định danh
 [X] - references - Bảng người tham chiếu
 [X] - educations - Bảng học vấn
+[X] - certificates - Bảng chứng chỉ
 [ ] - experiences - Bảng kinh nghiệm
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
@@ -773,9 +774,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → IdentityDocument (1:N) - Người dùng → Giấy tờ định danh
 [X] - User → Reference (1:N) - Người dùng → Người tham chiếu
 [X] - User → Education (1:N) - Người dùng → Học vấn
+[X] - User → Certificate (1:N) - Người dùng → Chứng chỉ
 [ ] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [ ] - User → Skill (1:N) - Người dùng → Kỹ năng
-[ ] - User → Certificate (1:N) - Người dùng → Chứng chỉ
 [ ] - User → Project (1:N) - Người dùng → Dự án
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
@@ -867,6 +868,14 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /educations/:id - Lấy chi tiết học vấn
 [X] - PUT /educations/:id - Cập nhật học vấn
 [X] - DELETE /educations/:id - Xóa học vấn
+
+18.6. Certificate Endpoints
+[X] - GET /certificates - Lấy danh sách chứng chỉ
+[X] - POST /certificates - Thêm chứng chỉ
+[X] - GET /certificates/:id - Lấy chi tiết chứng chỉ
+[X] - PUT /certificates/:id - Cập nhật chứng chỉ
+[X] - DELETE /certificates/:id - Xóa chứng chỉ
+[X] - GET /certificates/expiring-soon - Lấy chứng chỉ sắp hết hạn
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1083,7 +1092,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 116
+Số lượng tính năng đã implement: 127
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
