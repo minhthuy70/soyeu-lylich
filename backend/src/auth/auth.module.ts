@@ -1,10 +1,11 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { SocialAuthService } from './social-auth.service';
 import { TwoFactorAuthService } from './two-factor-auth.service';
+import { SessionService } from './session.service';
 import { JwtStrategy } from './jwt.strategy';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { GitHubStrategy } from './strategies/github.strategy';
@@ -24,12 +25,13 @@ import { LinkedInStrategy } from './strategies/linkedin.strategy';
     AuthService,
     SocialAuthService,
     TwoFactorAuthService,
+    SessionService,
     JwtStrategy,
     GoogleStrategy,
     GitHubStrategy,
     FacebookStrategy,
     LinkedInStrategy,
   ],
-  exports: [AuthService, SocialAuthService, TwoFactorAuthService],
+  exports: [AuthService, SocialAuthService, TwoFactorAuthService, SessionService],
 })
 export class AuthModule {}

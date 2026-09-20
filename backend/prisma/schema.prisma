@@ -20,6 +20,7 @@ model User {
   resetPasswordExpiry     DateTime?
   profile                 Profile?
   socialAccounts          SocialAccount[]
+  sessions                Session[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -65,4 +66,19 @@ model SocialAccount {
   updatedAt    DateTime @updatedAt
 
   @@unique([provider, providerId])
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token        String   @unique
+  deviceInfo   String?
+  ipAddress    String?
+  userAgent    String?
+  lastActivity DateTime @default(now())
+  expiresAt    DateTime
+  isRevoked    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

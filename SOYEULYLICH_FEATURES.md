@@ -56,11 +56,11 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - 2FA recovery - Khôi phục truy cập khi mất 2FA
 
 1.7. Session Management (Quản lý phiên)
-[ ] - Active session list - Danh sách phiên đang hoạt động
-[ ] - Device info per session - Thông tin thiết bị của từng phiên
-[ ] - Remote logout - Đăng xuất từ xa trên thiết bị khác
-[ ] - Logout all devices - Đăng xuất tất cả thiết bị
-[ ] - Session expiry notification - Thông báo phiên sắp hết hạn
+[X] - Active session list - Danh sách phiên đang hoạt động
+[X] - Device info per session - Thông tin thiết bị của từng phiên
+[X] - Remote logout - Đăng xuất từ xa trên thiết bị khác
+[X] - Logout all devices - Đăng xuất tất cả thiết bị
+[X] - Session expiry notification - Thông báo phiên sắp hết hạn
 
 
 ================================================================================
@@ -743,6 +743,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - users - Bảng người dùng (bao gồm email verification, login attempt tracking, account lockout, password recovery, 2FA)
 [X] - profiles - Bảng thông tin cá nhân
 [X] - socialAccounts - Bảng tài khoản xã hội
+[X] - sessions - Bảng session đăng nhập
 [ ] - educations - Bảng học vấn
 [ ] - experiences - Bảng kinh nghiệm
 [ ] - skills - Bảng kỹ năng
@@ -766,6 +767,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 17.2. Relationships (Mối quan hệ)
 [X] - User → Profile (1:1) - Người dùng → Hồ sơ
 [X] - User → SocialAccount (1:N) - Người dùng → Tài khoản xã hội
+[X] - User → Session (1:N) - Người dùng → Session
 [ ] - User → Education (1:N) - Người dùng → Học vấn
 [ ] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [ ] - User → Skill (1:N) - Người dùng → Kỹ năng
@@ -818,6 +820,10 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - POST /auth/2fa/email/generate - Gửi OTP qua email
 [X] - POST /auth/2fa/email/verify - Xác thực OTP qua email
 [X] - GET /auth/2fa/status - Trạng thái 2FA
+[X] - GET /auth/sessions - Danh sách session đang hoạt động
+[X] - POST /auth/sessions/:id/revoke - Thu hồi session cụ thể
+[X] - POST /auth/sessions/revoke-all - Thu hồi tất cả session
+[X] - GET /auth/sessions/:id - Chi tiết session
 [ ] - POST /auth/forgot-password - Quên mật khẩu
 [ ] - POST /auth/reset-password - Đặt lại mật khẩu
 [ ] - POST /auth/logout - Đăng xuất
@@ -1057,7 +1063,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 58
+Số lượng tính năng đã implement: 63
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

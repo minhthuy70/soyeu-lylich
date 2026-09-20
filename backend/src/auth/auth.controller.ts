@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Query, BadRequestException, UseGuards, Request, UnauthorizedException, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Get, Query, BadRequestException, UseGuards, Request, UnauthorizedException, Req, Res, Param } from '@nestjs/common';
 import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -8,6 +8,7 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { EnableTwoFactorDto, VerifyTwoFactorDto, VerifyEmailTwoFactorDto, GenerateBackupCodesDto } from './dto/two-factor.dto';
 import { SocialAuthService } from './social-auth.service';
 import { TwoFactorAuthService } from './two-factor-auth.service';
+import { SessionService } from './session.service';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { GitHubStrategy } from './strategies/github.strategy';
 import { FacebookStrategy } from './strategies/facebook.strategy';
@@ -19,6 +20,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly socialAuthService: SocialAuthService,
     private readonly twoFactorAuthService: TwoFactorAuthService,
+    private readonly sessionService: SessionService,
   ) {}
 
   @Post('register')
@@ -189,6 +191,32 @@ export class AuthController {
     return this.twoFactorAuthService.getTwoFactorStatus(userId);
   }
 
+  // Session Management endpoints
+  @Get('sessions')
+  async getActiveSessions(@Request() req) {
+    const userId = this.extractUserIdFromRequest(req);
+    return this.sessionService.getActiveSessions(userId);
+  }
+
+  @Post('sessions/:id/revoke')
+  async revokeSession(@Request() req, @Param('id') sessionId: string) {
+    const userId = this.extractUserIdFromRequest(req);
+    return this.sessionService.revokeSession(userId, parseInt(sessionId));
+  }
+
+  @Post('sessions/revoke-all')
+  async revokeAllSessions(@Request() req, @Body() body: { exceptCurrent?: boolean }) {
+    const userId = this.extractUserIdFromRequest(req);
+    const exceptCurrentToken = body.exceptCurrent ? this.extractTokenFromRequest(req) : undefined;
+    return this.sessionService.revokeAllSessions(userId, exceptCurrentToken);
+  }
+
+  @Get('sessions/:id')
+  async getSessionDetails(@Request() req, @Param('id') sessionId: string) {
+    const userId = this.extractUserIdFromRequest(req);
+    return this.sessionService.getSessionDetails(userId, parseInt(sessionId));
+  }
+
   private extractUserIdFromRequest(req: any): number {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -203,5 +231,13 @@ export class AuthController {
     } catch (error) {
       throw new UnauthorizedException('Token không hợp lệ');
     }
+  }
+
+  private extractTokenFromRequest(req: any): string {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      throw new UnauthorizedException('Token không hợp lệ');
+    }
+    return authHeader.replace('Bearer ', '');
   }
 }

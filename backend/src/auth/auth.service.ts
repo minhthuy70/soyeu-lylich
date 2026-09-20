@@ -3,8 +3,6 @@ import {
   ConflictException,
   Injectable,
   UnauthorizedException,
-  Inject,
-  forwardRef,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -14,14 +12,15 @@ import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { TwoFactorAuthService } from './two-factor-auth.service';
+import { SessionService } from './session.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-    @Inject(forwardRef(() => TwoFactorAuthService))
     private readonly twoFactorAuthService: TwoFactorAuthService,
+    private readonly sessionService: SessionService,
   ) {}
 
   async login(loginDto: LoginDto) {
@@ -134,6 +133,17 @@ export class AuthService {
       expiresIn: tokenExpiry,
     });
 
+    // Create session
+    const expiresIn = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000;
+    await this.sessionService.createSession(
+      user.id,
+      accessToken,
+      undefined, // deviceInfo - can be extracted from request
+      undefined, // ipAddress - can be extracted from request
+      undefined, // userAgent - can be extracted from request
+      expiresIn,
+    );
+
     return {
       message: 'Đăng nhập thành công',
       accessToken,
@@ -190,6 +200,17 @@ export class AuthService {
       const accessToken = await this.jwtService.signAsync(payload, {
         expiresIn: tokenExpiry,
       });
+
+      // Create session
+      const expiresIn = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000;
+      await this.sessionService.createSession(
+        user.id,
+        accessToken,
+        undefined, // deviceInfo
+        undefined, // ipAddress
+        undefined, // userAgent
+        expiresIn,
+      );
 
       return {
         message: 'Đăng nhập thành công',
