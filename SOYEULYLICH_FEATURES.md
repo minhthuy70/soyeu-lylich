@@ -159,14 +159,14 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Certificate category - Phân loại chứng chỉ
 
 3.3. Online Courses (Khóa học trực tuyến)
-[ ] - Add online course - Thêm khóa học trực tuyến
-[ ] - Course name - Tên khóa học
-[ ] - Platform - Nền tảng (Coursera, Udemy, edX...)
-[ ] - Instructor - Giảng viên
-[ ] - Completion date - Ngày hoàn thành
-[ ] - Course URL - Liên kết khóa học
-[ ] - Certificate URL - Liên kết chứng chỉ khóa học
-[ ] - Edit/Delete course - Chỉnh sửa/Xóa khóa học
+[X] - Add online course - Thêm khóa học trực tuyến
+[X] - Course name - Tên khóa học
+[X] - Platform - Nền tảng (Coursera, Udemy, edX...)
+[X] - Instructor - Giảng viên
+[X] - Completion date - Ngày hoàn thành
+[X] - Course URL - Liên kết khóa học
+[X] - Certificate URL - Liên kết chứng chỉ khóa học
+[X] - Edit/Delete course - Chỉnh sửa/Xóa khóa học
 
 
 ================================================================================
@@ -748,6 +748,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - references - Bảng người tham chiếu
 [X] - educations - Bảng học vấn
 [X] - certificates - Bảng chứng chỉ
+[X] - onlineCourses - Bảng khóa học trực tuyến
 [ ] - experiences - Bảng kinh nghiệm
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
@@ -775,6 +776,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → Reference (1:N) - Người dùng → Người tham chiếu
 [X] - User → Education (1:N) - Người dùng → Học vấn
 [X] - User → Certificate (1:N) - Người dùng → Chứng chỉ
+[X] - User → OnlineCourse (1:N) - Người dùng → Khóa học trực tuyến
 [ ] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [ ] - User → Skill (1:N) - Người dùng → Kỹ năng
 [ ] - User → Project (1:N) - Người dùng → Dự án
@@ -876,6 +878,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - PUT /certificates/:id - Cập nhật chứng chỉ
 [X] - DELETE /certificates/:id - Xóa chứng chỉ
 [X] - GET /certificates/expiring-soon - Lấy chứng chỉ sắp hết hạn
+
+18.7. Online Course Endpoints
+[X] - GET /online-courses - Lấy danh sách khóa học trực tuyến
+[X] - POST /online-courses - Thêm khóa học trực tuyến
+[X] - GET /online-courses/:id - Lấy chi tiết khóa học
+[X] - PUT /online-courses/:id - Cập nhật khóa học
+[X] - DELETE /online-courses/:id - Xóa khóa học
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1092,7 +1101,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 127
+Số lượng tính năng đã implement: 134
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
