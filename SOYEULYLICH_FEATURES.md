@@ -342,14 +342,14 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Edit/Delete volunteer - Chỉnh sửa/Xóa kinh nghiệm tình nguyện
 
 7.4. Publications (Công bố/Bài viết)
-[ ] - Add publication - Thêm công bố/bài viết
-[ ] - Publication title - Tiêu đề
-[ ] - Journal/Conference - Tạp chí/Hội nghị
-[ ] - Publication date - Ngày công bố
-[ ] - Co-authors - Đồng tác giả
-[ ] - DOI/URL - Liên kết/DOI
-[ ] - Abstract - Tóm tắt
-[ ] - Edit/Delete publication - Chỉnh sửa/Xóa
+[X] - Add publication - Thêm công bố/bài viết
+[X] - Publication title - Tiêu đề
+[X] - Journal/Conference - Tạp chí/Hội nghị
+[X] - Publication date - Ngày công bố
+[X] - Co-authors - Đồng tác giả
+[X] - DOI/URL - Liên kết/DOI
+[X] - Abstract - Tóm tắt
+[X] - Edit/Delete publication - Chỉnh sửa/Xóa
 
 7.5. Patents & Intellectual Property (Bằng sáng chế & SHTT)
 [ ] - Add patent - Thêm bằng sáng chế
@@ -761,6 +761,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - projectClicks - Bảng lượt click dự án
 [X] - achievements - Bảng thành tích
 [X] - activities - Bảng hoạt động
+[X] - publications - Bảng công bố/bài viết
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -800,6 +801,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Project → ProjectClick (1:N) - Dự án → Lượt click
 [X] - User → Achievement (1:N) - Người dùng → Thành tích
 [X] - User → Activity (1:N) - Người dùng → Hoạt động
+[X] - User → Publication (1:N) - Người dùng → Công bố
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
 [ ] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
 [ ] - User → Notification (1:N) - Người dùng → Thông báo
@@ -983,6 +985,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /activities/:id - Lấy chi tiết hoạt động
 [X] - PUT /activities/:id - Cập nhật hoạt động
 [X] - DELETE /activities/:id - Xóa hoạt động
+
+18.19. Publication Endpoints
+[X] - GET /publications - Lấy danh sách công bố
+[X] - POST /publications - Thêm công bố mới
+[X] - GET /publications/:id - Lấy chi tiết công bố
+[X] - PUT /publications/:id - Cập nhật công bố
+[X] - DELETE /publications/:id - Xóa công bố
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1199,7 +1208,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 251
+Số lượng tính năng đã implement: 258
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

@@ -17,6 +17,7 @@ import { ProjectImageModule } from './project-image/project-image.module';
 import { ProjectAnalyticsModule } from './project-analytics/project-analytics.module';
 import { AchievementModule } from './achievement/achievement.module';
 import { ActivityModule } from './activity/activity.module';
+import { PublicationModule } from './publication/publication.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -40,6 +41,7 @@ import { PrismaModule } from './prisma/prisma.module';
     ProjectAnalyticsModule,
     AchievementModule,
     ActivityModule,
+    PublicationModule,
   ],
 })
 export class AppModule {}
