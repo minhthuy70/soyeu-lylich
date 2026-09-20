@@ -47,13 +47,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Unlink social account - Hủy liên kết tài khoản mạng xã hội
 
 1.6. Two-Factor Authentication (Xác thực 2 yếu tố)
-[ ] - Enable 2FA - Bật xác thực 2 yếu tố
-[ ] - 2FA via TOTP (Google Authenticator) - Xác thực qua ứng dụng Authenticator
-[ ] - 2FA via SMS - Xác thực qua SMS
-[ ] - 2FA via Email OTP - Xác thực qua email OTP
-[ ] - Backup codes - Mã dự phòng khi mất thiết bị 2FA
-[ ] - Disable 2FA - Tắt xác thực 2 yếu tố
-[ ] - 2FA recovery - Khôi phục truy cập khi mất 2FA
+[X] - Enable 2FA - Bật xác thực 2 yếu tố
+[X] - 2FA via TOTP (Google Authenticator) - Xác thực qua ứng dụng Authenticator
+[X] - 2FA via SMS - Xác thực qua SMS
+[X] - 2FA via Email OTP - Xác thực qua email OTP
+[X] - Backup codes - Mã dự phòng khi mất thiết bị 2FA
+[X] - Disable 2FA - Tắt xác thực 2 yếu tố
+[X] - 2FA recovery - Khôi phục truy cập khi mất 2FA
 
 1.7. Session Management (Quản lý phiên)
 [ ] - Active session list - Danh sách phiên đang hoạt động
@@ -740,7 +740,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 17.1. Core Tables (Các bảng chính)
-[X] - users - Bảng người dùng (bao gồm email verification, login attempt tracking, account lockout, password recovery)
+[X] - users - Bảng người dùng (bao gồm email verification, login attempt tracking, account lockout, password recovery, 2FA)
 [X] - profiles - Bảng thông tin cá nhân
 [X] - socialAccounts - Bảng tài khoản xã hội
 [ ] - educations - Bảng học vấn
@@ -810,6 +810,14 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - POST /auth/social/link - Liên kết tài khoản xã hội
 [X] - POST /auth/social/unlink - Hủy liên kết tài khoản xã hội
 [X] - GET /auth/social/accounts - Danh sách tài khoản xã hội
+[X] - POST /auth/login/2fa - Đăng nhập với 2FA
+[X] - POST /auth/2fa/generate-secret - Tạo secret 2FA
+[X] - POST /auth/2fa/enable - Kích hoạt 2FA
+[X] - POST /auth/2fa/disable - Tắt 2FA
+[X] - POST /auth/2fa/verify - Xác thực mã OTP
+[X] - POST /auth/2fa/email/generate - Gửi OTP qua email
+[X] - POST /auth/2fa/email/verify - Xác thực OTP qua email
+[X] - GET /auth/2fa/status - Trạng thái 2FA
 [ ] - POST /auth/forgot-password - Quên mật khẩu
 [ ] - POST /auth/reset-password - Đặt lại mật khẩu
 [ ] - POST /auth/logout - Đăng xuất
@@ -1049,7 +1057,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 51
+Số lượng tính năng đã implement: 58
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

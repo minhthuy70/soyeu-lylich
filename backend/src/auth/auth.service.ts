@@ -3,6 +3,8 @@ import {
   ConflictException,
   Injectable,
   UnauthorizedException,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -11,12 +13,15 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { TwoFactorAuthService } from './two-factor-auth.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    @Inject(forwardRef(() => TwoFactorAuthService))
+    private readonly twoFactorAuthService: TwoFactorAuthService,
   ) {}
 
   async login(loginDto: LoginDto) {
@@ -102,6 +107,26 @@ export class AuthService {
       },
     });
 
+    // Check if 2FA is enabled
+    if (user.twoFactorEnabled) {
+      // Create temporary token for 2FA verification
+      const tempPayload = { sub: user.id, email: user.email, requires2FA: true };
+      const tempToken = await this.jwtService.signAsync(tempPayload, {
+        expiresIn: '5m', // 5 minutes to complete 2FA
+      });
+
+      return {
+        message: 'Vui lòng xác thực 2 yếu tố',
+        requiresTwoFactor: true,
+        tempToken,
+        user: {
+          id: user.id,
+          email: user.email,
+          isEmailVerified: user.isEmailVerified,
+        },
+      };
+    }
+
     // Tạo JWT token
     const tokenExpiry = rememberMe ? '30d' : '7d';
     const payload = { sub: user.id, email: user.email };
@@ -130,6 +155,54 @@ export class AuthService {
       },
     });
     return user;
+  }
+
+  async completeTwoFactorLogin(tempToken: string, otp: string, rememberMe = false) {
+    try {
+      // Verify temp token
+      const decoded = this.jwtService.verify(tempToken);
+
+      if (!decoded.requires2FA) {
+        throw new UnauthorizedException('Token không hợp lệ');
+      }
+
+      const userId = decoded.sub;
+
+      // Verify 2FA token
+      const twoFactorResult = await this.twoFactorAuthService.verifyTwoFactorToken(userId, otp);
+
+      if (!twoFactorResult.verified) {
+        throw new UnauthorizedException('Mã OTP không đúng');
+      }
+
+      // Get user
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+      });
+
+      if (!user) {
+        throw new UnauthorizedException('Người dùng không tồn tại');
+      }
+
+      // Create final JWT token
+      const tokenExpiry = rememberMe ? '30d' : '7d';
+      const payload = { sub: user.id, email: user.email };
+      const accessToken = await this.jwtService.signAsync(payload, {
+        expiresIn: tokenExpiry,
+      });
+
+      return {
+        message: 'Đăng nhập thành công',
+        accessToken,
+        user: {
+          id: user.id,
+          email: user.email,
+          isEmailVerified: user.isEmailVerified,
+        },
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Token không hợp lệ hoặc đã hết hạn');
+    }
   }
 
   async register(registerDto: RegisterDto) {

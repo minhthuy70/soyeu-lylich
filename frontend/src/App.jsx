@@ -4,11 +4,13 @@ import "./App.css";
 import { registerUser } from "./services/authService";
 import LoginForm from "./components/LoginForm";
 import ForgotPasswordForm from "./components/ForgotPasswordForm";
+import TwoFactorForm from "./components/TwoFactorForm";
 import ResetPasswordForm from "./components/ResetPasswordForm";
 import ProfilePage from "./components/ProfilePage";
 
 export default function App() {
-  const [authState, setAuthState] = useState("login"); // login, register, forgot-password, reset-password, profile
+  const [authState, setAuthState] = useState("login"); // login, register, forgot-password, reset-password, profile, two-factor
+const [tempToken, setTempToken] = useState(null); // login, register, forgot-password, reset-password, profile
   const [resetToken, setResetToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -177,7 +179,12 @@ export default function App() {
         <LoginForm
           onSwitchToRegister={() => setAuthState("register")}
           onForgotPassword={() => setAuthState("forgot-password")}
-          onLoginSuccess={() => {
+          onLoginSuccess={(data) => {
+            if (data.requiresTwoFactor) {
+              setTempToken(data.tempToken);
+              setAuthState("two-factor");
+              return;
+            }
             setIsAuthenticated(true);
             setAuthState("profile");
           }}

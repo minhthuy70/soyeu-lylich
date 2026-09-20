@@ -5,7 +5,9 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { EnableTwoFactorDto, VerifyTwoFactorDto, VerifyEmailTwoFactorDto, GenerateBackupCodesDto } from './dto/two-factor.dto';
 import { SocialAuthService } from './social-auth.service';
+import { TwoFactorAuthService } from './two-factor-auth.service';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { GitHubStrategy } from './strategies/github.strategy';
 import { FacebookStrategy } from './strategies/facebook.strategy';
@@ -16,6 +18,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly socialAuthService: SocialAuthService,
+    private readonly twoFactorAuthService: TwoFactorAuthService,
   ) {}
 
   @Post('register')
@@ -26,6 +29,12 @@ export class AuthController {
   @Post('login')
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Post('login/2fa')
+  async loginWithTwoFactor(@Request() req, @Body() body: { tempToken: string; otp: string; rememberMe?: boolean }) {
+    const result = await this.authService.completeTwoFactorLogin(body.tempToken, body.otp, body.rememberMe);
+    return result;
   }
 
   @Get('verify-email')
@@ -135,6 +144,49 @@ export class AuthController {
   async getSocialAccounts(@Request() req) {
     const userId = this.extractUserIdFromRequest(req);
     return this.socialAuthService.getSocialAccounts(userId);
+  }
+
+  // Two-Factor Authentication endpoints
+  @Post('2fa/generate-secret')
+  async generateTwoFactorSecret(@Request() req) {
+    const userId = this.extractUserIdFromRequest(req);
+    return this.twoFactorAuthService.generateTwoFactorSecret(userId);
+  }
+
+  @Post('2fa/enable')
+  async enableTwoFactor(@Request() req, @Body() enableTwoFactorDto: EnableTwoFactorDto) {
+    const userId = this.extractUserIdFromRequest(req);
+    return this.twoFactorAuthService.enableTwoFactor(userId, enableTwoFactorDto.otp);
+  }
+
+  @Post('2fa/disable')
+  async disableTwoFactor(@Request() req, @Body() body: { password: string }) {
+    const userId = this.extractUserIdFromRequest(req);
+    return this.twoFactorAuthService.disableTwoFactor(userId, body.password);
+  }
+
+  @Post('2fa/verify')
+  async verifyTwoFactor(@Request() req, @Body() verifyTwoFactorDto: VerifyTwoFactorDto) {
+    const userId = this.extractUserIdFromRequest(req);
+    return this.twoFactorAuthService.verifyTwoFactorToken(userId, verifyTwoFactorDto.otp);
+  }
+
+  @Post('2fa/email/generate')
+  async generateEmailOTP(@Request() req) {
+    const userId = this.extractUserIdFromRequest(req);
+    return this.twoFactorAuthService.generateEmailOTP(userId);
+  }
+
+  @Post('2fa/email/verify')
+  async verifyEmailOTP(@Request() req, @Body() verifyEmailTwoFactorDto: VerifyEmailTwoFactorDto) {
+    const userId = this.extractUserIdFromRequest(req);
+    return this.twoFactorAuthService.verifyEmailOTP(userId, verifyEmailTwoFactorDto.otp);
+  }
+
+  @Get('2fa/status')
+  async getTwoFactorStatus(@Request() req) {
+    const userId = this.extractUserIdFromRequest(req);
+    return this.twoFactorAuthService.getTwoFactorStatus(userId);
   }
 
   private extractUserIdFromRequest(req: any): number {
