@@ -111,13 +111,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Available from date - Ngày có thể bắt đầu làm việc
 
 2.5. References (Người tham chiếu)
-[ ] - Add reference - Thêm người tham chiếu
-[ ] - Reference name - Tên người tham chiếu
-[ ] - Reference position - Chức vụ người tham chiếu
-[ ] - Reference company - Công ty người tham chiếu
-[ ] - Reference contact - Liên hệ người tham chiếu
-[ ] - Reference relationship - Mối quan hệ
-[ ] - Edit/Delete reference - Chỉnh sửa/Xóa người tham chiếu
+[X] - Add reference - Thêm người tham chiếu
+[X] - Reference name - Tên người tham chiếu
+[X] - Reference position - Chức vụ người tham chiếu
+[X] - Reference company - Công ty người tham chiếu
+[X] - Reference contact - Liên hệ người tham chiếu
+[X] - Reference relationship - Mối quan hệ
+[X] - Edit/Delete reference - Chỉnh sửa/Xóa người tham chiếu
 
 
 ================================================================================
@@ -745,6 +745,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - socialAccounts - Bảng tài khoản xã hội
 [X] - sessions - Bảng session đăng nhập
 [X] - identityDocuments - Bảng giấy tờ định danh
+[X] - references - Bảng người tham chiếu
 [ ] - educations - Bảng học vấn
 [ ] - experiences - Bảng kinh nghiệm
 [ ] - skills - Bảng kỹ năng
@@ -770,6 +771,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → SocialAccount (1:N) - Người dùng → Tài khoản xã hội
 [X] - User → Session (1:N) - Người dùng → Session
 [X] - User → IdentityDocument (1:N) - Người dùng → Giấy tờ định danh
+[X] - User → Reference (1:N) - Người dùng → Người tham chiếu
 [ ] - User → Education (1:N) - Người dùng → Học vấn
 [ ] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [ ] - User → Skill (1:N) - Người dùng → Kỹ năng
@@ -852,7 +854,14 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - DELETE /identity-documents/:id - Xóa giấy tờ định danh
 [X] - POST /identity-documents/validate - Kiểm tra dữ liệu giấy tờ
 
-18.4. Education Endpoints
+18.4. Reference Endpoints
+[X] - GET /references - Lấy danh sách người tham chiếu
+[X] - POST /references - Thêm người tham chiếu
+[X] - GET /references/:id - Lấy chi tiết người tham chiếu
+[X] - PUT /references/:id - Cập nhật người tham chiếu
+[X] - DELETE /references/:id - Xóa người tham chiếu
+
+18.5. Education Endpoints
 [ ] - GET /educations - Lấy danh sách học vấn
 [ ] - POST /educations - Thêm học vấn
 [ ] - PUT /educations/:id - Cập nhật học vấn
@@ -1073,7 +1082,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 95
+Số lượng tính năng đã implement: 101
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

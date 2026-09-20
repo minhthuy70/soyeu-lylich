@@ -22,6 +22,7 @@ model User {
   socialAccounts          SocialAccount[]
   sessions                Session[]
   identityDocuments        IdentityDocument[]
+  references              Reference[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -103,6 +104,19 @@ model IdentityDocument {
   issueDate    DateTime?
   issuePlace   String?
   expiryDate   DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Reference {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  position     String?
+  company      String?
+  contact      String?
+  relationship String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
