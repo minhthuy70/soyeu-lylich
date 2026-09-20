@@ -5,10 +5,12 @@ import { registerUser } from "./services/authService";
 import LoginForm from "./components/LoginForm";
 import ForgotPasswordForm from "./components/ForgotPasswordForm";
 import ResetPasswordForm from "./components/ResetPasswordForm";
+import ProfilePage from "./components/ProfilePage";
 
 export default function App() {
-  const [authState, setAuthState] = useState("login"); // login, register, forgot-password, reset-password
+  const [authState, setAuthState] = useState("login"); // login, register, forgot-password, reset-password, profile
   const [resetToken, setResetToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [form, setForm] = useState({
     email: "",
@@ -23,6 +25,15 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
 
+  // Check authentication status
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      setIsAuthenticated(true);
+      setAuthState("profile");
+    }
+  }, []);
+
   // Check for reset token in URL
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -32,6 +43,11 @@ export default function App() {
       setAuthState("reset-password");
     }
   }, []);
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setAuthState("login");
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -161,6 +177,10 @@ export default function App() {
         <LoginForm
           onSwitchToRegister={() => setAuthState("register")}
           onForgotPassword={() => setAuthState("forgot-password")}
+          onLoginSuccess={() => {
+            setIsAuthenticated(true);
+            setAuthState("profile");
+          }}
         />
       )}
 
@@ -332,6 +352,10 @@ export default function App() {
           token={resetToken}
           onSuccess={() => setAuthState("login")}
         />
+      )}
+
+      {authState === "profile" && (
+        <ProfilePage onLogout={handleLogout} />
       )}
     </div>
   );

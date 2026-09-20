@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Query, BadRequestException } from '@nestjs/common';
+import { Body, Controller, Post, Get, Query, BadRequestException, UseGuards, Request, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -35,5 +35,21 @@ export class AuthController {
   @Post('reset-password')
   async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
     return this.authService.resetPassword(resetPasswordDto);
+  }
+
+  @Post('logout')
+  async logout(@Request() req) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      throw new UnauthorizedException('Token không hợp lệ');
+    }
+
+    // In a real implementation, you might want to:
+    // 1. Add the token to a blacklist (Redis)
+    // 2. Clear the token from client storage
+    // For now, we'll just return success
+    return {
+      message: 'Đăng xuất thành công',
+    };
   }
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../App.css";
 import { loginUser } from "../services/authService";
 
-export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
+export default function LoginForm({ onSwitchToRegister, onForgotPassword, onLoginSuccess }) {
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -74,6 +74,11 @@ export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
         password: "",
         rememberMe: false,
       });
+
+      // Notify parent component
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
     } catch (err) {
       setError(err.message || "Đăng nhập thất bại.");
     } finally {

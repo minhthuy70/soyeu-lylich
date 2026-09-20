@@ -30,13 +30,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Password reset success notification - Thông báo đặt lại mật khẩu thành công
 
 1.4. Profile Management (Quản lý tài khoản)
-[ ] - View account information - Xem thông tin tài khoản
-[ ] - Edit account information - Chỉnh sửa thông tin tài khoản
-[ ] - Change password - Đổi mật khẩu
-[ ] - Upload avatar - Tải ảnh đại diện
-[ ] - Delete account - Xóa tài khoản
-[ ] - View account creation date - Xem ngày tạo tài khoản
-[ ] - Manual logout - Đăng xuất
+[X] - View account information - Xem thông tin tài khoản
+[X] - Edit account information - Chỉnh sửa thông tin tài khoản
+[X] - Change password - Đổi mật khẩu
+[X] - Upload avatar - Tải ảnh đại diện
+[X] - Delete account - Xóa tài khoản
+[X] - View account creation date - Xem ngày tạo tài khoản
+[X] - Manual logout - Đăng xuất
 
 1.5. Social Login (Đăng nhập mạng xã hội)
 [ ] - Login bằng Google - Đăng nhập với Google OAuth
@@ -741,7 +741,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 
 17.1. Core Tables (Các bảng chính)
 [X] - users - Bảng người dùng (bao gồm email verification, login attempt tracking, account lockout, password recovery)
-[ ] - profiles - Bảng thông tin cá nhân
+[X] - profiles - Bảng thông tin cá nhân
 [ ] - educations - Bảng học vấn
 [ ] - experiences - Bảng kinh nghiệm
 [ ] - skills - Bảng kỹ năng
@@ -763,7 +763,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - resume_views - Bảng lượt xem sơ yếu lý lịch
 
 17.2. Relationships (Mối quan hệ)
-[ ] - User → Profile (1:1) - Người dùng → Hồ sơ
+[X] - User → Profile (1:1) - Người dùng → Hồ sơ
 [ ] - User → Education (1:N) - Người dùng → Học vấn
 [ ] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [ ] - User → Skill (1:N) - Người dùng → Kỹ năng
@@ -796,6 +796,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /auth/verify-email - Xác thực email
 [X] - POST /auth/forgot-password - Gửi yêu cầu khôi phục mật khẩu
 [X] - POST /auth/reset-password - Đặt lại mật khẩu
+[X] - POST /auth/logout - Đăng xuất
 [ ] - POST /auth/forgot-password - Quên mật khẩu
 [ ] - POST /auth/reset-password - Đặt lại mật khẩu
 [ ] - POST /auth/logout - Đăng xuất
@@ -807,9 +808,11 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - DELETE /auth/sessions/:id - Đăng xuất phiên cụ thể
 
 18.2. Profile Endpoints
-[ ] - GET /profile - Lấy hồ sơ
-[ ] - PUT /profile - Cập nhật hồ sơ
-[ ] - POST /profile/avatar - Cập nhật ảnh đại diện
+[X] - GET /profile - Lấy hồ sơ
+[X] - PUT /profile - Cập nhật hồ sơ (bao gồm avatar URL)
+[X] - PUT /profile/change-password - Đổi mật khẩu
+[X] - DELETE /profile - Xóa tài khoản
+[ ] - POST /profile/avatar - Cập nhật ảnh đại diện (file upload riêng)
 [ ] - DELETE /profile/avatar - Xóa ảnh đại diện
 
 18.3. Education Endpoints
@@ -1033,7 +1036,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 36
+Số lượng tính năng đã implement: 44
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
