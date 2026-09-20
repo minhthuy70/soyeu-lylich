@@ -179,6 +179,54 @@ export default function LoginForm({ onSwitchToRegister, onForgotPassword, onLogi
           </button>
         </form>
 
+        <div className="social-login">
+          <div className="social-divider">
+            <span>hoặc đăng nhập với</span>
+          </div>
+
+          <div className="social-buttons">
+            <button
+              type="button"
+              onClick={() => window.location.href = 'http://localhost:3000/auth/google'}
+              className="social-btn google-btn"
+              disabled={loading}
+            >
+              <span className="social-icon">G</span>
+              Google
+            </button>
+
+            <button
+              type="button"
+              onClick={() => window.location.href = 'http://localhost:3000/auth/github'}
+              className="social-btn github-btn"
+              disabled={loading}
+            >
+              <span className="social-icon">GH</span>
+              GitHub
+            </button>
+
+            <button
+              type="button"
+              onClick={() => window.location.href = 'http://localhost:3000/auth/facebook'}
+              className="social-btn facebook-btn"
+              disabled={loading}
+            >
+              <span className="social-icon">F</span>
+              Facebook
+            </button>
+
+            <button
+              type="button"
+              onClick={() => window.location.href = 'http://localhost:3000/auth/linkedin'}
+              className="social-btn linkedin-btn"
+              disabled={loading}
+            >
+              <span className="social-icon">IN</span>
+              LinkedIn
+            </button>
+          </div>
+        </div>
+
         <div className="switch-auth">
           <p>
             Chưa có tài khoản?{" "}

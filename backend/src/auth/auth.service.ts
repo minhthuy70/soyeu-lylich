@@ -50,6 +50,10 @@ export class AuthService {
     }
 
     // Kiểm tra mật khẩu
+    if (!user.passwordHash) {
+      throw new UnauthorizedException('Tài khoản này không thể đăng nhập bằng mật khẩu. Vui lòng sử dụng đăng nhập mạng xã hội.');
+    }
+
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (!isPasswordValid) {
       // Tăng số lần đăng nhập thất bại

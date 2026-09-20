@@ -39,12 +39,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Manual logout - Đăng xuất
 
 1.5. Social Login (Đăng nhập mạng xã hội)
-[ ] - Login bằng Google - Đăng nhập với Google OAuth
-[ ] - Login bằng GitHub - Đăng nhập với GitHub OAuth
-[ ] - Login bằng Facebook - Đăng nhập với Facebook OAuth
-[ ] - Login bằng LinkedIn - Đăng nhập với LinkedIn OAuth
-[ ] - Link social account - Liên kết tài khoản mạng xã hội với tài khoản hiện tại
-[ ] - Unlink social account - Hủy liên kết tài khoản mạng xã hội
+[X] - Login bằng Google - Đăng nhập với Google OAuth
+[X] - Login bằng GitHub - Đăng nhập với GitHub OAuth
+[X] - Login bằng Facebook - Đăng nhập với Facebook OAuth
+[X] - Login bằng LinkedIn - Đăng nhập với LinkedIn OAuth
+[X] - Link social account - Liên kết tài khoản mạng xã hội với tài khoản hiện tại
+[X] - Unlink social account - Hủy liên kết tài khoản mạng xã hội
 
 1.6. Two-Factor Authentication (Xác thực 2 yếu tố)
 [ ] - Enable 2FA - Bật xác thực 2 yếu tố
@@ -742,6 +742,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 17.1. Core Tables (Các bảng chính)
 [X] - users - Bảng người dùng (bao gồm email verification, login attempt tracking, account lockout, password recovery)
 [X] - profiles - Bảng thông tin cá nhân
+[X] - socialAccounts - Bảng tài khoản xã hội
 [ ] - educations - Bảng học vấn
 [ ] - experiences - Bảng kinh nghiệm
 [ ] - skills - Bảng kỹ năng
@@ -764,6 +765,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 
 17.2. Relationships (Mối quan hệ)
 [X] - User → Profile (1:1) - Người dùng → Hồ sơ
+[X] - User → SocialAccount (1:N) - Người dùng → Tài khoản xã hội
 [ ] - User → Education (1:N) - Người dùng → Học vấn
 [ ] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [ ] - User → Skill (1:N) - Người dùng → Kỹ năng
@@ -797,6 +799,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - POST /auth/forgot-password - Gửi yêu cầu khôi phục mật khẩu
 [X] - POST /auth/reset-password - Đặt lại mật khẩu
 [X] - POST /auth/logout - Đăng xuất
+[X] - GET /auth/google - Google OAuth login
+[X] - GET /auth/google/callback - Google OAuth callback
+[X] - GET /auth/github - GitHub OAuth login
+[X] - GET /auth/github/callback - GitHub OAuth callback
+[X] - GET /auth/facebook - Facebook OAuth login
+[X] - GET /auth/facebook/callback - Facebook OAuth callback
+[X] - GET /auth/linkedin - LinkedIn OAuth login
+[X] - GET /auth/linkedin/callback - LinkedIn OAuth callback
+[X] - POST /auth/social/link - Liên kết tài khoản xã hội
+[X] - POST /auth/social/unlink - Hủy liên kết tài khoản xã hội
+[X] - GET /auth/social/accounts - Danh sách tài khoản xã hội
 [ ] - POST /auth/forgot-password - Quên mật khẩu
 [ ] - POST /auth/reset-password - Đặt lại mật khẩu
 [ ] - POST /auth/logout - Đăng xuất
@@ -1036,7 +1049,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 44
+Số lượng tính năng đã implement: 51
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

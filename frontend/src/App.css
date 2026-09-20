@@ -1642,3 +1642,119 @@ button:active {
     flex-direction: column;
   }
 }
+
+/* ========================================
+   SOCIAL LOGIN
+   ======================================== */
+
+.social-login {
+  margin-top: 24px;
+}
+
+.social-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.social-divider::before,
+.social-divider::after {
+  content: ;
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.social-divider span {
+  padding: 0 16px;
+}
+
+.social-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: white;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.social-btn:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.social-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--color-surface-alt);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.google-btn:hover {
+  border-color: #4285f4;
+}
+
+.google-btn .social-icon {
+  background: #4285f4;
+  color: white;
+}
+
+.github-btn:hover {
+  border-color: #333;
+}
+
+.github-btn .social-icon {
+  background: #333;
+  color: white;
+}
+
+.facebook-btn:hover {
+  border-color: #1877f2;
+}
+
+.facebook-btn .social-icon {
+  background: #1877f2;
+  color: white;
+}
+
+.linkedin-btn:hover {
+  border-color: #0077b5;
+}
+
+.linkedin-btn .social-icon {
+  background: #0077b5;
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .social-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+

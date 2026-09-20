@@ -10,7 +10,7 @@ datasource db {
 model User {
   id                      Int      @id @default(autoincrement())
   email                   String   @unique
-  passwordHash            String
+  passwordHash            String?
   isEmailVerified         Boolean  @default(false)
   verificationToken       String?  @unique
   verificationTokenExpiry DateTime?
@@ -19,6 +19,7 @@ model User {
   resetPasswordToken      String?  @unique
   resetPasswordExpiry     DateTime?
   profile                 Profile?
+  socialAccounts          SocialAccount[]
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
 }
@@ -46,4 +47,19 @@ model Profile {
   permanentAddress String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model SocialAccount {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider     String   // 'google', 'github', 'facebook', 'linkedin'
+  providerId   String   // ID from the social provider
+  email        String?
+  accessToken  String?
+  refreshToken String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([provider, providerId])
 }
