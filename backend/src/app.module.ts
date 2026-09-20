@@ -10,6 +10,7 @@ import { ExperienceModule } from './experience/experience.module';
 import { FreelanceModule } from './freelance/freelance.module';
 import { SkillModule } from './skill/skill.module';
 import { SoftSkillModule } from './soft-skill/soft-skill.module';
+import { LanguageSkillModule } from './language-skill/language-skill.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -26,6 +27,7 @@ import { PrismaModule } from './prisma/prisma.module';
     FreelanceModule,
     SkillModule,
     SoftSkillModule,
+    LanguageSkillModule,
   ],
 })
 export class AppModule {}

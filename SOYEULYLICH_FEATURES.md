@@ -241,15 +241,15 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Emotional intelligence - Trí tuệ cảm xúc
 
 5.3. Language Skills (Ngoại ngữ)
-[ ] - Add language - Thêm ngoại ngữ
-[ ] - Language proficiency - Trình độ ngoại ngữ
-[ ] - Listening level - Mức độ nghe
-[ ] - Speaking level - Mức độ nói
-[ ] - Reading level - Mức độ đọc
-[ ] - Writing level - Mức độ viết
-[ ] - Certificate score - Điểm chứng chỉ
-[ ] - Certificate information - Thông tin chứng chỉ
-[ ] - CEFR level - Mức độ theo khung CEFR
+[X] - Add language - Thêm ngoại ngữ
+[X] - Language proficiency - Trình độ ngoại ngữ
+[X] - Listening level - Mức độ nghe
+[X] - Speaking level - Mức độ nói
+[X] - Reading level - Mức độ đọc
+[X] - Writing level - Mức độ viết
+[X] - Certificate score - Điểm chứng chỉ
+[X] - Certificate information - Thông tin chứng chỉ
+[X] - CEFR level - Mức độ theo khung CEFR
 
 5.4. Tool & Software Skills (Kỹ năng công cụ)
 [ ] - Add tool/software - Thêm công cụ/phần mềm
@@ -753,6 +753,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - freelanceProjects - Bảng dự án freelance
 [X] - skills - Bảng kỹ năng
 [X] - softSkills - Bảng kỹ năng mềm
+[X] - languageSkills - Bảng ngoại ngữ
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -784,6 +785,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → FreelanceProject (1:N) - Người dùng → Dự án freelance
 [X] - User → Skill (1:N) - Người dùng → Kỹ năng
 [X] - User → SoftSkill (1:N) - Người dùng → Kỹ năng mềm
+[X] - User → LanguageSkill (1:N) - Người dùng → Ngoại ngữ
 [ ] - User → Project (1:N) - Người dùng → Dự án
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
@@ -918,6 +920,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /soft-skills/:id - Lấy chi tiết kỹ năng mềm
 [X] - PUT /soft-skills/:id - Cập nhật kỹ năng mềm
 [X] - DELETE /soft-skills/:id - Xóa kỹ năng mềm
+
+18.12. Language Skill Endpoints
+[X] - GET /language-skills - Lấy danh sách ngoại ngữ
+[X] - POST /language-skills - Thêm ngoại ngữ
+[X] - GET /language-skills/:id - Lấy chi tiết ngoại ngữ
+[X] - PUT /language-skills/:id - Cập nhật ngoại ngữ
+[X] - DELETE /language-skills/:id - Xóa ngoại ngữ
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1134,7 +1143,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 181
+Số lượng tính năng đã implement: 190
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

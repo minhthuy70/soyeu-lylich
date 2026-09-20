@@ -30,6 +30,7 @@ model User {
   freelanceProjects       FreelanceProject[]
   skills                  Skill[]
   softSkills               SoftSkill[]
+  languageSkills          LanguageSkill[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -249,4 +250,21 @@ model SoftSkill {
   progress    Int? @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model LanguageSkill {
+  id                  Int      @id @default(autoincrement())
+  userId              Int
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  language            String
+  proficiencyLevel    String? // 'Basic', 'Conversational', 'Professional', 'Native'
+  listeningLevel      String? // 'Basic', 'Intermediate', 'Advanced', 'Native'
+  speakingLevel       String? // 'Basic', 'Intermediate', 'Advanced', 'Native'
+  readingLevel        String? // 'Basic', 'Intermediate', 'Advanced', 'Native'
+  writingLevel        String? // 'Basic', 'Intermediate', 'Advanced', 'Native'
+  certificateScore    String?
+  certificateInfo     String?
+  cefrLevel           String? // 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }
