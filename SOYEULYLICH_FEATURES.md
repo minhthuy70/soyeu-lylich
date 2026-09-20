@@ -70,18 +70,18 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 2.1. Basic Information (Thông tin cơ bản)
-[ ] - Full name - Họ và tên
-[ ] - Date of birth - Ngày sinh
-[ ] - Gender - Giới tính
-[ ] - Place of birth - Nơi sinh
-[ ] - Nationality - Quốc tịch
-[ ] - Marital status - Tình trạng hôn nhân
-[ ] - Personal photo - Ảnh cá nhân
-[ ] - Personal introduction - Giới thiệu bản thân
-[ ] - Religion - Tôn giáo (tùy chọn)
-[ ] - Ethnicity - Dân tộc
-[ ] - Blood type - Nhóm máu
-[ ] - Height/Weight - Chiều cao/Cân nặng (tùy chọn)
+[X] - Full name - Họ và tên
+[X] - Date of birth - Ngày sinh
+[X] - Gender - Giới tính
+[X] - Place of birth - Nơi sinh
+[X] - Nationality - Quốc tịch
+[X] - Marital status - Tình trạng hôn nhân
+[X] - Personal photo - Ảnh cá nhân
+[X] - Personal introduction - Giới thiệu bản thân
+[X] - Religion - Tôn giáo (tùy chọn)
+[X] - Ethnicity - Dân tộc
+[X] - Blood type - Nhóm máu
+[X] - Height/Weight - Chiều cao/Cân nặng (tùy chọn)
 
 2.2. Contact Information (Thông tin liên hệ)
 [ ] - Phone number - Số điện thoại
@@ -1063,7 +1063,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 63
+Số lượng tính năng đã implement: 75
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
