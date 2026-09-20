@@ -22,12 +22,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Account lockout - Khóa tài khoản khi có quá nhiều lần đăng nhập thất bại
 
 1.3. Password Recovery (Khôi phục mật khẩu)
-[ ] - Forgot password form - Form nhập email khôi phục
-[ ] - Send reset email - Gửi email đặt lại mật khẩu
-[ ] - Password reset link - Link đặt lại mật khẩu có thời hạn
-[ ] - New password validation - Kiểm tra mật khẩu mới
-[ ] - Confirm new password - Xác nhận mật khẩu mới
-[ ] - Password reset success notification - Thông báo đặt lại mật khẩu thành công
+[X] - Forgot password form - Form nhập email khôi phục
+[X] - Send reset email - Gửi email đặt lại mật khẩu
+[X] - Password reset link - Link đặt lại mật khẩu có thời hạn
+[X] - New password validation - Kiểm tra mật khẩu mới
+[X] - Confirm new password - Xác nhận mật khẩu mới
+[X] - Password reset success notification - Thông báo đặt lại mật khẩu thành công
 
 1.4. Profile Management (Quản lý tài khoản)
 [ ] - View account information - Xem thông tin tài khoản
@@ -740,7 +740,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 17.1. Core Tables (Các bảng chính)
-[X] - users - Bảng người dùng (bao gồm email verification, login attempt tracking, account lockout)
+[X] - users - Bảng người dùng (bao gồm email verification, login attempt tracking, account lockout, password recovery)
 [ ] - profiles - Bảng thông tin cá nhân
 [ ] - educations - Bảng học vấn
 [ ] - experiences - Bảng kinh nghiệm
@@ -794,6 +794,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - POST /auth/login - Đăng nhập
 [ ] - GET /auth/me - Lấy thông tin người dùng hiện tại
 [X] - GET /auth/verify-email - Xác thực email
+[X] - POST /auth/forgot-password - Gửi yêu cầu khôi phục mật khẩu
+[X] - POST /auth/reset-password - Đặt lại mật khẩu
 [ ] - POST /auth/forgot-password - Quên mật khẩu
 [ ] - POST /auth/reset-password - Đặt lại mật khẩu
 [ ] - POST /auth/logout - Đăng xuất
@@ -939,7 +941,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 
 21.2. Email Notifications
 [X] - Account verification email - Email xác thực tài khoản (logic đã implement, cần cấu hình email service)
-[ ] - Password reset email - Email đặt lại mật khẩu
+[X] - Password reset email - Email đặt lại mật khẩu (logic đã implement, cần cấu hình email service)
 [ ] - Security alert email - Email cảnh báo bảo mật
 [ ] - Resume sharing notification - Thông báo chia sẻ sơ yếu lý lịch
 [ ] - Weekly summary email - Email tóm tắt tuần
@@ -1031,7 +1033,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 30
+Số lượng tính năng đã implement: 36
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

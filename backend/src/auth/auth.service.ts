@@ -9,6 +9,8 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -229,5 +231,91 @@ export class AuthService {
     return {
       message: 'Xác thực email thành công',
     };
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+    const { email } = forgotPasswordDto;
+
+    // Chuẩn hóa email
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Tìm user
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: normalizedEmail,
+      },
+    });
+
+    // Không báo lỗi nếu email không tồn tại (security best practice)
+    if (!user) {
+      return {
+        message: 'Nếu email tồn tại trong hệ thống, bạn sẽ nhận được hướng dẫn đặt lại mật khẩu.',
+      };
+    }
+
+    // Tạo reset token
+    const resetToken = this.generateResetToken();
+    const resetTokenExpiry = new Date(Date.now() + 1 * 60 * 60 * 1000); // 1 hour
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        resetPasswordToken: resetToken,
+        resetPasswordExpiry: resetTokenExpiry,
+      },
+    });
+
+    // TODO: Send reset email here
+    // await this.sendResetPasswordEmail(normalizedEmail, resetToken);
+
+    return {
+      message: 'Nếu email tồn tại trong hệ thống, bạn sẽ nhận được hướng dẫn đặt lại mật khẩu.',
+    };
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const { token, newPassword, confirmPassword } = resetPasswordDto;
+
+    // Kiểm tra mật khẩu xác nhận
+    if (newPassword !== confirmPassword) {
+      throw new BadRequestException('Mật khẩu xác nhận không khớp');
+    }
+
+    // Tìm user với reset token hợp lệ
+    const user = await this.prisma.user.findFirst({
+      where: {
+        resetPasswordToken: token,
+        resetPasswordExpiry: {
+          gt: new Date(),
+        },
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Token đặt lại mật khẩu không hợp lệ hoặc đã hết hạn');
+    }
+
+    // Hash mật khẩu mới
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+
+    // Cập nhật mật khẩu và xóa reset token
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        passwordHash,
+        resetPasswordToken: null,
+        resetPasswordExpiry: null,
+        failedLoginAttempts: 0,
+        lockedUntil: null,
+      },
+    });
+
+    return {
+      message: 'Đặt lại mật khẩu thành công. Bạn có thể đăng nhập với mật khẩu mới.',
+    };
+  }
+
+  private generateResetToken(): string {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
 }

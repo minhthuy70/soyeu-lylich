@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../App.css";
 import { loginUser } from "../services/authService";
 
-export default function LoginForm({ onSwitchToRegister }) {
+export default function LoginForm({ onSwitchToRegister, onForgotPassword }) {
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -147,9 +147,14 @@ export default function LoginForm({ onSwitchToRegister }) {
               <span>Ghi nhớ đăng nhập</span>
             </label>
 
-            <a href="/forgot-password" className="forgot-password">
+            <button
+              type="button"
+              className="forgot-password"
+              onClick={onForgotPassword}
+              disabled={loading}
+            >
               Quên mật khẩu?
-            </a>
+            </button>
           </div>
 
           {error && (

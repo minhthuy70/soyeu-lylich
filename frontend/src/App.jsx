@@ -3,9 +3,12 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import { registerUser } from "./services/authService";
 import LoginForm from "./components/LoginForm";
+import ForgotPasswordForm from "./components/ForgotPasswordForm";
+import ResetPasswordForm from "./components/ResetPasswordForm";
 
 export default function App() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [authState, setAuthState] = useState("login"); // login, register, forgot-password, reset-password
+  const [resetToken, setResetToken] = useState(null);
 
   const [form, setForm] = useState({
     email: "",
@@ -19,6 +22,16 @@ export default function App() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
+
+  // Check for reset token in URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    if (token) {
+      setResetToken(token);
+      setAuthState("reset-password");
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -144,9 +157,14 @@ export default function App() {
 
   return (
     <div>
-      {isLogin ? (
-        <LoginForm onSwitchToRegister={() => setIsLogin(false)} />
-      ) : (
+      {authState === "login" && (
+        <LoginForm
+          onSwitchToRegister={() => setAuthState("register")}
+          onForgotPassword={() => setAuthState("forgot-password")}
+        />
+      )}
+
+      {authState === "register" && (
         <div className="register-page">
           <div className="register-card">
             <div className="register-header">
@@ -275,7 +293,7 @@ export default function App() {
                   <div className="login-link">
                     <button
                       type="button"
-                      onClick={() => setIsLogin(true)}
+                      onClick={() => setAuthState("login")}
                       disabled={loading}
                     >
                       Đăng nhập ngay
@@ -294,7 +312,7 @@ export default function App() {
                 Đã có tài khoản?{' '}
                 <button
                   type="button"
-                  onClick={() => setIsLogin(true)}
+                  onClick={() => setAuthState("login")}
                   disabled={loading}
                 >
                   Đăng nhập ngay
@@ -303,6 +321,17 @@ export default function App() {
             </div>
           </div>
         </div>
+      )}
+
+      {authState === "forgot-password" && (
+        <ForgotPasswordForm onBackToLogin={() => setAuthState("login")} />
+      )}
+
+      {authState === "reset-password" && resetToken && (
+        <ResetPasswordForm
+          token={resetToken}
+          onSuccess={() => setAuthState("login")}
+        />
       )}
     </div>
   );
