@@ -26,6 +26,7 @@ model User {
   educations              Education[]
   certificates            Certificate[]
   onlineCourses           OnlineCourse[]
+  experiences             Experience[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -173,4 +174,29 @@ model OnlineCourse {
   certificateUrl  String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model Experience {
+  id                  Int      @id @default(autoincrement())
+  userId              Int
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName         String
+  position            String
+  employmentType      String? // 'Full-time', 'Part-time', 'Contract', 'Freelance'
+  startDate           DateTime?
+  endDate             DateTime?
+  currentJobStatus    Boolean  @default(false)
+  jobDescription      String?
+  responsibilities     String[]
+  achievements         String[]
+  technologiesUsed    String[]
+  companyWebsite      String?
+  companyLogo         String?
+  workLocation        String?
+  workType            String? // 'Remote', 'Onsite', 'Hybrid'
+  salaryRange         String?
+  reasonForLeaving    String?
+  supervisorName      String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }

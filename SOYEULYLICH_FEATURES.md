@@ -176,27 +176,27 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 4.1. Experience Management (Quản lý kinh nghiệm)
-[ ] - Add work experience - Thêm kinh nghiệm làm việc
-[ ] - Edit work experience - Chỉnh sửa kinh nghiệm
-[ ] - Delete work experience - Xóa kinh nghiệm
-[ ] - Work experience timeline - Timeline kinh nghiệm
-[ ] - Company name - Tên công ty
-[ ] - Position - Vị trí công việc
-[ ] - Employment type - Loại hình công việc
-[ ] - Start date - Ngày bắt đầu
-[ ] - End date - Ngày kết thúc
-[ ] - Current job status - Đang làm việc
-[ ] - Job description - Mô tả công việc
-[ ] - Responsibilities - Trách nhiệm
-[ ] - Achievements - Thành tích
-[ ] - Technologies used - Công nghệ sử dụng
-[ ] - Company website - Website công ty
-[ ] - Company logo - Logo công ty
-[ ] - Work location - Địa điểm làm việc
-[ ] - Work type - Hình thức làm việc (remote/onsite/hybrid)
-[ ] - Salary range (optional) - Mức lương (tùy chọn)
-[ ] - Reason for leaving - Lý do nghỉ việc (tùy chọn)
-[ ] - Supervisor name - Tên người quản lý trực tiếp
+[X] - Add work experience - Thêm kinh nghiệm làm việc
+[X] - Edit work experience - Chỉnh sửa kinh nghiệm
+[X] - Delete work experience - Xóa kinh nghiệm
+[X] - Work experience timeline - Timeline kinh nghiệm
+[X] - Company name - Tên công ty
+[X] - Position - Vị trí công việc
+[X] - Employment type - Loại hình công việc
+[X] - Start date - Ngày bắt đầu
+[X] - End date - Ngày kết thúc
+[X] - Current job status - Đang làm việc
+[X] - Job description - Mô tả công việc
+[X] - Responsibilities - Trách nhiệm
+[X] - Achievements - Thành tích
+[X] - Technologies used - Công nghệ sử dụng
+[X] - Company website - Website công ty
+[X] - Company logo - Logo công ty
+[X] - Work location - Địa điểm làm việc
+[X] - Work type - Hình thức làm việc (remote/onsite/hybrid)
+[X] - Salary range (optional) - Mức lương (tùy chọn)
+[X] - Reason for leaving - Lý do nghỉ việc (tùy chọn)
+[X] - Supervisor name - Tên người quản lý trực tiếp
 
 4.2. Freelance / Contract Work
 [ ] - Add freelance project - Thêm dự án freelance
@@ -749,7 +749,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - educations - Bảng học vấn
 [X] - certificates - Bảng chứng chỉ
 [X] - onlineCourses - Bảng khóa học trực tuyến
-[ ] - experiences - Bảng kinh nghiệm
+[X] - experiences - Bảng kinh nghiệm
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -777,7 +777,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → Education (1:N) - Người dùng → Học vấn
 [X] - User → Certificate (1:N) - Người dùng → Chứng chỉ
 [X] - User → OnlineCourse (1:N) - Người dùng → Khóa học trực tuyến
-[ ] - User → Experience (1:N) - Người dùng → Kinh nghiệm
+[X] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [ ] - User → Skill (1:N) - Người dùng → Kỹ năng
 [ ] - User → Project (1:N) - Người dùng → Dự án
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
@@ -885,6 +885,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /online-courses/:id - Lấy chi tiết khóa học
 [X] - PUT /online-courses/:id - Cập nhật khóa học
 [X] - DELETE /online-courses/:id - Xóa khóa học
+
+18.8. Experience Endpoints
+[X] - GET /experiences - Lấy danh sách kinh nghiệm
+[X] - POST /experiences - Thêm kinh nghiệm
+[X] - GET /experiences/:id - Lấy chi tiết kinh nghiệm
+[X] - PUT /experiences/:id - Cập nhật kinh nghiệm
+[X] - DELETE /experiences/:id - Xóa kinh nghiệm
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1101,7 +1108,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 134
+Số lượng tính năng đã implement: 155
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

@@ -6,6 +6,7 @@ import { ReferenceModule } from './reference/reference.module';
 import { EducationModule } from './education/education.module';
 import { CertificateModule } from './certificate/certificate.module';
 import { OnlineCourseModule } from './online-course/online-course.module';
+import { ExperienceModule } from './experience/experience.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -18,6 +19,7 @@ import { PrismaModule } from './prisma/prisma.module';
     EducationModule,
     CertificateModule,
     OnlineCourseModule,
+    ExperienceModule,
   ],
 })
 export class AppModule {}
