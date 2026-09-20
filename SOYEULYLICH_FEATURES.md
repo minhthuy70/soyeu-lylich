@@ -379,19 +379,19 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Section description - Mô tả từng phần
 
 8.2. Resume Templates (Mẫu sơ yếu lý lịch)
-[ ] - Template list - Danh sách mẫu
-[ ] - Modern template - Mẫu hiện đại
-[ ] - Professional template - Mẫu chuyên nghiệp
-[ ] - Minimal template - Mẫu tối giản
-[ ] - Academic template - Mẫu học thuật
-[ ] - Creative template - Mẫu sáng tạo
-[ ] - Two-column template - Mẫu 2 cột
-[ ] - Infographic template - Mẫu infographic
-[ ] - Template preview - Xem trước mẫu
-[ ] - Select template - Chọn mẫu
-[ ] - Customize template - Tùy chỉnh mẫu
-[ ] - Template color scheme - Bảng màu mẫu
-[ ] - Template font selection - Chọn font chữ mẫu
+[X] - Template list - Danh sách mẫu
+[X] - Modern template - Mẫu hiện đại
+[X] - Professional template - Mẫu chuyên nghiệp
+[X] - Minimal template - Mẫu tối giản
+[X] - Academic template - Mẫu học thuật
+[X] - Creative template - Mẫu sáng tạo
+[X] - Two-column template - Mẫu 2 cột
+[X] - Infographic template - Mẫu infographic
+[X] - Template preview - Xem trước mẫu
+[X] - Select template - Chọn mẫu
+[X] - Customize template - Tùy chỉnh mẫu
+[X] - Template color scheme - Bảng màu mẫu
+[X] - Template font selection - Chọn font chữ mẫu
 
 8.3. Resume Preview (Xem trước)
 [ ] - Full resume preview - Xem toàn bộ sơ yếu lý lịch
@@ -1231,7 +1231,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 272
+Số lượng tính năng đã implement: 284
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
