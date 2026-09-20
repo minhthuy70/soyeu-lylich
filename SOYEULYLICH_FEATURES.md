@@ -288,12 +288,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Client/Company - Khách hàng/Công ty
 
 6.2. Project Gallery (Thư viện dự án)
-[ ] - Project image gallery - Thư viện ảnh dự án
-[ ] - Image upload - Tải ảnh lên
-[ ] - Image reordering - Sắp xếp ảnh
-[ ] - Image caption - Chú thích ảnh
-[ ] - Delete image - Xóa ảnh
-[ ] - Thumbnail selection - Chọn ảnh đại diện
+[X] - Project image gallery - Thư viện ảnh dự án
+[X] - Image upload - Tải ảnh lên
+[X] - Image reordering - Sắp xếp ảnh
+[X] - Image caption - Chú thích ảnh
+[X] - Delete image - Xóa ảnh
+[X] - Thumbnail selection - Chọn ảnh đại diện
 
 6.3. Project Analytics (Phân tích dự án)
 [ ] - Project view count - Đếm lượt xem dự án
@@ -756,6 +756,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - languageSkills - Bảng ngoại ngữ
 [X] - toolSkills - Bảng kỹ năng công cụ
 [X] - projects - Bảng dự án
+[X] - projectImages - Bảng ảnh dự án
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -790,6 +791,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → LanguageSkill (1:N) - Người dùng → Ngoại ngữ
 [X] - User → ToolSkill (1:N) - Người dùng → Kỹ năng công cụ
 [X] - User → Project (1:N) - Người dùng → Dự án
+[X] - Project → ProjectImage (1:N) - Dự án → Ảnh dự án
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
 [ ] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
@@ -944,6 +946,15 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /projects/:id - Lấy chi tiết dự án
 [X] - PUT /projects/:id - Cập nhật dự án
 [X] - DELETE /projects/:id - Xóa dự án
+
+18.15. Project Image Endpoints
+[X] - GET /project-images - Lấy danh sách ảnh dự án
+[X] - POST /project-images - Thêm ảnh dự án mới
+[X] - GET /project-images/:id - Lấy chi tiết ảnh dự án
+[X] - PUT /project-images/:id - Cập nhật ảnh dự án
+[X] - DELETE /project-images/:id - Xóa ảnh dự án
+[X] - POST /project-images/reorder - Sắp xếp lại ảnh dự án
+[X] - POST /project-images/:id/set-thumbnail - Đặt ảnh làm ảnh đại diện
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1160,7 +1171,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 215
+Số lượng tính năng đã implement: 221
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
