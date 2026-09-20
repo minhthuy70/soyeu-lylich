@@ -296,9 +296,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Thumbnail selection - Chọn ảnh đại diện
 
 6.3. Project Analytics (Phân tích dự án)
-[ ] - Project view count - Đếm lượt xem dự án
-[ ] - Most viewed projects - Dự án được xem nhiều nhất
-[ ] - Project click tracking - Theo dõi click vào link dự án
+[X] - Project view count - Đếm lượt xem dự án
+[X] - Most viewed projects - Dự án được xem nhiều nhất
+[X] - Project click tracking - Theo dõi click vào link dự án
 
 
 ================================================================================
@@ -757,6 +757,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - toolSkills - Bảng kỹ năng công cụ
 [X] - projects - Bảng dự án
 [X] - projectImages - Bảng ảnh dự án
+[X] - projectViews - Bảng lượt xem dự án
+[X] - projectClicks - Bảng lượt click dự án
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -792,6 +794,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → ToolSkill (1:N) - Người dùng → Kỹ năng công cụ
 [X] - User → Project (1:N) - Người dùng → Dự án
 [X] - Project → ProjectImage (1:N) - Dự án → Ảnh dự án
+[X] - Project → ProjectView (1:N) - Dự án → Lượt xem
+[X] - Project → ProjectClick (1:N) - Dự án → Lượt click
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
 [ ] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
@@ -955,6 +959,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - DELETE /project-images/:id - Xóa ảnh dự án
 [X] - POST /project-images/reorder - Sắp xếp lại ảnh dự án
 [X] - POST /project-images/:id/set-thumbnail - Đặt ảnh làm ảnh đại diện
+
+18.16. Project Analytics Endpoints
+[X] - POST /project-analytics/views/:projectId - Ghi nhận lượt xem dự án
+[X] - POST /project-analytics/clicks/:projectId - Ghi nhận lượt click dự án
+[X] - GET /project-analytics/stats/:projectId - Lấy thống kê dự án
+[X] - GET /project-analytics/most-viewed - Lấy danh sách dự án được xem nhiều nhất
+[X] - GET /project-analytics/all-stats - Lấy thống kê tất cả dự án
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1171,7 +1182,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 221
+Số lượng tính năng đã implement: 224
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

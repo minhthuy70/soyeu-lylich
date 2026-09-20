@@ -307,6 +307,8 @@ model Project {
   impact          String?
   client          String?
   projectImages   ProjectImage[]
+  projectViews    ProjectView[]
+  projectClicks   ProjectClick[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
@@ -321,4 +323,22 @@ model ProjectImage {
   isThumbnail     Boolean  @default(false)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model ProjectView {
+  id              Int      @id @default(autoincrement())
+  projectId       Int
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  viewerIp        String?
+  viewerUserAgent String?
+  viewedAt        DateTime @default(now())
+}
+
+model ProjectClick {
+  id              Int      @id @default(autoincrement())
+  projectId       Int
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  clickType       String // 'github', 'demo', 'image'
+  clickUrl        String?
+  clickedAt       DateTime @default(now())
 }
