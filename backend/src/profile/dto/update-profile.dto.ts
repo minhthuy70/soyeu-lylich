@@ -88,4 +88,28 @@ export class UpdateProfileDto {
   @IsString()
   @IsOptional()
   emergencyContact?: string;
+
+  @IsString()
+  @IsOptional()
+  careerObjective?: string;
+
+  @IsString()
+  @IsOptional()
+  desiredPosition?: string;
+
+  @IsString()
+  @IsOptional()
+  expectedSalary?: string;
+
+  @IsString()
+  @IsOptional()
+  workLocationPreference?: string;
+
+  @IsString()
+  @IsOptional()
+  workTypePreference?: string;
+
+  @IsDateString()
+  @IsOptional()
+  availableFromDate?: string;
 }

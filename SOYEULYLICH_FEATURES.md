@@ -103,12 +103,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Validation - Kiểm tra dữ liệu nhập
 
 2.4. Career Objective (Mục tiêu nghề nghiệp)
-[ ] - Career objective text - Mục tiêu nghề nghiệp ngắn hạn/dài hạn
-[ ] - Desired position - Vị trí mong muốn
-[ ] - Expected salary - Mức lương kỳ vọng
-[ ] - Work location preference - Địa điểm làm việc mong muốn
-[ ] - Work type preference - Hình thức làm việc mong muốn (remote, onsite, hybrid)
-[ ] - Available from date - Ngày có thể bắt đầu làm việc
+[X] - Career objective text - Mục tiêu nghề nghiệp ngắn hạn/dài hạn
+[X] - Desired position - Vị trí mong muốn
+[X] - Expected salary - Mức lương kỳ vọng
+[X] - Work location preference - Địa điểm làm việc mong muốn
+[X] - Work type preference - Hình thức làm việc mong muốn (remote, onsite, hybrid)
+[X] - Available from date - Ngày có thể bắt đầu làm việc
 
 2.5. References (Người tham chiếu)
 [ ] - Add reference - Thêm người tham chiếu
@@ -1073,7 +1073,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 89
+Số lượng tính năng đã implement: 95
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

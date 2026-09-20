@@ -54,6 +54,12 @@ model Profile {
   socialLinks   String[] // Array of social media URLs
   personalWebsite String?
   emergencyContact String?
+  careerObjective String?
+  desiredPosition String?
+  expectedSalary String?
+  workLocationPreference String?
+  workTypePreference String?
+  availableFromDate DateTime?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
