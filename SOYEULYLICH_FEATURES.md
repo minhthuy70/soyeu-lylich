@@ -215,17 +215,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 5.1. Technical Skills (Kỹ năng chuyên môn)
-[ ] - Add skill - Thêm kỹ năng
-[ ] - Edit skill - Chỉnh sửa kỹ năng
-[ ] - Delete skill - Xóa kỹ năng
-[ ] - Skill category - Phân loại kỹ năng
-[ ] - Skill level - Mức độ thành thạo
-[ ] - Years of experience - Số năm kinh nghiệm
-[ ] - Skill description - Mô tả kỹ năng
-[ ] - Skill progress display - Hiển thị mức độ kỹ năng
-[ ] - Skill tags/badges - Tag/Badge kỹ năng
-[ ] - Skill endorsement count - Số lần được xác nhận kỹ năng
-[ ] - Skill portfolio link - Liên kết portfolio theo kỹ năng
+[X] - Add skill - Thêm kỹ năng
+[X] - Edit skill - Chỉnh sửa kỹ năng
+[X] - Delete skill - Xóa kỹ năng
+[X] - Skill category - Phân loại kỹ năng
+[X] - Skill level - Mức độ thành thạo
+[X] - Years of experience - Số năm kinh nghiệm
+[X] - Skill description - Mô tả kỹ năng
+[X] - Skill progress display - Hiển thị mức độ kỹ năng
+[X] - Skill tags/badges - Tag/Badge kỹ năng
+[X] - Skill endorsement count - Số lần được xác nhận kỹ năng
+[X] - Skill portfolio link - Liên kết portfolio theo kỹ năng
 
 5.2. Soft Skills (Kỹ năng mềm)
 [ ] - Communication - Giao tiếp
@@ -751,6 +751,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - onlineCourses - Bảng khóa học trực tuyến
 [X] - experiences - Bảng kinh nghiệm
 [X] - freelanceProjects - Bảng dự án freelance
+[X] - skills - Bảng kỹ năng
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -780,7 +781,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → OnlineCourse (1:N) - Người dùng → Khóa học trực tuyến
 [X] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [X] - User → FreelanceProject (1:N) - Người dùng → Dự án freelance
-[ ] - User → Skill (1:N) - Người dùng → Kỹ năng
+[X] - User → Skill (1:N) - Người dùng → Kỹ năng
 [ ] - User → Project (1:N) - Người dùng → Dự án
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
@@ -901,6 +902,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /freelance-projects/:id - Lấy chi tiết dự án
 [X] - PUT /freelance-projects/:id - Cập nhật dự án
 [X] - DELETE /freelance-projects/:id - Xóa dự án
+
+18.10. Skill Endpoints
+[X] - GET /skills - Lấy danh sách kỹ năng
+[X] - POST /skills - Thêm kỹ năng
+[X] - GET /skills/:id - Lấy chi tiết kỹ năng
+[X] - PUT /skills/:id - Cập nhật kỹ năng
+[X] - DELETE /skills/:id - Xóa kỹ năng
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1117,7 +1125,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 161
+Số lượng tính năng đã implement: 171
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

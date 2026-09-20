@@ -8,6 +8,7 @@ import { CertificateModule } from './certificate/certificate.module';
 import { OnlineCourseModule } from './online-course/online-course.module';
 import { ExperienceModule } from './experience/experience.module';
 import { FreelanceModule } from './freelance/freelance.module';
+import { SkillModule } from './skill/skill.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -22,6 +23,7 @@ import { PrismaModule } from './prisma/prisma.module';
     OnlineCourseModule,
     ExperienceModule,
     FreelanceModule,
+    SkillModule,
   ],
 })
 export class AppModule {}

@@ -28,6 +28,7 @@ model User {
   onlineCourses           OnlineCourse[]
   experiences             Experience[]
   freelanceProjects       FreelanceProject[]
+  skills                  Skill[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -218,4 +219,21 @@ model FreelanceProject {
   description     String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model Skill {
+  id                Int      @id @default(autoincrement())
+  userId            Int
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name              String
+  category          String?
+  level             String? // 'Beginner', 'Intermediate', 'Advanced', 'Expert'
+  yearsOfExperience Int?
+  description       String?
+  progress          Int? @default(0)
+  tags              String[]
+  endorsementCount  Int? @default(0)
+  portfolioLink     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
