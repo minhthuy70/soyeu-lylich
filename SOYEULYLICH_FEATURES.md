@@ -14,12 +14,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Privacy policy checkbox - Đồng ý chính sách bảo mật
 
 1.2. Login (Đăng nhập)
-[ ] - Login bằng email/password - Đăng nhập bằng email và mật khẩu
-[ ] - Remember me checkbox - Ghi nhớ phiên đăng nhập
-[ ] - Forgot password link - Khôi phục mật khẩu khi quên
-[ ] - Show/hide password toggle - Hiện/ẩn mật khẩu
-[ ] - Login attempt limiting - Giới hạn số lần đăng nhập thất bại
-[ ] - Account lockout - Khóa tài khoản khi có quá nhiều lần đăng nhập thất bại
+[X] - Login bằng email/password - Đăng nhập bằng email và mật khẩu
+[X] - Remember me checkbox - Ghi nhớ phiên đăng nhập
+[X] - Forgot password link - Khôi phục mật khẩu khi quên
+[X] - Show/hide password toggle - Hiện/ẩn mật khẩu
+[X] - Login attempt limiting - Giới hạn số lần đăng nhập thất bại
+[X] - Account lockout - Khóa tài khoản khi có quá nhiều lần đăng nhập thất bại
 
 1.3. Password Recovery (Khôi phục mật khẩu)
 [ ] - Forgot password form - Form nhập email khôi phục
@@ -693,11 +693,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 
 16.1. Authentication Security
 [X] - Password hashing - Băm mật khẩu
-[ ] - JWT authentication - Xác thực JWT
-[ ] - Token expiration - Thời hạn token
-[ ] - Secure password storage - Lưu mật khẩu an toàn
-[ ] - Rate limiting - Giới hạn tốc độ request
+[X] - JWT authentication - Xác thực JWT
+[X] - Token expiration - Thời hạn token
+[X] - Secure password storage - Lưu mật khẩu an toàn
+[X] - Rate limiting - Giới hạn tốc độ request (login attempt limiting)
 [ ] - Session management - Quản lý phiên
+[X] - Account lockout - Khóa tài khoản khi đăng nhập thất bại nhiều lần
 [ ] - Refresh token rotation - Xoay vòng refresh token
 [ ] - Secure cookie flags - Cờ bảo mật cookie (HttpOnly, Secure, SameSite)
 
@@ -739,7 +740,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 17.1. Core Tables (Các bảng chính)
-[X] - users - Bảng người dùng (bao gồm email verification)
+[X] - users - Bảng người dùng (bao gồm email verification, login attempt tracking, account lockout)
 [ ] - profiles - Bảng thông tin cá nhân
 [ ] - educations - Bảng học vấn
 [ ] - experiences - Bảng kinh nghiệm
@@ -790,7 +791,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 
 18.1. Authentication Endpoints
 [X] - POST /auth/register - Đăng ký
-[ ] - POST /auth/login - Đăng nhập
+[X] - POST /auth/login - Đăng nhập
 [ ] - GET /auth/me - Lấy thông tin người dùng hiện tại
 [X] - GET /auth/verify-email - Xác thực email
 [ ] - POST /auth/forgot-password - Quên mật khẩu
@@ -1030,7 +1031,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 23
+Số lượng tính năng đã implement: 30
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

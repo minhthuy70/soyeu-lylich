@@ -2,8 +2,11 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import { registerUser } from "./services/authService";
+import LoginForm from "./components/LoginForm";
 
 export default function App() {
+  const [isLogin, setIsLogin] = useState(false);
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -140,142 +143,167 @@ export default function App() {
   };
 
   return (
-    <div className="register-page">
-      <div className="register-card">
-        <div className="register-header">
-          <div className="register-logo">CV</div>
+    <div>
+      {isLogin ? (
+        <LoginForm onSwitchToRegister={() => setIsLogin(false)} />
+      ) : (
+        <div className="register-page">
+          <div className="register-card">
+            <div className="register-header">
+              <div className="register-logo">CV</div>
 
-          <h1>Tạo tài khoản</h1>
+              <h1>Tạo tài khoản</h1>
 
-          <p className="subtitle">
-            Đăng ký để bắt đầu tạo sơ yếu lý lịch của bạn
-          </p>
-        </div>
+              <p className="subtitle">
+                Đăng ký để bắt đầu tạo sơ yếu lý lịch của bạn
+              </p>
+            </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
 
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="Nhập email của bạn"
-              value={form.email}
-              onChange={handleChange}
-              autoComplete="email"
-              disabled={loading}
-            />
-          </div>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Nhập email của bạn"
+                  value={form.email}
+                  onChange={handleChange}
+                  autoComplete="email"
+                  disabled={loading}
+                />
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Mật khẩu</label>
+              <div className="form-group">
+                <label htmlFor="password">Mật khẩu</label>
 
-            <input
-              id="password"
-              type="password"
-              name="password"
-              placeholder="Nhập mật khẩu"
-              value={form.password}
-              onChange={handleChange}
-              autoComplete="new-password"
-              disabled={loading}
-            />
+                <input
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="Nhập mật khẩu"
+                  value={form.password}
+                  onChange={handleChange}
+                  autoComplete="new-password"
+                  disabled={loading}
+                />
 
-            {form.password && (
-              <div className="password-strength">
-                <div className="strength-bar">
-                  <div
-                    className="strength-fill"
-                    style={{
-                      width: `${(passwordStrength / 6) * 100}%`,
-                      backgroundColor: getPasswordStrengthLabel().color,
-                    }}
+                {form.password && (
+                  <div className="password-strength">
+                    <div className="strength-bar">
+                      <div
+                        className="strength-fill"
+                        style={{
+                          width: `${(passwordStrength / 6) * 100}%`,
+                          backgroundColor: getPasswordStrengthLabel().color,
+                        }}
+                      />
+                    </div>
+                    <span
+                      className="strength-label"
+                      style={{ color: getPasswordStrengthLabel().color }}
+                    >
+                      {getPasswordStrengthLabel().label}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="confirmPassword">
+                  Xác nhận mật khẩu
+                </label>
+
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Nhập lại mật khẩu"
+                  value={form.confirmPassword}
+                  onChange={handleChange}
+                  autoComplete="new-password"
+                  disabled={loading}
+                />
+              </div>
+
+              <div className="checkbox-group">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="agreeTerms"
+                    checked={form.agreeTerms}
+                    onChange={handleChange}
+                    disabled={loading}
                   />
+                  <span>
+                    Tôi đồng ý với{' '}
+                    <a href="/terms" target="_blank" rel="noopener noreferrer">
+                      Điều khoản sử dụng
+                    </a>
+                  </span>
+                </label>
+              </div>
+
+              <div className="checkbox-group">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="agreePrivacy"
+                    checked={form.agreePrivacy}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                  <span>
+                    Tôi đồng ý với{' '}
+                    <a href="/privacy" target="_blank" rel="noopener noreferrer">
+                      Chính sách bảo mật
+                    </a>
+                  </span>
+                </label>
+              </div>
+
+              {error && (
+                <div className="error-message" role="alert">
+                  {error}
                 </div>
-                <span
-                  className="strength-label"
-                  style={{ color: getPasswordStrengthLabel().color }}
+              )}
+
+              {success && (
+                <div className="success-message" role="status">
+                  {success}
+                  <div className="login-link">
+                    <button
+                      type="button"
+                      onClick={() => setIsLogin(true)}
+                      disabled={loading}
+                    >
+                      Đăng nhập ngay
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <button type="submit" disabled={loading}>
+                {loading ? "Đang đăng ký..." : "Đăng ký"}
+              </button>
+            </form>
+
+            <div className="switch-auth">
+              <p>
+                Đã có tài khoản?{' '}
+                <button
+                  type="button"
+                  onClick={() => setIsLogin(true)}
+                  disabled={loading}
                 >
-                  {getPasswordStrengthLabel().label}
-                </span>
-              </div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="confirmPassword">
-              Xác nhận mật khẩu
-            </label>
-
-            <input
-              id="confirmPassword"
-              type="password"
-              name="confirmPassword"
-              placeholder="Nhập lại mật khẩu"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              autoComplete="new-password"
-              disabled={loading}
-            />
-          </div>
-
-          <div className="checkbox-group">
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="agreeTerms"
-                checked={form.agreeTerms}
-                onChange={handleChange}
-                disabled={loading}
-              />
-              <span>
-                Tôi đồng ý với{' '}
-                <a href="/terms" target="_blank" rel="noopener noreferrer">
-                  Điều khoản sử dụng
-                </a>
-              </span>
-            </label>
-          </div>
-
-          <div className="checkbox-group">
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="agreePrivacy"
-                checked={form.agreePrivacy}
-                onChange={handleChange}
-                disabled={loading}
-              />
-              <span>
-                Tôi đồng ý với{' '}
-                <a href="/privacy" target="_blank" rel="noopener noreferrer">
-                  Chính sách bảo mật
-                </a>
-              </span>
-            </label>
-          </div>
-
-          {error && (
-            <div className="error-message" role="alert">
-              {error}
+                  Đăng nhập ngay
+                </button>
+              </p>
             </div>
-          )}
-
-          {success && (
-            <div className="success-message" role="status">
-              {success}
-              <div className="login-link">
-                <a href="/login">Đăng nhập ngay</a>
-              </div>
-            </div>
-          )}
-
-          <button type="submit" disabled={loading}>
-            {loading ? "Đang đăng ký..." : "Đăng ký"}
-          </button>
-        </form>
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

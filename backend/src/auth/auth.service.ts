@@ -2,14 +2,129 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  async login(loginDto: LoginDto) {
+    const { email, password, rememberMe } = loginDto;
+
+    // Chuẩn hóa email
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Tìm user
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: normalizedEmail,
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Email hoặc mật khẩu không đúng');
+    }
+
+    // Kiểm tra tài khoản bị khóa
+    if (user.lockedUntil && user.lockedUntil > new Date()) {
+      const remainingTime = Math.ceil((user.lockedUntil.getTime() - Date.now()) / 60000);
+      throw new UnauthorizedException(
+        `Tài khoản đã bị khóa. Vui lòng thử lại sau ${remainingTime} phút.`,
+      );
+    }
+
+    // Kiểm tra email đã được xác thực
+    if (!user.isEmailVerified) {
+      throw new UnauthorizedException('Vui lòng xác thực email trước khi đăng nhập');
+    }
+
+    // Kiểm tra mật khẩu
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+    if (!isPasswordValid) {
+      // Tăng số lần đăng nhập thất bại
+      const failedAttempts = user.failedLoginAttempts + 1;
+
+      // Khóa tài khoản sau 5 lần thất bại
+      if (failedAttempts >= 5) {
+        await this.prisma.user.update({
+          where: { id: user.id },
+          data: {
+            failedLoginAttempts: failedAttempts,
+            lockedUntil: new Date(Date.now() + 15 * 60 * 1000), // Khóa 15 phút
+          },
+        });
+
+        throw new UnauthorizedException(
+          'Tài khoản đã bị khóa do quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 15 phút.',
+        );
+      }
+
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: {
+          failedLoginAttempts: failedAttempts,
+        },
+      });
+
+      if (failedAttempts >= 5) {
+        throw new UnauthorizedException(
+          'Tài khoản đã bị khóa do quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 15 phút.',
+        );
+      }
+
+      const remainingAttempts = 5 - failedAttempts;
+      throw new UnauthorizedException(
+        `Email hoặc mật khẩu không đúng. Còn ${remainingAttempts} lần thử.`,
+      );
+    }
+
+    // Reset số lần đăng nhập thất bại khi đăng nhập thành công
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        failedLoginAttempts: 0,
+        lockedUntil: null,
+      },
+    });
+
+    // Tạo JWT token
+    const tokenExpiry = rememberMe ? '30d' : '7d';
+    const payload = { sub: user.id, email: user.email };
+    const accessToken = await this.jwtService.signAsync(payload, {
+      expiresIn: tokenExpiry,
+    });
+
+    return {
+      message: 'Đăng nhập thành công',
+      accessToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        isEmailVerified: user.isEmailVerified,
+      },
+    };
+  }
+
+  async validateUserById(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        isEmailVerified: true,
+      },
+    });
+    return user;
+  }
 
   async register(registerDto: RegisterDto) {
     const { email, password, confirmPassword, agreeTerms, agreePrivacy } = registerDto;
