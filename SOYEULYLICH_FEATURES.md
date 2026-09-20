@@ -333,13 +333,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Member count - Số lượng thành viên tham gia
 
 7.3. Volunteering (Tình nguyện)
-[ ] - Add volunteer experience - Thêm kinh nghiệm tình nguyện
-[ ] - Organization - Tổ chức
-[ ] - Role - Vai trò
-[ ] - Duration - Thời gian
-[ ] - Impact - Tác động
-[ ] - Skills gained - Kỹ năng thu được
-[ ] - Edit/Delete volunteer - Chỉnh sửa/Xóa kinh nghiệm tình nguyện
+[X] - Add volunteer experience - Thêm kinh nghiệm tình nguyện
+[X] - Organization - Tổ chức
+[X] - Role - Vai trò
+[X] - Duration - Thời gian
+[X] - Impact - Tác động
+[X] - Skills gained - Kỹ năng thu được
+[X] - Edit/Delete volunteer - Chỉnh sửa/Xóa kinh nghiệm tình nguyện
 
 7.4. Publications (Công bố/Bài viết)
 [ ] - Add publication - Thêm công bố/bài viết
@@ -1199,7 +1199,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 245
+Số lượng tính năng đã implement: 251
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
