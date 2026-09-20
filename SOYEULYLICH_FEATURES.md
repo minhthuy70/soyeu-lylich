@@ -94,13 +94,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Emergency contact - Liên hệ khẩn cấp
 
 2.3. Identity Information (Thông tin định danh)
-[ ] - Identity document information - Thông tin giấy tờ tùy thân
-[ ] - Document type - Loại giấy tờ
-[ ] - Document number - Số giấy tờ
-[ ] - Issue date - Ngày cấp
-[ ] - Issue place - Nơi cấp
-[ ] - Expiry date - Ngày hết hạn
-[ ] - Validation - Kiểm tra dữ liệu nhập
+[X] - Identity document information - Thông tin giấy tờ tùy thân
+[X] - Document type - Loại giấy tờ
+[X] - Document number - Số giấy tờ
+[X] - Issue date - Ngày cấp
+[X] - Issue place - Nơi cấp
+[X] - Expiry date - Ngày hết hạn
+[X] - Validation - Kiểm tra dữ liệu nhập
 
 2.4. Career Objective (Mục tiêu nghề nghiệp)
 [ ] - Career objective text - Mục tiêu nghề nghiệp ngắn hạn/dài hạn
@@ -744,6 +744,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - profiles - Bảng thông tin cá nhân
 [X] - socialAccounts - Bảng tài khoản xã hội
 [X] - sessions - Bảng session đăng nhập
+[X] - identityDocuments - Bảng giấy tờ định danh
 [ ] - educations - Bảng học vấn
 [ ] - experiences - Bảng kinh nghiệm
 [ ] - skills - Bảng kỹ năng
@@ -768,6 +769,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → Profile (1:1) - Người dùng → Hồ sơ
 [X] - User → SocialAccount (1:N) - Người dùng → Tài khoản xã hội
 [X] - User → Session (1:N) - Người dùng → Session
+[X] - User → IdentityDocument (1:N) - Người dùng → Giấy tờ định danh
 [ ] - User → Education (1:N) - Người dùng → Học vấn
 [ ] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [ ] - User → Skill (1:N) - Người dùng → Kỹ năng
@@ -842,7 +844,15 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - POST /profile/avatar - Cập nhật ảnh đại diện (file upload riêng)
 [ ] - DELETE /profile/avatar - Xóa ảnh đại diện
 
-18.3. Education Endpoints
+18.3. Identity Document Endpoints
+[X] - GET /identity-documents - Lấy danh sách giấy tờ định danh
+[X] - POST /identity-documents - Thêm giấy tờ định danh
+[X] - GET /identity-documents/:id - Lấy chi tiết giấy tờ
+[X] - PUT /identity-documents/:id - Cập nhật giấy tờ định danh
+[X] - DELETE /identity-documents/:id - Xóa giấy tờ định danh
+[X] - POST /identity-documents/validate - Kiểm tra dữ liệu giấy tờ
+
+18.4. Education Endpoints
 [ ] - GET /educations - Lấy danh sách học vấn
 [ ] - POST /educations - Thêm học vấn
 [ ] - PUT /educations/:id - Cập nhật học vấn
@@ -1063,7 +1073,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 83
+Số lượng tính năng đã implement: 89
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
