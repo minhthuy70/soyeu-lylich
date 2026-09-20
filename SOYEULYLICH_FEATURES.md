@@ -368,15 +368,15 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 8.1. Resume Builder (Tạo sơ yếu lý lịch)
-[ ] - Resume overview - Tổng quan sơ yếu lý lịch
-[ ] - Section management - Quản lý các phần
-[ ] - Enable/disable sections - Bật/tắt từng phần
-[ ] - Drag and drop section ordering - Kéo thả sắp xếp phần
-[ ] - Preview resume - Xem trước sơ yếu lý lịch
-[ ] - Auto-save changes - Tự động lưu thay đổi
-[ ] - Form validation - Kiểm tra biểu mẫu
-[ ] - Custom section name - Tùy chỉnh tên phần
-[ ] - Section description - Mô tả từng phần
+[X] - Resume overview - Tổng quan sơ yếu lý lịch
+[X] - Section management - Quản lý các phần
+[X] - Enable/disable sections - Bật/tắt từng phần
+[X] - Drag and drop section ordering - Kéo thả sắp xếp phần
+[X] - Preview resume - Xem trước sơ yếu lý lịch
+[X] - Auto-save changes - Tự động lưu thay đổi
+[X] - Form validation - Kiểm tra biểu mẫu
+[X] - Custom section name - Tùy chỉnh tên phần
+[X] - Section description - Mô tả từng phần
 
 8.2. Resume Templates (Mẫu sơ yếu lý lịch)
 [ ] - Template list - Danh sách mẫu
@@ -763,6 +763,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - activities - Bảng hoạt động
 [X] - publications - Bảng công bố/bài viết
 [X] - patents - Bảng bằng sáng chế
+[X] - resumes - Bảng sơ yếu lý lịch
+[X] - resumeSections - Bảng phần sơ yếu lý lịch
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -804,7 +806,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → Activity (1:N) - Người dùng → Hoạt động
 [X] - User → Publication (1:N) - Người dùng → Công bố
 [X] - User → Patent (1:N) - Người dùng → Bằng sáng chế
-[ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
+[X] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
+[X] - Resume → ResumeSection (1:N) - Sơ yếu lý lịch → Phần
 [ ] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
 [ ] - User → Notification (1:N) - Người dùng → Thông báo
 
@@ -1001,6 +1004,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /patents/:id - Lấy chi tiết bằng sáng chế
 [X] - PUT /patents/:id - Cập nhật bằng sáng chế
 [X] - DELETE /patents/:id - Xóa bằng sáng chế
+
+18.21. Resume Endpoints
+[X] - GET /resumes - Lấy danh sách sơ yếu lý lịch
+[X] - POST /resumes - Tạo sơ yếu lý lịch mới
+[X] - GET /resumes/:id - Lấy chi tiết sơ yếu lý lịch
+[X] - PUT /resumes/:id - Cập nhật sơ yếu lý lịch
+[X] - DELETE /resumes/:id - Xóa sơ yếu lý lịch
+[X] - POST /resumes/:resumeId/sections - Thêm phần vào sơ yếu lý lịch
+[X] - PUT /resumes/:resumeId/sections/:sectionId - Cập nhật phần
+[X] - DELETE /resumes/:resumeId/sections/:sectionId - Xóa phần
+[X] - POST /resumes/:resumeId/sections/reorder - Sắp xếp lại phần
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1217,7 +1231,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 264
+Số lượng tính năng đã implement: 272
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

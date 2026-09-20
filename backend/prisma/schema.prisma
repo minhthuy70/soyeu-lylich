@@ -37,6 +37,7 @@ model User {
   activities              Activity[]
   publications            Publication[]
   patents                 Patent[]
+  resumes                 Resume[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -404,6 +405,33 @@ model Patent {
   filingDate      DateTime?
   status          String? // 'Pending', 'Granted', 'Rejected', 'Abandoned'
   description     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Resume {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title           String
+  template        String? // 'Modern', 'Professional', 'Minimal', 'Academic', 'Creative', 'TwoColumn', 'Infographic'
+  colorScheme     String?
+  font            String?
+  isDefault       Boolean  @default(false)
+  sections        ResumeSection[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ResumeSection {
+  id              Int      @id @default(autoincrement())
+  resumeId        Int
+  resume          Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  sectionType     String // 'BasicInfo', 'Contact', 'Identity', 'CareerObjective', 'Skills', 'Experience', 'Education', 'Certificates', 'Projects', 'Activities', 'Achievements', 'Publications', 'Patents'
+  customName      String?
+  description     String?
+  isEnabled       Boolean  @default(true)
+  order           Int      @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
