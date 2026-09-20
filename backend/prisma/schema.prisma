@@ -36,6 +36,7 @@ model User {
   achievements            Achievement[]
   activities              Activity[]
   publications            Publication[]
+  patents                 Patent[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -390,6 +391,19 @@ model Publication {
   doi             String?
   url             String?
   abstract        String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Patent {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  patentNumber    String?
+  title           String
+  filingDate      DateTime?
+  status          String? // 'Pending', 'Granted', 'Rejected', 'Abandoned'
+  description     String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

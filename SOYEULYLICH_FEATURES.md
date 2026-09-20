@@ -352,13 +352,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Edit/Delete publication - Chỉnh sửa/Xóa
 
 7.5. Patents & Intellectual Property (Bằng sáng chế & SHTT)
-[ ] - Add patent - Thêm bằng sáng chế
-[ ] - Patent number - Số bằng sáng chế
-[ ] - Patent title - Tiêu đề
-[ ] - Filing date - Ngày nộp đơn
-[ ] - Status - Trạng thái
-[ ] - Description - Mô tả
-[ ] - Edit/Delete patent - Chỉnh sửa/Xóa
+[X] - Add patent - Thêm bằng sáng chế
+[X] - Patent number - Số bằng sáng chế
+[X] - Patent title - Tiêu đề
+[X] - Filing date - Ngày nộp đơn
+[X] - Status - Trạng thái
+[X] - Description - Mô tả
+[X] - Edit/Delete patent - Chỉnh sửa/Xóa
 
 
 ================================================================================
@@ -762,6 +762,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - achievements - Bảng thành tích
 [X] - activities - Bảng hoạt động
 [X] - publications - Bảng công bố/bài viết
+[X] - patents - Bảng bằng sáng chế
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -802,6 +803,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → Achievement (1:N) - Người dùng → Thành tích
 [X] - User → Activity (1:N) - Người dùng → Hoạt động
 [X] - User → Publication (1:N) - Người dùng → Công bố
+[X] - User → Patent (1:N) - Người dùng → Bằng sáng chế
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
 [ ] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
 [ ] - User → Notification (1:N) - Người dùng → Thông báo
@@ -992,6 +994,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /publications/:id - Lấy chi tiết công bố
 [X] - PUT /publications/:id - Cập nhật công bố
 [X] - DELETE /publications/:id - Xóa công bố
+
+18.20. Patent Endpoints
+[X] - GET /patents - Lấy danh sách bằng sáng chế
+[X] - POST /patents - Thêm bằng sáng chế mới
+[X] - GET /patents/:id - Lấy chi tiết bằng sáng chế
+[X] - PUT /patents/:id - Cập nhật bằng sáng chế
+[X] - DELETE /patents/:id - Xóa bằng sáng chế
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1208,7 +1217,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 258
+Số lượng tính năng đã implement: 264
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
