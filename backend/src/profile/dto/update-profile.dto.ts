@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsInt, IsDateString } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsDateString, IsArray, IsUrl, IsEmail } from 'class-validator';
 
 export class UpdateProfileDto {
   @IsString()
@@ -68,4 +68,24 @@ export class UpdateProfileDto {
   @IsString()
   @IsOptional()
   permanentAddress?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsEmail()
+  email?: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsUrl({}, { each: true })
+  @IsOptional()
+  socialLinks?: string[];
+
+  @IsString()
+  @IsOptional()
+  @IsUrl()
+  personalWebsite?: string;
+
+  @IsString()
+  @IsOptional()
+  emergencyContact?: string;
 }

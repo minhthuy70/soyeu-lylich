@@ -49,6 +49,10 @@ model Profile {
   secondaryPhone String?
   currentAddress String?
   permanentAddress String?
+  email        String?
+  socialLinks   String[] // Array of social media URLs
+  personalWebsite String?
+  emergencyContact String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

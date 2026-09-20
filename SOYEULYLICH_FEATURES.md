@@ -84,14 +84,14 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Height/Weight - Chiều cao/Cân nặng (tùy chọn)
 
 2.2. Contact Information (Thông tin liên hệ)
-[ ] - Phone number - Số điện thoại
-[ ] - Secondary phone - Số điện thoại phụ
-[ ] - Email address - Địa chỉ email
-[ ] - Current address - Địa chỉ hiện tại
-[ ] - Permanent address - Địa chỉ thường trú
-[ ] - Social links - Liên kết mạng xã hội
-[ ] - Personal website - Website cá nhân
-[ ] - Emergency contact - Liên hệ khẩn cấp
+[X] - Phone number - Số điện thoại
+[X] - Secondary phone - Số điện thoại phụ
+[X] - Email address - Địa chỉ email
+[X] - Current address - Địa chỉ hiện tại
+[X] - Permanent address - Địa chỉ thường trú
+[X] - Social links - Liên kết mạng xã hội
+[X] - Personal website - Website cá nhân
+[X] - Emergency contact - Liên hệ khẩn cấp
 
 2.3. Identity Information (Thông tin định danh)
 [ ] - Identity document information - Thông tin giấy tờ tùy thân
@@ -1063,7 +1063,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 75
+Số lượng tính năng đã implement: 83
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
