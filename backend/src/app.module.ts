@@ -15,6 +15,7 @@ import { ToolSkillModule } from './tool-skill/tool-skill.module';
 import { ProjectModule } from './project/project.module';
 import { ProjectImageModule } from './project-image/project-image.module';
 import { ProjectAnalyticsModule } from './project-analytics/project-analytics.module';
+import { AchievementModule } from './achievement/achievement.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -36,6 +37,7 @@ import { PrismaModule } from './prisma/prisma.module';
     ProjectModule,
     ProjectImageModule,
     ProjectAnalyticsModule,
+    AchievementModule,
   ],
 })
 export class AppModule {}

@@ -308,17 +308,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 7.1. Achievements (Thành tích)
-[ ] - Add achievement - Thêm thành tích
-[ ] - Edit achievement - Chỉnh sửa thành tích
-[ ] - Delete achievement - Xóa thành tích
-[ ] - Achievement title - Tên thành tích
-[ ] - Organization - Đơn vị
-[ ] - Achievement date - Ngày đạt được
-[ ] - Description - Mô tả
-[ ] - Evidence URL - Liên kết minh chứng
-[ ] - Achievement image - Hình ảnh minh chứng
-[ ] - Achievement category - Phân loại thành tích (học thuật, nghề nghiệp, thể thao...)
-[ ] - Achievement level - Cấp độ thành tích (cấp trường, cấp tỉnh, quốc gia...)
+[X] - Add achievement - Thêm thành tích
+[X] - Edit achievement - Chỉnh sửa thành tích
+[X] - Delete achievement - Xóa thành tích
+[X] - Achievement title - Tên thành tích
+[X] - Organization - Đơn vị
+[X] - Achievement date - Ngày đạt được
+[X] - Description - Mô tả
+[X] - Evidence URL - Liên kết minh chứng
+[X] - Achievement image - Hình ảnh minh chứng
+[X] - Achievement category - Phân loại thành tích (học thuật, nghề nghiệp, thể thao...)
+[X] - Achievement level - Cấp độ thành tích (cấp trường, cấp tỉnh, quốc gia...)
 
 7.2. Activities (Hoạt động)
 [ ] - Add activity - Thêm hoạt động
@@ -759,6 +759,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - projectImages - Bảng ảnh dự án
 [X] - projectViews - Bảng lượt xem dự án
 [X] - projectClicks - Bảng lượt click dự án
+[X] - achievements - Bảng thành tích
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -796,7 +797,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Project → ProjectImage (1:N) - Dự án → Ảnh dự án
 [X] - Project → ProjectView (1:N) - Dự án → Lượt xem
 [X] - Project → ProjectClick (1:N) - Dự án → Lượt click
-[ ] - User → Achievement (1:N) - Người dùng → Thành tích
+[X] - User → Achievement (1:N) - Người dùng → Thành tích
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
 [ ] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
 [ ] - User → Notification (1:N) - Người dùng → Thông báo
@@ -966,6 +967,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /project-analytics/stats/:projectId - Lấy thống kê dự án
 [X] - GET /project-analytics/most-viewed - Lấy danh sách dự án được xem nhiều nhất
 [X] - GET /project-analytics/all-stats - Lấy thống kê tất cả dự án
+
+18.17. Achievement Endpoints
+[X] - GET /achievements - Lấy danh sách thành tích
+[X] - POST /achievements - Thêm thành tích mới
+[X] - GET /achievements/:id - Lấy chi tiết thành tích
+[X] - PUT /achievements/:id - Cập nhật thành tích
+[X] - DELETE /achievements/:id - Xóa thành tích
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1182,7 +1190,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 224
+Số lượng tính năng đã implement: 235
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

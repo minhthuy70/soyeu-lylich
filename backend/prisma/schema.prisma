@@ -33,6 +33,7 @@ model User {
   languageSkills          LanguageSkill[]
   toolSkills               ToolSkill[]
   projects                Project[]
+  achievements            Achievement[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -341,4 +342,20 @@ model ProjectClick {
   clickType       String // 'github', 'demo', 'image'
   clickUrl        String?
   clickedAt       DateTime @default(now())
+}
+
+model Achievement {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title           String
+  organization    String?
+  achievementDate DateTime?
+  description     String?
+  evidenceUrl     String?
+  imageUrl        String?
+  category        String? // 'Academic', 'Professional', 'Sports', 'Arts', 'Other'
+  level           String? // 'School', 'District', 'Provincial', 'National', 'International'
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
