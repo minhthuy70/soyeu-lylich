@@ -266,26 +266,26 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 6.1. Project Management (Quản lý dự án)
-[ ] - Add project - Thêm dự án
-[ ] - Edit project - Chỉnh sửa dự án
-[ ] - Delete project - Xóa dự án
-[ ] - Project title - Tên dự án
-[ ] - Project description - Mô tả dự án
-[ ] - Project role - Vai trò trong dự án
-[ ] - Project duration - Thời gian thực hiện
-[ ] - Technologies - Công nghệ sử dụng
-[ ] - Project images - Hình ảnh dự án
-[ ] - GitHub URL - Liên kết GitHub
-[ ] - Demo URL - Liên kết Demo
-[ ] - Project status - Trạng thái dự án
-[ ] - Project ordering - Sắp xếp dự án
-[ ] - Project category - Phân loại dự án
-[ ] - Team size - Quy mô nhóm
-[ ] - Project highlights - Điểm nổi bật dự án
-[ ] - Challenges faced - Thách thức gặp phải
-[ ] - Solutions applied - Giải pháp áp dụng
-[ ] - Project impact - Tác động/kết quả dự án
-[ ] - Client/Company - Khách hàng/Công ty
+[X] - Add project - Thêm dự án
+[X] - Edit project - Chỉnh sửa dự án
+[X] - Delete project - Xóa dự án
+[X] - Project title - Tên dự án
+[X] - Project description - Mô tả dự án
+[X] - Project role - Vai trò trong dự án
+[X] - Project duration - Thời gian thực hiện
+[X] - Technologies - Công nghệ sử dụng
+[X] - Project images - Hình ảnh dự án
+[X] - GitHub URL - Liên kết GitHub
+[X] - Demo URL - Liên kết Demo
+[X] - Project status - Trạng thái dự án
+[X] - Project ordering - Sắp xếp dự án
+[X] - Project category - Phân loại dự án
+[X] - Team size - Quy mô nhóm
+[X] - Project highlights - Điểm nổi bật dự án
+[X] - Challenges faced - Thách thức gặp phải
+[X] - Solutions applied - Giải pháp áp dụng
+[X] - Project impact - Tác động/kết quả dự án
+[X] - Client/Company - Khách hàng/Công ty
 
 6.2. Project Gallery (Thư viện dự án)
 [ ] - Project image gallery - Thư viện ảnh dự án
@@ -755,6 +755,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - softSkills - Bảng kỹ năng mềm
 [X] - languageSkills - Bảng ngoại ngữ
 [X] - toolSkills - Bảng kỹ năng công cụ
+[X] - projects - Bảng dự án
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -788,7 +789,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → SoftSkill (1:N) - Người dùng → Kỹ năng mềm
 [X] - User → LanguageSkill (1:N) - Người dùng → Ngoại ngữ
 [X] - User → ToolSkill (1:N) - Người dùng → Kỹ năng công cụ
-[ ] - User → Project (1:N) - Người dùng → Dự án
+[X] - User → Project (1:N) - Người dùng → Dự án
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
 [ ] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
@@ -936,6 +937,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /tool-skills/:id - Lấy chi tiết kỹ năng công cụ
 [X] - PUT /tool-skills/:id - Cập nhật kỹ năng công cụ
 [X] - DELETE /tool-skills/:id - Xóa kỹ năng công cụ
+
+18.14. Project Endpoints
+[X] - GET /projects - Lấy danh sách dự án
+[X] - POST /projects - Thêm dự án mới
+[X] - GET /projects/:id - Lấy chi tiết dự án
+[X] - PUT /projects/:id - Cập nhật dự án
+[X] - DELETE /projects/:id - Xóa dự án
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1152,7 +1160,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 195
+Số lượng tính năng đã implement: 215
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
