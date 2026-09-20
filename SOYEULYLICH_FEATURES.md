@@ -127,22 +127,22 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 3.1. Education Management (Quản lý học vấn)
-[ ] - Add education - Thêm quá trình học tập
-[ ] - Edit education - Chỉnh sửa quá trình học tập
-[ ] - Delete education - Xóa quá trình học tập
-[ ] - Education timeline - Timeline học vấn
-[ ] - School name - Tên trường
-[ ] - Major - Chuyên ngành
-[ ] - Degree - Bằng cấp
-[ ] - Start date - Ngày bắt đầu
-[ ] - End date - Ngày kết thúc
-[ ] - Current study status - Trạng thái đang học
-[ ] - GPA - Điểm trung bình
-[ ] - Academic achievements - Thành tích học tập
-[ ] - Education description - Mô tả quá trình học tập
-[ ] - Thesis/Graduation topic - Đề tài luận văn/đồ án tốt nghiệp
-[ ] - Relevant coursework - Môn học liên quan
-[ ] - Study abroad experience - Kinh nghiệm du học
+[X] - Add education - Thêm quá trình học tập
+[X] - Edit education - Chỉnh sửa quá trình học tập
+[X] - Delete education - Xóa quá trình học tập
+[X] - Education timeline - Timeline học vấn
+[X] - School name - Tên trường
+[X] - Major - Chuyên ngành
+[X] - Degree - Bằng cấp
+[X] - Start date - Ngày bắt đầu
+[X] - End date - Ngày kết thúc
+[X] - Current study status - Trạng thái đang học
+[X] - GPA - Điểm trung bình
+[X] - Academic achievements - Thành tích học tập
+[X] - Education description - Mô tả quá trình học tập
+[X] - Thesis/Graduation topic - Đề tài luận văn/đồ án tốt nghiệp
+[X] - Relevant coursework - Môn học liên quan
+[X] - Study abroad experience - Kinh nghiệm du học
 
 3.2. Certificates (Chứng chỉ)
 [ ] - Add certificate - Thêm chứng chỉ
@@ -746,7 +746,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - sessions - Bảng session đăng nhập
 [X] - identityDocuments - Bảng giấy tờ định danh
 [X] - references - Bảng người tham chiếu
-[ ] - educations - Bảng học vấn
+[X] - educations - Bảng học vấn
 [ ] - experiences - Bảng kinh nghiệm
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
@@ -772,7 +772,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → Session (1:N) - Người dùng → Session
 [X] - User → IdentityDocument (1:N) - Người dùng → Giấy tờ định danh
 [X] - User → Reference (1:N) - Người dùng → Người tham chiếu
-[ ] - User → Education (1:N) - Người dùng → Học vấn
+[X] - User → Education (1:N) - Người dùng → Học vấn
 [ ] - User → Experience (1:N) - Người dùng → Kinh nghiệm
 [ ] - User → Skill (1:N) - Người dùng → Kỹ năng
 [ ] - User → Certificate (1:N) - Người dùng → Chứng chỉ
@@ -862,10 +862,11 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - DELETE /references/:id - Xóa người tham chiếu
 
 18.5. Education Endpoints
-[ ] - GET /educations - Lấy danh sách học vấn
-[ ] - POST /educations - Thêm học vấn
-[ ] - PUT /educations/:id - Cập nhật học vấn
-[ ] - DELETE /educations/:id - Xóa học vấn
+[X] - GET /educations - Lấy danh sách học vấn
+[X] - POST /educations - Thêm học vấn
+[X] - GET /educations/:id - Lấy chi tiết học vấn
+[X] - PUT /educations/:id - Cập nhật học vấn
+[X] - DELETE /educations/:id - Xóa học vấn
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1082,7 +1083,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 101
+Số lượng tính năng đã implement: 116
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

@@ -3,6 +3,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { IdentityModule } from './identity/identity.module';
 import { ReferenceModule } from './reference/reference.module';
+import { EducationModule } from './education/education.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -12,6 +13,7 @@ import { PrismaModule } from './prisma/prisma.module';
     ProfileModule,
     IdentityModule,
     ReferenceModule,
+    EducationModule,
   ],
 })
 export class AppModule {}
