@@ -34,6 +34,7 @@ model User {
   toolSkills               ToolSkill[]
   projects                Project[]
   achievements            Achievement[]
+  activities              Activity[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -356,6 +357,22 @@ model Achievement {
   imageUrl        String?
   category        String? // 'Academic', 'Professional', 'Sports', 'Arts', 'Other'
   level           String? // 'School', 'District', 'Provincial', 'National', 'International'
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Activity {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization    String
+  position        String?
+  startDate       DateTime?
+  endDate         DateTime?
+  description     String?
+  achievements    String[]
+  type            String? // 'Volunteer', 'Club', 'Sports', 'Cultural', 'Academic', 'Other'
+  memberCount     Int?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

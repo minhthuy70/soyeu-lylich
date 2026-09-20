@@ -321,16 +321,16 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Achievement level - Cấp độ thành tích (cấp trường, cấp tỉnh, quốc gia...)
 
 7.2. Activities (Hoạt động)
-[ ] - Add activity - Thêm hoạt động
-[ ] - Edit activity - Chỉnh sửa hoạt động
-[ ] - Delete activity - Xóa hoạt động
-[ ] - Organization name - Tên tổ chức
-[ ] - Position/role - Vai trò
-[ ] - Activity period - Thời gian
-[ ] - Activity description - Mô tả hoạt động
-[ ] - Achievements - Thành tích đạt được
-[ ] - Activity type - Loại hoạt động (tình nguyện, CLB, thể thao...)
-[ ] - Member count - Số lượng thành viên tham gia
+[X] - Add activity - Thêm hoạt động
+[X] - Edit activity - Chỉnh sửa hoạt động
+[X] - Delete activity - Xóa hoạt động
+[X] - Organization name - Tên tổ chức
+[X] - Position/role - Vai trò
+[X] - Activity period - Thời gian
+[X] - Activity description - Mô tả hoạt động
+[X] - Achievements - Thành tích đạt được
+[X] - Activity type - Loại hoạt động (tình nguyện, CLB, thể thao...)
+[X] - Member count - Số lượng thành viên tham gia
 
 7.3. Volunteering (Tình nguyện)
 [ ] - Add volunteer experience - Thêm kinh nghiệm tình nguyện
@@ -760,6 +760,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - projectViews - Bảng lượt xem dự án
 [X] - projectClicks - Bảng lượt click dự án
 [X] - achievements - Bảng thành tích
+[X] - activities - Bảng hoạt động
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -798,6 +799,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Project → ProjectView (1:N) - Dự án → Lượt xem
 [X] - Project → ProjectClick (1:N) - Dự án → Lượt click
 [X] - User → Achievement (1:N) - Người dùng → Thành tích
+[X] - User → Activity (1:N) - Người dùng → Hoạt động
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
 [ ] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
 [ ] - User → Notification (1:N) - Người dùng → Thông báo
@@ -974,6 +976,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /achievements/:id - Lấy chi tiết thành tích
 [X] - PUT /achievements/:id - Cập nhật thành tích
 [X] - DELETE /achievements/:id - Xóa thành tích
+
+18.18. Activity Endpoints
+[X] - GET /activities - Lấy danh sách hoạt động
+[X] - POST /activities - Thêm hoạt động mới
+[X] - GET /activities/:id - Lấy chi tiết hoạt động
+[X] - PUT /activities/:id - Cập nhật hoạt động
+[X] - DELETE /activities/:id - Xóa hoạt động
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1190,7 +1199,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 235
+Số lượng tính năng đã implement: 245
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
