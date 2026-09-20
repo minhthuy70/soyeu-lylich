@@ -252,11 +252,11 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - CEFR level - Mức độ theo khung CEFR
 
 5.4. Tool & Software Skills (Kỹ năng công cụ)
-[ ] - Add tool/software - Thêm công cụ/phần mềm
-[ ] - Tool category - Phân loại công cụ
-[ ] - Proficiency level - Mức độ thành thạo
-[ ] - Years of use - Số năm sử dụng
-[ ] - Edit/Delete tool - Chỉnh sửa/Xóa công cụ
+[X] - Add tool/software - Thêm công cụ/phần mềm
+[X] - Tool category - Phân loại công cụ
+[X] - Proficiency level - Mức độ thành thạo
+[X] - Years of use - Số năm sử dụng
+[X] - Edit/Delete tool - Chỉnh sửa/Xóa công cụ
 
 
 ================================================================================
@@ -754,6 +754,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - skills - Bảng kỹ năng
 [X] - softSkills - Bảng kỹ năng mềm
 [X] - languageSkills - Bảng ngoại ngữ
+[X] - toolSkills - Bảng kỹ năng công cụ
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -786,6 +787,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → Skill (1:N) - Người dùng → Kỹ năng
 [X] - User → SoftSkill (1:N) - Người dùng → Kỹ năng mềm
 [X] - User → LanguageSkill (1:N) - Người dùng → Ngoại ngữ
+[X] - User → ToolSkill (1:N) - Người dùng → Kỹ năng công cụ
 [ ] - User → Project (1:N) - Người dùng → Dự án
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
 [ ] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
@@ -927,6 +929,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /language-skills/:id - Lấy chi tiết ngoại ngữ
 [X] - PUT /language-skills/:id - Cập nhật ngoại ngữ
 [X] - DELETE /language-skills/:id - Xóa ngoại ngữ
+
+18.13. Tool Skill Endpoints
+[X] - GET /tool-skills - Lấy danh sách kỹ năng công cụ
+[X] - POST /tool-skills - Thêm kỹ năng công cụ
+[X] - GET /tool-skills/:id - Lấy chi tiết kỹ năng công cụ
+[X] - PUT /tool-skills/:id - Cập nhật kỹ năng công cụ
+[X] - DELETE /tool-skills/:id - Xóa kỹ năng công cụ
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1143,7 +1152,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 190
+Số lượng tính năng đã implement: 195
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
