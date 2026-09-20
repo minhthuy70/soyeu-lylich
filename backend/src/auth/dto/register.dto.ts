@@ -3,6 +3,8 @@ import {
   IsNotEmpty,
   IsString,
   MinLength,
+  IsBoolean,
+  IsOptional,
 } from 'class-validator';
 
 export class RegisterDto {
@@ -20,4 +22,12 @@ export class RegisterDto {
   @IsString()
   @IsNotEmpty({ message: 'Vui lòng xác nhận mật khẩu' })
   confirmPassword: string;
+
+  @IsBoolean()
+  @IsNotEmpty({ message: 'Vui lòng đồng ý điều khoản sử dụng' })
+  agreeTerms: boolean;
+
+  @IsBoolean()
+  @IsNotEmpty({ message: 'Vui lòng đồng ý chính sách bảo mật' })
+  agreePrivacy: boolean;
 }

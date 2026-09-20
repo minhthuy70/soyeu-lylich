@@ -7,11 +7,11 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 1.1. Registration (Đăng ký)
-[ ] - Đăng ký bằng email/password - Cho phép người dùng tạo tài khoản mới với email và mật khẩu
-[ ] - Email verification - Xác thực email sau khi đăng ký
-[ ] - Password strength indicator - Hiển thị độ mạnh của mật khẩu
-[ ] - Terms & conditions checkbox - Đồng ý điều khoản sử dụng
-[ ] - Privacy policy checkbox - Đồng ý chính sách bảo mật
+[X] - Đăng ký bằng email/password - Cho phép người dùng tạo tài khoản mới với email và mật khẩu
+[X] - Email verification - Xác thực email sau khi đăng ký
+[X] - Password strength indicator - Hiển thị độ mạnh của mật khẩu
+[X] - Terms & conditions checkbox - Đồng ý điều khoản sử dụng
+[X] - Privacy policy checkbox - Đồng ý chính sách bảo mật
 
 1.2. Login (Đăng nhập)
 [ ] - Login bằng email/password - Đăng nhập bằng email và mật khẩu
@@ -584,7 +584,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 13.1. Responsive Breakpoints
-[ ] - Mobile (< 768px) - Mobile
+[X] - Mobile (< 768px) - Mobile
 [ ] - Tablet (768px - 1279px) - Tablet
 [ ] - Desktop (1280px+) - Desktop
 [ ] - Wide (1440px+) - Wide
@@ -630,7 +630,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - High contrast mode - Chế độ tương phản cao
 
 14.2. UI Customization
-[ ] - Primary color selection - Chọn màu chủ đạo
+[X] - Primary color selection - Chọn màu chủ đạo
 [ ] - Font selection - Chọn font chữ
 [ ] - Resume accent color - Màu nhấn sơ yếu lý lịch
 [ ] - Layout customization - Tùy chỉnh bố cục
@@ -650,10 +650,11 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 15.1. Error States
-[ ] - Network error handling - Xử lý lỗi mạng
-[ ] - API error handling - Xử lý lỗi API
-[ ] - Validation error display - Hiển thị lỗi nhập liệu
+[X] - Network error handling - Xử lý lỗi mạng
+[X] - API error handling - Xử lý lỗi API
+[X] - Validation error display - Hiển thị lỗi nhập liệu
 [ ] - 401 Unauthorized handling - Xử lý 401 Unauthorized
+[X] - 409 Conflict handling - Xử lý 409 Conflict (email trùng)
 [ ] - 403 Forbidden handling - Xử lý 403 Forbidden
 [ ] - 404 Not Found handling - Xử lý 404 Not Found
 [ ] - 500 Server Error handling - Xử lý lỗi server
@@ -663,18 +664,21 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Rate limit error handling - Xử lý lỗi vượt giới hạn request
 
 15.2. Loading States
-[ ] - Loading spinner - Spinner tải dữ liệu
+[X] - Loading spinner - Spinner tải dữ liệu
 [ ] - Skeleton screens - Skeleton loading
-[ ] - Disabled buttons during submit - Khóa nút khi gửi form
+[X] - Disabled buttons during submit - Khóa nút khi gửi form
 [ ] - Loading overlays - Overlay đang tải
 [ ] - Progress indicators - Chỉ báo tiến độ
 [ ] - Optimistic UI updates - Cập nhật UI lạc quan
 
 15.3. Form Validation
-[ ] - Required field validation - Kiểm tra trường bắt buộc
-[ ] - Email format validation - Kiểm tra định dạng email
+[X] - Required field validation - Kiểm tra trường bắt buộc
+[X] - Email format validation - Kiểm tra định dạng email
 [ ] - Date range validation - Kiểm tra khoảng thời gian hợp lệ
+[X] - Max length validation - Kiểm tra độ dài tối đa
 [ ] - URL format validation - Kiểm tra định dạng URL
+[X] - Real-time inline validation - Kiểm tra theo thời gian thực
+[X] - Checkbox validation - Kiểm tra checkbox (terms & privacy)
 [ ] - File size validation - Kiểm tra kích thước file
 [ ] - File type validation - Kiểm tra loại file
 [ ] - Max length validation - Kiểm tra độ dài tối đa
@@ -688,7 +692,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 16.1. Authentication Security
-[ ] - Password hashing - Băm mật khẩu
+[X] - Password hashing - Băm mật khẩu
 [ ] - JWT authentication - Xác thực JWT
 [ ] - Token expiration - Thời hạn token
 [ ] - Secure password storage - Lưu mật khẩu an toàn
@@ -706,8 +710,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Resource ownership validation - Kiểm tra quyền sở hữu tài nguyên
 
 16.3. Data Security
-[ ] - Input validation - Kiểm tra dữ liệu đầu vào
-[ ] - DTO validation - Kiểm tra DTO
+[X] - Input validation - Kiểm tra dữ liệu đầu vào
+[X] - DTO validation - Kiểm tra DTO
 [ ] - SQL injection protection - Bảo vệ SQL injection
 [ ] - XSS prevention - Phòng chống XSS
 [ ] - CSRF protection - Bảo vệ CSRF
@@ -735,7 +739,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 17.1. Core Tables (Các bảng chính)
-[ ] - users - Bảng người dùng
+[X] - users - Bảng người dùng (bao gồm email verification)
 [ ] - profiles - Bảng thông tin cá nhân
 [ ] - educations - Bảng học vấn
 [ ] - experiences - Bảng kinh nghiệm
@@ -770,7 +774,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - User → Notification (1:N) - Người dùng → Thông báo
 
 17.3. Database Constraints
-[ ] - User.email unique - Email người dùng duy nhất
+[X] - User.email unique - Email người dùng duy nhất
 [ ] - Foreign key constraints - Ràng buộc khóa ngoại
 [ ] - Cascade delete - Xóa dữ liệu liên quan
 [ ] - Required field constraints - Ràng buộc trường bắt buộc
@@ -785,9 +789,10 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 18.1. Authentication Endpoints
-[ ] - POST /auth/register - Đăng ký
+[X] - POST /auth/register - Đăng ký
 [ ] - POST /auth/login - Đăng nhập
 [ ] - GET /auth/me - Lấy thông tin người dùng hiện tại
+[X] - GET /auth/verify-email - Xác thực email
 [ ] - POST /auth/forgot-password - Quên mật khẩu
 [ ] - POST /auth/reset-password - Đặt lại mật khẩu
 [ ] - POST /auth/logout - Đăng xuất
@@ -932,7 +937,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Certificate expiry reminder - Nhắc nhở chứng chỉ sắp hết hạn
 
 21.2. Email Notifications
-[ ] - Account verification email - Email xác thực tài khoản
+[X] - Account verification email - Email xác thực tài khoản (logic đã implement, cần cấu hình email service)
 [ ] - Password reset email - Email đặt lại mật khẩu
 [ ] - Security alert email - Email cảnh báo bảo mật
 [ ] - Resume sharing notification - Thông báo chia sẻ sơ yếu lý lịch
@@ -1025,9 +1030,9 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 0
+Số lượng tính năng đã implement: 23
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
-Last Updated: 2026-09-09
+Last Updated: 2026-09-20
 Version: 1.0
