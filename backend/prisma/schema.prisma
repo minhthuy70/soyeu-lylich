@@ -27,6 +27,7 @@ model User {
   certificates            Certificate[]
   onlineCourses           OnlineCourse[]
   experiences             Experience[]
+  freelanceProjects       FreelanceProject[]
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
@@ -199,4 +200,22 @@ model Experience {
   supervisorName      String?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
+}
+
+model FreelanceProject {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clientName      String
+  projectScope    String?
+  rate            String?
+  budget          String?
+  duration        String?
+  startDate       DateTime?
+  endDate         DateTime?
+  technologies    String[]
+  outcome         String?
+  description     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

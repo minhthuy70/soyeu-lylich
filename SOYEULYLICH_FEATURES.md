@@ -199,13 +199,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Supervisor name - Tên người quản lý trực tiếp
 
 4.2. Freelance / Contract Work
-[ ] - Add freelance project - Thêm dự án freelance
-[ ] - Client name - Tên khách hàng
-[ ] - Project scope - Phạm vi dự án
-[ ] - Rate/Budget - Mức phí/ngân sách
-[ ] - Duration - Thời gian thực hiện
-[ ] - Technologies - Công nghệ sử dụng
-[ ] - Outcome - Kết quả đạt được
+[X] - Add freelance project - Thêm dự án freelance
+[X] - Client name - Tên khách hàng
+[X] - Project scope - Phạm vi dự án
+[X] - Rate/Budget - Mức phí/ngân sách
+[X] - Duration - Thời gian thực hiện
+[X] - Technologies - Công nghệ sử dụng
+[X] - Outcome - Kết quả đạt được
 
 
 ================================================================================
@@ -750,6 +750,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - certificates - Bảng chứng chỉ
 [X] - onlineCourses - Bảng khóa học trực tuyến
 [X] - experiences - Bảng kinh nghiệm
+[X] - freelanceProjects - Bảng dự án freelance
 [ ] - skills - Bảng kỹ năng
 [ ] - languages - Bảng ngoại ngữ
 [ ] - certificates - Bảng chứng chỉ
@@ -778,6 +779,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → Certificate (1:N) - Người dùng → Chứng chỉ
 [X] - User → OnlineCourse (1:N) - Người dùng → Khóa học trực tuyến
 [X] - User → Experience (1:N) - Người dùng → Kinh nghiệm
+[X] - User → FreelanceProject (1:N) - Người dùng → Dự án freelance
 [ ] - User → Skill (1:N) - Người dùng → Kỹ năng
 [ ] - User → Project (1:N) - Người dùng → Dự án
 [ ] - User → Achievement (1:N) - Người dùng → Thành tích
@@ -892,6 +894,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /experiences/:id - Lấy chi tiết kinh nghiệm
 [X] - PUT /experiences/:id - Cập nhật kinh nghiệm
 [X] - DELETE /experiences/:id - Xóa kinh nghiệm
+
+18.9. Freelance Project Endpoints
+[X] - GET /freelance-projects - Lấy danh sách dự án freelance
+[X] - POST /freelance-projects - Thêm dự án freelance
+[X] - GET /freelance-projects/:id - Lấy chi tiết dự án
+[X] - PUT /freelance-projects/:id - Cập nhật dự án
+[X] - DELETE /freelance-projects/:id - Xóa dự án
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1108,7 +1117,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 155
+Số lượng tính năng đã implement: 161
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
