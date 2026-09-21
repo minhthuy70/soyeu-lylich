@@ -394,12 +394,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Template font selection - Chọn font chữ mẫu
 
 8.3. Resume Preview (Xem trước)
-[ ] - Full resume preview - Xem toàn bộ sơ yếu lý lịch
-[ ] - Desktop preview - Xem trên desktop
-[ ] - Mobile preview - Xem trên mobile
-[ ] - Print preview - Xem trước khi in
-[ ] - Real-time preview - Xem trước theo thời gian thực
-[ ] - A4/Letter size preview - Xem theo khổ giấy A4/Letter
+[X] - Full resume preview - Xem toàn bộ sơ yếu lý lịch
+[X] - Desktop preview - Xem trên desktop
+[X] - Mobile preview - Xem trên mobile
+[X] - Print preview - Xem trước khi in
+[X] - Real-time preview - Xem trước theo thời gian thực
+[X] - A4/Letter size preview - Xem theo khổ giấy A4/Letter
 
 8.4. Multiple Resumes (Nhiều sơ yếu lý lịch)
 [ ] - Create multiple resumes - Tạo nhiều sơ yếu lý lịch
@@ -1231,7 +1231,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 284
+Số lượng tính năng đã implement: 289
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
