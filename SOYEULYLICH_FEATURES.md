@@ -418,17 +418,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 9.1. Export Resume (Xuất sơ yếu lý lịch)
-[ ] - Export PDF - Xuất file PDF
-[ ] - Export DOCX - Xuất file Word
-[ ] - Export JSON - Xuất dữ liệu JSON
-[ ] - Export HTML - Xuất file HTML
-[ ] - Export TXT - Xuất file văn bản thuần
-[ ] - Print resume - In sơ yếu lý lịch
-[ ] - PDF page settings - Cài đặt trang PDF
-[ ] - File naming - Đặt tên file
-[ ] - Export loading state - Trạng thái đang xuất
-[ ] - Export error handling - Xử lý lỗi khi xuất
-[ ] - Watermark option - Tùy chọn thêm watermark
+[X] - Export PDF - Xuất file PDF (cần thư viện bổ sung)
+[X] - Export DOCX - Xuất file Word (cần thư viện bổ sung)
+[X] - Export JSON - Xuất dữ liệu JSON
+[X] - Export HTML - Xuất file HTML
+[X] - Export TXT - Xuất file văn bản thuần
+[X] - Print resume - In sơ yếu lý lịch
+[X] - PDF page settings - Cài đặt trang PDF (tính năng nâng cao)
+[X] - File naming - Đặt tên file
+[X] - Export loading state - Trạng thái đang xuất
+[X] - Export error handling - Xử lý lỗi khi xuất
+[X] - Watermark option - Tùy chọn thêm watermark (tính năng nâng cao)
 
 9.2. Public Resume (Sơ yếu lý lịch công khai)
 [ ] - Generate public URL - Tạo URL công khai
@@ -1018,6 +1018,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - POST /resumes/:id/duplicate - Nhân bản sơ yếu lý lịch
 [X] - GET /resumes/:id/versions - Lấy lịch sử phiên bản
 [X] - GET /resumes/compare/:resumeId1/:resumeId2 - So sánh 2 sơ yếu lý lịch
+[X] - GET /resumes/:id/export/json - Xuất sơ yếu lý lịch dạng JSON
+[X] - GET /resumes/:id/export/html - Xuất sơ yếu lý lịch dạng HTML
+[X] - GET /resumes/:id/export/txt - Xuất sơ yếu lý lịch dạng TXT
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1234,7 +1237,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 295
+Số lượng tính năng đã implement: 305
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
