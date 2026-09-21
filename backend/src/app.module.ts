@@ -21,11 +21,13 @@ import { PublicationModule } from './publication/publication.module';
 import { PatentModule } from './patent/patent.module';
 import { ResumeModule } from './resume/resume.module';
 import { AdminModule } from './admin/admin.module';
+import { MiddlewareModule } from './middleware/middleware.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
     PrismaModule,
+    MiddlewareModule,
     AuthModule,
     ProfileModule,
     IdentityModule,
