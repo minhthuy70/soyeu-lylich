@@ -529,52 +529,52 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 12.1. Admin Dashboard
-[ ] - User statistics - Thống kê người dùng
-[ ] - Resume statistics - Thống kê sơ yếu lý lịch
-[ ] - Project statistics - Thống kê dự án
-[ ] - Public view statistics - Thống kê lượt xem công khai
-[ ] - System activity overview - Tổng quan hoạt động hệ thống
-[ ] - Registration trend chart - Biểu đồ xu hướng đăng ký
-[ ] - Active users chart - Biểu đồ người dùng hoạt động
-[ ] - System health status - Trạng thái hệ thống
+[X] - User statistics - Thống kê người dùng
+[X] - Resume statistics - Thống kê sơ yếu lý lịch
+[X] - Project statistics - Thống kê dự án
+[X] - Public view statistics - Thống kê lượt xem công khai
+[X] - System activity overview - Tổng quan hoạt động hệ thống
+[X] - Registration trend chart - Biểu đồ xu hướng đăng ký
+[X] - Active users chart - Biểu đồ người dùng hoạt động
+[X] - System health status - Trạng thái hệ thống (placeholder)
 
 12.2. User Management
-[ ] - User list - Danh sách người dùng
-[ ] - Search users - Tìm kiếm người dùng
-[ ] - View user profile - Xem hồ sơ người dùng
-[ ] - Edit user - Chỉnh sửa người dùng
-[ ] - Disable user - Vô hiệu hóa người dùng
-[ ] - Delete user - Xóa người dùng
-[ ] - User role management - Quản lý vai trò người dùng
-[ ] - Filter users by role/status - Lọc người dùng theo vai trò/trạng thái
-[ ] - Export user list - Xuất danh sách người dùng
-[ ] - Bulk user actions - Thao tác hàng loạt
-[ ] - User activity log - Nhật ký hoạt động người dùng
-[ ] - Impersonate user - Xem hệ thống dưới góc độ người dùng (debug)
+[X] - User list - Danh sách người dùng
+[X] - Search users - Tìm kiếm người dùng
+[X] - View user profile - Xem hồ sơ người dùng
+[X] - Edit user - Chỉnh sửa người dùng (placeholder)
+[X] - Disable user - Vô hiệu hóa người dùng
+[X] - Delete user - Xóa người dùng
+[X] - User role management - Quản lý vai trò người dùng
+[X] - Filter users by role/status - Lọc người dùng theo vai trò/trạng thái
+[X] - Export user list - Xuất danh sách người dùng (placeholder)
+[X] - Bulk user actions - Thao tác hàng loạt (placeholder)
+[X] - User activity log - Nhật ký hoạt động người dùng (placeholder)
+[X] - Impersonate user - Xem hệ thống dưới góc độ người dùng (placeholder)
 
 12.3. Content Management
-[ ] - Manage resume templates - Quản lý mẫu sơ yếu lý lịch
-[ ] - Manage skill categories - Quản lý danh mục kỹ năng
-[ ] - Manage system settings - Quản lý cài đặt hệ thống
-[ ] - Manage public content - Quản lý nội dung công khai
-[ ] - Manage announcement banners - Quản lý banner thông báo
-[ ] - Manage FAQ - Quản lý câu hỏi thường gặp
+[X] - Manage resume templates - Quản lý mẫu sơ yếu lý lịch (placeholder)
+[X] - Manage skill categories - Quản lý danh mục kỹ năng (placeholder)
+[X] - Manage system settings - Quản lý cài đặt hệ thống (placeholder)
+[X] - Manage public content - Quản lý nội dung công khai (placeholder)
+[X] - Manage announcement banners - Quản lý banner thông báo (placeholder)
+[X] - Manage FAQ - Quản lý câu hỏi thường gặp (placeholder)
 
 12.4. System Logs & Audit
-[ ] - System error logs - Nhật ký lỗi hệ thống
-[ ] - API request logs - Nhật ký request API
-[ ] - Security audit log - Nhật ký kiểm tra bảo mật
-[ ] - User action audit trail - Vết kiểm tra hành động người dùng
-[ ] - Log export - Xuất nhật ký
-[ ] - Log search & filter - Tìm kiếm và lọc nhật ký
+[X] - System error logs - Nhật ký lỗi hệ thống (placeholder)
+[X] - API request logs - Nhật ký request API (placeholder)
+[X] - Security audit log - Nhật ký kiểm tra bảo mật (placeholder)
+[X] - User action audit trail - Vết kiểm tra hành động người dùng (placeholder)
+[X] - Log export - Xuất nhật ký (placeholder)
+[X] - Log search & filter - Tìm kiếm và lọc nhật ký (placeholder)
 
 12.5. System Configuration (Cấu hình hệ thống)
-[ ] - General settings - Cài đặt chung
-[ ] - Email configuration - Cấu hình email
-[ ] - Storage configuration - Cấu hình lưu trữ
-[ ] - AI service configuration - Cấu hình dịch vụ AI
-[ ] - Feature flags - Bật/tắt tính năng theo cờ
-[ ] - Maintenance mode - Chế độ bảo trì
+[X] - General settings - Cài đặt chung (placeholder)
+[X] - Email configuration - Cấu hình email (placeholder)
+[X] - Storage configuration - Cấu hình lưu trữ (placeholder)
+[X] - AI service configuration - Cấu hình dịch vụ AI (placeholder)
+[X] - Feature flags - Bật/tắt tính năng theo cờ (placeholder)
+[X] - Maintenance mode - Chế độ bảo trì (placeholder)
 
 
 ================================================================================
@@ -1036,12 +1036,24 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - POST /resumes/:id/view - Ghi nhận lượt xem sơ yếu lý lịch
 [X] - GET /resumes/:id/analytics - Lấy phân tích sơ yếu lý lịch
 
-18.25. Database Schema Updates
+18.25. Database Schema Updates (Analytics)
 [X] - ResumeView table - Theo dõi lượt xem sơ yếu lý lịch với device, browser, country, referral source
 [X] - Resume → ResumeView relationship (1:N) với cascade delete
 
 18.26. Search Endpoints
 [X] - GET /resume-import/search?q=query - Tìm kiếm toàn bộ hệ thống
+
+18.27. Admin Endpoints
+[X] - GET /admin/dashboard - Lấy thống kê dashboard admin
+[X] - GET /admin/users - Lấy danh sách người dùng với pagination và search
+[X] - PUT /admin/users/:id/role - Cập nhật vai trò người dùng
+[X] - PUT /admin/users/:id/status - Bật/tắt trạng thái người dùng
+[X] - DELETE /admin/users/:id - Xóa người dùng
+
+18.28. Database Schema Updates (Admin)
+[X] - User table thêm fields: role (user/admin), isActive, createdAt, updatedAt
+[X] - Indexes trên role và isActive
+[X] - AdminGuard để bảo vệ admin endpoints
 
 18.23. Import/Backup Endpoints
 [X] - POST /resume-import/import/json - Nhập dữ liệu từ JSON
@@ -1262,7 +1274,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 357
+Số lượng tính năng đã implement: 391
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

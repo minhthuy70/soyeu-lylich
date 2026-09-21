@@ -20,6 +20,7 @@ import { ActivityModule } from './activity/activity.module';
 import { PublicationModule } from './publication/publication.module';
 import { PatentModule } from './patent/patent.module';
 import { ResumeModule } from './resume/resume.module';
+import { AdminModule } from './admin/admin.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -46,6 +47,7 @@ import { PrismaModule } from './prisma/prisma.module';
     PublicationModule,
     PatentModule,
     ResumeModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

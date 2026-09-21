@@ -34,6 +34,8 @@ import Patents from "./Patents";
 import SessionManagement from "./SessionManagement";
 import AnalyticsDashboard from "./AnalyticsDashboard";
 import GlobalSearch from "./GlobalSearch";
+import AdminDashboard from "./AdminDashboard";
+import UserManagement from "./UserManagement";
 
 export default function ProfilePage({ onLogout }) {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -379,6 +381,18 @@ export default function ProfilePage({ onLogout }) {
             🔐 Quản lý phiên
           </button>
           <button
+            className={`nav-item ${activeSection === "admin-dashboard" ? "active" : ""}`}
+            onClick={() => setActiveSection("admin-dashboard")}
+          >
+            👑 Dashboard Admin
+          </button>
+          <button
+            className={`nav-item ${activeSection === "user-management" ? "active" : ""}`}
+            onClick={() => setActiveSection("user-management")}
+          >
+            👥 Quản lý người dùng
+          </button>
+          <button
             className={`nav-item ${activeSection === "account" ? "active" : ""}`}
             onClick={() => setActiveSection("account")}
           >
@@ -412,6 +426,8 @@ export default function ProfilePage({ onLogout }) {
           {activeSection === "patents" && <Patents onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "resume-builder" && <ResumeBuilder onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "sessions" && <SessionManagement onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "admin-dashboard" && <AdminDashboard onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "user-management" && <UserManagement onClose={() => setActiveSection("dashboard")} />}
           
           {activeSection === "account" && (
             <div className="account-section">
