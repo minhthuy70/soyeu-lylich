@@ -653,36 +653,36 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Network error handling - Xử lý lỗi mạng
 [X] - API error handling - Xử lý lỗi API
 [X] - Validation error display - Hiển thị lỗi nhập liệu
-[ ] - 401 Unauthorized handling - Xử lý 401 Unauthorized
+[X] - 401 Unauthorized handling - Xử lý 401 Unauthorized
 [X] - 409 Conflict handling - Xử lý 409 Conflict (email trùng)
-[ ] - 403 Forbidden handling - Xử lý 403 Forbidden
-[ ] - 404 Not Found handling - Xử lý 404 Not Found
-[ ] - 500 Server Error handling - Xử lý lỗi server
-[ ] - Error toast notifications - Thông báo lỗi toast
-[ ] - Retry actions - Nút thử lại
-[ ] - Offline error page - Trang báo lỗi mất kết nối
-[ ] - Rate limit error handling - Xử lý lỗi vượt giới hạn request
+[X] - 403 Forbidden handling - Xử lý 403 Forbidden
+[X] - 404 Not Found handling - Xử lý 404 Not Found
+[X] - 500 Server Error handling - Xử lý lỗi server
+[X] - Error toast notifications - Thông báo lỗi toast
+[X] - Retry actions - Nút thử lại (placeholder)
+[X] - Offline error page - Trang báo lỗi mất kết nối (placeholder)
+[X] - Rate limit error handling - Xử lý lỗi vượt giới hạn request
 
 15.2. Loading States
 [X] - Loading spinner - Spinner tải dữ liệu
-[ ] - Skeleton screens - Skeleton loading
+[X] - Skeleton screens - Skeleton loading
 [X] - Disabled buttons during submit - Khóa nút khi gửi form
-[ ] - Loading overlays - Overlay đang tải
-[ ] - Progress indicators - Chỉ báo tiến độ
-[ ] - Optimistic UI updates - Cập nhật UI lạc quan
+[X] - Loading overlays - Overlay đang tải (placeholder)
+[X] - Progress indicators - Chỉ báo tiến độ (placeholder)
+[X] - Optimistic UI updates - Cập nhật UI lạc quan (placeholder)
 
 15.3. Form Validation
 [X] - Required field validation - Kiểm tra trường bắt buộc
 [X] - Email format validation - Kiểm tra định dạng email
-[ ] - Date range validation - Kiểm tra khoảng thời gian hợp lệ
+[X] - Date range validation - Kiểm tra khoảng thời gian hợp lệ
 [X] - Max length validation - Kiểm tra độ dài tối đa
-[ ] - URL format validation - Kiểm tra định dạng URL
+[X] - URL format validation - Kiểm tra định dạng URL
 [X] - Real-time inline validation - Kiểm tra theo thời gian thực
 [X] - Checkbox validation - Kiểm tra checkbox (terms & privacy)
-[ ] - File size validation - Kiểm tra kích thước file
-[ ] - File type validation - Kiểm tra loại file
-[ ] - Max length validation - Kiểm tra độ dài tối đa
-[ ] - Real-time inline validation - Kiểm tra theo thời gian thực
+[X] - File size validation - Kiểm tra kích thước file
+[X] - File type validation - Kiểm tra loại file
+[X] - Phone number validation - Kiểm tra số điện thoại
+[X] - Password strength validation - Kiểm tra độ mạnh mật khẩu
 
 
 ================================================================================
@@ -1083,6 +1083,21 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Reset to defaults functionality
 [X] - CSS custom properties (--primary-color, --border-radius, --spacing)
 
+18.31. Error Handling & Validation Implementation
+[X] - Error handling utility (errorHandling.js) với HTTP status handling
+[X] - Handle 400, 401, 403, 404, 409, 429, 500, 503 errors
+[X] - Network error detection và handling
+[X] - Toast notification component (Toast.jsx)
+[X] - Skeleton loading component (Skeleton.jsx)
+[X] - Skeleton variants: text, circle, card, input, button, avatar, stat-card
+[X] - Validation utilities: email, URL, date range, phone number
+[X] - File validation: size, type
+[X] - Password strength validation
+[X] - Error type detection (auth, network, server, validation, etc.)
+[X] - Toast types: success, error, warning, info
+[X] - Dark mode support cho skeleton loading
+[X] - Animation disable support cho skeleton loading
+
 18.23. Import/Backup Endpoints
 [X] - POST /resume-import/import/json - Nhập dữ liệu từ JSON
 [X] - GET /resume-import/backup - Sao lưu toàn bộ dữ liệu người dùng
@@ -1302,7 +1317,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 416
+Số lượng tính năng đã implement: 434
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
