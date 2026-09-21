@@ -7,8 +7,34 @@ import {
   deleteAccount,
   logoutUser,
 } from "../services/authService";
+import Dashboard from "./Dashboard";
+import ResumeBuilder from "./ResumeBuilder";
+import BasicInformation from "./BasicInformation";
+import ContactInformation from "./ContactInformation";
+import IdentityInformation from "./IdentityInformation";
+import CareerObjective from "./CareerObjective";
+import References from "./References";
+import Education from "./Education";
+import Certificates from "./Certificates";
+import OnlineCourses from "./OnlineCourses";
+import Experience from "./Experience";
+import FreelanceProjects from "./FreelanceProjects";
+import TechnicalSkills from "./TechnicalSkills";
+import SoftSkills from "./SoftSkills";
+import LanguageSkills from "./LanguageSkills";
+import ToolSkills from "./ToolSkills";
+import Projects from "./Projects";
+import ProjectGallery from "./ProjectGallery";
+import ProjectAnalytics from "./ProjectAnalytics";
+import Achievements from "./Achievements";
+import Activities from "./Activities";
+import Volunteering from "./Volunteering";
+import Publications from "./Publications";
+import Patents from "./Patents";
+import SessionManagement from "./SessionManagement";
 
 export default function ProfilePage({ onLogout }) {
+  const [activeSection, setActiveSection] = useState("dashboard");
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [changePasswordMode, setChangePasswordMode] = useState(false);
@@ -192,13 +218,189 @@ export default function ProfilePage({ onLogout }) {
     <div className="profile-page">
       <div className="profile-container">
         <div className="profile-header">
-          <h1>Quản lý tài khoản</h1>
+          <h1>Hệ thống Sơ yếu lý lịch</h1>
           <button onClick={handleLogout} className="logout-btn">
             Đăng xuất
           </button>
         </div>
 
-        {error && (
+        {/* Navigation Menu */}
+        <div className="navigation-menu">
+          <button
+            className={`nav-item ${activeSection === "dashboard" ? "active" : ""}`}
+            onClick={() => setActiveSection("dashboard")}
+          >
+            📊 Tổng quan
+          </button>
+          <button
+            className={`nav-item ${activeSection === "basic-info" ? "active" : ""}`}
+            onClick={() => setActiveSection("basic-info")}
+          >
+            👤 Thông tin cơ bản
+          </button>
+          <button
+            className={`nav-item ${activeSection === "contact" ? "active" : ""}`}
+            onClick={() => setActiveSection("contact")}
+          >
+            📞 Thông tin liên hệ
+          </button>
+          <button
+            className={`nav-item ${activeSection === "identity" ? "active" : ""}`}
+            onClick={() => setActiveSection("identity")}
+          >
+            🪪 Giấy tờ định danh
+          </button>
+          <button
+            className={`nav-item ${activeSection === "career" ? "active" : ""}`}
+            onClick={() => setActiveSection("career")}
+          >
+            🎯 Mục tiêu nghề nghiệp
+          </button>
+          <button
+            className={`nav-item ${activeSection === "references" ? "active" : ""}`}
+            onClick={() => setActiveSection("references")}
+          >
+            👥 Người tham chiếu
+          </button>
+          <button
+            className={`nav-item ${activeSection === "education" ? "active" : ""}`}
+            onClick={() => setActiveSection("education")}
+          >
+            🎓 Học vấn
+          </button>
+          <button
+            className={`nav-item ${activeSection === "certificates" ? "active" : ""}`}
+            onClick={() => setActiveSection("certificates")}
+          >
+            📜 Chứng chỉ
+          </button>
+          <button
+            className={`nav-item ${activeSection === "online-courses" ? "active" : ""}`}
+            onClick={() => setActiveSection("online-courses")}
+          >
+            💻 Khóa học online
+          </button>
+          <button
+            className={`nav-item ${activeSection === "experience" ? "active" : ""}`}
+            onClick={() => setActiveSection("experience")}
+          >
+            💼 Kinh nghiệm làm việc
+          </button>
+          <button
+            className={`nav-item ${activeSection === "freelance" ? "active" : ""}`}
+            onClick={() => setActiveSection("freelance")}
+          >
+            🚀 Dự án freelance
+          </button>
+          <button
+            className={`nav-item ${activeSection === "technical-skills" ? "active" : ""}`}
+            onClick={() => setActiveSection("technical-skills")}
+          >
+            🛠️ Kỹ năng kỹ thuật
+          </button>
+          <button
+            className={`nav-item ${activeSection === "soft-skills" ? "active" : ""}`}
+            onClick={() => setActiveSection("soft-skills")}
+          >
+            🤝 Kỹ năng mềm
+          </button>
+          <button
+            className={`nav-item ${activeSection === "language-skills" ? "active" : ""}`}
+            onClick={() => setActiveSection("language-skills")}
+          >
+            🌐 Kỹ năng ngôn ngữ
+          </button>
+          <button
+            className={`nav-item ${activeSection === "tool-skills" ? "active" : ""}`}
+            onClick={() => setActiveSection("tool-skills")}
+          >
+            🔧 Kỹ năng công cụ
+          </button>
+          <button
+            className={`nav-item ${activeSection === "projects" ? "active" : ""}`}
+            onClick={() => setActiveSection("projects")}
+          >
+            📁 Dự án
+          </button>
+          <button
+            className={`nav-item ${activeSection === "achievements" ? "active" : ""}`}
+            onClick={() => setActiveSection("achievements")}
+          >
+            🏆 Thành tích
+          </button>
+          <button
+            className={`nav-item ${activeSection === "activities" ? "active" : ""}`}
+            onClick={() => setActiveSection("activities")}
+          >
+            🎯 Hoạt động
+          </button>
+          <button
+            className={`nav-item ${activeSection === "volunteering" ? "active" : ""}`}
+            onClick={() => setActiveSection("volunteering")}
+          >
+            ❤️ Tình nguyện
+          </button>
+          <button
+            className={`nav-item ${activeSection === "publications" ? "active" : ""}`}
+            onClick={() => setActiveSection("publications")}
+          >
+            📚 Công bố
+          </button>
+          <button
+            className={`nav-item ${activeSection === "patents" ? "active" : ""}`}
+            onClick={() => setActiveSection("patents")}
+          >
+            💡 Bằng sáng chế
+          </button>
+          <button
+            className={`nav-item ${activeSection === "resume-builder" ? "active" : ""}`}
+            onClick={() => setActiveSection("resume-builder")}
+          >
+            📄 Tạo sơ yếu lý lịch
+          </button>
+          <button
+            className={`nav-item ${activeSection === "sessions" ? "active" : ""}`}
+            onClick={() => setActiveSection("sessions")}
+          >
+            🔐 Quản lý phiên
+          </button>
+          <button
+            className={`nav-item ${activeSection === "account" ? "active" : ""}`}
+            onClick={() => setActiveSection("account")}
+          >
+            ⚙️ Tài khoản
+          </button>
+        </div>
+
+        {/* Content Section */}
+        <div className="content-section">
+          {activeSection === "dashboard" && <Dashboard onClose={() => setActiveSection("account")} />}
+          {activeSection === "basic-info" && <BasicInformation onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "contact" && <ContactInformation onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "identity" && <IdentityInformation onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "career" && <CareerObjective onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "references" && <References onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "education" && <Education onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "certificates" && <Certificates onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "online-courses" && <OnlineCourses onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "experience" && <Experience onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "freelance" && <FreelanceProjects onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "technical-skills" && <TechnicalSkills onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "soft-skills" && <SoftSkills onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "language-skills" && <LanguageSkills onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "tool-skills" && <ToolSkills onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "projects" && <Projects onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "achievements" && <Achievements onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "activities" && <Activities onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "volunteering" && <Volunteering onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "publications" && <Publications onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "patents" && <Patents onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "resume-builder" && <ResumeBuilder onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "sessions" && <SessionManagement onClose={() => setActiveSection("dashboard")} />}
+          
+          {activeSection === "account" && (
+            <div className="account-section">
+              {error && (
           <div className="error-message" role="alert">
             {error}
           </div>
@@ -556,5 +758,110 @@ export default function ProfilePage({ onLogout }) {
         )}
       </div>
     </div>
+
+    <style jsx>{`
+      .profile-page {
+        min-height: 100vh;
+        background: #f8fafc;
+        padding: 20px;
+      }
+
+      .profile-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .profile-header h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0;
+      }
+
+      .logout-btn {
+        padding: 10px 20px;
+        background: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .logout-btn:hover {
+        background: #dc2626;
+      }
+
+      .navigation-menu {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .nav-item {
+        padding: 12px 16px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #64748b;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+      }
+
+      .nav-item:hover {
+        background: #e2e8f0;
+        transform: translateY(-2px);
+      }
+
+      .nav-item.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: #667eea;
+      }
+
+      .content-section {
+        min-height: 400px;
+      }
+
+      .account-section {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        border: 1px solid #e2e8f0;
+      }
+
+      @media (max-width: 768px) {
+        .navigation-menu {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .profile-header {
+          flex-direction: column;
+          gap: 12px;
+          text-align: center;
+        }
+      }
+    `}</style>
   );
 }
