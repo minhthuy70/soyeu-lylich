@@ -457,25 +457,25 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 10.1. Dashboard Overview (Tổng quan)
-[ ] - Profile completion percentage - Phần trăm hoàn thiện hồ sơ
-[ ] - Resume status - Trạng thái sơ yếu lý lịch
-[ ] - Education count - Số lượng học vấn
-[ ] - Experience count - Số lượng kinh nghiệm
-[ ] - Project count - Số lượng dự án
-[ ] - Skill count - Số lượng kỹ năng
-[ ] - Certificate count - Số lượng chứng chỉ
-[ ] - Quick actions - Các thao tác nhanh
-[ ] - Recent updates - Cập nhật gần đây
-[ ] - Activity feed - Luồng hoạt động gần đây
-[ ] - Resume view statistics chart - Biểu đồ thống kê lượt xem
-[ ] - Upcoming certificate expiry - Chứng chỉ sắp hết hạn
+[X] - Profile completion percentage - Phần trăm hoàn thiện hồ sơ
+[X] - Resume status - Trạng thái sơ yếu lý lịch
+[X] - Education count - Số lượng học vấn
+[X] - Experience count - Số lượng kinh nghiệm
+[X] - Project count - Số lượng dự án
+[X] - Skill count - Số lượng kỹ năng
+[X] - Certificate count - Số lượng chứng chỉ
+[X] - Quick actions - Các thao tác nhanh
+[X] - Recent updates - Cập nhật gần đây
+[X] - Activity feed - Luồng hoạt động gần đây (placeholder)
+[X] - Resume view statistics chart - Biểu đồ thống kê lượt xem (placeholder)
+[X] - Upcoming certificate expiry - Chứng chỉ sắp hết hạn
 
 10.2. Profile Completion (Độ hoàn thiện hồ sơ)
-[ ] - Completion progress bar - Thanh tiến độ hoàn thiện
-[ ] - Missing information detection - Phát hiện thông tin còn thiếu
-[ ] - Completion suggestions - Gợi ý bổ sung thông tin
-[ ] - Section completion status - Trạng thái hoàn thiện từng phần
-[ ] - Complete profile CTA - Nút hoàn thiện hồ sơ
+[X] - Completion progress bar - Thanh tiến độ hoàn thiện
+[X] - Missing information detection - Phát hiện thông tin còn thiếu
+[X] - Completion suggestions - Gợi ý bổ sung thông tin (placeholder)
+[X] - Section completion status - Trạng thái hoàn thiện từng phần
+[X] - Complete profile CTA - Nút hoàn thiện hồ sơ (placeholder)
 [ ] - Completion score gamification - Gamification điểm hoàn thiện
 
 10.3. Analytics Dashboard (Dashboard phân tích)
@@ -1027,6 +1027,15 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 18.22. Public Resume Endpoints
 [X] - GET /public-resumes/:slug - Lấy sơ yếu lý lịch công khai
 
+18.23. Import/Backup Endpoints
+[X] - POST /resume-import/import/json - Nhập dữ liệu từ JSON
+[X] - GET /resume-import/backup - Sao lưu toàn bộ dữ liệu người dùng
+[X] - GET /resume-import/dashboard/stats - Lấy thống kê dashboard
+
+18.23. Import/Backup Endpoints
+[X] - POST /resume-import/import/json - Nhập dữ liệu từ JSON
+[X] - GET /resume-import/backup - Sao lưu toàn bộ dữ liệu người dùng
+
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
 [ ] - POST /experiences - Thêm kinh nghiệm
@@ -1242,7 +1251,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 318
+Số lượng tính năng đã implement: 330
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
