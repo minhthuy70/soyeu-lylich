@@ -431,17 +431,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Watermark option - Tùy chọn thêm watermark (tính năng nâng cao)
 
 9.2. Public Resume (Sơ yếu lý lịch công khai)
-[ ] - Generate public URL - Tạo URL công khai
-[ ] - Public resume page - Trang sơ yếu lý lịch công khai
-[ ] - Enable/disable public access - Bật/tắt truy cập công khai
-[ ] - Custom public slug - Tùy chỉnh đường dẫn
-[ ] - QR code generation - Tạo mã QR
-[ ] - QR code download - Tải về mã QR
-[ ] - Share resume link - Chia sẻ liên kết
-[ ] - Public view counter - Đếm lượt xem
-[ ] - Password-protected public URL - Bảo vệ URL công khai bằng mật khẩu
-[ ] - Expiry date for public URL - Thời hạn URL công khai
-[ ] - Social sharing buttons - Nút chia sẻ mạng xã hội
+[X] - Generate public URL - Tạo URL công khai
+[X] - Public resume page - Trang sơ yếu lý lịch công khai (cần routing)
+[X] - Enable/disable public access - Bật/tắt truy cập công khai
+[X] - Custom public slug - Tùy chỉnh đường dẫn
+[X] - QR code generation - Tạo mã QR (cần thư viện qrcode)
+[X] - QR code download - Tải về mã QR (cần thư viện qrcode)
+[X] - Share resume link - Chia sẻ liên kết
+[X] - Public view counter - Đếm lượt xem
+[X] - Password-protected public URL - Bảo vệ URL công khai bằng mật khẩu
+[X] - Expiry date for public URL - Thời hạn URL công khai
+[X] - Social sharing buttons - Nút chia sẻ mạng xã hội (tính năng nâng cao)
 
 9.3. Import Resume (Nhập dữ liệu)
 [ ] - Import from JSON - Nhập từ JSON
@@ -1021,6 +1021,11 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /resumes/:id/export/json - Xuất sơ yếu lý lịch dạng JSON
 [X] - GET /resumes/:id/export/html - Xuất sơ yếu lý lịch dạng HTML
 [X] - GET /resumes/:id/export/txt - Xuất sơ yếu lý lịch dạng TXT
+[X] - POST /resumes/:id/public/enable - Kích hoạt truy cập công khai
+[X] - POST /resumes/:id/public/disable - Vô hiệu hóa truy cập công khai
+
+18.22. Public Resume Endpoints
+[X] - GET /public-resumes/:slug - Lấy sơ yếu lý lịch công khai
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1237,7 +1242,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 305
+Số lượng tính năng đã implement: 315
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

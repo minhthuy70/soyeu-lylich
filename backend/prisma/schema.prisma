@@ -422,10 +422,16 @@ model Resume {
   parentResume    Resume?  @relation("ResumeVersions", fields: [parentResumeId], references: [id], onDelete: SetNull)
   versions        Resume[] @relation("ResumeVersions")
   sections        ResumeSection[]
+  isPublic        Boolean  @default(false)
+  publicSlug      String?  @unique
+  publicPassword  String?
+  publicExpiryDate DateTime?
+  publicViewCount Int      @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   @@index([parentResumeId])
+  @@index([publicSlug])
 }
 
 model ResumeSection {
