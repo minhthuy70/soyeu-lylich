@@ -7,6 +7,7 @@ import {
   deleteAccount,
   logoutUser,
 } from "../services/authService";
+import { useTheme } from "../contexts/ThemeContext";
 import Dashboard from "./Dashboard";
 import ResumeBuilder from "./ResumeBuilder";
 import BasicInformation from "./BasicInformation";
@@ -36,10 +37,13 @@ import AnalyticsDashboard from "./AnalyticsDashboard";
 import GlobalSearch from "./GlobalSearch";
 import AdminDashboard from "./AdminDashboard";
 import UserManagement from "./UserManagement";
+import UISettings from "./UISettings";
 
 export default function ProfilePage({ onLogout }) {
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [activeSection, setActiveSection] = useState("dashboard");
   const [showGlobalSearch, setShowGlobalSearch] = useState(false);
+  const [showUISettings, setShowUISettings] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
@@ -226,6 +230,12 @@ export default function ProfilePage({ onLogout }) {
         <div className="profile-header">
           <h1>Hệ thống Sơ yếu lý lịch</h1>
           <div className="header-actions">
+            <button onClick={toggleDarkMode} className="theme-toggle-btn">
+              {isDarkMode ? "☀️" : "🌙"}
+            </button>
+            <button onClick={() => setShowUISettings(true)} className="settings-btn">
+              ⚙️
+            </button>
             <button onClick={() => setShowGlobalSearch(true)} className="search-btn">
               🔍 Tìm kiếm
             </button>
@@ -842,6 +852,36 @@ export default function ProfilePage({ onLogout }) {
         background: #5a67d8;
       }
 
+      .theme-toggle-btn {
+        padding: 10px 16px;
+        background: #f1f5f9;
+        color: #0f172a;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .theme-toggle-btn:hover {
+        background: #e2e8f0;
+      }
+
+      .settings-btn {
+        padding: 10px 16px;
+        background: #f1f5f9;
+        color: #0f172a;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .settings-btn:hover {
+        background: #e2e8f0;
+      }
+
       .logout-btn {
         padding: 10px 20px;
         background: #ef4444;
@@ -904,6 +944,45 @@ export default function ProfilePage({ onLogout }) {
         border: 1px solid #e2e8f0;
       }
 
+      /* Dark mode styles */
+      :global(.dark-mode) .profile-page {
+        background: #0f172a;
+      }
+
+      :global(.dark-mode) .profile-header,
+      :global(.dark-mode) .account-section,
+      :global(.dark-mode) .profile-section {
+        background: #1e293b;
+        border-color: #334155;
+      }
+
+      :global(.dark-mode) .profile-header h1,
+      :global(.dark-mode) .profile-section h2 {
+        color: #f1f5f9;
+      }
+
+      :global(.dark-mode) .nav-item {
+        background: #1e293b;
+        border-color: #334155;
+        color: #f1f5f9;
+      }
+
+      :global(.dark-mode) .nav-item:hover {
+        background: #334155;
+      }
+
+      :global(.dark-mode) .theme-toggle-btn,
+      :global(.dark-mode) .settings-btn {
+        background: #334155;
+        border-color: #475569;
+        color: #f1f5f9;
+      }
+
+      :global(.dark-mode) .theme-toggle-btn:hover,
+      :global(.dark-mode) .settings-btn:hover {
+        background: #475569;
+      }
+
       @media (max-width: 768px) {
         .navigation-menu {
           grid-template-columns: repeat(2, 1fr);
@@ -934,6 +1013,13 @@ export default function ProfilePage({ onLogout }) {
       {showGlobalSearch && (
         <div className="modal-overlay">
           <GlobalSearch onClose={() => setShowGlobalSearch(false)} />
+        </div>
+      )}
+
+      {/* UI Settings Modal */}
+      {showUISettings && (
+        <div className="modal-overlay">
+          <UISettings onClose={() => setShowUISettings(false)} />
         </div>
       )}
   );

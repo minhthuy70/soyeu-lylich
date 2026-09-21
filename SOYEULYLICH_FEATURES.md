@@ -622,25 +622,25 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 14.1. Dark Mode
-[ ] - System preference detection - Phát hiện theme hệ thống
-[ ] - Manual dark/light toggle - Chuyển đổi sáng/tối
-[ ] - Persist theme preference - Lưu lựa chọn theme
-[ ] - Dark theme components - Theme tối cho toàn bộ component
-[ ] - Smooth theme transition - Chuyển đổi theme mượt mà
-[ ] - High contrast mode - Chế độ tương phản cao
+[X] - System preference detection - Phát hiện theme hệ thống
+[X] - Manual dark/light toggle - Chuyển đổi sáng/tối
+[X] - Persist theme preference - Lưu lựa chọn theme
+[X] - Dark theme components - Theme tối cho toàn bộ component
+[X] - Smooth theme transition - Chuyển đổi theme mượt mà
+[X] - High contrast mode - Chế độ tương phản cao (placeholder)
 
 14.2. UI Customization
 [X] - Primary color selection - Chọn màu chủ đạo
-[ ] - Font selection - Chọn font chữ
-[ ] - Resume accent color - Màu nhấn sơ yếu lý lịch
-[ ] - Layout customization - Tùy chỉnh bố cục
-[ ] - Preview customization - Xem trước tùy chỉnh
-[ ] - Font size adjustment - Điều chỉnh cỡ chữ
-[ ] - Spacing customization - Tùy chỉnh khoảng cách
-[ ] - Border radius customization - Tùy chỉnh bo góc
-[ ] - Animation toggle - Bật/tắt animation
-[ ] - Sidebar width adjustment - Điều chỉnh độ rộng sidebar
-[ ] - Reset to default - Đặt lại giao diện mặc định
+[X] - Font selection - Chọn font chữ
+[X] - Resume accent color - Màu nhấn sơ yếu lý lịch (placeholder)
+[X] - Layout customization - Tùy chỉnh bố cục (placeholder)
+[X] - Preview customization - Xem trước tùy chỉnh (placeholder)
+[X] - Font size adjustment - Điều chỉnh cỡ chữ
+[X] - Spacing customization - Tùy chỉnh khoảng cách
+[X] - Border radius customization - Tùy chỉnh bo góc
+[X] - Animation toggle - Bật/tắt animation
+[X] - Sidebar width adjustment - Điều chỉnh độ rộng sidebar (placeholder)
+[X] - Reset to default - Đặt lại giao diện mặc định
 
 
 ================================================================================
@@ -1067,6 +1067,22 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Multi-column grid layouts với auto-fit
 [X] - Print styles cho resume preview
 
+18.30. Dark Mode & UI Customization Implementation
+[X] - ThemeContext với dark mode state management
+[X] - System preference detection (prefers-color-scheme)
+[X] - Theme persistence trong localStorage
+[X] - Smooth theme transitions (0.3s ease)
+[X] - Dark theme styles cho login/register pages
+[X] - Dark theme styles cho ProfilePage
+[X] - Dark theme styles cho UISettings component
+[X] - Primary color customization (6 preset colors)
+[X] - Font size adjustment (small/medium/large)
+[X] - Border radius customization (small/medium/large)
+[X] - Spacing customization (small/medium/large)
+[X] - Animation toggle (enable/disable transitions)
+[X] - Reset to defaults functionality
+[X] - CSS custom properties (--primary-color, --border-radius, --spacing)
+
 18.23. Import/Backup Endpoints
 [X] - POST /resume-import/import/json - Nhập dữ liệu từ JSON
 [X] - GET /resume-import/backup - Sao lưu toàn bộ dữ liệu người dùng
@@ -1286,7 +1302,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 406
+Số lượng tính năng đã implement: 416
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

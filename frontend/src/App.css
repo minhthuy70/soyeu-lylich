@@ -1758,3 +1758,167 @@ button:active {
   }
 }
 
+
+
+/* ========================================
+   DARK MODE STYLES
+   ======================================== */
+
+:root {
+  --primary-color: #667eea;
+  --border-radius: 8px;
+  --spacing: 16px;
+}
+
+html {
+  font-size: 16px;
+  transition: font-size 0.2s ease;
+}
+
+.dark-mode {
+  color-scheme: dark;
+}
+
+.dark-mode .login-page {
+  background:
+    radial-gradient(
+      circle at 8% 15%,
+      rgba(14, 165, 233, 0.3),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 92% 15%,
+      rgba(250, 204, 21, 0.25),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(220, 38, 68, 0.2),
+      transparent 27%
+    ),
+    linear-gradient(
+      135deg,
+      #0f172a 0%,
+      #1e293b 48%,
+      #334155 100%
+    );
+}
+
+.dark-mode .login-card {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: #475569;
+}
+
+.dark-mode .login-header h1,
+.dark-mode .login-header p {
+  color: #f1f5f9;
+}
+
+.dark-mode .form-group label {
+  color: #cbd5e1;
+}
+
+.dark-mode .form-group input {
+  background: #1e293b;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+.dark-mode .form-group input:focus {
+  border-color: var(--primary-color);
+  background: #334155;
+}
+
+.dark-mode .checkbox-label {
+  color: #cbd5e1;
+}
+
+.dark-mode .checkbox-label a {
+  color: var(--primary-color);
+}
+
+.dark-mode .error-message {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border-color: #991b1b;
+}
+
+.dark-mode .success-message {
+  background: rgba(16, 185, 129, 0.2);
+  color: #86efac;
+  border-color: #065f46;
+}
+
+.dark-mode .submit-btn {
+  background: var(--primary-color);
+}
+
+.dark-mode .submit-btn:hover {
+  background: #5a67d8;
+}
+
+.dark-mode .switch-auth p,
+.dark-mode .switch-auth button {
+  color: #cbd5e1;
+}
+
+.dark-mode .switch-auth button:hover {
+  color: var(--primary-color);
+}
+
+.dark-mode .register-page {
+  background:
+    radial-gradient(
+      circle at 8% 15%,
+      rgba(14, 165, 233, 0.3),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 92% 15%,
+      rgba(250, 204, 21, 0.25),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(220, 38, 68, 0.2),
+      transparent 27%
+    ),
+    linear-gradient(
+      135deg,
+      #0f172a 0%,
+      #1e293b 48%,
+      #334155 100%
+    );
+}
+
+.dark-mode .register-card {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: #475569;
+}
+
+.dark-mode .register-header h1,
+.dark-mode .register-header p {
+  color: #f1f5f9;
+}
+
+.dark-mode .password-strength {
+  background: #1e293b;
+}
+
+.dark-mode .login-link button {
+  color: var(--primary-color);
+}
+
+/* Smooth transitions for theme switch */
+.dark-mode *,
+.dark-mode *::before,
+.dark-mode *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.no-animations *,
+.no-animations *::before,
+.no-animations *::after {
+  transition: none !important;
+  animation: none !important;
+}

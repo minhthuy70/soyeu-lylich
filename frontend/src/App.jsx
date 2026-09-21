@@ -7,6 +7,7 @@ import ForgotPasswordForm from "./components/ForgotPasswordForm";
 import TwoFactorForm from "./components/TwoFactorForm";
 import ResetPasswordForm from "./components/ResetPasswordForm";
 import ProfilePage from "./components/ProfilePage";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 export default function App() {
   const [authState, setAuthState] = useState("login"); // login, register, forgot-password, reset-password, profile, two-factor
@@ -174,196 +175,198 @@ const [tempToken, setTempToken] = useState(null); // login, register, forgot-pas
   };
 
   return (
-    <div>
-      {authState === "login" && (
-        <LoginForm
-          onSwitchToRegister={() => setAuthState("register")}
-          onForgotPassword={() => setAuthState("forgot-password")}
-          onLoginSuccess={(data) => {
-            if (data.requiresTwoFactor) {
-              setTempToken(data.tempToken);
-              setAuthState("two-factor");
-              return;
-            }
-            setIsAuthenticated(true);
-            setAuthState("profile");
-          }}
-        />
-      )}
+    <ThemeProvider>
+      <div>
+        {authState === "login" && (
+          <LoginForm
+            onSwitchToRegister={() => setAuthState("register")}
+            onForgotPassword={() => setAuthState("forgot-password")}
+            onLoginSuccess={(data) => {
+              if (data.requiresTwoFactor) {
+                setTempToken(data.tempToken);
+                setAuthState("two-factor");
+                return;
+              }
+              setIsAuthenticated(true);
+              setAuthState("profile");
+            }}
+          />
+        )}
 
-      {authState === "register" && (
-        <div className="register-page">
-          <div className="register-card">
-            <div className="register-header">
-              <div className="register-logo">CV</div>
+        {authState === "register" && (
+          <div className="register-page">
+            <div className="register-card">
+              <div className="register-header">
+                <div className="register-logo">CV</div>
 
-              <h1>Tạo tài khoản</h1>
+                <h1>Tạo tài khoản</h1>
 
-              <p className="subtitle">
-                Đăng ký để bắt đầu tạo sơ yếu lý lịch của bạn
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="Nhập email của bạn"
-                  value={form.email}
-                  onChange={handleChange}
-                  autoComplete="email"
-                  disabled={loading}
-                />
+                <p className="subtitle">
+                  Đăng ký để bắt đầu tạo sơ yếu lý lịch của bạn
+                </p>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="password">Mật khẩu</label>
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
 
-                <input
-                  id="password"
-                  type="password"
-                  name="password"
-                  placeholder="Nhập mật khẩu"
-                  value={form.password}
-                  onChange={handleChange}
-                  autoComplete="new-password"
-                  disabled={loading}
-                />
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="Nhập email của bạn"
+                    value={form.email}
+                    onChange={handleChange}
+                    autoComplete="email"
+                    disabled={loading}
+                  />
+                </div>
 
-                {form.password && (
-                  <div className="password-strength">
-                    <div className="strength-bar">
-                      <div
-                        className="strength-fill"
-                        style={{
-                          width: `${(passwordStrength / 6) * 100}%`,
-                          backgroundColor: getPasswordStrengthLabel().color,
-                        }}
-                      />
+                <div className="form-group">
+                  <label htmlFor="password">Mật khẩu</label>
+
+                  <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Nhập mật khẩu"
+                    value={form.password}
+                    onChange={handleChange}
+                    autoComplete="new-password"
+                    disabled={loading}
+                  />
+
+                  {form.password && (
+                    <div className="password-strength">
+                      <div className="strength-bar">
+                        <div
+                          className="strength-fill"
+                          style={{
+                            width: `${(passwordStrength / 6) * 100}%`,
+                            backgroundColor: getPasswordStrengthLabel().color,
+                          }}
+                        />
+                      </div>
+                      <span
+                        className="strength-label"
+                        style={{ color: getPasswordStrengthLabel().color }}
+                      >
+                        {getPasswordStrengthLabel().label}
+                      </span>
                     </div>
-                    <span
-                      className="strength-label"
-                      style={{ color: getPasswordStrengthLabel().color }}
-                    >
-                      {getPasswordStrengthLabel().label}
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="confirmPassword">
+                    Xác nhận mật khẩu
+                  </label>
+
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Nhập lại mật khẩu"
+                    value={form.confirmPassword}
+                    onChange={handleChange}
+                    autoComplete="new-password"
+                    disabled={loading}
+                  />
+                </div>
+
+                <div className="checkbox-group">
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      name="agreeTerms"
+                      checked={form.agreeTerms}
+                      onChange={handleChange}
+                      disabled={loading}
+                    />
+                    <span>
+                      Tôi đồng ý với{' '}
+                      <a href="/terms" target="_blank" rel="noopener noreferrer">
+                        Điều khoản sử dụng
+                      </a>
                     </span>
+                  </label>
+                </div>
+
+                <div className="checkbox-group">
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      name="agreePrivacy"
+                      checked={form.agreePrivacy}
+                      onChange={handleChange}
+                      disabled={loading}
+                    />
+                    <span>
+                      Tôi đồng ý với{' '}
+                      <a href="/privacy" target="_blank" rel="noopener noreferrer">
+                        Chính sách bảo mật
+                      </a>
+                    </span>
+                  </label>
+                </div>
+
+                {error && (
+                  <div className="error-message" role="alert">
+                    {error}
                   </div>
                 )}
-              </div>
 
-              <div className="form-group">
-                <label htmlFor="confirmPassword">
-                  Xác nhận mật khẩu
-                </label>
-
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Nhập lại mật khẩu"
-                  value={form.confirmPassword}
-                  onChange={handleChange}
-                  autoComplete="new-password"
-                  disabled={loading}
-                />
-              </div>
-
-              <div className="checkbox-group">
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    name="agreeTerms"
-                    checked={form.agreeTerms}
-                    onChange={handleChange}
-                    disabled={loading}
-                  />
-                  <span>
-                    Tôi đồng ý với{' '}
-                    <a href="/terms" target="_blank" rel="noopener noreferrer">
-                      Điều khoản sử dụng
-                    </a>
-                  </span>
-                </label>
-              </div>
-
-              <div className="checkbox-group">
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    name="agreePrivacy"
-                    checked={form.agreePrivacy}
-                    onChange={handleChange}
-                    disabled={loading}
-                  />
-                  <span>
-                    Tôi đồng ý với{' '}
-                    <a href="/privacy" target="_blank" rel="noopener noreferrer">
-                      Chính sách bảo mật
-                    </a>
-                  </span>
-                </label>
-              </div>
-
-              {error && (
-                <div className="error-message" role="alert">
-                  {error}
-                </div>
-              )}
-
-              {success && (
-                <div className="success-message" role="status">
-                  {success}
-                  <div className="login-link">
-                    <button
-                      type="button"
-                      onClick={() => setAuthState("login")}
-                      disabled={loading}
-                    >
-                      Đăng nhập ngay
-                    </button>
+                {success && (
+                  <div className="success-message" role="status">
+                    {success}
+                    <div className="login-link">
+                      <button
+                        type="button"
+                        onClick={() => setAuthState("login")}
+                        disabled={loading}
+                      >
+                        Đăng nhập ngay
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              <button type="submit" disabled={loading}>
-                {loading ? "Đang đăng ký..." : "Đăng ký"}
-              </button>
-            </form>
-
-            <div className="switch-auth">
-              <p>
-                Đã có tài khoản?{' '}
-                <button
-                  type="button"
-                  onClick={() => setAuthState("login")}
-                  disabled={loading}
-                >
-                  Đăng nhập ngay
+                <button type="submit" disabled={loading}>
+                  {loading ? "Đang đăng ký..." : "Đăng ký"}
                 </button>
-              </p>
+              </form>
+
+              <div className="switch-auth">
+                <p>
+                  Đã có tài khoản?{' '}
+                  <button
+                    type="button"
+                    onClick={() => setAuthState("login")}
+                    disabled={loading}
+                  >
+                    Đăng nhập ngay
+                  </button>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {authState === "forgot-password" && (
-        <ForgotPasswordForm onBackToLogin={() => setAuthState("login")} />
-      )}
+        {authState === "forgot-password" && (
+          <ForgotPasswordForm onBackToLogin={() => setAuthState("login")} />
+        )}
 
-      {authState === "reset-password" && resetToken && (
-        <ResetPasswordForm
-          token={resetToken}
-          onSuccess={() => setAuthState("login")}
-        />
-      )}
+        {authState === "reset-password" && resetToken && (
+          <ResetPasswordForm
+            token={resetToken}
+            onSuccess={() => setAuthState("login")}
+          />
+        )}
 
-      {authState === "profile" && (
-        <ProfilePage onLogout={handleLogout} />
-      )}
-    </div>
+        {authState === "profile" && (
+          <ProfilePage onLogout={handleLogout} />
+        )}
+      </div>
+    </ThemeProvider>
   );
 }
