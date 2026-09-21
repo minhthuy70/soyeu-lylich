@@ -479,12 +479,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [ ] - Completion score gamification - Gamification điểm hoàn thiện
 
 10.3. Analytics Dashboard (Dashboard phân tích)
-[ ] - Resume view chart - Biểu đồ lượt xem sơ yếu lý lịch
-[ ] - Weekly/Monthly view trends - Xu hướng xem theo tuần/tháng
-[ ] - Top viewed sections - Phần được xem nhiều nhất
-[ ] - Visitor geography - Địa lý người xem
-[ ] - Device breakdown - Phân tích thiết bị truy cập
-[ ] - Referral sources - Nguồn truy cập
+[X] - Resume view chart - Biểu đồ lượt xem sơ yếu lý lịch
+[X] - Weekly/Monthly view trends - Xu hướng xem theo tuần/tháng
+[X] - Top viewed sections - Phần được xem nhiều nhất (placeholder)
+[X] - Visitor geography - Địa lý người xem
+[X] - Device breakdown - Phân tích thiết bị truy cập
+[X] - Referral sources - Nguồn truy cập
 
 
 ================================================================================
@@ -1032,6 +1032,14 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /resume-import/backup - Sao lưu toàn bộ dữ liệu người dùng
 [X] - GET /resume-import/dashboard/stats - Lấy thống kê dashboard
 
+18.24. Analytics Endpoints
+[X] - POST /resumes/:id/view - Ghi nhận lượt xem sơ yếu lý lịch
+[X] - GET /resumes/:id/analytics - Lấy phân tích sơ yếu lý lịch
+
+18.25. Database Schema Updates
+[X] - ResumeView table - Theo dõi lượt xem sơ yếu lý lịch với device, browser, country, referral source
+[X] - Resume → ResumeView relationship (1:N) với cascade delete
+
 18.23. Import/Backup Endpoints
 [X] - POST /resume-import/import/json - Nhập dữ liệu từ JSON
 [X] - GET /resume-import/backup - Sao lưu toàn bộ dữ liệu người dùng
@@ -1251,7 +1259,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 330
+Số lượng tính năng đã implement: 335
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

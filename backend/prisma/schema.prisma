@@ -427,11 +427,28 @@ model Resume {
   publicPassword  String?
   publicExpiryDate DateTime?
   publicViewCount Int      @default(0)
+  views           ResumeView[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   @@index([parentResumeId])
   @@index([publicSlug])
+}
+
+model ResumeView {
+  id          Int      @id @default(autoincrement())
+  resumeId    Int
+  resume      Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  viewerIp    String?
+  deviceType  String?  // 'desktop', 'mobile', 'tablet'
+  browser     String?
+  country     String?
+  city        String?
+  referralSource String?
+  viewedAt    DateTime @default(now())
+
+  @@index([resumeId])
+  @@index([viewedAt])
 }
 
 model ResumeSection {

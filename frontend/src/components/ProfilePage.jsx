@@ -32,6 +32,7 @@ import Volunteering from "./Volunteering";
 import Publications from "./Publications";
 import Patents from "./Patents";
 import SessionManagement from "./SessionManagement";
+import AnalyticsDashboard from "./AnalyticsDashboard";
 
 export default function ProfilePage({ onLogout }) {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -233,6 +234,12 @@ export default function ProfilePage({ onLogout }) {
             📊 Tổng quan
           </button>
           <button
+            className={`nav-item ${activeSection === "analytics" ? "active" : ""}`}
+            onClick={() => setActiveSection("analytics")}
+          >
+            📈 Phân tích
+          </button>
+          <button
             className={`nav-item ${activeSection === "basic-info" ? "active" : ""}`}
             onClick={() => setActiveSection("basic-info")}
           >
@@ -375,6 +382,7 @@ export default function ProfilePage({ onLogout }) {
         {/* Content Section */}
         <div className="content-section">
           {activeSection === "dashboard" && <Dashboard onClose={() => setActiveSection("account")} />}
+          {activeSection === "analytics" && <AnalyticsDashboard onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "basic-info" && <BasicInformation onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "contact" && <ContactInformation onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "identity" && <IdentityInformation onClose={() => setActiveSection("dashboard")} />}
