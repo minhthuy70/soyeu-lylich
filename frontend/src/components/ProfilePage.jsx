@@ -40,6 +40,7 @@ import UserManagement from "./UserManagement";
 export default function ProfilePage({ onLogout }) {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [showGlobalSearch, setShowGlobalSearch] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [changePasswordMode, setChangePasswordMode] = useState(false);
