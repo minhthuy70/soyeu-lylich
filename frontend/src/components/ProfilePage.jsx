@@ -33,9 +33,11 @@ import Publications from "./Publications";
 import Patents from "./Patents";
 import SessionManagement from "./SessionManagement";
 import AnalyticsDashboard from "./AnalyticsDashboard";
+import GlobalSearch from "./GlobalSearch";
 
 export default function ProfilePage({ onLogout }) {
   const [activeSection, setActiveSection] = useState("dashboard");
+  const [showGlobalSearch, setShowGlobalSearch] = useState(false);
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [changePasswordMode, setChangePasswordMode] = useState(false);
@@ -220,9 +222,14 @@ export default function ProfilePage({ onLogout }) {
       <div className="profile-container">
         <div className="profile-header">
           <h1>Hệ thống Sơ yếu lý lịch</h1>
-          <button onClick={handleLogout} className="logout-btn">
-            Đăng xuất
-          </button>
+          <div className="header-actions">
+            <button onClick={() => setShowGlobalSearch(true)} className="search-btn">
+              🔍 Tìm kiếm
+            </button>
+            <button onClick={handleLogout} className="logout-btn">
+              Đăng xuất
+            </button>
+          </div>
         </div>
 
         {/* Navigation Menu */}
@@ -797,6 +804,27 @@ export default function ProfilePage({ onLogout }) {
         margin: 0;
       }
 
+      .header-actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .search-btn {
+        padding: 10px 20px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .search-btn:hover {
+        background: #5a67d8;
+      }
+
       .logout-btn {
         padding: 10px 20px;
         background: #ef4444;
@@ -870,6 +898,26 @@ export default function ProfilePage({ onLogout }) {
           text-align: center;
         }
       }
+
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
     `}</style>
+
+      {/* Global Search Modal */}
+      {showGlobalSearch && (
+        <div className="modal-overlay">
+          <GlobalSearch onClose={() => setShowGlobalSearch(false)} />
+        </div>
+      )}
   );
 }

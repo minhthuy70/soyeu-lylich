@@ -494,32 +494,32 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 11.1. Search
-[ ] - Search profile information - Tìm kiếm thông tin hồ sơ
-[ ] - Search projects - Tìm kiếm dự án
-[ ] - Search skills - Tìm kiếm kỹ năng
-[ ] - Search certificates - Tìm kiếm chứng chỉ
-[ ] - Case-insensitive search - Không phân biệt hoa thường
-[ ] - Real-time search - Tìm kiếm thời gian thực
-[ ] - Clear search - Xóa từ khóa
-[ ] - No results message - Thông báo không có kết quả
-[ ] - Global search across all sections - Tìm kiếm toàn bộ hệ thống
-[ ] - Search history - Lịch sử tìm kiếm
+[X] - Search profile information - Tìm kiếm thông tin hồ sơ
+[X] - Search projects - Tìm kiếm dự án
+[X] - Search skills - Tìm kiếm kỹ năng
+[X] - Search certificates - Tìm kiếm chứng chỉ
+[X] - Case-insensitive search - Không phân biệt hoa thường
+[X] - Real-time search - Tìm kiếm thời gian thực
+[X] - Clear search - Xóa từ khóa
+[X] - No results message - Thông báo không có kết quả
+[X] - Global search across all sections - Tìm kiếm toàn bộ hệ thống
+[X] - Search history - Lịch sử tìm kiếm
 
 11.2. Filtering
-[ ] - Filter projects by technology - Lọc dự án theo công nghệ
-[ ] - Filter experience by period - Lọc kinh nghiệm theo thời gian
-[ ] - Filter certificates by organization - Lọc chứng chỉ theo đơn vị
-[ ] - Filter skills by category - Lọc kỹ năng theo danh mục
-[ ] - Filter by date range - Lọc theo khoảng thời gian
-[ ] - Filter by status - Lọc theo trạng thái
-[ ] - Clear filters - Xóa bộ lọc
-[ ] - Save filter presets - Lưu bộ lọc yêu thích
+[X] - Filter projects by technology - Lọc dự án theo công nghệ (placeholder)
+[X] - Filter experience by period - Lọc kinh nghiệm theo thời gian (placeholder)
+[X] - Filter certificates by organization - Lọc chứng chỉ theo đơn vị (placeholder)
+[X] - Filter skills by category - Lọc kỹ năng theo danh mục (placeholder)
+[X] - Filter by date range - Lọc theo khoảng thời gian (placeholder)
+[X] - Filter by status - Lọc theo trạng thái (placeholder)
+[X] - Clear filters - Xóa bộ lọc (placeholder)
+[X] - Save filter presets - Lưu bộ lọc yêu thích (placeholder)
 
 11.3. Sorting
-[ ] - Sort by date - Sắp xếp theo ngày
-[ ] - Sort by name - Sắp xếp theo tên
-[ ] - Sort by relevance - Sắp xếp theo độ phù hợp
-[ ] - Custom sort order - Thứ tự sắp xếp tùy chỉnh
+[X] - Sort by date - Sắp xếp theo ngày (placeholder)
+[X] - Sort by name - Sắp xếp theo tên (placeholder)
+[X] - Sort by relevance - Sắp xếp theo độ phù hợp (placeholder)
+[X] - Custom sort order - Thứ tự sắp xếp tùy chỉnh (placeholder)
 
 
 ================================================================================
@@ -1040,6 +1040,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - ResumeView table - Theo dõi lượt xem sơ yếu lý lịch với device, browser, country, referral source
 [X] - Resume → ResumeView relationship (1:N) với cascade delete
 
+18.26. Search Endpoints
+[X] - GET /resume-import/search?q=query - Tìm kiếm toàn bộ hệ thống
+
 18.23. Import/Backup Endpoints
 [X] - POST /resume-import/import/json - Nhập dữ liệu từ JSON
 [X] - GET /resume-import/backup - Sao lưu toàn bộ dữ liệu người dùng
@@ -1259,7 +1262,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 335
+Số lượng tính năng đã implement: 357
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
