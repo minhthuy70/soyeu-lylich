@@ -402,13 +402,13 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - A4/Letter size preview - Xem theo khổ giấy A4/Letter
 
 8.4. Multiple Resumes (Nhiều sơ yếu lý lịch)
-[ ] - Create multiple resumes - Tạo nhiều sơ yếu lý lịch
-[ ] - Rename resume - Đổi tên sơ yếu lý lịch
-[ ] - Duplicate resume - Nhân bản sơ yếu lý lịch
-[ ] - Delete resume - Xóa sơ yếu lý lịch
-[ ] - Set default resume - Đặt sơ yếu lý lịch mặc định
-[ ] - Resume version history - Lịch sử phiên bản sơ yếu lý lịch
-[ ] - Compare resumes - So sánh 2 phiên bản sơ yếu lý lịch
+[X] - Create multiple resumes - Tạo nhiều sơ yếu lý lịch
+[X] - Rename resume - Đổi tên sơ yếu lý lịch
+[X] - Duplicate resume - Nhân bản sơ yếu lý lịch
+[X] - Delete resume - Xóa sơ yếu lý lịch
+[X] - Set default resume - Đặt sơ yếu lý lịch mặc định
+[X] - Resume version history - Lịch sử phiên bản sơ yếu lý lịch
+[X] - Compare resumes - So sánh 2 phiên bản sơ yếu lý lịch
 
 
 ================================================================================
@@ -1015,6 +1015,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - PUT /resumes/:resumeId/sections/:sectionId - Cập nhật phần
 [X] - DELETE /resumes/:resumeId/sections/:sectionId - Xóa phần
 [X] - POST /resumes/:resumeId/sections/reorder - Sắp xếp lại phần
+[X] - POST /resumes/:id/duplicate - Nhân bản sơ yếu lý lịch
+[X] - GET /resumes/:id/versions - Lấy lịch sử phiên bản
+[X] - GET /resumes/compare/:resumeId1/:resumeId2 - So sánh 2 sơ yếu lý lịch
 
 18.4. Experience Endpoints
 [ ] - GET /experiences - Lấy kinh nghiệm
@@ -1231,7 +1234,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 289
+Số lượng tính năng đã implement: 295
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 

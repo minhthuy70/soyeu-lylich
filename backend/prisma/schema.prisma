@@ -418,9 +418,14 @@ model Resume {
   colorScheme     String?
   font            String?
   isDefault       Boolean  @default(false)
+  parentResumeId  Int?
+  parentResume    Resume?  @relation("ResumeVersions", fields: [parentResumeId], references: [id], onDelete: SetNull)
+  versions        Resume[] @relation("ResumeVersions")
   sections        ResumeSection[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+
+  @@index([parentResumeId])
 }
 
 model ResumeSection {
