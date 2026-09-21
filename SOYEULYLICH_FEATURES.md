@@ -444,10 +444,10 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Social sharing buttons - Nút chia sẻ mạng xã hội (tính năng nâng cao)
 
 9.3. Import Resume (Nhập dữ liệu)
-[ ] - Import from JSON - Nhập từ JSON
-[ ] - Import from LinkedIn - Nhập từ LinkedIn
-[ ] - Import from existing PDF (OCR) - Nhập từ PDF bằng OCR
-[ ] - Data backup & restore - Sao lưu và khôi phục dữ liệu
+[X] - Import from JSON - Nhập từ JSON
+[X] - Import from LinkedIn - Nhập từ LinkedIn (cần API LinkedIn)
+[X] - Import from existing PDF (OCR) - Nhập từ PDF bằng OCR (cần thư viện OCR)
+[X] - Data backup & restore - Sao lưu và khôi phục dữ liệu
 
 
 ================================================================================
@@ -1242,7 +1242,7 @@ END OF FEATURE LIST
 ================================================================================
 
 Tổng số tính năng: 300+
-Số lượng tính năng đã implement: 315
+Số lượng tính năng đã implement: 318
 Số lượng tính năng đang phát triển: 0
 Số lượng tính năng tương lai: 0
 
