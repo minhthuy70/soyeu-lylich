@@ -24,8 +24,8 @@ import TechnicalSkills from "./TechnicalSkills";
 import SoftSkills from "./SoftSkills";
 import LanguageSkills from "./LanguageSkills";
 import ToolSkills from "./ToolSkills";
-import Projects from "./Projects";
-import ProjectGallery from "./ProjectGallery";
+import Projects from "./ProjectsPage";
+
 import ProjectAnalytics from "./ProjectAnalytics";
 import Achievements from "./Achievements";
 import Activities from "./Activities";
