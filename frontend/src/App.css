@@ -2499,3 +2499,233 @@ html {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
+
+/* ========================================
+   ACHIEVEMENTS PAGE
+   ======================================== */
+
+.achievements-page {
+  padding: 20px;
+}
+
+.filters-section {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-group label {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.filter-group select {
+  padding: 8px 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.achievement-card {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.achievement-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.achievement-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.achievement-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.achievement-content {
+  padding: 20px;
+}
+
+.achievement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.achievement-header h3 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 18px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.achievement-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.category-badge,
+.level-badge {
+  padding: 4px 10px;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.achievement-organization,
+.achievement-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.achievement-organization .icon,
+.achievement-date .icon {
+  font-size: 16px;
+}
+
+.achievement-description {
+  color: var(--color-text-primary);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.achievement-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.evidence-link {
+  padding: 8px 12px;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.evidence-link:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-primary);
+}
+
+.achievement-actions .action-btn {
+  padding: 8px 12px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.achievement-actions .action-btn:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-primary);
+}
+
+.achievement-actions .action-btn.delete:hover {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: white;
+}
+
+/* ========================================
+   ACHIEVEMENT FORM
+   ======================================== */
+
+.achievement-form-container {
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+
+.achievement-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ========================================
+   RESPONSIVE FOR ACHIEVEMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .filters-section {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .filter-group select {
+    flex: 1;
+  }
+
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement-header {
+    flex-direction: column;
+  }
+
+  .achievement-badges {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

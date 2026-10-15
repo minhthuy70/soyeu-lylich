@@ -27,7 +27,7 @@ import ToolSkills from "./ToolSkills";
 import Projects from "./ProjectsPage";
 
 import ProjectAnalytics from "./ProjectAnalytics";
-import Achievements from "./Achievements";
+import Achievements from "./AchievementsPage";
 import Activities from "./Activities";
 import Volunteering from "./Volunteering";
 import Publications from "./Publications";

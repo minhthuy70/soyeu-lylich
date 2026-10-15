@@ -4,6 +4,7 @@ import { ProfileModule } from './profile/profile.module';
 import { IdentityModule } from './identity/identity.module';
 import { ProjectModule } from './project/project.module';
 import { ProjectImageModule } from './project-image/project-image.module';
+import { AchievementModule } from './achievement/achievement.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -14,6 +15,7 @@ import { PrismaModule } from './prisma/prisma.module';
     IdentityModule,
     ProjectModule,
     ProjectImageModule,
+    AchievementModule,
   ],
 })
 export class AppModule {}
