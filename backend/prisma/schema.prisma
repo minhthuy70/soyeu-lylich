@@ -45,6 +45,10 @@ model User {
   twoFactorEnabled        Boolean  @default(false)
   twoFactorSecret          String?  @unique
   twoFactorBackupCodes     String[]
+  apiKeys                 ApiKey[]
+  integrations            Integration[]
+  paymentTransactions     PaymentTransaction[]
+  cloudStorageFiles       CloudStorageFile[]
 
   @@index([role])
   @@index([isActive])
@@ -467,4 +471,81 @@ model ResumeSection {
   order           Int      @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model ApiKey {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  key         String   @unique
+  permissions String[] // 'read', 'write', 'delete', 'admin'
+  isActive    Boolean  @default(true)
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([key])
+}
+
+model Integration {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider        String   // 'twitter', 'slack', 'notion', 'google_calendar', 'sendgrid', 'twilio', 'stripe', 'aws_s3'
+  providerId      String?  // ID from the provider
+  accessToken     String?
+  refreshToken    String?
+  metadata        Json?    // Additional provider-specific data
+  settings        Json?    // Integration settings
+  isActive        Boolean  @default(true)
+  lastSyncedAt    DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([userId, provider])
+  @@index([userId])
+  @@index([provider])
+}
+
+model PaymentTransaction {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider        String   // 'stripe', 'paypal', 'vnpay', 'momo'
+  providerId      String?  // Transaction ID from provider
+  amount          Float
+  currency        String   @default("USD")
+  status          String   // 'pending', 'completed', 'failed', 'refunded'
+  paymentMethod   String?  // 'card', 'bank_transfer', 'wallet'
+  description     String?
+  metadata        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([provider])
+  @@index([status])
+}
+
+model CloudStorageFile {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider    String   // 'aws_s3', 'google_cloud', 'azure', 'dropbox'
+  providerId  String?  // File ID from provider
+  fileName    String
+  filePath    String
+  fileSize    Int
+  mimeType    String
+  bucket      String?
+  url         String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([provider])
 }

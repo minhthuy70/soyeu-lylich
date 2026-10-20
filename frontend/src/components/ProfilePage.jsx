@@ -38,6 +38,7 @@ import GlobalSearch from "./GlobalSearch";
 import AdminDashboard from "./AdminDashboard";
 import UserManagement from "./UserManagement";
 import UISettings from "./UISettings";
+import IntegrationsPage from "./IntegrationsPage";
 
 export default function ProfilePage({ onLogout }) {
   const { isDarkMode, toggleDarkMode } = useTheme();
@@ -404,6 +405,12 @@ export default function ProfilePage({ onLogout }) {
             👥 Quản lý người dùng
           </button>
           <button
+            className={`nav-item ${activeSection === "integrations" ? "active" : ""}`}
+            onClick={() => setActiveSection("integrations")}
+          >
+            🔗 Integrations
+          </button>
+          <button
             className={`nav-item ${activeSection === "account" ? "active" : ""}`}
             onClick={() => setActiveSection("account")}
           >
@@ -439,7 +446,8 @@ export default function ProfilePage({ onLogout }) {
           {activeSection === "sessions" && <SessionManagement onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "admin-dashboard" && <AdminDashboard onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "user-management" && <UserManagement onClose={() => setActiveSection("dashboard")} />}
-          
+          {activeSection === "integrations" && <IntegrationsPage />}
+
           {activeSection === "account" && (
             <div className="account-section">
               {error && (
