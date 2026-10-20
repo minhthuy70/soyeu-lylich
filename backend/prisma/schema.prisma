@@ -49,6 +49,8 @@ model User {
   integrations            Integration[]
   paymentTransactions     PaymentTransaction[]
   cloudStorageFiles       CloudStorageFile[]
+  userBehaviorEvents      UserBehaviorEvent[]
+  analyticsSessions       AnalyticsSession[]
 
   @@index([role])
   @@index([isActive])
@@ -548,4 +550,122 @@ model CloudStorageFile {
 
   @@index([userId])
   @@index([provider])
+}
+
+model UserBehaviorEvent {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId       String?
+  eventType       String   // 'page_view', 'click', 'scroll', 'form_submit', 'navigation', 'error'
+  page            String?
+  element         String?  // CSS selector or element identifier
+  metadata        Json?    // Additional event data
+  timestamp       DateTime @default(now())
+  duration        Int?     // Event duration in milliseconds
+
+  @@index([userId])
+  @@index([sessionId])
+  @@index([eventType])
+  @@index([timestamp])
+}
+
+model AnalyticsSession {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId       String   @unique
+  startTime       DateTime @default(now())
+  endTime         DateTime?
+  duration        Int?     // Session duration in seconds
+  pageViews       Int      @default(0)
+  deviceType      String?  // 'desktop', 'mobile', 'tablet'
+  browser         String?
+  os              String?
+  referrer        String?
+  utmSource       String?
+  utmMedium       String?
+  utmCampaign     String?
+  exitPage        String?
+  bounce          Boolean  @default(false)
+
+  @@index([userId])
+  @@index([sessionId])
+  @@index([startTime])
+}
+
+model FunnelStep {
+  id              Int      @id @default(autoincrement())
+  funnelName      String
+  stepName        String
+  stepOrder       Int
+  description     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([funnelName, stepOrder])
+}
+
+model FunnelEvent {
+  id              Int      @id @default(autoincrement())
+  userId          Int?
+  sessionId       String
+  funnelName      String
+  stepName        String
+  completed       Boolean  @default(false)
+  timestamp       DateTime @default(now())
+  timeToComplete  Int?     // Time in milliseconds
+
+  @@index([userId])
+  @@index([sessionId])
+  @@index([funnelName])
+  @@index([timestamp])
+}
+
+model ABTest {
+  id              Int      @id @default(autoincrement())
+  name            String   @unique
+  description     String?
+  variantA        String
+  variantB        String
+  trafficSplit    Int      @default(50) // Percentage for variant A
+  isActive        Boolean  @default(true)
+  startDate       DateTime @default(now())
+  endDate         DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  assignments     ABTestAssignment[]
+}
+
+model ABTestAssignment {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  testId          Int
+  test            ABTest   @relation(fields: [testId], references: [id], onDelete: Cascade)
+  variant         String   // 'A' or 'B'
+  assignedAt      DateTime @default(now())
+  converted       Boolean  @default(false)
+  convertedAt     DateTime?
+
+  @@unique([userId, testId])
+  @@index([testId])
+  @@index([converted])
+  @@index([userId, testId])
+}
+
+model RetentionMetric {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  cohortDate      DateTime // Date user signed up
+  day0            Boolean  @default(true)
+  day1            Boolean  @default(false)
+  day7            Boolean  @default(false)
+  day30           Boolean  @default(false)
+  day90           Boolean  @default(false)
+  lastActiveDate  DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([userId, cohortDate])
+  @@index([cohortDate])
 }
