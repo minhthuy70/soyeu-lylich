@@ -7,6 +7,7 @@ import { ProjectImageModule } from './project-image/project-image.module';
 import { AchievementModule } from './achievement/achievement.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { IntegrationsModule } from './integrations/integrations.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { IntegrationsModule } from './integrations/integrations.module';
     ProjectImageModule,
     AchievementModule,
     IntegrationsModule,
+    AnalyticsModule,
   ],
 })
 export class AppModule {}
