@@ -39,6 +39,7 @@ import AdminDashboard from "./AdminDashboard";
 import UserManagement from "./UserManagement";
 import UISettings from "./UISettings";
 import IntegrationsPage from "./IntegrationsPage";
+import AnalyticsDashboard from "./AnalyticsDashboard";
 
 export default function ProfilePage({ onLogout }) {
   const { isDarkMode, toggleDarkMode } = useTheme();
@@ -411,6 +412,12 @@ export default function ProfilePage({ onLogout }) {
             🔗 Integrations
           </button>
           <button
+            className={`nav-item ${activeSection === "analytics" ? "active" : ""}`}
+            onClick={() => setActiveSection("analytics")}
+          >
+            📊 Analytics
+          </button>
+          <button
             className={`nav-item ${activeSection === "account" ? "active" : ""}`}
             onClick={() => setActiveSection("account")}
           >
@@ -447,6 +454,7 @@ export default function ProfilePage({ onLogout }) {
           {activeSection === "admin-dashboard" && <AdminDashboard onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "user-management" && <UserManagement onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "integrations" && <IntegrationsPage />}
+          {activeSection === "analytics" && <AnalyticsDashboard />}
 
           {activeSection === "account" && (
             <div className="account-section">
