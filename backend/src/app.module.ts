@@ -10,10 +10,14 @@ import { IntegrationsModule } from './integrations/integrations.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { WebVitalsModule } from './web-vitals/web-vitals.module';
 import { SecurityAuditModule } from './security-audit/security-audit.module';
+import { ErrorTrackingModule } from './error-tracking/error-tracking.module';
+import { WebhooksModule } from './webhooks/webhooks.module';
 import { CompressionMiddleware } from './middleware/compression.middleware';
 import { CacheControlMiddleware } from './middleware/cache-control.middleware';
 import { CorsMiddleware } from './middleware/cors.middleware';
 import { CsrfMiddleware } from './middleware/csrf.middleware';
+import { RateLimitMiddleware } from './middleware/rate-limit.middleware';
+import { RequestLoggingMiddleware } from './middleware/request-logging.middleware';
 
 @Module({
   imports: [
@@ -28,10 +32,20 @@ import { CsrfMiddleware } from './middleware/csrf.middleware';
     AnalyticsModule,
     WebVitalsModule,
     SecurityAuditModule,
+    ErrorTrackingModule,
+    WebhooksModule,
   ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RequestLoggingMiddleware)
+      .forRoutes('*');
+
+    consumer
+      .apply(RateLimitMiddleware)
+      .forRoutes('*');
+
     consumer
       .apply(CorsMiddleware)
       .forRoutes('*');
