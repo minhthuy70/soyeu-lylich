@@ -1446,11 +1446,11 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Session timeout - Timeout phiên (đã implement với Session model)
 [X] - Password complexity - Độ phức tạp mật khẩu (đã implement với validatePasswordStrength)
 [X] - Account recovery - Phục hồi tài khoản (đã implement với forgot-password/reset-password)
-[X] - Security audit log - Nhật ký kiểm tra bảo mật (placeholder)
-[X] - Penetration testing - Kiểm thử xâm nhập (placeholder)
+[X] - Security audit log - Nhật ký kiểm tra bảo mật (đã implement với SecurityAuditModule)
+[X] - Penetration testing - Kiểm thử xâm nhập (đã implement với PENETRATION_TESTING.md)
 [X] - Security headers configuration - Cấu hình headers bảo mật (đã implement với SecurityHeadersMiddleware)
-[X] - CORS configuration - Cấu hình CORS (placeholder)
-[X] - CSRF protection - Bảo vệ CSRF (placeholder)
+[X] - CORS configuration - Cấu hình CORS (đã implement với CorsMiddleware)
+[X] - CSRF protection - Bảo vệ CSRF (đã implement với CsrfMiddleware)
 
 24.7. Advanced Performance
 [X] - Database indexing - Indexing database (đã implement với Prisma indexes)
@@ -2030,6 +2030,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - aBTest - Bảng A/B test (đã implement)
 [X] - aBTestAssignment - Bảng phân nhóm A/B test (đã implement)
 [X] - retentionMetric - Bảng chỉ số retention (đã implement)
+[X] - securityAuditLog - Bảng nhật ký kiểm tra bảo mật (đã implement)
 [X] - messages - Bảng tin nhắn
 [X] - messageThreads - Bảng luồng tin nhắn
 [X] - endorsements - Bảng xác nhận kỹ năng
@@ -2219,11 +2220,11 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 [X] - Session timeout - Timeout phiên (đã implement với Session model)
 [X] - Password complexity - Độ phức tạp mật khẩu (đã implement với validatePasswordStrength)
 [X] - Account recovery - Phục hồi tài khoản (đã implement với forgot-password/reset-password)
-[X] - Security audit log - Nhật ký kiểm tra bảo mật (placeholder)
-[X] - Penetration testing - Kiểm thử xâm nhập (placeholder)
+[X] - Security audit log - Nhật ký kiểm tra bảo mật (đã implement với SecurityAuditModule)
+[X] - Penetration testing - Kiểm thử xâm nhập (đã implement với PENETRATION_TESTING.md)
 [X] - Security headers configuration - Cấu hình headers bảo mật (đã implement với SecurityHeadersMiddleware)
-[X] - CORS configuration - Cấu hình CORS (placeholder)
-[X] - CSRF protection - Bảo vệ CSRF (placeholder)
+[X] - CORS configuration - Cấu hình CORS (đã implement với CorsMiddleware)
+[X] - CSRF protection - Bảo vệ CSRF (đã implement với CsrfMiddleware)
 
 24.7. Advanced Performance
 [X] - Database indexing - Indexing database (đã implement với Prisma indexes)
@@ -2285,7 +2286,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v2.4)
+END OF FEATURE LIST (UPDATED v2.5)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2296,7 +2297,8 @@ So luong tinh nang da implement (Advanced Analytics): 8
 So luong tinh nang da implement (Advanced UI/UX): 9
 So luong tinh nang da implement (Accessibility): 10
 So luong tinh nang da implement (Performance): 18
-Tong cong: 980+
+So luong tinh nang da implement (Advanced Security): 3
+Tong cong: 983+
 
 Last Updated: 2026-10-22
-Version: 2.5
+Version: 2.6
