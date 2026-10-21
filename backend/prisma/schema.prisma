@@ -51,6 +51,7 @@ model User {
   cloudStorageFiles       CloudStorageFile[]
   userBehaviorEvents      UserBehaviorEvent[]
   analyticsSessions       AnalyticsSession[]
+  securityAuditLogs       SecurityAuditLog[]
 
   @@index([role])
   @@index([isActive])
@@ -668,4 +669,23 @@ model RetentionMetric {
 
   @@unique([userId, cohortDate])
   @@index([cohortDate])
+}
+
+model SecurityAuditLog {
+  id          Int      @id @default(autoincrement())
+  userId      Int?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action      String   // 'LOGIN', 'LOGOUT', 'PASSWORD_CHANGE', '2FA_ENABLED', '2FA_DISABLED', 'PROFILE_UPDATE', 'API_KEY_CREATED', 'API_KEY_DELETED'
+  resource    String?  // Resource affected (e.g., 'profile', 'api_key')
+  ipAddress   String
+  userAgent   String?
+  metadata    Json?    // Additional context
+  severity    String   @default("INFO") // 'INFO', 'WARNING', 'ERROR', 'CRITICAL'
+  status      String   @default("SUCCESS") // 'SUCCESS', 'FAILURE'
+  timestamp   DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([timestamp])
+  @@index([severity])
 }
