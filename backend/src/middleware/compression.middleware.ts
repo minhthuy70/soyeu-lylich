@@ -1,25 +1,36 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import * as compression from 'compression';
+import * as zlib from 'zlib';
 
 @Injectable()
 export class CompressionMiddleware implements NestMiddleware {
-  private compressionMiddleware: any;
-
-  constructor() {
-    this.compressionMiddleware = compression({
-      filter: (req, res) => {
-        if (req.headers['x-no-compression']) {
-          return false;
-        }
-        return compression.filter(req, res);
-      },
-      threshold: 1024, // Only compress responses larger than 1KB
-      level: 6, // Compression level (0-9)
-    });
-  }
-
   use(req: Request, res: Response, next: NextFunction) {
-    this.compressionMiddleware(req, res, next);
+    // Skip compression if client doesn't accept encoding
+    const acceptEncoding = req.headers['accept-encoding'];
+    if (!acceptEncoding || !acceptEncoding.includes('gzip')) {
+      return next();
+    }
+
+    // Skip compression for small responses
+    const originalSend = res.send;
+    let responseBody: any;
+
+    res.send = function (data: any) {
+      responseBody = data;
+      if (Buffer.byteLength(data) < 1024) {
+        return originalSend.call(this, data);
+      }
+
+      zlib.gzip(data, (err, compressed) => {
+        if (err) {
+          return originalSend.call(this, data);
+        }
+        res.setHeader('Content-Encoding', 'gzip');
+        res.setHeader('Content-Length', compressed.length);
+        return originalSend.call(this, compressed);
+      });
+    };
+
+    next();
   }
 }

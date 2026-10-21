@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { IdentityModule } from './identity/identity.module';
@@ -8,6 +8,9 @@ import { AchievementModule } from './achievement/achievement.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { IntegrationsModule } from './integrations/integrations.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { WebVitalsModule } from './web-vitals/web-vitals.module';
+import { CompressionMiddleware } from './middleware/compression.middleware';
+import { CacheControlMiddleware } from './middleware/cache-control.middleware';
 
 @Module({
   imports: [
@@ -20,6 +23,17 @@ import { AnalyticsModule } from './analytics/analytics.module';
     AchievementModule,
     IntegrationsModule,
     AnalyticsModule,
+    WebVitalsModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(CompressionMiddleware)
+      .forRoutes('*');
+
+    consumer
+      .apply(CacheControlMiddleware)
+      .forRoutes('*');
+  }
+}
