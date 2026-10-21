@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: soyeulylich-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: soyeulylich
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - soyeulylich-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: soyeulylich-backend
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/soyeulylich
+      NODE_ENV: production
+      PORT: 3000
+      JWT_SECRET: your-jwt-secret-here
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - soyeulylich-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: soyeulylich-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - soyeulylich-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  soyeulylich-network:
+    driver: bridge
