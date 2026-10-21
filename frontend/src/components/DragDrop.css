@@ -1,0 +1,43 @@
+.drag-drop-zone {
+  position: relative;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  transition: all 0.3s;
+}
+
+.drag-drop-zone.dragging {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.drag-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.drag-message {
+  text-align: center;
+  color: #3b82f6;
+}
+
+.drag-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.drag-message p {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
