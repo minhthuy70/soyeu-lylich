@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './Modal.css';
+import { useFocusTrap } from '../hooks/useAccessibility.js';
 
 export default function Modal({ isOpen, onClose, title, children, size = 'medium' }) {
   useEffect(() => {
@@ -15,6 +16,8 @@ export default function Modal({ isOpen, onClose, title, children, size = 'medium
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  const modalRef = useFocusTrap(isOpen);
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -49,11 +52,21 @@ export default function Modal({ isOpen, onClose, title, children, size = 'medium
   };
 
   return (
-    <div className="modal-overlay" onClick={handleBackdropClick}>
-      <div className={`modal ${getSizeClass()}`}>
+    <div
+      className="modal-overlay"
+      onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div ref={modalRef} className={`modal ${getSizeClass()}`}>
         <div className="modal-header">
-          <h2>{title}</h2>
-          <button className="modal-close" onClick={onClose}>
+          <h2 id="modal-title">{title}</h2>
+          <button
+            className="modal-close"
+            onClick={onClose}
+            aria-label="Close dialog"
+          >
             ×
           </button>
         </div>
