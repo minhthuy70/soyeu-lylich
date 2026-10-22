@@ -1346,16 +1346,16 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 22.1. AI Resume Assistant
-[X] - AI profile summary generation - AI tạo phần giới thiệu bản thân (placeholder)
-[X] - AI career objective generation - AI hỗ trợ viết mục tiêu nghề nghiệp (placeholder)
-[X] - AI project description improvement - AI cải thiện mô tả dự án (placeholder)
-[X] - AI experience description improvement - AI cải thiện mô tả kinh nghiệm (placeholder)
-[X] - AI skill suggestions - AI gợi ý kỹ năng (placeholder)
-[X] - AI grammar correction - AI sửa lỗi ngữ pháp (placeholder)
-[X] - AI writing suggestions - AI gợi ý cách viết chuyên nghiệp (placeholder)
-[X] - AI translation - AI dịch nội dung sang ngôn ngữ khác (placeholder)
-[X] - AI tone adjustment - AI điều chỉnh giọng văn (formal/casual) (placeholder)
-[X] - AI bullet point generation - AI tạo bullet points cho kinh nghiệm (placeholder)
+[X] - AI profile summary generation - AI tạo phần giới thiệu bản thân (đã implement với ai-assistant.service)
+[X] - AI career objective generation - AI hỗ trợ viết mục tiêu nghề nghiệp (đã implement với ai-assistant.service)
+[X] - AI project description improvement - AI cải thiện mô tả dự án (đã implement với ai-assistant.service)
+[X] - AI experience description improvement - AI cải thiện mô tả kinh nghiệm (đã implement với ai-assistant.service)
+[X] - AI skill suggestions - AI gợi ý kỹ năng (đã implement với ai-assistant.service)
+[X] - AI grammar correction - AI sửa lỗi ngữ pháp (đã implement với ai-assistant.service)
+[X] - AI writing suggestions - AI gợi ý cách viết chuyên nghiệp (đã implement với ai-assistant.service)
+[X] - AI translation - AI dịch nội dung sang ngôn ngữ khác (đã implement với ai-assistant.service)
+[X] - AI tone adjustment - AI điều chỉnh giọng văn (formal/casual) (đã implement với ai-assistant.service)
+[X] - AI bullet point generation - AI tạo bullet points cho kinh nghiệm (đã implement với ai-assistant.service)
 
 22.2. Resume Analysis
 [X] - Resume completeness analysis - Phân tích độ đầy đủ hồ sơ (đã implement với resume-analysis.service)
@@ -2286,7 +2286,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v3.3)
+END OF FEATURE LIST (UPDATED v3.4)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2305,7 +2305,8 @@ So luong tinh nang da implement (Testing): 7
 So luong tinh nang da implement (Code Quality): 3
 So luong tinh nang da implement (Data Backup): 1
 So luong tinh nang da implement (Resume Analysis): 5
-Tong cong: 1015+
+So luong tinh nang da implement (AI Features): 10
+Tong cong: 1025+
 
 Last Updated: 2026-10-23
-Version: 3.3
+Version: 3.4
