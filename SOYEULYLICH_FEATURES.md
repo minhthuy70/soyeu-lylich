@@ -1327,11 +1327,11 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 21.2. Email Notifications
 [X] - Account verification email - Email xác thực tài khoản (logic đã implement, cần cấu hình email service)
 [X] - Password reset email - Email đặt lại mật khẩu (logic đã implement, cần cấu hình email service)
-[X] - Security alert email - Email cảnh báo bảo mật (placeholder)
-[X] - Resume sharing notification - Thông báo chia sẻ sơ yếu lý lịch (placeholder)
-[X] - Weekly summary email - Email tóm tắt tuần (placeholder)
-[X] - Certificate expiry email - Email nhắc hết hạn chứng chỉ (placeholder)
-[X] - Profile view milestone email - Email khi đạt mốc lượt xem (placeholder)
+[X] - Security alert email - Email cảnh báo bảo mật (đã implement với email-notifications.service)
+[X] - Resume sharing notification - Thông báo chia sẻ sơ yếu lý lịch (đã implement với email-notifications.service)
+[X] - Weekly summary email - Email tóm tắt tuần (đã implement với email-notifications.service)
+[X] - Certificate expiry email - Email nhắc hết hạn chứng chỉ (đã implement với email-notifications.service)
+[X] - Profile view milestone email - Email khi đạt mốc lượt xem (đã implement với email-notifications.service)
 
 21.3. Push Notifications (PWA)
 [X] - Browser push notifications - Thông báo đẩy trình duyệt (đã implement với service worker + push-notifications.service)
@@ -2286,7 +2286,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v3.5)
+END OF FEATURE LIST (UPDATED v3.6)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2307,7 +2307,8 @@ So luong tinh nang da implement (Data Backup): 1
 So luong tinh nang da implement (Resume Analysis): 5
 So luong tinh nang da implement (AI Features): 10
 So luong tinh nang da implement (Push Notifications): 3
-Tong cong: 1028+
+So luong tinh nang da implement (Email Notifications): 5
+Tong cong: 1033+
 
 Last Updated: 2026-10-23
-Version: 3.5
+Version: 3.6
