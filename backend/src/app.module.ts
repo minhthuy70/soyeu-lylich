@@ -16,6 +16,7 @@ import { ResumeAnalysisModule } from './resume-analysis/resume-analysis.module';
 import { AIAssistantModule } from './ai-assistant/ai-assistant.module';
 import { PushNotificationsModule } from './push-notifications/push-notifications.module';
 import { EmailNotificationsModule } from './email-notifications/email-notifications.module';
+import { NotificationsModule } from './notifications/notifications.module';
 import { CompressionMiddleware } from './middleware/compression.middleware';
 import { CacheControlMiddleware } from './middleware/cache-control.middleware';
 import { CorsMiddleware } from './middleware/cors.middleware';
@@ -42,6 +43,7 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     AIAssistantModule,
     PushNotificationsModule,
     EmailNotificationsModule,
+    NotificationsModule,
   ],
 })
 export class AppModule implements NestModule {
