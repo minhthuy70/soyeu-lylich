@@ -7,6 +7,7 @@ import ForgotPasswordForm from "./components/ForgotPasswordForm";
 import TwoFactorForm from "./components/TwoFactorForm";
 import ResetPasswordForm from "./components/ResetPasswordForm";
 import ProfilePage from "./components/ProfilePage";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
 export default function App() {
@@ -176,8 +177,9 @@ const [tempToken, setTempToken] = useState(null); // login, register, forgot-pas
 
   return (
     <ThemeProvider>
-      <div>
-        {authState === "login" && (
+      <ErrorBoundary>
+        <div>
+          {authState === "login" && (
           <LoginForm
             onSwitchToRegister={() => setAuthState("register")}
             onForgotPassword={() => setAuthState("forgot-password")}
@@ -366,7 +368,8 @@ const [tempToken, setTempToken] = useState(null); // login, register, forgot-pas
         {authState === "profile" && (
           <ProfilePage onLogout={handleLogout} />
         )}
-      </div>
+        </div>
+      </ErrorBoundary>
     </ThemeProvider>
   );
 }
