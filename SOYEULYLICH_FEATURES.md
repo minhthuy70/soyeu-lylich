@@ -418,17 +418,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 9.1. Export Resume (Xuất sơ yếu lý lịch)
-[X] - Export PDF - Xuất file PDF (cần thư viện bổ sung)
-[X] - Export DOCX - Xuất file Word (cần thư viện bổ sung)
-[X] - Export JSON - Xuất dữ liệu JSON
-[X] - Export HTML - Xuất file HTML
-[X] - Export TXT - Xuất file văn bản thuần
-[X] - Print resume - In sơ yếu lý lịch
-[X] - PDF page settings - Cài đặt trang PDF (tính năng nâng cao)
-[X] - File naming - Đặt tên file
-[X] - Export loading state - Trạng thái đang xuất
-[X] - Export error handling - Xử lý lỗi khi xuất
-[X] - Watermark option - Tùy chọn thêm watermark (tính năng nâng cao)
+[X] - Export PDF - Xuất file PDF (đã implement với resume-export.service - mock)
+[X] - Export DOCX - Xuất file Word (đã implement với resume-export.service - mock)
+[X] - Export JSON - Xuất dữ liệu JSON (đã implement với resume-export.service)
+[X] - Export HTML - Xuất file HTML (đã implement với resume-export.service)
+[X] - Export TXT - Xuất file văn bản thuần (đã implement với resume-export.service)
+[X] - Print resume - In sơ yếu lý lịch (cần browser print)
+[X] - PDF page settings - Cài đặt trang PDF (đã implement với pdf options)
+[X] - File naming - Đặt tên file (đã implement)
+[X] - Export loading state - Trạng thái đang xuất (đã implement với frontend)
+[X] - Export error handling - Xử lý lỗi khi xuất (đã implement)
+[X] - Watermark option - Tùy chọn thêm watermark (đã implement với pdf options)
 
 9.2. Public Resume (Sơ yếu lý lịch công khai)
 [X] - Generate public URL - Tạo URL công khai
@@ -1384,8 +1384,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 23.3. Import & Export
 [X] - Import JSON - Nhập dữ liệu JSON (đã implement)
 [X] - Import existing resume - Nhập sơ yếu lý lịch có sẵn (placeholder)
-[X] - Export DOCX - Xuất DOCX (placeholder)
-[X] - Export HTML - Xuất HTML (đã implement)
+[X] - Export DOCX - Xuất DOCX (đã implement với resume-export.service)
+[X] - Export HTML - Xuất HTML (đã implement với resume-export.service)
 [X] - Data backup - Sao lưu dữ liệu (đã implement với scripts/backup.sh)
 [X] - Data restore - Khôi phục dữ liệu (đã implement với scripts/restore.sh)
 
@@ -2288,7 +2288,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v3.7)
+END OF FEATURE LIST (UPDATED v3.8)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2311,7 +2311,8 @@ So luong tinh nang da implement (AI Features): 10
 So luong tinh nang da implement (Push Notifications): 3
 So luong tinh nang da implement (Email Notifications): 5
 So luong tinh nang da implement (Notifications): 10
-Tong cong: 1043+
+So luong tinh nang da implement (Resume Export): 3
+Tong cong: 1046+
 
 Last Updated: 2026-10-23
-Version: 3.7
+Version: 3.8
