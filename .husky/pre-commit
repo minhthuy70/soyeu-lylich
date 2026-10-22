@@ -1,0 +1,8 @@
+#!/bin/sh
+echo "Running pre-commit hooks..."
+
+# Skip for now - will enable after fixing existing linting issues
+echo "⚠️  Pre-commit checks temporarily disabled"
+echo "⚠️  Run 'npm run lint' manually to check code quality"
+
+exit 0
