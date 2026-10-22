@@ -798,7 +798,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - User → Resume (1:N) - Người dùng → Sơ yếu lý lịch
 [X] - Resume → ResumeSection (1:N) - Sơ yếu lý lịch → Phần
 [X] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
-[X] - User → Notification (1:N) - Người dùng → Thông báo (placeholder)
+[X] - User → Notification (1:N) - Người dùng → Thông báo (đã implement với Notification model)
 
 17.3. Database Constraints
 [X] - User.email unique - Email người dùng duy nhất
@@ -1101,8 +1101,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Data deletion via delete account endpoint
 
 18.33. Database System Implementation
-[X] - 27 core tables implemented trong Prisma schema
-[X] - 25 relationships configured với proper foreign keys
+[X] - 28 core tables implemented trong Prisma schema (including Notification)
+[X] - 26 relationships configured với proper foreign keys
 [X] - Cascade delete cho tất cả user-owned entities
 [X] - Unique constraints cho emails, tokens, slugs
 [X] - Indexes cho performance optimization
@@ -1113,6 +1113,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - ResumeView model cho analytics tracking
 [X] - Project model với tracking (views, clicks)
 [X] - Session model cho session management
+[X] - Notification model cho in-app notifications
+[X] - SecurityAuditLog model cho security tracking
 [X] - IdentityDocument model cho document storage
 [X] - All models với createdAt, updatedAt timestamps
 
@@ -1312,16 +1314,16 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 21.1. In-App Notifications
-[X] - Profile completion reminders - Nhắc hoàn thiện hồ sơ (placeholder)
-[X] - Resume update notifications - Thông báo cập nhật sơ yếu lý lịch (placeholder)
-[X] - Security notifications - Thông báo bảo mật (placeholder)
-[X] - System notifications - Thông báo hệ thống (placeholder)
-[X] - Notification center - Trung tâm thông báo (placeholder)
-[X] - Notification preferences - Tùy chỉnh thông báo (placeholder)
-[X] - Mark as read - Đánh dấu đã đọc (placeholder)
-[X] - Mark all as read - Đánh dấu tất cả đã đọc (placeholder)
-[X] - Delete notification - Xóa thông báo (placeholder)
-[X] - Notification badge count - Số thông báo chưa đọc (placeholder)
+[X] - Profile completion reminders - Nhắc hoàn thiện hồ sơ (đã implement với notifications.service)
+[X] - Resume update notifications - Thông báo cập nhật sơ yếu lý lịch (đã implement với notifications.service)
+[X] - Security notifications - Thông báo bảo mật (đã implement với notifications.service)
+[X] - System notifications - Thông báo hệ thống (đã implement với notifications.service)
+[X] - Notification center - Trung tâm thông báo (đã implement với notifications.controller + frontend component)
+[X] - Notification preferences - Tùy chỉnh thông báo (đã implement với preferences UI)
+[X] - Mark as read - Đánh dấu đã đọc (đã implement với notifications.service)
+[X] - Mark all as read - Đánh dấu tất cả đã đọc (đã implement với notifications.service)
+[X] - Delete notification - Xóa thông báo (đã implement với notifications.service)
+[X] - Notification badge count - Số thông báo chưa đọc (đã implement với notifications.service)
 [X] - Certificate expiry reminder - Nhắc nhở chứng chỉ sắp hết hạn (placeholder)
 
 21.2. Email Notifications
@@ -2286,7 +2288,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v3.6)
+END OF FEATURE LIST (UPDATED v3.7)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2308,7 +2310,8 @@ So luong tinh nang da implement (Resume Analysis): 5
 So luong tinh nang da implement (AI Features): 10
 So luong tinh nang da implement (Push Notifications): 3
 So luong tinh nang da implement (Email Notifications): 5
-Tong cong: 1033+
+So luong tinh nang da implement (Notifications): 10
+Tong cong: 1043+
 
 Last Updated: 2026-10-23
-Version: 3.6
+Version: 3.7
