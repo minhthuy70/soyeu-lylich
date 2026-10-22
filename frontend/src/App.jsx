@@ -10,6 +10,15 @@ import ProfilePage from "./components/ProfilePage";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
+// Register service worker for PWA support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((error) => {
+      console.log('Service worker registration failed:', error);
+    });
+  });
+}
+
 export default function App() {
   const [authState, setAuthState] = useState("login"); // login, register, forgot-password, reset-password, profile, two-factor
 const [tempToken, setTempToken] = useState(null); // login, register, forgot-password, reset-password, profile

@@ -27,4 +27,10 @@ export default defineConfig({
   },
   // CDN configuration for production
   base: process.env.NODE_ENV === 'production' ? '/cdn/' : '/',
+  // PWA configuration
+  server: {
+    fs: {
+      strict: false,
+    },
+  },
 })
