@@ -289,8 +289,8 @@ export class AuthService {
       },
     });
 
-    // TODO: Send verification email here
-    // await this.sendVerificationEmail(normalizedEmail, verificationToken);
+    // TODO: Send verification email using EmailNotificationService
+    // await this.emailNotificationService.sendAccountVerification(normalizedEmail, verificationToken);
 
     return {
       message: 'Đăng ký tài khoản thành công. Vui lòng kiểm tra email để xác thực tài khoản.',
@@ -363,8 +363,8 @@ export class AuthService {
       },
     });
 
-    // TODO: Send reset email here
-    // await this.sendResetPasswordEmail(normalizedEmail, resetToken);
+    // TODO: Send reset email using EmailNotificationService
+    // await this.emailNotificationService.sendPasswordReset(normalizedEmail, resetToken);
 
     return {
       message: 'Nếu email tồn tại trong hệ thống, bạn sẽ nhận được hướng dẫn đặt lại mật khẩu.',
