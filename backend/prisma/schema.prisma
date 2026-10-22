@@ -48,6 +48,7 @@ model User {
   apiKeys                 ApiKey[]
   integrations            Integration[]
   paymentTransactions     PaymentTransaction[]
+  notifications           Notification[]
   cloudStorageFiles       CloudStorageFile[]
   userBehaviorEvents      UserBehaviorEvent[]
   analyticsSessions       AnalyticsSession[]
@@ -688,4 +689,22 @@ model SecurityAuditLog {
   @@index([action])
   @@index([timestamp])
   @@index([severity])
+}
+
+model Notification {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        String   // 'PROFILE_COMPLETION', 'RESUME_UPDATE', 'SECURITY', 'SYSTEM', 'ACHIEVEMENT', 'PROFILE_VIEW', 'RESUME_SHARE'
+  title       String
+  message     String
+  metadata    Json?    // Additional context (e.g., profile completion percentage, view count)
+  isRead      Boolean  @default(false)
+  readAt      DateTime?
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([createdAt])
+  @@index([type])
 }
