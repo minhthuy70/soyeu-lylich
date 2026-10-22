@@ -13,6 +13,7 @@ import { SecurityAuditModule } from './security-audit/security-audit.module';
 import { ErrorTrackingModule } from './error-tracking/error-tracking.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
 import { ResumeAnalysisModule } from './resume-analysis/resume-analysis.module';
+import { AIAssistantModule } from './ai-assistant/ai-assistant.module';
 import { CompressionMiddleware } from './middleware/compression.middleware';
 import { CacheControlMiddleware } from './middleware/cache-control.middleware';
 import { CorsMiddleware } from './middleware/cors.middleware';
@@ -36,6 +37,7 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     ErrorTrackingModule,
     WebhooksModule,
     ResumeAnalysisModule,
+    AIAssistantModule,
   ],
 })
 export class AppModule implements NestModule {
