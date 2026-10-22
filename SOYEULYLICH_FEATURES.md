@@ -1334,9 +1334,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Profile view milestone email - Email khi đạt mốc lượt xem (placeholder)
 
 21.3. Push Notifications (PWA)
-[X] - Browser push notifications - Thông báo đẩy trình duyệt (placeholder)
-[X] - Push notification opt-in - Đồng ý nhận thông báo đẩy (placeholder)
-[X] - Push notification preferences - Tùy chỉnh thông báo đẩy (placeholder)
+[X] - Browser push notifications - Thông báo đẩy trình duyệt (đã implement với service worker + push-notifications.service)
+[X] - Push notification opt-in - Đồng ý nhận thông báo đẩy (đã implement với permission request)
+[X] - Push notification preferences - Tùy chỉnh thông báo đẩy (đã implement với preferences UI)
 
 
 ================================================================================
@@ -2286,7 +2286,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v3.4)
+END OF FEATURE LIST (UPDATED v3.5)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2306,7 +2306,8 @@ So luong tinh nang da implement (Code Quality): 3
 So luong tinh nang da implement (Data Backup): 1
 So luong tinh nang da implement (Resume Analysis): 5
 So luong tinh nang da implement (AI Features): 10
-Tong cong: 1025+
+So luong tinh nang da implement (Push Notifications): 3
+Tong cong: 1028+
 
 Last Updated: 2026-10-23
-Version: 3.4
+Version: 3.5
