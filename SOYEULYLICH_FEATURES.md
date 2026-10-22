@@ -1384,8 +1384,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Import existing resume - Nhập sơ yếu lý lịch có sẵn (placeholder)
 [X] - Export DOCX - Xuất DOCX (placeholder)
 [X] - Export HTML - Xuất HTML (đã implement)
-[X] - Data backup - Sao lưu dữ liệu (đã implement)
-[X] - Data restore - Khôi phục dữ liệu (placeholder)
+[X] - Data backup - Sao lưu dữ liệu (đã implement với scripts/backup.sh)
+[X] - Data restore - Khôi phục dữ liệu (đã implement với scripts/restore.sh)
 
 
 ================================================================================
@@ -2286,7 +2286,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v3.1)
+END OF FEATURE LIST (UPDATED v3.2)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2303,7 +2303,8 @@ So luong tinh nang da implement (DevOps & Deployment): 5
 So luong tinh nang da implement (Documentation): 5
 So luong tinh nang da implement (Testing): 7
 So luong tinh nang da implement (Code Quality): 3
-Tong cong: 1009+
+So luong tinh nang da implement (Data Backup): 1
+Tong cong: 1010+
 
 Last Updated: 2026-10-23
-Version: 3.1
+Version: 3.2
