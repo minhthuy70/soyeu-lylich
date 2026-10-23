@@ -19,6 +19,7 @@ import { EmailNotificationsModule } from './email-notifications/email-notificati
 import { NotificationsModule } from './notifications/notifications.module';
 import { ResumeExportModule } from './resume-export/resume-export.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
+import { DatabaseHealthModule } from './database-health/database-health.module';
 import { CompressionMiddleware } from './middleware/compression.middleware';
 import { CacheControlMiddleware } from './middleware/cache-control.middleware';
 import { CorsMiddleware } from './middleware/cors.middleware';
@@ -48,6 +49,7 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     NotificationsModule,
     ResumeExportModule,
     FileUploadModule,
+    DatabaseHealthModule,
   ],
 })
 export class AppModule implements NestModule {
