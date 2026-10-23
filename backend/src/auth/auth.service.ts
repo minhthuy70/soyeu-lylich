@@ -162,6 +162,7 @@ export class AuthService {
         id: true,
         email: true,
         isEmailVerified: true,
+        role: true,
       },
     });
     return user;

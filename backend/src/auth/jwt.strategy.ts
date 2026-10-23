@@ -18,6 +18,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException();
     }
-    return user;
+    // Include role in the returned user object for AdminGuard
+    return {
+      id: user.id,
+      email: user.email,
+      isEmailVerified: user.isEmailVerified,
+      role: user.role,
+    };
   }
 }
