@@ -679,8 +679,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - URL format validation - Kiểm tra định dạng URL
 [X] - Real-time inline validation - Kiểm tra theo thời gian thực
 [X] - Checkbox validation - Kiểm tra checkbox (terms & privacy)
-[X] - File size validation - Kiểm tra kích thước file
-[X] - File type validation - Kiểm tra loại file
+[X] - File size validation - Kiểm tra kích thước file (đã implement với file-upload.service)
+[X] - File type validation - Kiểm tra loại file (đã implement với file-upload.service)
 [X] - Phone number validation - Kiểm tra số điện thoại
 [X] - Password strength validation - Kiểm tra độ mạnh mật khẩu
 
@@ -1247,9 +1247,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /admin/logs - Nhật ký hệ thống (placeholder)
 
 18.9. Upload Endpoints
-[X] - POST /upload/image - Tải ảnh lên (placeholder)
-[X] - DELETE /upload/:fileId - Xóa file (placeholder)
-[X] - GET /upload/:fileId - Lấy file (placeholder)
+[X] - POST /upload/image - Tải ảnh lên (đã implement với file-upload.service)
+[X] - DELETE /upload/:fileId - Xóa file (đã implement với file-upload.service)
+[X] - GET /upload/:fileId - Lấy file (đã implement với file-upload.service)
 
 18.10. Notification Endpoints
 [X] - GET /notifications - Lấy danh sách thông báo (placeholder)
@@ -2288,7 +2288,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v3.8)
+END OF FEATURE LIST (UPDATED v3.9)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2312,7 +2312,8 @@ So luong tinh nang da implement (Push Notifications): 3
 So luong tinh nang da implement (Email Notifications): 5
 So luong tinh nang da implement (Notifications): 10
 So luong tinh nang da implement (Resume Export): 3
-Tong cong: 1046+
+So luong tinh nang da implement (File Upload): 4
+Tong cong: 1050+
 
-Last Updated: 2026-10-23
-Version: 3.8
+Last Updated: 2026-10-24
+Version: 3.9
