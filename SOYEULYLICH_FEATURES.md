@@ -806,7 +806,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Cascade delete - Xóa dữ liệu liên quan
 [X] - Required field constraints - Ràng buộc trường bắt buộc
 [X] - Data type validation - Kiểm tra kiểu dữ liệu
-[X] - Soft delete - Xóa mềm (lưu trước khi xóa hẳn) (placeholder)
+[X] - Soft delete - Xóa mềm (đã implement với deletedAt field)
 
 
 ================================================================================
@@ -1108,15 +1108,19 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Indexes cho performance optimization
 [X] - Prisma ORM integration
 [X] - Database synchronization với npx prisma db push
-[X] - User model với role, isActive, timestamps
+[X] - User model với role, isActive, timestamps, deletedAt (soft delete)
 [X] - Resume model với public access fields
 [X] - ResumeView model cho analytics tracking
-[X] - Project model với tracking (views, clicks)
+[X] - Project model với tracking (views, clicks), deletedAt (soft delete)
 [X] - Session model cho session management
 [X] - Notification model cho in-app notifications
 [X] - SecurityAuditLog model cho security tracking
 [X] - IdentityDocument model cho document storage
 [X] - All models với createdAt, updatedAt timestamps
+[X] - Soft delete support (deletedAt field) cho User, Profile, Project
+[X] - Database health monitoring module với PostgreSQL-specific queries
+[X] - AdminGuard cho admin-only database health endpoints
+[X] - Database optimization (VACUUM ANALYZE) support
 
 18.34. API Endpoints Implementation Summary
 [X] - 150+ API endpoints implemented across 27 controllers
@@ -2288,7 +2292,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v3.9)
+END OF FEATURE LIST (UPDATED v4.0)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2313,7 +2317,8 @@ So luong tinh nang da implement (Email Notifications): 5
 So luong tinh nang da implement (Notifications): 10
 So luong tinh nang da implement (Resume Export): 3
 So luong tinh nang da implement (File Upload): 4
-Tong cong: 1050+
+So luong tinh nang da implement (Database): 6
+Tong cong: 1056+
 
 Last Updated: 2026-10-24
-Version: 3.9
+Version: 4.0
