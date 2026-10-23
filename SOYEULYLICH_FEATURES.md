@@ -659,17 +659,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - 404 Not Found handling - Xử lý 404 Not Found
 [X] - 500 Server Error handling - Xử lý lỗi server
 [X] - Error toast notifications - Thông báo lỗi toast
-[X] - Retry actions - Nút thử lại (placeholder)
-[X] - Offline error page - Trang báo lỗi mất kết nối (placeholder)
+[X] - Retry actions - Nút thử lại (đã implement với RetryButton component)
+[X] - Offline error page - Trang báo lỗi mất kết nối (đã implement với OfflinePage component)
 [X] - Rate limit error handling - Xử lý lỗi vượt giới hạn request
 
 15.2. Loading States
 [X] - Loading spinner - Spinner tải dữ liệu
 [X] - Skeleton screens - Skeleton loading
 [X] - Disabled buttons during submit - Khóa nút khi gửi form
-[X] - Loading overlays - Overlay đang tải (placeholder)
-[X] - Progress indicators - Chỉ báo tiến độ (placeholder)
-[X] - Optimistic UI updates - Cập nhật UI lạc quan (placeholder)
+[X] - Loading overlays - Overlay đang tải (đã implement với LoadingOverlay component)
+[X] - Progress indicators - Chỉ báo tiến độ (đã implement với ProgressBar component)
+[X] - Optimistic UI updates - Cập nhật UI lạc quan (đã implement với useOptimisticUpdate hooks)
 
 15.3. Form Validation
 [X] - Required field validation - Kiểm tra trường bắt buộc
@@ -2292,7 +2292,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v4.1)
+END OF FEATURE LIST (UPDATED v4.2)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2319,7 +2319,8 @@ So luong tinh nang da implement (Resume Export): 3
 So luong tinh nang da implement (File Upload): 4
 So luong tinh nang da implement (Database): 6
 So luong tinh nang da implement (Security): 12
-Tong cong: 1068+
+So luong tinh nang da implement (Error Handling): 4
+Tong cong: 1072+
 
 Last Updated: 2026-10-24
-Version: 4.1
+Version: 4.2
