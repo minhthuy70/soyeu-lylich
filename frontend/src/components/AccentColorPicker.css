@@ -1,0 +1,103 @@
+.accent-color-picker {
+  margin: 1rem 0;
+}
+
+.accent-color-picker__label {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.accent-color-picker__presets {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.accent-color-picker__preset {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.accent-color-picker__preset:hover {
+  transform: scale(1.1);
+}
+
+.accent-color-picker__preset--active {
+  border-color: #333;
+  transform: scale(1.15);
+}
+
+.accent-color-picker__custom {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.accent-color-picker__custom-label {
+  color: #333;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.accent-color-picker__input {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.accent-color-picker__text-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.accent-color-picker__text-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .accent-color-picker__label {
+    color: #e0e0e0;
+  }
+
+  .accent-color-picker__preset--active {
+    border-color: #e0e0e0;
+  }
+
+  .accent-color-picker__custom {
+    background-color: #2d2d2d;
+  }
+
+  .accent-color-picker__custom-label {
+    color: #e0e0e0;
+  }
+
+  .accent-color-picker__text-input {
+    background-color: #404040;
+    border-color: #555;
+    color: #e0e0e0;
+  }
+
+  .accent-color-picker__text-input:focus {
+    border-color: #0056b3;
+  }
+}

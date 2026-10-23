@@ -1,0 +1,108 @@
+.sidebar-width-slider {
+  margin: 1.5rem 0;
+}
+
+.sidebar-width-slider__label {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sidebar-width-slider__value {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.sidebar-width-slider__input {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: #e0e0e0;
+  outline: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.sidebar-width-slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebar-width-slider__input::-webkit-slider-thumb:hover {
+  background: #0056b3;
+}
+
+.sidebar-width-slider__input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.sidebar-width-slider__input::-moz-range-thumb:hover {
+  background: #0056b3;
+}
+
+.sidebar-width-slider__preview {
+  margin-top: 0.5rem;
+  height: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sidebar-width-slider__preview-bar {
+  height: 100%;
+  background-color: #007bff;
+  transition: width 0.2s;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .sidebar-width-slider__label {
+    color: #e0e0e0;
+  }
+
+  .sidebar-width-slider__value {
+    color: #0056b3;
+  }
+
+  .sidebar-width-slider__input {
+    background: #404040;
+  }
+
+  .sidebar-width-slider__input::-webkit-slider-thumb {
+    background: #0056b3;
+  }
+
+  .sidebar-width-slider__input::-webkit-slider-thumb:hover {
+    background: #004494;
+  }
+
+  .sidebar-width-slider__input::-moz-range-thumb {
+    background: #0056b3;
+  }
+
+  .sidebar-width-slider__input::-moz-range-thumb:hover {
+    background: #004494;
+  }
+
+  .sidebar-width-slider__preview {
+    background-color: #2d2d2d;
+  }
+
+  .sidebar-width-slider__preview-bar {
+    background-color: #0056b3;
+  }
+}
