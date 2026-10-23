@@ -1,0 +1,163 @@
+.file-upload {
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.drop-zone {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  transition: border-color 0.2s, background-color 0.2s;
+  cursor: pointer;
+}
+
+.drop-zone.active {
+  border-color: #007bff;
+  background-color: #f0f7ff;
+}
+
+.drop-zone:hover {
+  border-color: #007bff;
+}
+
+.drop-zone-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.drop-zone-text {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.drop-zone-text button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.drop-zone-text button:hover {
+  color: #0056b3;
+}
+
+.drop-zone-text button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.drop-zone-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.uploaded-file {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.file-info {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.delete-btn {
+  padding: 0.5rem 1rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.message {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .file-upload {
+    background-color: #2d2d2d;
+  }
+
+  .drop-zone {
+    border-color: #404040;
+  }
+
+  .drop-zone.active {
+    background-color: #1a3a5c;
+    border-color: #007bff;
+  }
+
+  .drop-zone:hover {
+    border-color: #007bff;
+  }
+
+  .drop-zone-text {
+    color: #e0e0e0;
+  }
+
+  .drop-zone-hint {
+    color: #b0b0b0;
+  }
+
+  .uploaded-file {
+    background-color: #3d3d3d;
+  }
+
+  .file-info {
+    color: #e0e0e0;
+  }
+
+  .message {
+    background-color: #1a3a5c;
+    color: #e0e0e0;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .file-upload {
+    padding: 1rem;
+  }
+
+  .drop-zone {
+    padding: 1.5rem;
+  }
+
+  .uploaded-file {
+    flex-direction: column;
+  }
+
+  .delete-btn {
+    width: 100%;
+  }
+}
