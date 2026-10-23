@@ -20,6 +20,7 @@ model User {
   resetPasswordExpiry     DateTime?
   role                    String   @default("user") // 'user', 'admin'
   isActive                Boolean  @default(true)
+  deletedAt               DateTime? // Soft delete support
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
   profile                 Profile?
@@ -76,6 +77,7 @@ model Profile {
   height       Int?
   weight       Int?
   phoneNumber  String?
+  deletedAt    DateTime? // Soft delete support
   secondaryPhone String?
   currentAddress String?
   permanentAddress String?
@@ -324,6 +326,7 @@ model Project {
   solutions       String?
   impact          String?
   client          String?
+  deletedAt       DateTime? // Soft delete support
   projectImages   ProjectImage[]
   projectViews    ProjectView[]
   projectClicks   ProjectClick[]
