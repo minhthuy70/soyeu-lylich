@@ -506,20 +506,20 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Search history - Lịch sử tìm kiếm
 
 11.2. Filtering
-[X] - Filter projects by technology - Lọc dự án theo công nghệ (placeholder)
-[X] - Filter experience by period - Lọc kinh nghiệm theo thời gian (placeholder)
-[X] - Filter certificates by organization - Lọc chứng chỉ theo đơn vị (placeholder)
-[X] - Filter skills by category - Lọc kỹ năng theo danh mục (placeholder)
-[X] - Filter by date range - Lọc theo khoảng thời gian (placeholder)
-[X] - Filter by status - Lọc theo trạng thái (placeholder)
-[X] - Clear filters - Xóa bộ lọc (placeholder)
-[X] - Save filter presets - Lưu bộ lọc yêu thích (placeholder)
+[X] - Filter projects by technology - Lọc dự án theo công nghệ (đã implement với SearchFilterService)
+[X] - Filter experience by period - Lọc kinh nghiệm theo thời gian (đã implement với SearchFilterService)
+[X] - Filter certificates by organization - Lọc chứng chỉ theo đơn vị (đã implement với SearchFilterService)
+[X] - Filter skills by category - Lọc kỹ năng theo danh mục (đã implement với SearchFilterService)
+[X] - Filter by date range - Lọc theo khoảng thời gian (đã implement với SearchFilterService)
+[X] - Filter by status - Lọc theo trạng thái (đã implement với SearchFilterService)
+[X] - Clear filters - Xóa bộ lọc (đã implement với SearchFilterService)
+[X] - Save filter presets - Lưu bộ lọc yêu thích (đã implement với SearchFilterService)
 
 11.3. Sorting
-[X] - Sort by date - Sắp xếp theo ngày (placeholder)
-[X] - Sort by name - Sắp xếp theo tên (placeholder)
-[X] - Sort by relevance - Sắp xếp theo độ phù hợp (placeholder)
-[X] - Custom sort order - Thứ tự sắp xếp tùy chỉnh (placeholder)
+[X] - Sort by date - Sắp xếp theo ngày (đã implement với SortingService)
+[X] - Sort by name - Sắp xếp theo tên (đã implement với SortingService)
+[X] - Sort by relevance - Sắp xếp theo độ phù hợp (đã implement với SortingService)
+[X] - Custom sort order - Thứ tự sắp xếp tùy chỉnh (đã implement với SortingService)
 
 
 ================================================================================
@@ -2292,7 +2292,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v4.5)
+END OF FEATURE LIST (UPDATED v4.6)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2323,7 +2323,8 @@ So luong tinh nang da implement (Error Handling): 4
 So luong tinh nang da implement (UI/UX Customization): 8
 So luong tinh nang da implement (PWA & Mobile): 8
 So luong tinh nang da implement (Admin System): 20
-Tong cong: 1108+
+So luong tinh nang da implement (Search & Filter): 13
+Tong cong: 1121+
 
 Last Updated: 2026-10-24
-Version: 4.5
+Version: 4.6

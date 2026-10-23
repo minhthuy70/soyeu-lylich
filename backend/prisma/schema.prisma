@@ -54,6 +54,7 @@ model User {
   userBehaviorEvents      UserBehaviorEvent[]
   analyticsSessions       AnalyticsSession[]
   securityAuditLogs       SecurityAuditLog[]
+  filterPresets           FilterPreset[]
 
   @@index([role])
   @@index([isActive])
@@ -709,5 +710,20 @@ model Notification {
   @@index([userId])
   @@index([isRead])
   @@index([createdAt])
+  @@index([type])
+}
+
+model FilterPreset {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  name      String
+  type      String   // 'projects', 'experience', 'certificates', 'skills'
+  filters   Json     // Filter configuration as JSON
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
   @@index([type])
 }
