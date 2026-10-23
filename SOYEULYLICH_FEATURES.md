@@ -595,8 +595,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Touch-friendly controls - Điều khiển thân thiện cảm ứng
 [X] - Responsive resume preview - Preview sơ yếu lý lịch responsive
 [X] - Mobile form layout - Form tối ưu cho mobile
-[X] - Swipe gestures - Cử chỉ vuốt trên mobile (placeholder)
-[X] - Bottom sheet navigation - Navigation dạng bottom sheet (placeholder)
+[X] - Swipe gestures - Cử chỉ vuốt trên mobile (đã implement với Swipeable component)
+[X] - Bottom sheet navigation - Navigation dạng bottom sheet (đã implement với BottomSheet component)
 
 13.3. Desktop Layout
 [X] - Sidebar navigation - Sidebar điều hướng
@@ -607,12 +607,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Context menus - Menu ngữ cảnh (placeholder)
 
 13.4. Progressive Web App (PWA)
-[X] - PWA manifest - File manifest PWA (placeholder)
-[X] - Service worker - Service worker offline (placeholder)
-[X] - Offline mode - Chế độ offline cơ bản (placeholder)
-[X] - Install prompt - Gợi ý cài đặt ứng dụng (placeholder)
-[X] - Push notifications - Thông báo đẩy (placeholder)
-[X] - Background sync - Đồng bộ nền (placeholder)
+[X] - PWA manifest - File manifest PWA (đã implement với manifest.json)
+[X] - Service worker - Service worker offline (đã implement với sw.js - updated v2)
+[X] - Offline mode - Chế độ offline cơ bản (đã implement với sw.js caching)
+[X] - Install prompt - Gợi ý cài đặt ứng dụng (đã implement với useInstallPrompt hook)
+[X] - Push notifications - Thông báo đẩy (đã implement với sw.js push handler)
+[X] - Background sync - Đồng bộ nền (đã implement với sw.js sync event)
 
 
 ================================================================================
@@ -2292,7 +2292,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v4.3)
+END OF FEATURE LIST (UPDATED v4.4)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2321,7 +2321,8 @@ So luong tinh nang da implement (Database): 6
 So luong tinh nang da implement (Security): 12
 So luong tinh nang da implement (Error Handling): 4
 So luong tinh nang da implement (UI/UX Customization): 8
-Tong cong: 1080+
+So luong tinh nang da implement (PWA & Mobile): 8
+Tong cong: 1088+
 
 Last Updated: 2026-10-24
-Version: 4.3
+Version: 4.4
