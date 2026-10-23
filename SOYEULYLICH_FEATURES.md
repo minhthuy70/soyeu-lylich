@@ -466,8 +466,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Certificate count - Số lượng chứng chỉ
 [X] - Quick actions - Các thao tác nhanh
 [X] - Recent updates - Cập nhật gần đây
-[X] - Activity feed - Luồng hoạt động gần đây (placeholder)
-[X] - Resume view statistics chart - Biểu đồ thống kê lượt xem (placeholder)
+[X] - Activity feed - Luồng hoạt động gần đây (đã implement với DashboardService)
+[X] - Resume view statistics chart - Biểu đồ thống kê lượt xem (đã implement với DashboardService)
 [X] - Upcoming certificate expiry - Chứng chỉ sắp hết hạn
 
 10.2. Profile Completion (Độ hoàn thiện hồ sơ)

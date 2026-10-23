@@ -22,6 +22,7 @@ import { FileUploadModule } from './file-upload/file-upload.module';
 import { DatabaseHealthModule } from './database-health/database-health.module';
 import { AdminModule } from './admin/admin.module';
 import { SearchFilterModule } from './search-filter/search-filter.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 import { CompressionMiddleware } from './middleware/compression.middleware';
 import { CacheControlMiddleware } from './middleware/cache-control.middleware';
 import { CorsMiddleware } from './middleware/cors.middleware';
@@ -54,6 +55,7 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     DatabaseHealthModule,
     AdminModule,
     SearchFilterModule,
+    DashboardModule,
   ],
 })
 export class AppModule implements NestModule {
