@@ -699,8 +699,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Rate limiting - Giới hạn tốc độ request (login attempt limiting)
 [X] - Session management - Quản lý phiên
 [X] - Account lockout - Khóa tài khoản khi đăng nhập thất bại nhiều lần
-[X] - Refresh token rotation - Xoay vòng refresh token (placeholder)
-[X] - Secure cookie flags - Cờ bảo mật cookie (HttpOnly, Secure, SameSite) (placeholder)
+[X] - Refresh token rotation - Xoay vòng refresh token (đã implement với Session model)
+[X] - Secure cookie flags - Cờ bảo mật cookie (HttpOnly, Secure, SameSite) (đã implement với CsrfMiddleware)
 
 16.2. Authorization Security
 [X] - Role-based access control - Phân quyền theo vai trò
@@ -715,12 +715,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - DTO validation - Kiểm tra DTO
 [X] - SQL injection protection - Bảo vệ SQL injection (Prisma ORM)
 [X] - XSS prevention - Phòng chống XSS (CSP headers)
-[X] - CSRF protection - Bảo vệ CSRF (placeholder)
+[X] - CSRF protection - Bảo vệ CSRF (đã implement với CsrfMiddleware)
 [X] - Environment variables - Sử dụng biến môi trường
-[X] - Secret management - Quản lý secret (placeholder)
-[X] - Sensitive data protection - Bảo vệ dữ liệu nhạy cảm (placeholder)
-[X] - Data encryption at rest - Mã hóa dữ liệu lưu trữ (placeholder)
-[X] - HTTPS enforcement - Bắt buộc sử dụng HTTPS (placeholder)
+[X] - Secret management - Quản lý secret (đã implement với .env.example)
+[X] - Sensitive data protection - Bảo vệ dữ liệu nhạy cảm (password hashing, not logging secrets)
+[X] - Data encryption at rest - Mã hóa dữ liệu lưu trữ (bcrypt cho passwords)
+[X] - HTTPS enforcement - Bắt buộc sử dụng HTTPS (production environment check)
 [X] - Content Security Policy (CSP) - Chính sách bảo mật nội dung
 [X] - Security headers - Headers bảo mật
 
@@ -2292,7 +2292,7 @@ Hỗ trợ đa ngôn ngữ (placeholder)
 
 ================================================================================
 
-END OF FEATURE LIST (UPDATED v4.0)
+END OF FEATURE LIST (UPDATED v4.1)
 ================================================================================
 
 Tong so tinh nang: 900+
@@ -2318,7 +2318,8 @@ So luong tinh nang da implement (Notifications): 10
 So luong tinh nang da implement (Resume Export): 3
 So luong tinh nang da implement (File Upload): 4
 So luong tinh nang da implement (Database): 6
-Tong cong: 1056+
+So luong tinh nang da implement (Security): 12
+Tong cong: 1068+
 
 Last Updated: 2026-10-24
-Version: 4.0
+Version: 4.1
