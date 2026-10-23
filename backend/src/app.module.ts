@@ -18,6 +18,7 @@ import { PushNotificationsModule } from './push-notifications/push-notifications
 import { EmailNotificationsModule } from './email-notifications/email-notifications.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ResumeExportModule } from './resume-export/resume-export.module';
+import { FileUploadModule } from './file-upload/file-upload.module';
 import { CompressionMiddleware } from './middleware/compression.middleware';
 import { CacheControlMiddleware } from './middleware/cache-control.middleware';
 import { CorsMiddleware } from './middleware/cors.middleware';
@@ -46,6 +47,7 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     EmailNotificationsModule,
     NotificationsModule,
     ResumeExportModule,
+    FileUploadModule,
   ],
 })
 export class AppModule implements NestModule {
