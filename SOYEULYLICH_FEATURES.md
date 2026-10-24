@@ -494,26 +494,26 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 11.1. Search
-[X] - Search profile information - Tìm kiếm thông tin hồ sơ
-[X] - Search projects - Tìm kiếm dự án
-[X] - Search skills - Tìm kiếm kỹ năng
-[X] - Search certificates - Tìm kiếm chứng chỉ
-[X] - Case-insensitive search - Không phân biệt hoa thường
-[X] - Real-time search - Tìm kiếm thời gian thực
-[X] - Clear search - Xóa từ khóa
-[X] - No results message - Thông báo không có kết quả
-[X] - Global search across all sections - Tìm kiếm toàn bộ hệ thống
-[X] - Search history - Lịch sử tìm kiếm
+[X] - Search profile information - Tìm kiếm thông tin hồ sơ (đã implement với globalSearch)
+[X] - Search projects - Tìm kiếm dự án (đã implement với globalSearch)
+[X] - Search skills - Tìm kiếm kỹ năng (đã implement với globalSearch)
+[X] - Search certificates - Tìm kiếm chứng chỉ (đã implement với globalSearch)
+[X] - Case-insensitive search - Không phân biệt hoa thường (đã implement với globalSearch)
+[X] - Real-time search - Tìm kiếm thời gian thực (đã implement với SearchBar component)
+[X] - Clear search - Xóa từ khóa (đã implement với SearchBar component)
+[X] - No results message - Thông báo không có kết quả (đã implement với SearchBar component)
+[X] - Global search across all sections - Tìm kiếm toàn bộ hệ thống (đã implement với globalSearch)
+[X] - Search history - Lịch sử tìm kiếm (đã implement với saveSearchHistory/getSearchHistory)
 
 11.2. Filtering
-[X] - Filter projects by technology - Lọc dự án theo công nghệ (đã implement với SearchFilterService)
-[X] - Filter experience by period - Lọc kinh nghiệm theo thời gian (đã implement với SearchFilterService)
-[X] - Filter certificates by organization - Lọc chứng chỉ theo đơn vị (đã implement với SearchFilterService)
-[X] - Filter skills by category - Lọc kỹ năng theo danh mục (đã implement với SearchFilterService)
-[X] - Filter by date range - Lọc theo khoảng thời gian (đã implement với SearchFilterService)
-[X] - Filter by status - Lọc theo trạng thái (đã implement với SearchFilterService)
-[X] - Clear filters - Xóa bộ lọc (đã implement với SearchFilterService)
-[X] - Save filter presets - Lưu bộ lọc yêu thích (đã implement với SearchFilterService)
+[X] - Filter projects by technology - Lọc dự án theo công nghệ (đã implement với FilterPanel component)
+[X] - Filter experience by period - Lọc kinh nghiệm theo thời gian (đã implement với FilterPanel component)
+[X] - Filter certificates by organization - Lọc chứng chỉ theo đơn vị (đã implement với FilterPanel component)
+[X] - Filter skills by category - Lọc kỹ năng theo danh mục (đã implement với FilterPanel component)
+[X] - Filter by date range - Lọc theo khoảng thời gian (đã implement với FilterPanel component)
+[X] - Filter by status - Lọc theo trạng thái (đã implement với FilterPanel component)
+[X] - Clear filters - Xóa bộ lọc (đã implement với FilterPanel component)
+[X] - Save filter presets - Lưu bộ lọc yêu thích (đã implement với FilterPanel component)
 
 11.3. Sorting
 [X] - Sort by date - Sắp xếp theo ngày (đã implement với SortingService)
