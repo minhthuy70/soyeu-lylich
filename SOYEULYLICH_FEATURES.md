@@ -725,12 +725,12 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Security headers - Headers bảo mật
 
 16.4. Privacy (Quyền riêng tư)
-[X] - GDPR compliance - Tuân thủ GDPR (placeholder)
-[X] - Data export request - Yêu cầu xuất toàn bộ dữ liệu cá nhân (implemented in backup)
-[X] - Data deletion request - Yêu cầu xóa toàn bộ dữ liệu (implemented in delete account)
-[X] - Privacy settings - Cài đặt quyền riêng tư (placeholder)
-[X] - Cookie consent - Đồng ý sử dụng cookie (placeholder)
-[X] - Data retention policy - Chính sách lưu giữ dữ liệu (placeholder)
+[X] - GDPR compliance - Tuân thủ GDPR (đã implement với PrivacyService)
+[X] - Data export request - Yêu cầu xuất toàn bộ dữ liệu cá nhân (đã implement với PrivacyService)
+[X] - Data deletion request - Yêu cầu xóa toàn bộ dữ liệu (đã implement với PrivacyService)
+[X] - Privacy settings - Cài đặt quyền riêng tư (đã implement với PrivacyService)
+[X] - Cookie consent - Đồng ý sử dụng cookie (đã implement với PrivacyService)
+[X] - Data retention policy - Chính sách lưu giữ dữ liệu (đã implement với PrivacyService)
 
 
 ================================================================================
