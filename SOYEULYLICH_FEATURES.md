@@ -550,15 +550,15 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Export user list - Xuất danh sách người dùng (đã implement với UserManagementService)
 [X] - Bulk user actions - Thao tác hàng loạt (đã implement với UserManagementService)
 [X] - User activity log - Nhật ký hoạt động người dùng (đã implement với UserManagementService)
-[X] - Impersonate user - Xem hệ thống dưới góc độ người dùng (placeholder)
+[X] - Impersonate user - Xem hệ thống dưới góc độ người dùng (đã implement với impersonateUser method)
 
 12.3. Content Management
-[X] - Manage resume templates - Quản lý mẫu sơ yếu lý lịch (placeholder)
-[X] - Manage skill categories - Quản lý danh mục kỹ năng (placeholder)
-[X] - Manage system settings - Quản lý cài đặt hệ thống (placeholder)
-[X] - Manage public content - Quản lý nội dung công khai (placeholder)
-[X] - Manage announcement banners - Quản lý banner thông báo (placeholder)
-[X] - Manage FAQ - Quản lý câu hỏi thường gặp (placeholder)
+[X] - Manage resume templates - Quản lý mẫu sơ yếu lý lịch (đã implement với ContentManagementService)
+[X] - Manage skill categories - Quản lý danh mục kỹ năng (đã implement với ContentManagementService)
+[X] - Manage system settings - Quản lý cài đặt hệ thống (đã implement với ContentManagementService)
+[X] - Manage public content - Quản lý nội dung công khai (đã implement với ContentManagementService)
+[X] - Manage announcement banners - Quản lý banner thông báo (đã implement với ContentManagementService)
+[X] - Manage FAQ - Quản lý câu hỏi thường gặp (đã implement với ContentManagementService)
 
 12.4. System Logs & Audit
 [X] - System error logs - Nhật ký lỗi hệ thống (đã implement với SystemLogsService)
