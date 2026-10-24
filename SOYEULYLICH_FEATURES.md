@@ -602,7 +602,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Sidebar navigation - Sidebar điều hướng
 [X] - Multi-column layout - Bố cục nhiều cột
 [X] - Hover effects - Hiệu ứng hover
-[X] - Keyboard navigation - Điều hướng bằng bàn phím (placeholder)
+[X] - Keyboard navigation - Điều hướng bằng bàn phím (đã implement với useKeyboardNavigation hook)
 [X] - Tooltips - Tooltip hướng dẫn (đã implement với Tooltip component)
 [X] - Context menus - Menu ngữ cảnh (đã implement với ContextMenu component)
 
