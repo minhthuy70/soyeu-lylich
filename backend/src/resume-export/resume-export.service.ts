@@ -206,4 +206,203 @@ export class ResumeExportService {
       failed: exports.filter((e) => e.error).length,
     };
   }
+
+  // Generate public URL for resume
+  async generatePublicUrl(resumeId: number, userId: number, customSlug?: string) {
+    const resume = await this.prisma.resume.findFirst({
+      where: { id: resumeId, userId },
+    });
+
+    if (!resume) {
+      throw new Error('Resume not found');
+    }
+
+    // Generate unique slug if not provided
+    const slug = customSlug || `${resume.id}-${Buffer.from(resume.title).toString('base64').substring(0, 8)}`;
+
+    // Update resume with public slug
+    const updatedResume = await this.prisma.resume.update({
+      where: { id: resumeId },
+      data: {
+        publicSlug: slug,
+        isPublic: true,
+      },
+    });
+
+    return {
+      resumeId: updatedResume.id,
+      publicUrl: `/public/${slug}`,
+      slug,
+      isPublic: true,
+    };
+  }
+
+  // Disable public access
+  async disablePublicAccess(resumeId: number, userId: number) {
+    const resume = await this.prisma.resume.findFirst({
+      where: { id: resumeId, userId },
+    });
+
+    if (!resume) {
+      throw new Error('Resume not found');
+    }
+
+    await this.prisma.resume.update({
+      where: { id: resumeId },
+      data: {
+        isPublic: false,
+        publicSlug: null,
+      },
+    });
+
+    return {
+      resumeId,
+      isPublic: false,
+      message: 'Public access disabled',
+    };
+  }
+
+  // Get public resume by slug
+  async getPublicResume(slug: string) {
+    const resume = await this.prisma.resume.findFirst({
+      where: { publicSlug: slug, isPublic: true },
+      include: {
+        experiences: true,
+        projects: true,
+        skills: true,
+        certificates: true,
+        educations: true,
+        achievements: true,
+        publications: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!resume) {
+      throw new Error('Public resume not found');
+    }
+
+    return resume;
+  }
+
+  // Track public resume view
+  async trackPublicView(resumeId: number, metadata?: {
+    ipAddress?: string;
+    userAgent?: string;
+    referrer?: string;
+  }) {
+    await this.prisma.resumeView.create({
+      data: {
+        resumeId,
+        ipAddress: metadata?.ipAddress || 'unknown',
+        userAgent: metadata?.userAgent || 'unknown',
+        referrer: metadata?.referrer || 'direct',
+      },
+    });
+
+    return { message: 'View tracked' };
+  }
+
+  // Generate QR code data (requires qrcode library in production)
+  async generateQrCode(resumeId: number, userId: number) {
+    const resume = await this.prisma.resume.findFirst({
+      where: { id: resumeId, userId },
+    });
+
+    if (!resume) {
+      throw new Error('Resume not found');
+    }
+
+    if (!resume.isPublic || !resume.publicSlug) {
+      throw new Error('Resume is not public');
+    }
+
+    const publicUrl = `${process.env.APP_URL || 'http://localhost:3000'}/public/${resume.publicSlug}`;
+
+    // In production, use library like 'qrcode' to generate actual QR code
+    // This is a mock implementation
+    return {
+      resumeId,
+      publicUrl,
+      qrCodeData: publicUrl, // In production, this would be base64 encoded QR image
+      message: 'QR code data generated (mock - requires qrcode library)',
+    };
+  }
+
+  // Share resume via email (requires email service)
+  async shareViaEmail(resumeId: number, userId: number, recipients: string[], message?: string) {
+    const resume = await this.prisma.resume.findFirst({
+      where: { id: resumeId, userId },
+    });
+
+    if (!resume) {
+      throw new Error('Resume not found');
+    }
+
+    const publicUrl = resume.isPublic && resume.publicSlug
+      ? `${process.env.APP_URL || 'http://localhost:3000'}/public/${resume.publicSlug}`
+      : null;
+
+    // In production, use email service to send emails
+    // This is a mock implementation
+    return {
+      resumeId,
+      recipients,
+      message,
+      publicUrl,
+      sent: true,
+      count: recipients.length,
+      mock: true,
+    };
+  }
+
+  // Get sharing analytics
+  async getSharingAnalytics(resumeId: number, userId: number, period: 'week' | 'month' | 'year' = 'month') {
+    const now = new Date();
+    let startDate: Date;
+
+    switch (period) {
+      case 'week':
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case 'month':
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case 'year':
+        startDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+        break;
+      default:
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    }
+
+    const views = await this.prisma.resumeView.findMany({
+      where: {
+        resumeId,
+        createdAt: { gte: startDate },
+      },
+    });
+
+    const totalViews = views.length;
+    const uniqueVisitors = new Set(views.map((v) => v.ipAddress)).size;
+    const referrers = views.reduce((acc, v) => {
+      acc[v.referrer] = (acc[v.referrer] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return {
+      resumeId,
+      period,
+      totalViews,
+      uniqueVisitors,
+      referrers,
+      startDate,
+      endDate: now,
+    };
+  }
 }

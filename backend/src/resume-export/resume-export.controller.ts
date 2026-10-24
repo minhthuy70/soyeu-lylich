@@ -55,4 +55,66 @@ export class ResumeExportController {
     const userId = req.user?.id || 1;
     return this.resumeExportService.exportMultipleResumes(body.resumeIds, userId, body.format);
   }
+
+  @Post(':id/public')
+  @HttpCode(HttpStatus.OK)
+  async generatePublicUrl(
+    @Param('id') id: string,
+    @Body() body: { customSlug?: string },
+    @Request() req,
+  ) {
+    const userId = req.user?.id || 1;
+    return this.resumeExportService.generatePublicUrl(parseInt(id), userId, body.customSlug);
+  }
+
+  @Delete(':id/public')
+  @HttpCode(HttpStatus.OK)
+  async disablePublicAccess(@Param('id') id: string, @Request() req) {
+    const userId = req.user?.id || 1;
+    return this.resumeExportService.disablePublicAccess(parseInt(id), userId);
+  }
+
+  @Get('public/:slug')
+  @HttpCode(HttpStatus.OK)
+  async getPublicResume(@Param('slug') slug: string) {
+    return this.resumeExportService.getPublicResume(slug);
+  }
+
+  @Post(':id/track-view')
+  @HttpCode(HttpStatus.OK)
+  async trackView(
+    @Param('id') id: string,
+    @Body() body: { ipAddress?: string; userAgent?: string; referrer?: string },
+  ) {
+    return this.resumeExportService.trackPublicView(parseInt(id), body);
+  }
+
+  @Get(':id/qrcode')
+  @HttpCode(HttpStatus.OK)
+  async generateQrCode(@Param('id') id: string, @Request() req) {
+    const userId = req.user?.id || 1;
+    return this.resumeExportService.generateQrCode(parseInt(id), userId);
+  }
+
+  @Post(':id/share-email')
+  @HttpCode(HttpStatus.OK)
+  async shareViaEmail(
+    @Param('id') id: string,
+    @Body() body: { recipients: string[]; message?: string },
+    @Request() req,
+  ) {
+    const userId = req.user?.id || 1;
+    return this.resumeExportService.shareViaEmail(parseInt(id), userId, body.recipients, body.message);
+  }
+
+  @Get(':id/analytics')
+  @HttpCode(HttpStatus.OK)
+  async getAnalytics(
+    @Param('id') id: string,
+    @Query('period') period: 'week' | 'month' | 'year' = 'month',
+    @Request() req,
+  ) {
+    const userId = req.user?.id || 1;
+    return this.resumeExportService.getSharingAnalytics(parseInt(id), userId, period);
+  }
 }

@@ -1,216 +1,103 @@
 import React, { useState } from 'react';
 import './ResumeExport.css';
 
-export default function ResumeExport({ resumeId, resumeTitle }) {
-  const [exporting, setExporting] = useState(false);
-  const [exportFormat, setExportFormat] = useState(null);
-  const [message, setMessage] = useState('');
-  const [pdfOptions, setPdfOptions] = useState({
-    watermark: '',
-    pageSize: 'A4',
-  });
-  const [showPdfOptions, setShowPdfOptions] = useState(false);
+export function ResumeExport({ resumeId, userId }) {
+  const [exportFormat, setExportFormat] = useState('pdf');
+  const [loading, setLoading] = useState(false);
+  const [watermark, setWatermark] = useState('');
+  const [pageSize, setPageSize] = useState('A4');
 
-  const exportResume = async (format) => {
-    setExporting(true);
-    setExportFormat(format);
-    setMessage('');
-
+  const handleExport = async () => {
+    setLoading(true);
     try {
-      let url = `/api/resume-export/${resumeId}/${format}`;
-      let body = {};
-
-      if (format === 'pdf') {
-        body = pdfOptions;
-      }
-
-      const response = await fetch(url, {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/resume-export/${resumeId}/${exportFormat}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          watermark: watermark || undefined,
+          pageSize: exportFormat === 'pdf' ? pageSize : undefined,
+        }),
       });
+      const data = await response.json();
 
-      if (response.ok) {
-        const data = await response.json();
+      // Create download link
+      const blob = new Blob([data.content], { type: 'application/octet-stream' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = data.filename;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
 
-        // Create download link
-        const blob = new Blob([data.content], { type: 'text/plain' });
-        const downloadUrl = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = data.filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(downloadUrl);
-
-        setMessage(`Successfully exported to ${format.toUpperCase()}`);
-      } else {
-        setMessage(`Failed to export to ${format.toUpperCase()}`);
-      }
+      alert(`${exportFormat.toUpperCase()} export successful!`);
     } catch (error) {
-      setMessage(`Error exporting to ${format.toUpperCase()}`);
+      console.error('Export failed:', error);
+      alert('Export failed. Please try again.');
     } finally {
-      setExporting(false);
-      setExportFormat(null);
+      setLoading(false);
     }
   };
 
-  const exportAllFormats = async () => {
-    setExporting(true);
-    setExportFormat('all');
-    setMessage('');
-
-    const formats = ['pdf', 'docx', 'txt', 'json', 'html'];
-    let successCount = 0;
-
-    for (const format of formats) {
-      try {
-        let url = `/api/resume-export/${resumeId}/${format}`;
-        let body = {};
-
-        if (format === 'pdf') {
-          body = pdfOptions;
-        }
-
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-          body: JSON.stringify(body),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const blob = new Blob([data.content], { type: 'text/plain' });
-          const downloadUrl = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = downloadUrl;
-          link.download = data.filename;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          window.URL.revokeObjectURL(downloadUrl);
-          successCount++;
-        }
-      } catch (error) {
-        console.error(`Error exporting to ${format}:`, error);
-      }
-    }
-
-    setExporting(false);
-    setExportFormat(null);
-    setMessage(`Exported ${successCount}/${formats.length} formats`);
+  const handlePrint = () => {
+    window.print();
   };
 
   return (
     <div className="resume-export">
-      <div className="export-header">
-        <h3>Export Resume</h3>
-        <p className="resume-title">{resumeTitle}</p>
-      </div>
+      <h3>Export Resume</h3>
 
       <div className="export-options">
-        <div className="export-formats">
-          <h4>Export Format</h4>
-          <div className="format-buttons">
-            <button
-              onClick={() => exportResume('pdf')}
-              disabled={exporting}
-              className={exporting && exportFormat === 'pdf' ? 'loading' : ''}
-            >
-              {exporting && exportFormat === 'pdf' ? 'Exporting...' : '📄 PDF'}
-            </button>
-            <button
-              onClick={() => exportResume('docx')}
-              disabled={exporting}
-              className={exporting && exportFormat === 'docx' ? 'loading' : ''}
-            >
-              {exporting && exportFormat === 'docx' ? 'Exporting...' : '📝 DOCX'}
-            </button>
-            <button
-              onClick={() => exportResume('txt')}
-              disabled={exporting}
-              className={exporting && exportFormat === 'txt' ? 'loading' : ''}
-            >
-              {exporting && exportFormat === 'txt' ? 'Exporting...' : '📃 TXT'}
-            </button>
-            <button
-              onClick={() => exportResume('json')}
-              disabled={exporting}
-              className={exporting && exportFormat === 'json' ? 'loading' : ''}
-            >
-              {exporting && exportFormat === 'json' ? 'Exporting...' : '🔧 JSON'}
-            </button>
-            <button
-              onClick={() => exportResume('html')}
-              disabled={exporting}
-              className={exporting && exportFormat === 'html' ? 'loading' : ''}
-            >
-              {exporting && exportFormat === 'html' ? 'Exporting...' : '🌐 HTML'}
-            </button>
-          </div>
+        <div className="export-format">
+          <label>Format:</label>
+          <select value={exportFormat} onChange={(e) => setExportFormat(e.target.value)}>
+            <option value="pdf">PDF</option>
+            <option value="docx">DOCX (Word)</option>
+            <option value="html">HTML</option>
+            <option value="txt">Plain Text</option>
+            <option value="json">JSON</option>
+          </select>
         </div>
 
-        <div className="pdf-options">
-          <h4>
-            PDF Options
-            <button
-              className="toggle-btn"
-              onClick={() => setShowPdfOptions(!showPdfOptions)}
-            >
-              {showPdfOptions ? '▼' : '▶'}
-            </button>
-          </h4>
-          {showPdfOptions && (
-            <div className="pdf-options-content">
-              <div className="form-group">
-                <label>Watermark (optional)</label>
-                <input
-                  type="text"
-                  value={pdfOptions.watermark}
-                  onChange={(e) => setPdfOptions({ ...pdfOptions, watermark: e.target.value })}
-                  placeholder="e.g., CONFIDENTIAL"
-                />
-              </div>
-              <div className="form-group">
-                <label>Page Size</label>
-                <select
-                  value={pdfOptions.pageSize}
-                  onChange={(e) => setPdfOptions({ ...pdfOptions, pageSize: e.target.value })}
-                >
-                  <option value="A4">A4</option>
-                  <option value="Letter">Letter</option>
-                </select>
-              </div>
+        {exportFormat === 'pdf' && (
+          <>
+            <div className="export-watermark">
+              <label>Watermark (optional):</label>
+              <input
+                type="text"
+                value={watermark}
+                onChange={(e) => setWatermark(e.target.value)}
+                placeholder="e.g., Draft"
+              />
             </div>
-          )}
-        </div>
 
-        <div className="batch-export">
-          <h4>Batch Export</h4>
-          <button
-            onClick={exportAllFormats}
-            disabled={exporting}
-            className={exporting && exportFormat === 'all' ? 'loading' : ''}
-          >
-            {exporting && exportFormat === 'all' ? 'Exporting...' : '📦 Export All Formats'}
-          </button>
-        </div>
+            <div className="export-page-size">
+              <label>Page Size:</label>
+              <select value={pageSize} onChange={(e) => setPageSize(e.target.value)}>
+                <option value="A4">A4</option>
+                <option value="Letter">Letter</option>
+              </select>
+            </div>
+          </>
+        )}
       </div>
 
-      {message && <div className="message">{message}</div>}
-
-      <div className="export-info">
-        <p>
-          <strong>Note:</strong> PDF and DOCX exports use mock implementations.
-          In production, these will be generated using proper libraries (puppeteer, docx).
-        </p>
+      <div className="export-actions">
+        <button
+          className="btn btn-primary"
+          onClick={handleExport}
+          disabled={loading}
+        >
+          {loading ? 'Exporting...' : `Export ${exportFormat.toUpperCase()}`}
+        </button>
+        <button className="btn btn-secondary" onClick={handlePrint}>
+          Print
+        </button>
       </div>
     </div>
   );
