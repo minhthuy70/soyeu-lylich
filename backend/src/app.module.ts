@@ -27,6 +27,7 @@ import { ResumeTemplateModule } from './resume-template/resume-template.module';
 import { VolunteerExperienceModule } from './volunteer-experience/volunteer-experience.module';
 import { PrivacyModule } from './privacy/privacy.module';
 import { UIPreferencesModule } from './ui-preferences/ui-preferences.module';
+import { ResumeModule } from './resume/resume.module';
 import { CompressionMiddleware } from './middleware/compression.middleware';
 import { CacheControlMiddleware } from './middleware/cache-control.middleware';
 import { CorsMiddleware } from './middleware/cors.middleware';
@@ -64,6 +65,7 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     VolunteerExperienceModule,
     PrivacyModule,
     UIPreferencesModule,
+    ResumeModule,
   ],
 })
 export class AppModule implements NestModule {
