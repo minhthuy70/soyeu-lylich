@@ -766,11 +766,11 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - resumes - Bảng sơ yếu lý lịch
 [X] - resumeSections - Bảng phần sơ yếu lý lịch
 [X] - resumeViews - Bảng lượt xem sơ yếu lý lịch
-[X] - resume_templates - Bảng mẫu sơ yếu lý lịch (placeholder)
-[X] - social_links - Bảng liên kết mạng xã hội (placeholder)
-[X] - volunteer_experiences - Bảng tình nguyện (placeholder)
+[X] - resume_templates - Bảng mẫu sơ yếu lý lịch (đã implement với ResumeTemplate model)
+[X] - social_links - Bảng liên kết mạng xã hội (đã implement với SocialAccount model)
+[X] - volunteer_experiences - Bảng tình nguyện (đã implement với VolunteerExperience model)
 [X] - notifications - Bảng thông báo (đã implement với Notification model)
-[X] - audit_logs - Bảng nhật ký kiểm tra (placeholder)
+[X] - audit_logs - Bảng nhật ký kiểm tra (đã implement với SecurityAuditLog model)
 
 17.2. Relationships (Mối quan hệ)
 [X] - User → Profile (1:1) - Người dùng → Hồ sơ
@@ -799,6 +799,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Resume → ResumeSection (1:N) - Sơ yếu lý lịch → Phần
 [X] - Resume → ResumeView (1:N) - Sơ yếu lý lịch → Lượt xem
 [X] - User → Notification (1:N) - Người dùng → Thông báo (đã implement với Notification model)
+[X] - User → ResumeTemplate (1:N) - Người dùng → Mẫu sơ yếu lý lịch (đã implement với ResumeTemplate model)
+[X] - User → VolunteerExperience (1:N) - Người dùng → Kinh nghiệm tình nguyện (đã implement với VolunteerExperience model)
 
 17.3. Database Constraints
 [X] - User.email unique - Email người dùng duy nhất
