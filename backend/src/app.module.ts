@@ -25,6 +25,7 @@ import { SearchFilterModule } from './search-filter/search-filter.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ResumeTemplateModule } from './resume-template/resume-template.module';
 import { VolunteerExperienceModule } from './volunteer-experience/volunteer-experience.module';
+import { PrivacyModule } from './privacy/privacy.module';
 import { CompressionMiddleware } from './middleware/compression.middleware';
 import { CacheControlMiddleware } from './middleware/cache-control.middleware';
 import { CorsMiddleware } from './middleware/cors.middleware';
@@ -60,6 +61,7 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     DashboardModule,
     ResumeTemplateModule,
     VolunteerExperienceModule,
+    PrivacyModule,
   ],
 })
 export class AppModule implements NestModule {
