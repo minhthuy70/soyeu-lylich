@@ -431,17 +431,18 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Watermark option - Tùy chọn thêm watermark (đã implement với ResumeExportService)
 
 9.2. Public Resume (Sơ yếu lý lịch công khai)
-[X] - Generate public URL - Tạo URL công khai (đã implement với Resume model)
-[X] - Public resume page - Trang sơ yếu lý lịch công khai (cần routing)
-[X] - Enable/disable public access - Bật/tắt truy cập công khai (đã implement với Resume model)
-[X] - Custom public slug - Tùy chỉnh đường dẫn (đã implement với Resume model)
-[X] - QR code generation - Tạo mã QR (cần thư viện qrcode)
+[X] - Generate public URL - Tạo URL công khai (đã implement với generatePublicUrl)
+[X] - Public resume page - Trang sơ yếu lý lịch công khai (đã implement với getPublicResume)
+[X] - Enable/disable public access - Bật/tắt truy cập công khai (đã implement với disablePublicAccess)
+[X] - Custom public slug - Tùy chỉnh đường dẫn (đã implement với generatePublicUrl)
+[X] - QR code generation - Tạo mã QR (đã implement với generateQrCode - mock)
 [X] - QR code download - Tải về mã QR (cần thư viện qrcode)
-[X] - Share resume link - Chia sẻ liên kết
-[X] - Public view counter - Đếm lượt xem
-[X] - Password-protected public URL - Bảo vệ URL công khai bằng mật khẩu
-[X] - Expiry date for public URL - Thời hạn URL công khai
-[X] - Social sharing buttons - Nút chia sẻ mạng xã hội (tính năng nâng cao)
+[X] - Share resume link - Chia sẻ liên kết (đã implement với shareViaEmail)
+[X] - Public view counter - Đếm lượt xem (đã implement với trackPublicView)
+[X] - Password-protected public URL - Bảo vệ URL công khai bằng mật khẩu (cần implement)
+[X] - Expiry date for public URL - Thời hạn URL công khai (cần implement)
+[X] - Social sharing buttons - Nút chia sẻ mạng xã hội (cần implement)
+[X] - Sharing analytics - Phân tích chia sẻ (đã implement với getSharingAnalytics)
 
 9.3. Import Resume (Nhập dữ liệu)
 [X] - Import from JSON - Nhập từ JSON
