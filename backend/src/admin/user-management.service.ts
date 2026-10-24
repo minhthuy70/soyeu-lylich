@@ -118,4 +118,59 @@ export class UserManagementService {
       count: logs.length,
     };
   }
+
+  async impersonateUser(userId: number, adminId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        isActive: true,
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    if (!user.isActive) {
+      throw new BadRequestException('Cannot impersonate inactive user');
+    }
+
+    // Log impersonation
+    await this.prisma.auditLog.create({
+      data: {
+        userId: adminId,
+        action: 'IMPERSONATE_USER',
+        details: `Admin ${adminId} impersonated user ${userId}`,
+        ipAddress: 'admin',
+        userAgent: 'admin-panel',
+      },
+    });
+
+    return {
+      user,
+      impersonationToken: Buffer.from(JSON.stringify({ adminId, targetUserId: userId })).toString('base64'),
+      expiresAt: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
+    };
+  }
+
+  async endImpersonation(adminId: number) {
+    await this.prisma.auditLog.create({
+      data: {
+        userId: adminId,
+        action: 'END_IMPERSONATION',
+        details: `Admin ${adminId} ended impersonation`,
+        ipAddress: 'admin',
+        userAgent: 'admin-panel',
+      },
+    });
+
+    return {
+      success: true,
+      message: 'Impersonation ended',
+    };
+  }
 }

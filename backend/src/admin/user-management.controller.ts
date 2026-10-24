@@ -31,4 +31,17 @@ export class UserManagementController {
   ) {
     return this.userManagementService.getUserActivityLog(parseInt(id), parseInt(limit));
   }
+
+  @Post(':id/impersonate')
+  async impersonateUser(
+    @Param('id') id: string,
+    @Body() body: { adminId: number },
+  ) {
+    return this.userManagementService.impersonateUser(parseInt(id), body.adminId);
+  }
+
+  @Post('end-impersonation')
+  async endImpersonation(@Body() body: { adminId: number }) {
+    return this.userManagementService.endImpersonation(body.adminId);
+  }
 }
