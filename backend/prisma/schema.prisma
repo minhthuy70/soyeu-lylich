@@ -55,6 +55,8 @@ model User {
   analyticsSessions       AnalyticsSession[]
   securityAuditLogs       SecurityAuditLog[]
   filterPresets           FilterPreset[]
+  resumeTemplates         ResumeTemplate[]
+  volunteerExperiences    VolunteerExperience[]
 
   @@index([role])
   @@index([isActive])
@@ -726,4 +728,48 @@ model FilterPreset {
 
   @@index([userId])
   @@index([type])
+}
+
+model ResumeTemplate {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  name        String
+  description String?
+  category    String   @default("professional") // 'professional', 'creative', 'academic', 'minimal'
+  template    Json     // Template structure as JSON
+  thumbnail   String?
+  isPublic    Boolean  @default(false)
+  isDefault   Boolean  @default(false)
+  usageCount  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([category])
+  @@index([isPublic])
+}
+
+model VolunteerExperience {
+  id               Int      @id @default(autoincrement())
+  userId           Int
+  organization     String
+  role             String
+  startDate        DateTime
+  endDate          DateTime?
+  isCurrent        Boolean  @default(false)
+  description      String?
+  responsibilities String?
+  achievements     String?
+  hoursPerWeek     Int?
+  cause            String?  // E.g., 'Education', 'Environment', 'Health'
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([startDate])
+  @@index([cause])
 }
