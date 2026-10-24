@@ -226,4 +226,130 @@ export class SearchFilterService {
 
     return { message: 'Filter preset deleted successfully' };
   }
+
+  async globalSearch(query: string, userId: number) {
+    if (!query || query.trim().length === 0) {
+      return { results: [], query, count: 0 };
+    }
+
+    const searchTerm = query.trim();
+
+    // Search across multiple entities
+    const [profiles, projects, skills, certificates, experiences] = await Promise.all([
+      this.prisma.profile.findMany({
+        where: {
+          userId,
+          OR: [
+            { fullName: { contains: searchTerm, mode: 'insensitive' } },
+            { headline: { contains: searchTerm, mode: 'insensitive' } },
+            { summary: { contains: searchTerm, mode: 'insensitive' } },
+          ],
+        },
+        take: 5,
+      }),
+      this.prisma.project.findMany({
+        where: {
+          userId,
+          OR: [
+            { title: { contains: searchTerm, mode: 'insensitive' } },
+            { description: { contains: searchTerm, mode: 'insensitive' } },
+            { technologies: { hasSome: [searchTerm] } },
+          ],
+        },
+        take: 5,
+      }),
+      this.prisma.skill.findMany({
+        where: {
+          userId,
+          OR: [
+            { name: { contains: searchTerm, mode: 'insensitive' } },
+            { category: { contains: searchTerm, mode: 'insensitive' } },
+          ],
+        },
+        take: 5,
+      }),
+      this.prisma.certificate.findMany({
+        where: {
+          userId,
+          OR: [
+            { name: { contains: searchTerm, mode: 'insensitive' } },
+            { organization: { contains: searchTerm, mode: 'insensitive' } },
+          ],
+        },
+        take: 5,
+      }),
+      this.prisma.experience.findMany({
+        where: {
+          userId,
+          OR: [
+            { company: { contains: searchTerm, mode: 'insensitive' } },
+            { position: { contains: searchTerm, mode: 'insensitive' } },
+            { description: { contains: searchTerm, mode: 'insensitive' } },
+          ],
+        },
+        take: 5,
+      }),
+    ]);
+
+    const results = [
+      ...profiles.map((p) => ({ type: 'profile', id: p.id, title: p.fullName, subtitle: p.headline })),
+      ...projects.map((p) => ({ type: 'project', id: p.id, title: p.title, subtitle: p.description?.substring(0, 100) })),
+      ...skills.map((s) => ({ type: 'skill', id: s.id, title: s.name, subtitle: s.category })),
+      ...certificates.map((c) => ({ type: 'certificate', id: c.id, title: c.name, subtitle: c.organization })),
+      ...experiences.map((e) => ({ type: 'experience', id: e.id, title: e.position, subtitle: e.company })),
+    ];
+
+    return {
+      results,
+      query,
+      count: results.length,
+    };
+  }
+
+  async saveSearchHistory(userId: number, query: string) {
+    if (!query || query.trim().length === 0) {
+      return null;
+    }
+
+    // Save to user behavior events or create a dedicated search history table
+    await this.prisma.userBehaviorEvent.create({
+      data: {
+        userId,
+        eventType: 'SEARCH',
+        eventData: { query },
+        sessionId: 'search-session',
+      },
+    });
+
+    return { message: 'Search history saved' };
+  }
+
+  async getSearchHistory(userId: number, limit = 10) {
+    const events = await this.prisma.userBehaviorEvent.findMany({
+      where: {
+        userId,
+        eventType: 'SEARCH',
+      },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+    });
+
+    const queries = events.map((e) => e.eventData?.query).filter(Boolean);
+
+    return {
+      queries,
+      count: queries.length,
+    };
+  }
+
+  async clearSearchHistory(userId: number) {
+    await this.prisma.userBehaviorEvent.deleteMany({
+      where: {
+        userId,
+        eventType: 'SEARCH',
+      },
+    });
+
+    return { message: 'Search history cleared' };
+  }
 }

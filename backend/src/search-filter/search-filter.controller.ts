@@ -41,4 +41,24 @@ export class SearchFilterController {
   async deleteFilterPreset(@Param('id') id: string, @Query('userId') userId: string) {
     return this.searchFilterService.deleteFilterPreset(parseInt(userId), parseInt(id));
   }
+
+  @Get('global')
+  async globalSearch(@Query('q') query: string, @Query('userId') userId: string) {
+    return this.searchFilterService.globalSearch(query, parseInt(userId));
+  }
+
+  @Post('history')
+  async saveSearchHistory(@Body() body: { userId: number; query: string }) {
+    return this.searchFilterService.saveSearchHistory(body.userId, body.query);
+  }
+
+  @Get('history')
+  async getSearchHistory(@Query('userId') userId: string, @Query('limit') limit: string = '10') {
+    return this.searchFilterService.getSearchHistory(parseInt(userId), parseInt(limit));
+  }
+
+  @Delete('history')
+  async clearSearchHistory(@Query('userId') userId: string) {
+    return this.searchFilterService.clearSearchHistory(parseInt(userId));
+  }
 }

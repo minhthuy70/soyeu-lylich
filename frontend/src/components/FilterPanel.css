@@ -1,0 +1,275 @@
+.filter-panel {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.filter-btn.clear {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.filter-btn.clear:hover {
+  background: #e0e0e0;
+}
+
+.filter-btn.apply {
+  background: #1976d2;
+  color: #ffffff;
+}
+
+.filter-btn.apply:hover {
+  background: #1565c0;
+}
+
+.filter-btn.save {
+  background: #4caf50;
+  color: #ffffff;
+}
+
+.filter-btn.save:hover {
+  background: #45a049;
+}
+
+.filter-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.filter-group input[type='text'],
+.filter-group input[type='date'],
+.filter-group select {
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+  border-color: #1976d2;
+}
+
+.filter-group input[type='checkbox'] {
+  margin-right: 8px;
+}
+
+.filter-presets {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.filter-presets h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.preset-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  transition: background 0.2s;
+}
+
+.preset-item:hover {
+  background: #f5f5f5;
+}
+
+.preset-name {
+  flex: 1;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.preset-name:hover {
+  color: #1976d2;
+}
+
+.preset-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 4px 8px;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.preset-delete:hover {
+  color: #d32f2f;
+}
+
+.preset-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.preset-modal-content {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.preset-modal-content h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.preset-modal-content input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  outline: none;
+}
+
+.preset-modal-content input:focus {
+  border-color: #1976d2;
+}
+
+.preset-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.preset-modal-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.preset-modal-actions button:first-child {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.preset-modal-actions button:first-child:hover {
+  background: #e0e0e0;
+}
+
+.preset-modal-actions button:last-child {
+  background: #1976d2;
+  color: #ffffff;
+}
+
+.preset-modal-actions button:last-child:hover {
+  background: #1565c0;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .filter-panel {
+    background: #2d2d2d;
+    border-color: #404040;
+  }
+
+  .filter-header h3,
+  .filter-group label,
+  .filter-presets h4,
+  .preset-name,
+  .preset-modal-content h3 {
+    color: #ffffff;
+  }
+
+  .filter-header {
+    border-bottom-color: #404040;
+  }
+
+  .filter-group input[type='text'],
+  .filter-group input[type='date'],
+  .filter-group select,
+  .preset-modal-content input {
+    background: #3d3d3d;
+    border-color: #404040;
+    color: #ffffff;
+  }
+
+  .filter-group input:focus,
+  .filter-group select:focus,
+  .preset-modal-content input:focus {
+    border-color: #64b5f6;
+  }
+
+  .preset-item:hover {
+    background: #3d3d3d;
+  }
+
+  .preset-modal-content {
+    background: #2d2d2d;
+  }
+}
