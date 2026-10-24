@@ -457,34 +457,34 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 10.1. Dashboard Overview (Tổng quan)
-[X] - Profile completion percentage - Phần trăm hoàn thiện hồ sơ
-[X] - Resume status - Trạng thái sơ yếu lý lịch
-[X] - Education count - Số lượng học vấn
-[X] - Experience count - Số lượng kinh nghiệm
-[X] - Project count - Số lượng dự án
-[X] - Skill count - Số lượng kỹ năng
-[X] - Certificate count - Số lượng chứng chỉ
-[X] - Quick actions - Các thao tác nhanh
-[X] - Recent updates - Cập nhật gần đây
-[X] - Activity feed - Luồng hoạt động gần đây (đã implement với DashboardService)
-[X] - Resume view statistics chart - Biểu đồ thống kê lượt xem (đã implement với DashboardService)
-[X] - Upcoming certificate expiry - Chứng chỉ sắp hết hạn
+[X] - Profile completion percentage - Phần trăm hoàn thiện hồ sơ (đã implement với getDashboardOverview)
+[X] - Resume status - Trạng thái sơ yếu lý lịch (đã implement với getDashboardOverview)
+[X] - Education count - Số lượng học vấn (đã implement với getDashboardOverview)
+[X] - Experience count - Số lượng kinh nghiệm (đã implement với getDashboardOverview)
+[X] - Project count - Số lượng dự án (đã implement với getDashboardOverview)
+[X] - Skill count - Số lượng kỹ năng (đã implement với getDashboardOverview)
+[X] - Certificate count - Số lượng chứng chỉ (đã implement với getDashboardOverview)
+[X] - Quick actions - Các thao tác nhanh (đã implement với Dashboard component)
+[X] - Recent updates - Cập nhật gần đây (đã implement với Dashboard component)
+[X] - Activity feed - Luồng hoạt động gần đây (đã implement với getActivityFeed)
+[X] - Resume view statistics chart - Biểu đồ thống kê lượt xem (đã implement với getResumeViewStatistics)
+[X] - Upcoming certificate expiry - Chứng chỉ sắp hết hạn (đã implement với getUpcomingCertificateExpiry)
 
 10.2. Profile Completion (Độ hoàn thiện hồ sơ)
-[X] - Completion progress bar - Thanh tiến độ hoàn thiện
-[X] - Missing information detection - Phát hiện thông tin còn thiếu
-[X] - Completion suggestions - Gợi ý bổ sung thông tin (đã implement với DashboardService)
-[X] - Section completion status - Trạng thái hoàn thiện từng phần
-[X] - Complete profile CTA - Nút hoàn thiện hồ sơ (đã implement với DashboardService)
-[X] - Completion score gamification - Gamification điểm hoàn thiện (đã implement với DashboardService)
+[X] - Completion progress bar - Thanh tiến độ hoàn thiện (đã implement với Dashboard component)
+[X] - Missing information detection - Phát hiện thông tin còn thiếu (đã implement với getCompletionSuggestions)
+[X] - Completion suggestions - Gợi ý bổ sung thông tin (đã implement với getCompletionSuggestions)
+[X] - Section completion status - Trạng thái hoàn thiện từng phần (đã implement với getSectionCompletionStatus)
+[X] - Complete profile CTA - Nút hoàn thiện hồ sơ (đã implement với Dashboard component)
+[X] - Completion score gamification - Gamification điểm hoàn thiện (đã implement với getCompletionScore)
 
 10.3. Analytics Dashboard (Dashboard phân tích)
-[X] - Resume view chart - Biểu đồ lượt xem sơ yếu lý lịch
-[X] - Weekly/Monthly view trends - Xu hướng xem theo tuần/tháng
-[X] - Top viewed sections - Phần được xem nhiều nhất (đã implement với DashboardService)
-[X] - Visitor geography - Địa lý người xem
-[X] - Device breakdown - Phân tích thiết bị truy cập
-[X] - Referral sources - Nguồn truy cập
+[X] - Resume view chart - Biểu đồ lượt xem sơ yếu lý lịch (đã implement với getResumeViewStatistics)
+[X] - Weekly/Monthly view trends - Xu hướng xem theo tuần/tháng (đã implement với getResumeViewStatistics)
+[X] - Top viewed sections - Phần được xem nhiều nhất (đã implement với getTopViewedSections)
+[X] - Visitor geography - Địa lý người xem (đã implement với getVisitorGeography)
+[X] - Device breakdown - Phân tích thiết bị truy cập (đã implement với getDeviceBreakdown)
+[X] - Referral sources - Nguồn truy cập (đã implement với getReferralSources)
 
 
 ================================================================================
