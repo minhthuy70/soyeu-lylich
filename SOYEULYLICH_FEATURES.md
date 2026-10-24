@@ -672,17 +672,21 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Optimistic UI updates - Cập nhật UI lạc quan (đã implement với useOptimisticUpdate hooks)
 
 15.3. Form Validation
-[X] - Required field validation - Kiểm tra trường bắt buộc
-[X] - Email format validation - Kiểm tra định dạng email
-[X] - Date range validation - Kiểm tra khoảng thời gian hợp lệ
-[X] - Max length validation - Kiểm tra độ dài tối đa
-[X] - URL format validation - Kiểm tra định dạng URL
-[X] - Real-time inline validation - Kiểm tra theo thời gian thực
-[X] - Checkbox validation - Kiểm tra checkbox (terms & privacy)
+[X] - Required field validation - Kiểm tra trường bắt buộc (đã implement với class-validator DTOs)
+[X] - Email format validation - Kiểm tra định dạng email (đã implement với ValidationUtil)
+[X] - Date range validation - Kiểm tra khoảng thời gian hợp lệ (đã implement với ValidationUtil)
+[X] - Max length validation - Kiểm tra độ dài tối đa (đã implement với ValidationUtil)
+[X] - URL format validation - Kiểm tra định dạng URL (đã implement với ValidationUtil)
+[X] - Real-time inline validation - Kiểm tra theo thời gian thực (đã implement với class-validator DTOs)
+[X] - Checkbox validation - Kiểm tra checkbox (terms & privacy) (đã implement với class-validator DTOs)
 [X] - File size validation - Kiểm tra kích thước file (đã implement với file-upload.service)
 [X] - File type validation - Kiểm tra loại file (đã implement với file-upload.service)
-[X] - Phone number validation - Kiểm tra số điện thoại
-[X] - Password strength validation - Kiểm tra độ mạnh mật khẩu
+[X] - Phone number validation - Kiểm tra số điện thoại (đã implement với ValidationUtil)
+[X] - Password strength validation - Kiểm tra độ mạnh mật khẩu (đã implement với ValidationUtil)
+[X] - Vietnamese phone validation - Kiểm tra số điện thoại Việt Nam (đã implement với ValidationUtil)
+[X] - Vietnamese ID validation - Kiểm tra CMND/CCCD (đã implement với ValidationUtil)
+[X] - Age validation - Kiểm tra độ tuổi hợp lệ (đã implement với ValidationUtil)
+[X] - Input sanitization - Làm sạch dữ liệu đầu vào (đã implement với ValidationUtil)
 
 
 ================================================================================
