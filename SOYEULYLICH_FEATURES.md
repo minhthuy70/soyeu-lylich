@@ -630,17 +630,17 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - High contrast mode - Chế độ tương phản cao (đã implement với HighContrastToggle component)
 
 14.2. UI Customization
-[X] - Primary color selection - Chọn màu chủ đạo
-[X] - Font selection - Chọn font chữ
+[X] - Primary color selection - Chọn màu chủ đạo (đã implement với AccentColorPicker component + backend)
+[X] - Font selection - Chọn font chữ (đã implement với UIPreferencesService)
 [X] - Resume accent color - Màu nhấn sơ yếu lý lịch (đã implement với AccentColorPicker component)
-[X] - Layout customization - Tùy chỉnh bố cục (đã implement với LayoutCustomizer component)
+[X] - Layout customization - Tùy chỉnh bố cục (đã implement với LayoutCustomizer component + backend)
 [X] - Preview customization - Xem trước tùy chỉnh (đã implement với CustomizationPreview component)
-[X] - Font size adjustment - Điều chỉnh cỡ chữ
-[X] - Spacing customization - Tùy chỉnh khoảng cách
-[X] - Border radius customization - Tùy chỉnh bo góc
-[X] - Animation toggle - Bật/tắt animation
-[X] - Sidebar width adjustment - Điều chỉnh độ rộng sidebar (đã implement với SidebarWidthSlider component)
-[X] - Reset to default - Đặt lại giao diện mặc định
+[X] - Font size adjustment - Điều chỉnh cỡ chữ (đã implement với UIPreferencesService)
+[X] - Spacing customization - Tùy chỉnh khoảng cách (đã implement với UIPreferencesService)
+[X] - Border radius customization - Tùy chỉnh bo góc (đã implement với UIPreferencesService)
+[X] - Animation toggle - Bật/tắt animation (đã implement với UIPreferencesService)
+[X] - Sidebar width adjustment - Điều chỉnh độ rộng sidebar (đã implement với SidebarWidthSlider component + backend)
+[X] - Reset to default - Đặt lại giao diện mặc định (đã implement với UIPreferencesService)
 
 
 ================================================================================
