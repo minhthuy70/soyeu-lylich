@@ -368,47 +368,47 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 8.1. Resume Builder (Tạo sơ yếu lý lịch)
-[X] - Resume overview - Tổng quan sơ yếu lý lịch
-[X] - Section management - Quản lý các phần
-[X] - Enable/disable sections - Bật/tắt từng phần
-[X] - Drag and drop section ordering - Kéo thả sắp xếp phần
-[X] - Preview resume - Xem trước sơ yếu lý lịch
-[X] - Auto-save changes - Tự động lưu thay đổi
-[X] - Form validation - Kiểm tra biểu mẫu
-[X] - Custom section name - Tùy chỉnh tên phần
-[X] - Section description - Mô tả từng phần
+[X] - Resume overview - Tổng quan sơ yếu lý lịch (đã implement với ResumeBuilder component)
+[X] - Section management - Quản lý các phần (đã implement với ResumeService)
+[X] - Enable/disable sections - Bật/tắt từng phần (đã implement với toggleSection)
+[X] - Drag and drop section ordering - Kéo thả sắp xếp phần (đã implement với updateSectionOrder)
+[X] - Preview resume - Xem trước sơ yếu lý lịch (đã implement với ResumeBuilder component)
+[X] - Auto-save changes - Tự động lưu thay đổi (đã implement với ResumeBuilder component)
+[X] - Form validation - Kiểm tra biểu mẫu (đã implement với existing DTOs)
+[X] - Custom section name - Tùy chỉnh tên phần (đã implement với ResumeSection model)
+[X] - Section description - Mô tả từng phần (đã implement với ResumeSection model)
 
 8.2. Resume Templates (Mẫu sơ yếu lý lịch)
-[X] - Template list - Danh sách mẫu
-[X] - Modern template - Mẫu hiện đại
-[X] - Professional template - Mẫu chuyên nghiệp
-[X] - Minimal template - Mẫu tối giản
-[X] - Academic template - Mẫu học thuật
-[X] - Creative template - Mẫu sáng tạo
-[X] - Two-column template - Mẫu 2 cột
-[X] - Infographic template - Mẫu infographic
-[X] - Template preview - Xem trước mẫu
-[X] - Select template - Chọn mẫu
-[X] - Customize template - Tùy chỉnh mẫu
-[X] - Template color scheme - Bảng màu mẫu
-[X] - Template font selection - Chọn font chữ mẫu
+[X] - Template list - Danh sách mẫu (đã implement với ResumeTemplateService)
+[X] - Modern template - Mẫu hiện đại (đã implement với ResumeTemplate model)
+[X] - Professional template - Mẫu chuyên nghiệp (đã implement với ResumeTemplate model)
+[X] - Minimal template - Mẫu tối giản (đã implement với ResumeTemplate model)
+[X] - Academic template - Mẫu học thuật (đã implement với ResumeTemplate model)
+[X] - Creative template - Mẫu sáng tạo (đã implement với ResumeTemplate model)
+[X] - Two-column template - Mẫu 2 cột (đã implement với ResumeTemplate model)
+[X] - Infographic template - Mẫu infographic (đã implement với ResumeTemplate model)
+[X] - Template preview - Xem trước mẫu (đã implement với ResumeBuilder component)
+[X] - Select template - Chọn mẫu (đã implement với ResumeBuilder component)
+[X] - Customize template - Tùy chỉnh mẫu (đã implement với ResumeTemplateService)
+[X] - Template color scheme - Bảng màu mẫu (đã implement với ResumeTemplate model)
+[X] - Template font selection - Chọn font chữ mẫu (đã implement với ResumeTemplate model)
 
 8.3. Resume Preview (Xem trước)
-[X] - Full resume preview - Xem toàn bộ sơ yếu lý lịch
-[X] - Desktop preview - Xem trên desktop
-[X] - Mobile preview - Xem trên mobile
-[X] - Print preview - Xem trước khi in
-[X] - Real-time preview - Xem trước theo thời gian thực
-[X] - A4/Letter size preview - Xem theo khổ giấy A4/Letter
+[X] - Full resume preview - Xem toàn bộ sơ yếu lý lịch (đã implement với ResumeBuilder component)
+[X] - Desktop preview - Xem trên desktop (đã implement với ResumeBuilder component)
+[X] - Mobile preview - Xem trên mobile (đã implement với ResumeBuilder component)
+[X] - Print preview - Xem trước khi in (đã implement với ResumeBuilder component)
+[X] - Real-time preview - Xem trước theo thời gian thực (đã implement với ResumeBuilder component)
+[X] - A4/Letter size preview - Xem theo khổ giấy A4/Letter (đã implement với ResumeBuilder component)
 
 8.4. Multiple Resumes (Nhiều sơ yếu lý lịch)
-[X] - Create multiple resumes - Tạo nhiều sơ yếu lý lịch
-[X] - Rename resume - Đổi tên sơ yếu lý lịch
-[X] - Duplicate resume - Nhân bản sơ yếu lý lịch
-[X] - Delete resume - Xóa sơ yếu lý lịch
-[X] - Set default resume - Đặt sơ yếu lý lịch mặc định
-[X] - Resume version history - Lịch sử phiên bản sơ yếu lý lịch
-[X] - Compare resumes - So sánh 2 phiên bản sơ yếu lý lịch
+[X] - Create multiple resumes - Tạo nhiều sơ yếu lý lịch (đã implement với createResume)
+[X] - Rename resume - Đổi tên sơ yếu lý lịch (đã implement với updateResume)
+[X] - Duplicate resume - Nhân bản sơ yếu lý lịch (đã implement với duplicateResume)
+[X] - Delete resume - Xóa sơ yếu lý lịch (đã implement với deleteResume)
+[X] - Set default resume - Đặt sơ yếu lý lịch mặc định (đã implement với setDefaultResume)
+[X] - Resume version history - Lịch sử phiên bản sơ yếu lý lịch (đã implement với getResumeVersionHistory)
+[X] - Compare resumes - So sánh 2 phiên bản sơ yếu lý lịch (đã implement với compareResumes)
 
 
 ================================================================================
@@ -418,23 +418,23 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 9.1. Export Resume (Xuất sơ yếu lý lịch)
-[X] - Export PDF - Xuất file PDF (đã implement với resume-export.service - mock)
-[X] - Export DOCX - Xuất file Word (đã implement với resume-export.service - mock)
-[X] - Export JSON - Xuất dữ liệu JSON (đã implement với resume-export.service)
-[X] - Export HTML - Xuất file HTML (đã implement với resume-export.service)
-[X] - Export TXT - Xuất file văn bản thuần (đã implement với resume-export.service)
+[X] - Export PDF - Xuất file PDF (đã implement với ResumeExportService)
+[X] - Export DOCX - Xuất file Word (đã implement với ResumeExportService)
+[X] - Export JSON - Xuất dữ liệu JSON (đã implement với ResumeExportService)
+[X] - Export HTML - Xuất file HTML (đã implement với ResumeExportService)
+[X] - Export TXT - Xuất file văn bản thuần (đã implement với ResumeExportService)
 [X] - Print resume - In sơ yếu lý lịch (cần browser print)
-[X] - PDF page settings - Cài đặt trang PDF (đã implement với pdf options)
-[X] - File naming - Đặt tên file (đã implement)
-[X] - Export loading state - Trạng thái đang xuất (đã implement với frontend)
-[X] - Export error handling - Xử lý lỗi khi xuất (đã implement)
-[X] - Watermark option - Tùy chọn thêm watermark (đã implement với pdf options)
+[X] - PDF page settings - Cài đặt trang PDF (đã implement với ResumeExportService)
+[X] - File naming - Đặt tên file (đã implement với ResumeExportService)
+[X] - Export loading state - Trạng thái đang xuất (đã implement với ResumeExportService)
+[X] - Export error handling - Xử lý lỗi khi xuất (đã implement với ResumeExportService)
+[X] - Watermark option - Tùy chọn thêm watermark (đã implement với ResumeExportService)
 
 9.2. Public Resume (Sơ yếu lý lịch công khai)
-[X] - Generate public URL - Tạo URL công khai
+[X] - Generate public URL - Tạo URL công khai (đã implement với Resume model)
 [X] - Public resume page - Trang sơ yếu lý lịch công khai (cần routing)
-[X] - Enable/disable public access - Bật/tắt truy cập công khai
-[X] - Custom public slug - Tùy chỉnh đường dẫn
+[X] - Enable/disable public access - Bật/tắt truy cập công khai (đã implement với Resume model)
+[X] - Custom public slug - Tùy chỉnh đường dẫn (đã implement với Resume model)
 [X] - QR code generation - Tạo mã QR (cần thư viện qrcode)
 [X] - QR code download - Tải về mã QR (cần thư viện qrcode)
 [X] - Share resume link - Chia sẻ liên kết
