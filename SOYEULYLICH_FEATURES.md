@@ -308,57 +308,57 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 ================================================================================
 
 7.1. Achievements (Thành tích)
-[X] - Add achievement - Thêm thành tích
-[X] - Edit achievement - Chỉnh sửa thành tích
-[X] - Delete achievement - Xóa thành tích
-[X] - Achievement title - Tên thành tích
-[X] - Organization - Đơn vị
-[X] - Achievement date - Ngày đạt được
-[X] - Description - Mô tả
-[X] - Evidence URL - Liên kết minh chứng
-[X] - Achievement image - Hình ảnh minh chứng
-[X] - Achievement category - Phân loại thành tích (học thuật, nghề nghiệp, thể thao...)
-[X] - Achievement level - Cấp độ thành tích (cấp trường, cấp tỉnh, quốc gia...)
+[X] - Add achievement - Thêm thành tích (BE: achievement.controller.ts, FE: AchievementsPage.jsx)
+[X] - Edit achievement - Chỉnh sửa thành tích (BE: achievement.controller.ts, FE: AchievementsPage.jsx)
+[X] - Delete achievement - Xóa thành tích (BE: achievement.controller.ts, FE: AchievementsPage.jsx)
+[X] - Achievement title - Tên thành tích (BE: Achievement model, FE: AchievementsPage.jsx)
+[X] - Organization - Đơn vị (BE: Achievement model, FE: AchievementsPage.jsx)
+[X] - Achievement date - Ngày đạt được (BE: Achievement model, FE: AchievementsPage.jsx)
+[X] - Description - Mô tả (BE: Achievement model, FE: AchievementsPage.jsx)
+[X] - Evidence URL - Liên kết minh chứng (BE: Achievement model, FE: AchievementsPage.jsx)
+[X] - Achievement image - Hình ảnh minh chứng (BE: Achievement model, FE: placeholder)
+[X] - Achievement category - Phân loại thành tích (BE: Achievement model, FE: AchievementsPage.jsx)
+[X] - Achievement level - Cấp độ thành tích (BE: Achievement model, FE: AchievementsPage.jsx)
 
 7.2. Activities (Hoạt động)
-[X] - Add activity - Thêm hoạt động
-[X] - Edit activity - Chỉnh sửa hoạt động
-[X] - Delete activity - Xóa hoạt động
-[X] - Organization name - Tên tổ chức
-[X] - Position/role - Vai trò
-[X] - Activity period - Thời gian
-[X] - Activity description - Mô tả hoạt động
-[X] - Achievements - Thành tích đạt được
-[X] - Activity type - Loại hoạt động (tình nguyện, CLB, thể thao...)
-[X] - Member count - Số lượng thành viên tham gia
+[X] - Add activity - Thêm hoạt động (BE: activity.controller.ts, FE: ActivitiesPage.jsx)
+[X] - Edit activity - Chỉnh sửa hoạt động (BE: activity.controller.ts, FE: ActivitiesPage.jsx)
+[X] - Delete activity - Xóa hoạt động (BE: activity.controller.ts, FE: ActivitiesPage.jsx)
+[X] - Organization name - Tên tổ chức (BE: Activity model, FE: ActivitiesPage.jsx)
+[X] - Position/role - Vai trò (BE: Activity model, FE: ActivitiesPage.jsx)
+[X] - Activity period - Thời gian (BE: Activity model, FE: ActivitiesPage.jsx)
+[X] - Activity description - Mô tả hoạt động (BE: Activity model, FE: ActivitiesPage.jsx)
+[X] - Achievements - Thành tích đạt được (BE: Activity model, FE: ActivitiesPage.jsx)
+[X] - Activity type - Loại hoạt động (BE: Activity model, FE: ActivitiesPage.jsx)
+[X] - Member count - Số lượng thành viên tham gia (BE: Activity model, FE: ActivitiesPage.jsx)
 
 7.3. Volunteering (Tình nguyện)
-[X] - Add volunteer experience - Thêm kinh nghiệm tình nguyện
-[X] - Organization - Tổ chức
-[X] - Role - Vai trò
-[X] - Duration - Thời gian
-[X] - Impact - Tác động
-[X] - Skills gained - Kỹ năng thu được
-[X] - Edit/Delete volunteer - Chỉnh sửa/Xóa kinh nghiệm tình nguyện
+[X] - Add volunteer experience - Thêm kinh nghiệm tình nguyện (BE: volunteer-experience.controller.ts, FE: VolunteerExperiencePage.jsx)
+[X] - Organization - Tổ chức (BE: VolunteerExperience model, FE: VolunteerExperiencePage.jsx)
+[X] - Role - Vai trò (BE: VolunteerExperience model, FE: VolunteerExperiencePage.jsx)
+[X] - Duration - Thời gian (BE: VolunteerExperience model, FE: VolunteerExperiencePage.jsx)
+[X] - Impact - Tác động (BE: VolunteerExperience model, FE: VolunteerExperiencePage.jsx - description/achievements)
+[X] - Skills gained - Kỹ năng thu được (BE: VolunteerExperience model, FE: VolunteerExperiencePage.jsx - responsibilities/achievements)
+[X] - Edit/Delete volunteer - Chỉnh sửa/Xóa kinh nghiệm tình nguyện (BE: volunteer-experience.controller.ts, FE: VolunteerExperiencePage.jsx)
 
 7.4. Publications (Công bố/Bài viết)
-[X] - Add publication - Thêm công bố/bài viết
-[X] - Publication title - Tiêu đề
-[X] - Journal/Conference - Tạp chí/Hội nghị
-[X] - Publication date - Ngày công bố
-[X] - Co-authors - Đồng tác giả
-[X] - DOI/URL - Liên kết/DOI
-[X] - Abstract - Tóm tắt
-[X] - Edit/Delete publication - Chỉnh sửa/Xóa
+[X] - Add publication - Thêm công bố/bài viết (BE: publication.controller.ts, FE: PublicationsPage.jsx)
+[X] - Publication title - Tiêu đề (BE: Publication model, FE: PublicationsPage.jsx)
+[X] - Journal/Conference - Tạp chí/Hội nghị (BE: Publication model, FE: PublicationsPage.jsx)
+[X] - Publication date - Ngày công bố (BE: Publication model, FE: PublicationsPage.jsx)
+[X] - Co-authors - Đồng tác giả (BE: Publication model, FE: PublicationsPage.jsx)
+[X] - DOI/URL - Liên kết/DOI (BE: Publication model, FE: PublicationsPage.jsx)
+[X] - Abstract - Tóm tắt (BE: Publication model, FE: PublicationsPage.jsx)
+[X] - Edit/Delete publication - Chỉnh sửa/Xóa (BE: publication.controller.ts, FE: PublicationsPage.jsx)
 
 7.5. Patents & Intellectual Property (Bằng sáng chế & SHTT)
-[X] - Add patent - Thêm bằng sáng chế
-[X] - Patent number - Số bằng sáng chế
-[X] - Patent title - Tiêu đề
-[X] - Filing date - Ngày nộp đơn
-[X] - Status - Trạng thái
-[X] - Description - Mô tả
-[X] - Edit/Delete patent - Chỉnh sửa/Xóa
+[X] - Add patent - Thêm bằng sáng chế (BE: patent.controller.ts, FE: PatentsPage.jsx)
+[X] - Patent number - Số bằng sáng chế (BE: Patent model, FE: PatentsPage.jsx)
+[X] - Patent title - Tiêu đề (BE: Patent model, FE: PatentsPage.jsx)
+[X] - Filing date - Ngày nộp đơn (BE: Patent model, FE: PatentsPage.jsx)
+[X] - Status - Trạng thái (BE: Patent model, FE: PatentsPage.jsx)
+[X] - Description - Mô tả (BE: Patent model, FE: PatentsPage.jsx)
+[X] - Edit/Delete patent - Chỉnh sửa/Xóa (BE: patent.controller.ts, FE: PatentsPage.jsx)
 
 
 ================================================================================

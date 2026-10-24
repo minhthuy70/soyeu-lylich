@@ -1,0 +1,266 @@
+.volunteer-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.volunteer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.volunteer-header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #333;
+}
+
+.dark .volunteer-header h1 {
+  color: #e0e0e0;
+}
+
+.volunteer-loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.dark .volunteer-loading {
+  color: #aaa;
+}
+
+.volunteer-form {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark .volunteer-form {
+  background: #2d2d2d;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.volunteer-form h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.dark .volunteer-form h2 {
+  color: #e0e0e0;
+}
+
+.volunteer-form .form-group {
+  margin-bottom: 16px;
+}
+
+.volunteer-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.volunteer-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #555;
+}
+
+.dark .volunteer-form label {
+  color: #ccc;
+}
+
+.volunteer-form input,
+.volunteer-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.dark .volunteer-form input,
+.dark .volunteer-form textarea {
+  background: #3d3d3d;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+.volunteer-form input:focus,
+.volunteer-form textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.dark .volunteer-form input:focus,
+.dark .volunteer-form textarea:focus {
+  border-color: #4a9eff;
+}
+
+.volunteer-form .form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.volunteer-list {
+  display: grid;
+  gap: 20px;
+}
+
+.volunteer-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dark .volunteer-card {
+  background: #2d2d2d;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.volunteer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark .volunteer-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.volunteer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.volunteer-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.dark .volunteer-header h3 {
+  color: #e0e0e0;
+}
+
+.volunteer-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btn-icon:hover {
+  background: #f0f0f0;
+}
+
+.dark .btn-icon:hover {
+  background: #3d3d3d;
+}
+
+.volunteer-details {
+  color: #555;
+  font-size: 14px;
+}
+
+.dark .volunteer-details {
+  color: #aaa;
+}
+
+.volunteer-details p {
+  margin: 6px 0;
+}
+
+.volunteer-details strong {
+  color: #333;
+}
+
+.dark .volunteer-details strong {
+  color: #ccc;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 2px dashed #ddd;
+}
+
+.dark .empty-state {
+  background: #2d2d2d;
+  color: #aaa;
+  border-color: #444;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+}
+
+@media (max-width: 768px) {
+  .volunteer-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .volunteer-header h1 {
+    font-size: 24px;
+  }
+
+  .volunteer-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .volunteer-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .volunteer-actions {
+    align-self: flex-start;
+  }
+}

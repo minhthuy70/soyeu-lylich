@@ -1,287 +1,256 @@
-import { useState, useEffect } from "react";
-import {
-  getAchievements,
-  createAchievement,
-  updateAchievement,
-  deleteAchievement,
-} from "../services/achievementService";
-import AchievementForm from "./AchievementForm";
+import React, { useState, useEffect } from 'react';
+import './AchievementsPage.css';
 
-export default function AchievementsPage({ onBack, onClose }) {
+export function AchievementsPage({ userId }) {
   const [achievements, setAchievements] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [editingAchievement, setEditingAchievement] = useState(null);
-  const [filterCategory, setFilterCategory] = useState("all");
-  const [filterLevel, setFilterLevel] = useState("all");
+  const [editingId, setEditingId] = useState(null);
+  const [formData, setFormData] = useState({
+    title: '',
+    organization: '',
+    date: '',
+    description: '',
+    evidenceUrl: '',
+    category: 'academic',
+    level: 'school',
+  });
 
   useEffect(() => {
     loadAchievements();
-  }, [filterCategory, filterLevel]);
+  }, [userId]);
 
   const loadAchievements = async () => {
     try {
-      setLoading(true);
-      setError("");
-      
-      const category = filterCategory === "all" ? null : filterCategory;
-      const level = filterLevel === "all" ? null : filterLevel;
-      
-      const data = await getAchievements(category, level);
-      setAchievements(data.achievements || []);
-    } catch (err) {
-      setError(err.message);
+      const token = localStorage.getItem('token');
+      const response = await fetch('/achievements', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      setAchievements(data || []);
+    } catch (error) {
+      console.error('Failed to load achievements:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleAddAchievement = () => {
-    setEditingAchievement(null);
-    setShowForm(true);
-  };
-
-  const handleEditAchievement = (achievement) => {
-    setEditingAchievement(achievement);
-    setShowForm(true);
-  };
-
-  const handleFormSubmit = async (data) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      setLoading(true);
-      setError("");
+      const token = localStorage.getItem('token');
+      const url = editingId
+        ? `/achievements/${editingId}`
+        : '/achievements';
+      const method = editingId ? 'PUT' : 'POST';
 
-      if (editingAchievement) {
-        await updateAchievement(editingAchievement.id, data);
-      } else {
-        await createAchievement(data);
-      }
+      await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
 
+      await loadAchievements();
       setShowForm(false);
-      setEditingAchievement(null);
-      await loadAchievements();
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      setEditingId(null);
+      setFormData({
+        title: '',
+        organization: '',
+        date: '',
+        description: '',
+        evidenceUrl: '',
+        category: 'academic',
+        level: 'school',
+      });
+    } catch (error) {
+      console.error('Failed to save achievement:', error);
     }
   };
 
-  const handleDeleteAchievement = async (achievementId) => {
-    if (!window.confirm("Bạn có chắc chắn muốn xóa thành tích này?")) {
-      return;
-    }
+  const handleEdit = (achievement) => {
+    setEditingId(achievement.id);
+    setFormData({
+      title: achievement.title,
+      organization: achievement.organization,
+      date: achievement.date,
+      description: achievement.description,
+      evidenceUrl: achievement.evidenceUrl || '',
+      category: achievement.category,
+      level: achievement.level,
+    });
+    setShowForm(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm('Are you sure you want to delete this achievement?')) return;
 
     try {
-      setLoading(true);
-      setError("");
-      await deleteAchievement(achievementId);
+      const token = localStorage.getItem('token');
+      await fetch(`/achievements/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
       await loadAchievements();
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.error('Failed to delete achievement:', error);
     }
   };
 
-  const getCategoryColor = (category) => {
-    const colors = {
-      "Academic": "#3b82f6",
-      "Professional": "#10b981",
-      "Sports": "#f59e0b",
-      "Arts": "#ec4899",
-      "Other": "#6b7280",
-    };
-    return colors[category] || "#6b7280";
+  const handleCancel = () => {
+    setShowForm(false);
+    setEditingId(null);
+    setFormData({
+      title: '',
+      organization: '',
+      date: '',
+      description: '',
+      evidenceUrl: '',
+      category: 'academic',
+      level: 'school',
+    });
   };
 
-  const getCategoryLabel = (category) => {
-    const labels = {
-      "Academic": "Học thuật",
-      "Professional": "Nghề nghiệp",
-      "Sports": "Thể thao",
-      "Arts": "Nghệ thuật",
-      "Other": "Khác",
-    };
-    return labels[category] || category;
-  };
-
-  const getLevelColor = (level) => {
-    const colors = {
-      "School": "#9ca3af",
-      "District": "#60a5fa",
-      "Provincial": "#3b82f6",
-      "National": "#8b5cf6",
-      "International": "#f59e0b",
-    };
-    return colors[level] || "#6b7280";
-  };
-
-  const getLevelLabel = (level) => {
-    const labels = {
-      "School": "Cấp trường",
-      "District": "Cấp quận/huyện",
-      "Provincial": "Cấp tỉnh/thành phố",
-      "National": "Cấp quốc gia",
-      "International": "Quốc tế",
-    };
-    return labels[level] || level;
-  };
-
-  const filteredAchievements = achievements;
+  if (loading) {
+    return <div className="achievements-loading">Loading achievements...</div>;
+  }
 
   return (
     <div className="achievements-page">
-      <div className="page-header">
-        <button className="back-btn" onClick={onClose || onBack}>
-          ← Quay lại
-        </button>
-        <h1>Thành tích của tôi</h1>
-        <button className="btn-primary" onClick={handleAddAchievement}>
-          + Thêm thành tích
+      <div className="achievements-header">
+        <h1>Achievements</h1>
+        <button className="btn btn-primary" onClick={() => setShowForm(true)}>
+          + Add Achievement
         </button>
       </div>
 
-      {error && <div className="error-message">{error}</div>}
+      {showForm && (
+        <div className="achievement-form">
+          <h2>{editingId ? 'Edit Achievement' : 'Add Achievement'}</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Title *</label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                required
+              />
+            </div>
 
-      <div className="filters-section">
-        <div className="filter-group">
-          <label htmlFor="categoryFilter">Phân loại:</label>
-          <select
-            id="categoryFilter"
-            value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
-          >
-            <option value="all">Tất cả</option>
-            <option value="Academic">Học thuật</option>
-            <option value="Professional">Nghề nghiệp</option>
-            <option value="Sports">Thể thao</option>
-            <option value="Arts">Nghệ thuật</option>
-            <option value="Other">Khác</option>
-          </select>
+            <div className="form-group">
+              <label>Organization *</label>
+              <input
+                type="text"
+                value={formData.organization}
+                onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Date *</label>
+              <input
+                type="date"
+                value={formData.date}
+                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Category</label>
+              <select
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              >
+                <option value="academic">Academic</option>
+                <option value="professional">Professional</option>
+                <option value="sports">Sports</option>
+                <option value="arts">Arts</option>
+                <option value="community">Community</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Level</label>
+              <select
+                value={formData.level}
+                onChange={(e) => setFormData({ ...formData, level: e.target.value })}
+              >
+                <option value="school">School</option>
+                <option value="district">District</option>
+                <option value="province">Province</option>
+                <option value="national">National</option>
+                <option value="international">International</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                rows={3}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Evidence URL</label>
+              <input
+                type="url"
+                value={formData.evidenceUrl}
+                onChange={(e) => setFormData({ ...formData, evidenceUrl: e.target.value })}
+                placeholder="https://..."
+              />
+            </div>
+
+            <div className="form-actions">
+              <button type="submit" className="btn btn-primary">
+                {editingId ? 'Update' : 'Add'}
+              </button>
+              <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
-
-        <div className="filter-group">
-          <label htmlFor="levelFilter">Cấp độ:</label>
-          <select
-            id="levelFilter"
-            value={filterLevel}
-            onChange={(e) => setFilterLevel(e.target.value)}
-          >
-            <option value="all">Tất cả</option>
-            <option value="School">Cấp trường</option>
-            <option value="District">Cấp quận/huyện</option>
-            <option value="Provincial">Cấp tỉnh/thành phố</option>
-            <option value="National">Cấp quốc gia</option>
-            <option value="International">Quốc tế</option>
-          </select>
-        </div>
-      </div>
-
-      {loading && !showForm && (
-        <div className="loading-state">Đang tải...</div>
       )}
 
-      {!loading && filteredAchievements.length === 0 && !showForm && (
-        <div className="empty-state">
-          <h2>Chưa có thành tích nào</h2>
-          <p>Bắt đầu bằng cách thêm thành tích đầu tiên của bạn</p>
-          <button className="btn-primary" onClick={handleAddAchievement}>
-            + Thêm thành tích
-          </button>
-        </div>
-      )}
-
-      {!showForm && filteredAchievements.length > 0 && (
-        <div className="achievements-grid">
-          {filteredAchievements.map((achievement) => (
+      <div className="achievements-list">
+        {achievements.length === 0 ? (
+          <div className="empty-state">No achievements yet. Add your first achievement!</div>
+        ) : (
+          achievements.map((achievement) => (
             <div key={achievement.id} className="achievement-card">
-              {achievement.imageUrl && (
-                <div className="achievement-image">
-                  <img src={achievement.imageUrl} alt={achievement.title} />
-                </div>
-              )}
-
-              <div className="achievement-content">
-                <div className="achievement-header">
-                  <h3>{achievement.title}</h3>
-                  <div className="achievement-badges">
-                    <span
-                      className="category-badge"
-                      style={{ backgroundColor: getCategoryColor(achievement.category) }}
-                    >
-                      {getCategoryLabel(achievement.category)}
-                    </span>
-                    <span
-                      className="level-badge"
-                      style={{ backgroundColor: getLevelColor(achievement.level) }}
-                    >
-                      {getLevelLabel(achievement.level)}
-                    </span>
-                  </div>
-                </div>
-
-                {achievement.organization && (
-                  <div className="achievement-organization">
-                    <span className="icon">🏢</span>
-                    {achievement.organization}
-                  </div>
-                )}
-
-                {achievement.achievementDate && (
-                  <div className="achievement-date">
-                    <span className="icon">📅</span>
-                    {new Date(achievement.achievementDate).toLocaleDateString("vi-VN")}
-                  </div>
-                )}
-
-                {achievement.description && (
-                  <div className="achievement-description">
-                    {achievement.description}
-                  </div>
-                )}
-
+              <div className="achievement-header">
+                <h3>{achievement.title}</h3>
                 <div className="achievement-actions">
-                  {achievement.evidenceUrl && (
-                    <a
-                      href={achievement.evidenceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="evidence-link"
-                    >
-                      📄 Xem minh chứng
-                    </a>
-                  )}
-                  <button
-                    className="action-btn edit"
-                    onClick={() => handleEditAchievement(achievement)}
-                  >
-                    ✏️ Chỉnh sửa
+                  <button className="btn-icon" onClick={() => handleEdit(achievement)}>
+                    ✏️
                   </button>
-                  <button
-                    className="action-btn delete"
-                    onClick={() => handleDeleteAchievement(achievement.id)}
-                  >
-                    🗑️ Xóa
+                  <button className="btn-icon" onClick={() => handleDelete(achievement.id)}>
+                    🗑️
                   </button>
                 </div>
               </div>
+              <div className="achievement-details">
+                <p><strong>Organization:</strong> {achievement.organization}</p>
+                <p><strong>Date:</strong> {new Date(achievement.date).toLocaleDateString()}</p>
+                <p><strong>Category:</strong> {achievement.category}</p>
+                <p><strong>Level:</strong> {achievement.level}</p>
+                {achievement.description && <p><strong>Description:</strong> {achievement.description}</p>}
+                {achievement.evidenceUrl && (
+                  <p><strong>Evidence:</strong> <a href={achievement.evidenceUrl} target="_blank" rel="noopener noreferrer">View</a></p>
+                )}
+              </div>
             </div>
-          ))}
-        </div>
-      )}
-
-      {showForm && (
-        <AchievementForm
-          achievement={editingAchievement}
-          onSubmit={handleFormSubmit}
-          onCancel={() => {
-            setShowForm(false);
-            setEditingAchievement(null);
-          }}
-        />
-      )}
+          ))
+        )}
+      </div>
     </div>
   );
 }

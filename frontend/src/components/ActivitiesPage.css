@@ -1,0 +1,270 @@
+.activities-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.activities-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.activities-header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #333;
+}
+
+.dark .activities-header h1 {
+  color: #e0e0e0;
+}
+
+.activities-loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.dark .activities-loading {
+  color: #aaa;
+}
+
+.activity-form {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark .activity-form {
+  background: #2d2d2d;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.activity-form h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.dark .activity-form h2 {
+  color: #e0e0e0;
+}
+
+.activity-form .form-group {
+  margin-bottom: 16px;
+}
+
+.activity-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.activity-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #555;
+}
+
+.dark .activity-form label {
+  color: #ccc;
+}
+
+.activity-form input,
+.activity-form select,
+.activity-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.dark .activity-form input,
+.dark .activity-form select,
+.dark .activity-form textarea {
+  background: #3d3d3d;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+.activity-form input:focus,
+.activity-form select:focus,
+.activity-form textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.dark .activity-form input:focus,
+.dark .activity-form select:focus,
+.dark .activity-form textarea:focus {
+  border-color: #4a9eff;
+}
+
+.activity-form .form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.activities-list {
+  display: grid;
+  gap: 20px;
+}
+
+.activity-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dark .activity-card {
+  background: #2d2d2d;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.activity-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark .activity-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.activity-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.dark .activity-header h3 {
+  color: #e0e0e0;
+}
+
+.activity-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btn-icon:hover {
+  background: #f0f0f0;
+}
+
+.dark .btn-icon:hover {
+  background: #3d3d3d;
+}
+
+.activity-details {
+  color: #555;
+  font-size: 14px;
+}
+
+.dark .activity-details {
+  color: #aaa;
+}
+
+.activity-details p {
+  margin: 6px 0;
+}
+
+.activity-details strong {
+  color: #333;
+}
+
+.dark .activity-details strong {
+  color: #ccc;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 2px dashed #ddd;
+}
+
+.dark .empty-state {
+  background: #2d2d2d;
+  color: #aaa;
+  border-color: #444;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+}
+
+@media (max-width: 768px) {
+  .activities-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .activities-header h1 {
+    font-size: 24px;
+  }
+
+  .activity-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .activity-actions {
+    align-self: flex-start;
+  }
+}

@@ -5,6 +5,9 @@ import { IdentityModule } from './identity/identity.module';
 import { ProjectModule } from './project/project.module';
 import { ProjectImageModule } from './project-image/project-image.module';
 import { AchievementModule } from './achievement/achievement.module';
+import { ActivityModule } from './activity/activity.module';
+import { PublicationModule } from './publication/publication.module';
+import { PatentModule } from './patent/patent.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { IntegrationsModule } from './integrations/integrations.module';
 import { AnalyticsModule } from './analytics/analytics.module';
@@ -44,6 +47,9 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     ProjectModule,
     ProjectImageModule,
     AchievementModule,
+    ActivityModule,
+    PublicationModule,
+    PatentModule,
     IntegrationsModule,
     AnalyticsModule,
     WebVitalsModule,
