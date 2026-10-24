@@ -854,8 +854,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - PUT /profile - Cập nhật hồ sơ (bao gồm avatar URL)
 [X] - PUT /profile/change-password - Đổi mật khẩu
 [X] - DELETE /profile - Xóa tài khoản
-[X] - POST /profile/avatar - Cập nhật ảnh đại diện (file upload riêng) (placeholder)
-[X] - DELETE /profile/avatar - Xóa ảnh đại diện (placeholder)
+[X] - POST /profile/avatar - Cập nhật ảnh đại diện (đã implement với file-upload.controller)
+[X] - DELETE /profile/avatar - Xóa ảnh đại diện (đã implement với file-upload.controller)
 
 18.3. Identity Document Endpoints
 [X] - GET /identity-documents - Lấy danh sách giấy tờ định danh
@@ -1236,9 +1236,9 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - PUT /resumes/:id - Cập nhật sơ yếu lý lịch
 [X] - DELETE /resumes/:id - Xóa sơ yếu lý lịch
 [X] - POST /resumes/:id/duplicate - Nhân bản sơ yếu lý lịch
-[X] - GET /resumes/:id/preview - Xem trước (placeholder)
-[X] - GET /resumes/:id/export/pdf - Xuất PDF (placeholder)
-[X] - GET /resumes/:id/export/docx - Xuất DOCX (placeholder)
+[X] - GET /resumes/:id/preview - Xem trước (đã implement với export formats)
+[X] - POST /resume-export/:id/pdf - Xuất PDF (đã implement với resume-export.controller)
+[X] - POST /resume-export/:id/docx - Xuất DOCX (đã implement với resume-export.controller)
 [X] - POST /resumes/:id/public - Tạo link công khai
 [X] - DELETE /resumes/:id/public - Hủy link công khai
 [X] - GET /public/:slug - Xem sơ yếu lý lịch công khai (không cần auth)
@@ -1248,7 +1248,10 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /admin/stats - Thống kê hệ thống
 [X] - PUT /admin/users/:id - Chỉnh sửa người dùng
 [X] - DELETE /admin/users/:id - Xóa người dùng
-[X] - GET /admin/logs - Nhật ký hệ thống (placeholder)
+[X] - GET /admin/logs/system - Nhật ký hệ thống (đã implement với system-logs.controller)
+[X] - GET /admin/logs/api - Nhật ký API (đã implement với system-logs.controller)
+[X] - GET /admin/logs/security - Nhật ký bảo mật (đã implement với system-logs.controller)
+[X] - GET /admin/logs/export - Xuất nhật ký (đã implement với system-logs.controller)
 
 18.9. Upload Endpoints
 [X] - POST /upload/image - Tải ảnh lên (đã implement với file-upload.service)
@@ -1256,10 +1259,10 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - GET /upload/:fileId - Lấy file (đã implement với file-upload.service)
 
 18.10. Notification Endpoints
-[X] - GET /notifications - Lấy danh sách thông báo (placeholder)
-[X] - PUT /notifications/:id/read - Đánh dấu đã đọc (placeholder)
-[X] - PUT /notifications/read-all - Đánh dấu tất cả đã đọc (placeholder)
-[X] - DELETE /notifications/:id - Xóa thông báo (placeholder)
+[X] - GET /notifications - Lấy danh sách thông báo (đã implement với notifications.controller)
+[X] - POST /notifications/:id/mark-read - Đánh dấu đã đọc (đã implement với notifications.controller)
+[X] - POST /notifications/mark-all-read - Đánh dấu tất cả đã đọc (đã implement với notifications.controller)
+[X] - DELETE /notifications/:id - Xóa thông báo (đã implement với notifications.controller)
 
 
 ================================================================================
