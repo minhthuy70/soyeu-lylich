@@ -603,8 +603,8 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - Multi-column layout - Bố cục nhiều cột
 [X] - Hover effects - Hiệu ứng hover
 [X] - Keyboard navigation - Điều hướng bằng bàn phím (placeholder)
-[X] - Tooltips - Tooltip hướng dẫn (placeholder)
-[X] - Context menus - Menu ngữ cảnh (placeholder)
+[X] - Tooltips - Tooltip hướng dẫn (đã implement với Tooltip component)
+[X] - Context menus - Menu ngữ cảnh (đã implement với ContextMenu component)
 
 13.4. Progressive Web App (PWA)
 [X] - PWA manifest - File manifest PWA (đã implement với manifest.json)
@@ -769,7 +769,7 @@ Hệ thống sơ yếu lý lịch cá nhân - Quản lý, trình bày và chia s
 [X] - resume_templates - Bảng mẫu sơ yếu lý lịch (placeholder)
 [X] - social_links - Bảng liên kết mạng xã hội (placeholder)
 [X] - volunteer_experiences - Bảng tình nguyện (placeholder)
-[X] - notifications - Bảng thông báo (placeholder)
+[X] - notifications - Bảng thông báo (đã implement với Notification model)
 [X] - audit_logs - Bảng nhật ký kiểm tra (placeholder)
 
 17.2. Relationships (Mối quan hệ)
