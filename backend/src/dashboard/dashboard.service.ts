@@ -10,14 +10,6 @@ export class DashboardService {
       where: { userId },
       orderBy: { createdAt: 'desc' },
       take: limit,
-      include: {
-        resume: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
-      },
     });
 
     return {
@@ -47,15 +39,15 @@ export class DashboardService {
     const views = await this.prisma.resumeView.findMany({
       where: {
         resumeId,
-        createdAt: { gte: startDate },
+        viewedAt: { gte: startDate },
       },
-      orderBy: { createdAt: 'asc' },
+      orderBy: { viewedAt: 'asc' },
     });
 
     // Group by date for chart data
     const viewsByDate = views.reduce(
       (acc, view) => {
-        const date = view.createdAt.toISOString().split('T')[0];
+        const date = view.viewedAt.toISOString().split('T')[0];
         acc[date] = (acc[date] || 0) + 1;
         return acc;
       },
@@ -96,7 +88,6 @@ export class DashboardService {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       include: {
-        profile: true,
         resumes: {
           include: {
             experiences: true,
@@ -113,16 +104,7 @@ export class DashboardService {
       throw new Error('User not found');
     }
 
-    const suggestions = [];
-
-    // Check profile completeness
-    if (!user.profile) {
-      suggestions.push({
-        type: 'profile',
-        message: 'Create your profile to get started',
-        priority: 'high',
-      });
-    }
+    const suggestions: Array<{ type: string; message: string; priority: string; resumeId?: number }> = [];
 
     // Check resume completeness
     if (user.resumes.length === 0) {
@@ -182,7 +164,6 @@ export class DashboardService {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       include: {
-        profile: true,
         resumes: {
           include: {
             experiences: true,
@@ -202,8 +183,11 @@ export class DashboardService {
     let totalScore = 0;
     let maxScore = 100;
 
-    // Profile completion (20 points)
-    if (user.profile) {
+    // Profile completion (20 points) - check if profile exists separately
+    const profile = await this.prisma.profile.findUnique({
+      where: { userId },
+    });
+    if (profile) {
       totalScore += 20;
     }
 
@@ -257,7 +241,6 @@ export class DashboardService {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       include: {
-        profile: true,
         resumes: {
           include: {
             experiences: true,
@@ -333,7 +316,7 @@ export class DashboardService {
     const views = await this.prisma.resumeView.findMany({
       where: {
         resumeId,
-        createdAt: { gte: startDate },
+        viewedAt: { gte: startDate },
       },
     });
 
@@ -374,7 +357,7 @@ export class DashboardService {
     const views = await this.prisma.resumeView.findMany({
       where: {
         resumeId,
-        createdAt: { gte: startDate },
+        viewedAt: { gte: startDate },
       },
     });
 
@@ -413,7 +396,7 @@ export class DashboardService {
     const views = await this.prisma.resumeView.findMany({
       where: {
         resumeId,
-        createdAt: { gte: startDate },
+        viewedAt: { gte: startDate },
       },
     });
 
@@ -437,7 +420,6 @@ export class DashboardService {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       include: {
-        profile: true,
         resumes: {
           include: {
             experiences: true,
@@ -456,11 +438,15 @@ export class DashboardService {
       throw new Error('User not found');
     }
 
+    const profile = await this.prisma.profile.findUnique({
+      where: { userId },
+    });
+
     const sections = [
       {
         name: 'Profile',
-        completed: !!user.profile,
-        items: user.profile ? 1 : 0,
+        completed: !!profile,
+        items: profile ? 1 : 0,
         total: 1,
       },
       {
