@@ -1,12 +1,12 @@
 import { Controller, Post, Get, Body } from '@nestjs/common';
-import { WebVitalsService } from './web-vitals.service';
+import { WebVitalsService, WebVitalsMetric } from './web-vitals.service';
 
 @Controller('web-vitals')
 export class WebVitalsController {
   constructor(private readonly webVitalsService: WebVitalsService) {}
 
   @Post()
-  recordMetric(@Body() metric: any) {
+  recordMetric(@Body() metric: WebVitalsMetric) {
     this.webVitalsService.recordMetric(metric);
     return { success: true };
   }

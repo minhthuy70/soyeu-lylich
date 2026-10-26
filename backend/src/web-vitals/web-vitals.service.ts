@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OnModuleInit } from '@nestjs/common';
 
-interface WebVitalsMetric {
+export interface WebVitalsMetric {
   name: string;
   value: number;
   id: string;
