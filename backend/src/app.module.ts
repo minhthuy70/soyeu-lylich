@@ -29,6 +29,8 @@ import { SearchFilterModule } from './search-filter/search-filter.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ResumeTemplateModule } from './resume-template/resume-template.module';
 import { VolunteerExperienceModule } from './volunteer-experience/volunteer-experience.module';
+import { ExperienceModule } from './experience/experience.module';
+import { FreelanceModule } from './freelance/freelance.module';
 import { PrivacyModule } from './privacy/privacy.module';
 import { UIPreferencesModule } from './ui-preferences/ui-preferences.module';
 import { ResumeModule } from './resume/resume.module';
@@ -75,6 +77,8 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     DashboardModule,
     ResumeTemplateModule,
     VolunteerExperienceModule,
+    ExperienceModule,
+    FreelanceModule,
     PrivacyModule,
     UIPreferencesModule,
     ResumeModule,

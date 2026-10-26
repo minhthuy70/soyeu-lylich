@@ -39,7 +39,6 @@ import AdminDashboard from "./AdminDashboard";
 import UserManagement from "./UserManagement";
 import UISettings from "./UISettings";
 import IntegrationsPage from "./IntegrationsPage";
-import AnalyticsDashboard from "./AnalyticsDashboard";
 
 export default function ProfilePage({ onLogout }) {
   const { isDarkMode, toggleDarkMode } = useTheme();
