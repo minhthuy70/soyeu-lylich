@@ -12,7 +12,7 @@ export class CsrfMiddleware implements NestMiddleware {
       // Generate and set CSRF token in cookie
       const token = this.generateToken();
       const csrfCookieName = '_csrf';
-      
+
       res.cookie(csrfCookieName, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',

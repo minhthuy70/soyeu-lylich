@@ -25,7 +25,7 @@ export class SystemLogsController {
   @Get('export')
   async exportLogs(
     @Query('type') type: 'system' | 'api' | 'security',
-    @Query('format') format: 'csv' | 'json' = 'json',
+    @Query('format') format: 'csv' | 'json' = 'json'
   ) {
     return this.systemLogsService.exportLogs(type, format);
   }

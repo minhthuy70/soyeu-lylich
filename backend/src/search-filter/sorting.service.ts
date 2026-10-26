@@ -155,7 +155,11 @@ export class SortingService {
     };
   }
 
-  async customSort(entityType: string, items: any[], sortConfig: { field: string; order: 'asc' | 'desc' }[]) {
+  async customSort(
+    entityType: string,
+    items: any[],
+    sortConfig: { field: string; order: 'asc' | 'desc' }[]
+  ) {
     // Apply custom sort order based on multiple fields
     return items.sort((a, b) => {
       for (const config of sortConfig) {

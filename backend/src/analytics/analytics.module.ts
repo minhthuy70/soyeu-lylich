@@ -15,6 +15,6 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule,
   ],
   controllers: [AnalyticsController],
-  providers: [AnalyticsService]
+  providers: [AnalyticsService],
 })
 export class AnalyticsModule {}

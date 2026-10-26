@@ -152,7 +152,9 @@ export class UserManagementService {
 
     return {
       user,
-      impersonationToken: Buffer.from(JSON.stringify({ adminId, targetUserId: userId })).toString('base64'),
+      impersonationToken: Buffer.from(JSON.stringify({ adminId, targetUserId: userId })).toString(
+        'base64'
+      ),
       expiresAt: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
     };
   }

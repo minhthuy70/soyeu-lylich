@@ -15,14 +15,17 @@ export class DashboardController {
   @Get('resume-stats/:resumeId')
   async getResumeViewStatistics(
     @Param('resumeId') resumeId: string,
-    @Query('period') period: 'week' | 'month' | 'year' = 'month',
+    @Query('period') period: 'week' | 'month' | 'year' = 'month'
   ) {
     return this.dashboardService.getResumeViewStatistics(parseInt(resumeId), period);
   }
 
   @Get('top-sections/:resumeId')
   async getTopViewedSections(@Param('resumeId') resumeId: string, @Query('limit') limit?: string) {
-    return this.dashboardService.getTopViewedSections(parseInt(resumeId), limit ? parseInt(limit) : 10);
+    return this.dashboardService.getTopViewedSections(
+      parseInt(resumeId),
+      limit ? parseInt(limit) : 10
+    );
   }
 
   @Get('suggestions/:userId')
@@ -43,18 +46,18 @@ export class DashboardController {
   @Get('certificate-expiry/:userId')
   async getUpcomingCertificateExpiry(
     @Param('userId') userId: string,
-    @Query('days') days?: string,
+    @Query('days') days?: string
   ) {
     return this.dashboardService.getUpcomingCertificateExpiry(
       parseInt(userId),
-      days ? parseInt(days) : 30,
+      days ? parseInt(days) : 30
     );
   }
 
   @Get('geography/:resumeId')
   async getVisitorGeography(
     @Param('resumeId') resumeId: string,
-    @Query('period') period: 'week' | 'month' | 'year' = 'month',
+    @Query('period') period: 'week' | 'month' | 'year' = 'month'
   ) {
     return this.dashboardService.getVisitorGeography(parseInt(resumeId), period);
   }
@@ -62,7 +65,7 @@ export class DashboardController {
   @Get('devices/:resumeId')
   async getDeviceBreakdown(
     @Param('resumeId') resumeId: string,
-    @Query('period') period: 'week' | 'month' | 'year' = 'month',
+    @Query('period') period: 'week' | 'month' | 'year' = 'month'
   ) {
     return this.dashboardService.getDeviceBreakdown(parseInt(resumeId), period);
   }
@@ -70,7 +73,7 @@ export class DashboardController {
   @Get('referrals/:resumeId')
   async getReferralSources(
     @Param('resumeId') resumeId: string,
-    @Query('period') period: 'week' | 'month' | 'year' = 'month',
+    @Query('period') period: 'week' | 'month' | 'year' = 'month'
   ) {
     return this.dashboardService.getReferralSources(parseInt(resumeId), period);
   }

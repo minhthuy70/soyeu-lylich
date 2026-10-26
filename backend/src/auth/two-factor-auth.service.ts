@@ -5,9 +5,7 @@ import * as QRCode from 'qrcode';
 
 @Injectable()
 export class TwoFactorAuthService {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async generateTwoFactorSecret(userId: number) {
     const user = await this.prisma.user.findUnique({
@@ -90,7 +88,8 @@ export class TwoFactorAuthService {
     return {
       message: 'Kích hoạt 2FA thành công',
       backupCodes,
-      warning: 'Vui lòng lưu trữ các mã dự phòng này. Bạn sẽ không thể xem lại sau khi đóng trang này.',
+      warning:
+        'Vui lòng lưu trữ các mã dự phòng này. Bạn sẽ không thể xem lại sau khi đóng trang này.',
     };
   }
 
@@ -149,9 +148,7 @@ export class TwoFactorAuthService {
     // Check if token is a backup code
     if (user.twoFactorBackupCodes && user.twoFactorBackupCodes.includes(token)) {
       // Remove used backup code
-      const updatedBackupCodes = user.twoFactorBackupCodes.filter(
-        (code) => code !== token,
-      );
+      const updatedBackupCodes = user.twoFactorBackupCodes.filter((code) => code !== token);
 
       await this.prisma.user.update({
         where: { id: userId },

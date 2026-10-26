@@ -76,29 +76,16 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(RequestLoggingMiddleware)
-      .forRoutes('*');
+    consumer.apply(RequestLoggingMiddleware).forRoutes('*');
 
-    consumer
-      .apply(RateLimitMiddleware)
-      .forRoutes('*');
+    consumer.apply(RateLimitMiddleware).forRoutes('*');
 
-    consumer
-      .apply(CorsMiddleware)
-      .forRoutes('*');
+    consumer.apply(CorsMiddleware).forRoutes('*');
 
-    consumer
-      .apply(CsrfMiddleware)
-      .exclude('auth/login', 'auth/register')
-      .forRoutes('*');
+    consumer.apply(CsrfMiddleware).exclude('auth/login', 'auth/register').forRoutes('*');
 
-    consumer
-      .apply(CompressionMiddleware)
-      .forRoutes('*');
+    consumer.apply(CompressionMiddleware).forRoutes('*');
 
-    consumer
-      .apply(CacheControlMiddleware)
-      .forRoutes('*');
+    consumer.apply(CacheControlMiddleware).forRoutes('*');
   }
 }

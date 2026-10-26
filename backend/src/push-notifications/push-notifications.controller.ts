@@ -39,7 +39,7 @@ export class PushNotificationsController {
   @Post('category/:category')
   async sendToCategory(
     @Param('category') category: string,
-    @Body() body: { title: string; body: string },
+    @Body() body: { title: string; body: string }
   ) {
     return this.pushNotificationService.sendNotificationToCategory(category, body.title, body.body);
   }

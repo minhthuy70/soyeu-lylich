@@ -12,7 +12,7 @@ export class AnalyticsController {
   async trackEvent(
     @Req() req,
     @Body() trackEventDto: TrackEventDto,
-    @Headers('user-agent') userAgent?: string,
+    @Headers('user-agent') userAgent?: string
   ) {
     const userId = req.user?.userId || 0;
     return this.analyticsService.trackEvent(userId, trackEventDto, userAgent);
@@ -30,7 +30,7 @@ export class AnalyticsController {
   async getUserBehaviorAnalytics(
     @Req() req,
     @Query('startDate') startDate?: string,
-    @Query('endDate') endDate?: string,
+    @Query('endDate') endDate?: string
   ) {
     const start = startDate ? new Date(startDate) : undefined;
     const end = endDate ? new Date(endDate) : undefined;
@@ -40,10 +40,7 @@ export class AnalyticsController {
   // Get session analytics (protected)
   @Get('sessions')
   @UseGuards(JwtAuthGuard)
-  async getSessionAnalytics(
-    @Req() req,
-    @Query('limit') limit?: string,
-  ) {
+  async getSessionAnalytics(@Req() req, @Query('limit') limit?: string) {
     return this.analyticsService.getSessionAnalytics(req.user.userId, limit ? parseInt(limit) : 50);
   }
 
@@ -53,7 +50,7 @@ export class AnalyticsController {
   async getDashboardAnalytics(
     @Req() req,
     @Query('startDate') startDate?: string,
-    @Query('endDate') endDate?: string,
+    @Query('endDate') endDate?: string
   ) {
     const start = startDate ? new Date(startDate) : undefined;
     const end = endDate ? new Date(endDate) : undefined;
@@ -65,7 +62,7 @@ export class AnalyticsController {
   @UseGuards(JwtAuthGuard)
   async createFunnel(
     @Body('funnelName') funnelName: string,
-    @Body('steps') steps: { name: string; description?: string }[],
+    @Body('steps') steps: { name: string; description?: string }[]
   ) {
     return this.analyticsService.createFunnel(funnelName, steps);
   }
@@ -74,7 +71,7 @@ export class AnalyticsController {
   async trackFunnelEvent(
     @Body('sessionId') sessionId: string,
     @Body('funnelName') funnelName: string,
-    @Body('stepName') stepName: string,
+    @Body('stepName') stepName: string
   ) {
     return this.analyticsService.trackFunnelEvent(sessionId, funnelName, stepName);
   }
@@ -92,7 +89,7 @@ export class AnalyticsController {
     @Body('description') description: string,
     @Body('variantA') variantA: string,
     @Body('variantB') variantB: string,
-    @Body('trafficSplit') trafficSplit?: number,
+    @Body('trafficSplit') trafficSplit?: number
   ) {
     return this.analyticsService.createABTest(name, description, variantA, variantB, trafficSplit);
   }

@@ -1,11 +1,29 @@
-import { Body, Controller, Post, Get, Query, BadRequestException, UseGuards, Request, UnauthorizedException, Req, Res, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Query,
+  BadRequestException,
+  UseGuards,
+  Request,
+  UnauthorizedException,
+  Req,
+  Res,
+  Param,
+} from '@nestjs/common';
 import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { EnableTwoFactorDto, VerifyTwoFactorDto, VerifyEmailTwoFactorDto, GenerateBackupCodesDto } from './dto/two-factor.dto';
+import {
+  EnableTwoFactorDto,
+  VerifyTwoFactorDto,
+  VerifyEmailTwoFactorDto,
+  GenerateBackupCodesDto,
+} from './dto/two-factor.dto';
 import { SocialAuthService } from './social-auth.service';
 import { TwoFactorAuthService } from './two-factor-auth.service';
 import { SessionService } from './session.service';
@@ -20,7 +38,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly socialAuthService: SocialAuthService,
     private readonly twoFactorAuthService: TwoFactorAuthService,
-    private readonly sessionService: SessionService,
+    private readonly sessionService: SessionService
   ) {}
 
   @Post('register')
@@ -34,8 +52,15 @@ export class AuthController {
   }
 
   @Post('login/2fa')
-  async loginWithTwoFactor(@Request() req, @Body() body: { tempToken: string; otp: string; rememberMe?: boolean }) {
-    const result = await this.authService.completeTwoFactorLogin(body.tempToken, body.otp, body.rememberMe);
+  async loginWithTwoFactor(
+    @Request() req,
+    @Body() body: { tempToken: string; otp: string; rememberMe?: boolean }
+  ) {
+    const result = await this.authService.completeTwoFactorLogin(
+      body.tempToken,
+      body.otp,
+      body.rememberMe
+    );
     return result;
   }
 
@@ -84,7 +109,9 @@ export class AuthController {
   @UseGuards(GoogleStrategy)
   async googleCallback(@Req() req, @Res() res: Response) {
     const result = req.user;
-    return res.redirect(`http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`);
+    return res.redirect(
+      `http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`
+    );
   }
 
   // GitHub OAuth
@@ -98,7 +125,9 @@ export class AuthController {
   @UseGuards(GitHubStrategy)
   async githubCallback(@Req() req, @Res() res: Response) {
     const result = req.user;
-    return res.redirect(`http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`);
+    return res.redirect(
+      `http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`
+    );
   }
 
   // Facebook OAuth
@@ -112,7 +141,9 @@ export class AuthController {
   @UseGuards(FacebookStrategy)
   async facebookCallback(@Req() req, @Res() res: Response) {
     const result = req.user;
-    return res.redirect(`http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`);
+    return res.redirect(
+      `http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`
+    );
   }
 
   // LinkedIn OAuth
@@ -126,14 +157,26 @@ export class AuthController {
   @UseGuards(LinkedInStrategy)
   async linkedinCallback(@Req() req, @Res() res: Response) {
     const result = req.user;
-    return res.redirect(`http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`);
+    return res.redirect(
+      `http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`
+    );
   }
 
   // Link/Unlink social accounts
   @Post('social/link')
-  async linkSocialAccount(@Request() req, @Body() body: { provider: string; providerId: string; accessToken?: string; refreshToken?: string }) {
+  async linkSocialAccount(
+    @Request() req,
+    @Body()
+    body: { provider: string; providerId: string; accessToken?: string; refreshToken?: string }
+  ) {
     const userId = this.extractUserIdFromRequest(req);
-    return this.socialAuthService.linkSocialAccount(userId, body.provider, body.providerId, body.accessToken, body.refreshToken);
+    return this.socialAuthService.linkSocialAccount(
+      userId,
+      body.provider,
+      body.providerId,
+      body.accessToken,
+      body.refreshToken
+    );
   }
 
   @Post('social/unlink')

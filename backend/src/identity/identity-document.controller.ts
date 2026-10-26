@@ -1,6 +1,20 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Request, UnauthorizedException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  UseGuards,
+  Request,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { IdentityDocumentService } from './identity-document.service';
-import { CreateIdentityDocumentDto, UpdateIdentityDocumentDto } from './dto/create-identity-document.dto';
+import {
+  CreateIdentityDocumentDto,
+  UpdateIdentityDocumentDto,
+} from './dto/create-identity-document.dto';
 
 @Controller('identity-documents')
 export class IdentityDocumentController {
@@ -25,7 +39,11 @@ export class IdentityDocumentController {
   }
 
   @Put(':id')
-  async update(@Request() req, @Param('id') id: string, @Body() updateDto: UpdateIdentityDocumentDto) {
+  async update(
+    @Request() req,
+    @Param('id') id: string,
+    @Body() updateDto: UpdateIdentityDocumentDto
+  ) {
     const userId = this.extractUserIdFromRequest(req);
     return this.identityDocumentService.update(userId, parseInt(id), updateDto);
   }
@@ -38,7 +56,10 @@ export class IdentityDocumentController {
 
   @Post('validate')
   async validate(@Body() body: { documentType: string; documentNumber: string }) {
-    return this.identityDocumentService.validateDocumentData(body.documentType, body.documentNumber);
+    return this.identityDocumentService.validateDocumentData(
+      body.documentType,
+      body.documentNumber
+    );
   }
 
   private extractUserIdFromRequest(req: any): number {

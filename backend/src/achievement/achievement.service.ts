@@ -68,7 +68,9 @@ export class AchievementService {
       data: {
         title: updateDto.title,
         organization: updateDto.organization,
-        achievementDate: updateDto.achievementDate ? new Date(updateDto.achievementDate) : undefined,
+        achievementDate: updateDto.achievementDate
+          ? new Date(updateDto.achievementDate)
+          : undefined,
         description: updateDto.description,
         evidenceUrl: updateDto.evidenceUrl,
         imageUrl: updateDto.imageUrl,

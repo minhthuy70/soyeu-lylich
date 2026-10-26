@@ -19,24 +19,18 @@ export class UserManagementController {
 
   @Post('bulk')
   async bulkUserActions(
-    @Body() body: { action: 'disable' | 'enable' | 'delete'; userIds: number[] },
+    @Body() body: { action: 'disable' | 'enable' | 'delete'; userIds: number[] }
   ) {
     return this.userManagementService.bulkUserActions(body.action, body.userIds);
   }
 
   @Get(':id/activity')
-  async getUserActivityLog(
-    @Param('id') id: string,
-    @Query('limit') limit: string = '50',
-  ) {
+  async getUserActivityLog(@Param('id') id: string, @Query('limit') limit: string = '50') {
     return this.userManagementService.getUserActivityLog(parseInt(id), parseInt(limit));
   }
 
   @Post(':id/impersonate')
-  async impersonateUser(
-    @Param('id') id: string,
-    @Body() body: { adminId: number },
-  ) {
+  async impersonateUser(@Param('id') id: string, @Body() body: { adminId: number }) {
     return this.userManagementService.impersonateUser(parseInt(id), body.adminId);
   }
 

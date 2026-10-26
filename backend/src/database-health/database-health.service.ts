@@ -12,12 +12,7 @@ export class DatabaseHealthService {
       await this.prisma.$queryRaw`SELECT 1`;
 
       // Get database stats
-      const [
-        userCount,
-        profileCount,
-        projectCount,
-        resumeCount,
-      ] = await Promise.all([
+      const [userCount, profileCount, projectCount, resumeCount] = await Promise.all([
         this.prisma.user.count(),
         this.prisma.profile.count(),
         this.prisma.project.count(),

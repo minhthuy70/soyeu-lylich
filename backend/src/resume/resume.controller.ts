@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ResumeService } from './resume.service';
 
@@ -62,14 +72,28 @@ export class ResumeController {
   }
 
   @Put(':id/sections/order')
-  async updateSectionOrder(@Request() req, @Param('id') id: string, @Body() body: { sectionOrders: any[] }) {
+  async updateSectionOrder(
+    @Request() req,
+    @Param('id') id: string,
+    @Body() body: { sectionOrders: any[] }
+  ) {
     const userId = req.user?.id || 1;
     return this.resumeService.updateSectionOrder(parseInt(id), userId, body.sectionOrders);
   }
 
   @Put(':id/sections/:sectionId/toggle')
-  async toggleSection(@Request() req, @Param('id') id: string, @Param('sectionId') sectionId: string, @Body() body: { enabled: boolean }) {
+  async toggleSection(
+    @Request() req,
+    @Param('id') id: string,
+    @Param('sectionId') sectionId: string,
+    @Body() body: { enabled: boolean }
+  ) {
     const userId = req.user?.id || 1;
-    return this.resumeService.toggleSection(parseInt(id), userId, parseInt(sectionId), body.enabled);
+    return this.resumeService.toggleSection(
+      parseInt(id),
+      userId,
+      parseInt(sectionId),
+      body.enabled
+    );
   }
 }

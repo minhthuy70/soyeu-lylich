@@ -120,7 +120,7 @@ export class ResumeAnalysisService {
     // Check experience descriptions
     if (resume.experiences.length > 0) {
       const hasDetailedDescriptions = resume.experiences.some(
-        (exp: any) => exp.description && exp.description.length > 50,
+        (exp: any) => exp.description && exp.description.length > 50
       );
       factors.push({
         name: 'Experience Descriptions',
@@ -156,9 +156,7 @@ export class ResumeAnalysisService {
       });
     }
 
-    const overallScore = Math.round(
-      factors.reduce((sum, f) => sum + f.score, 0) / factors.length,
-    );
+    const overallScore = Math.round(factors.reduce((sum, f) => sum + f.score, 0) / factors.length);
 
     return { score: overallScore, factors };
   }
@@ -201,7 +199,7 @@ export class ResumeAnalysisService {
 
       const existingKeywords = resume.skills.map((s: any) => s.name.toLowerCase());
       const missingKeywords = techKeywords.filter(
-        (k) => !existingKeywords.includes(k.toLowerCase()),
+        (k) => !existingKeywords.includes(k.toLowerCase())
       );
 
       suggestions.push({
@@ -252,7 +250,7 @@ export class ResumeAnalysisService {
         'Showcase your data visualization skills',
         'Mention programming languages (Python, R)',
       ],
-      'Designer': [
+      Designer: [
         'Showcase your portfolio',
         'Highlight design tools you use',
         'Mention your design process',
@@ -272,7 +270,7 @@ export class ResumeAnalysisService {
       suggestions.push(
         'Tailor your resume to the specific job requirements',
         'Highlight relevant experience',
-        'Use keywords from the job description',
+        'Use keywords from the job description'
       );
     }
 

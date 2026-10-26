@@ -9,7 +9,8 @@ export class LinkedInStrategy extends PassportStrategy(Strategy, 'linkedin') {
     super({
       clientID: process.env.LINKEDIN_CLIENT_ID || 'your-linkedin-client-id',
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET || 'your-linkedin-client-secret',
-      callbackURL: process.env.LINKEDIN_CALLBACK_URL || 'http://localhost:3000/auth/linkedin/callback',
+      callbackURL:
+        process.env.LINKEDIN_CALLBACK_URL || 'http://localhost:3000/auth/linkedin/callback',
       scope: ['r_emailaddress', 'r_liteprofile'],
     });
   }
@@ -18,23 +19,18 @@ export class LinkedInStrategy extends PassportStrategy(Strategy, 'linkedin') {
     accessToken: string,
     refreshToken: string,
     profile: any,
-    done: VerifyCallback,
+    done: VerifyCallback
   ): Promise<any> {
     try {
       const { id, emails, name } = profile;
       const email = emails?.[0]?.value;
 
-      const result = await this.socialAuthService.handleSocialLogin(
-        'linkedin',
-        id,
-        email,
-        {
-          accessToken,
-          refreshToken,
-          firstName: name?.givenName,
-          lastName: name?.familyName,
-        },
-      );
+      const result = await this.socialAuthService.handleSocialLogin('linkedin', id, email, {
+        accessToken,
+        refreshToken,
+        firstName: name?.givenName,
+        lastName: name?.familyName,
+      });
 
       return done(null, result);
     } catch (error) {

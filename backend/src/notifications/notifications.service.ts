@@ -35,7 +35,7 @@ export class NotificationService {
   async createSecurityNotification(
     userId: number,
     securityType: 'LOGIN' | 'PASSWORD_CHANGE' | '2FA_ENABLED' | 'SUSPICIOUS_ACTIVITY',
-    details?: any,
+    details?: any
   ) {
     const titles = {
       LOGIN: 'New Login Detected',
@@ -48,7 +48,8 @@ export class NotificationService {
       LOGIN: 'A new login was detected on your account.',
       PASSWORD_CHANGE: 'Your password was recently changed.',
       '2FA_ENABLED': 'Two-factor authentication has been enabled on your account.',
-      SUSPICIOUS_ACTIVITY: 'We detected suspicious activity on your account. Please review your security settings.',
+      SUSPICIOUS_ACTIVITY:
+        'We detected suspicious activity on your account. Please review your security settings.',
     };
 
     return this.prisma.notification.create({

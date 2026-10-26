@@ -53,11 +53,7 @@ export class SearchFilterService {
     };
   }
 
-  async filterExperience(filters: {
-    startDate?: Date;
-    endDate?: Date;
-    currentPosition?: boolean;
-  }) {
+  async filterExperience(filters: { startDate?: Date; endDate?: Date; currentPosition?: boolean }) {
     const where: any = {};
 
     if (filters.startDate || filters.endDate) {
@@ -145,10 +141,7 @@ export class SearchFilterService {
     };
   }
 
-  async filterSkills(filters: {
-    category?: string;
-    proficiency?: string;
-  }) {
+  async filterSkills(filters: { category?: string; proficiency?: string }) {
     const where: any = {};
 
     if (filters.category) {
@@ -179,11 +172,14 @@ export class SearchFilterService {
     };
   }
 
-  async saveFilterPreset(userId: number, preset: {
-    name: string;
-    type: 'projects' | 'experience' | 'certificates' | 'skills';
-    filters: any;
-  }) {
+  async saveFilterPreset(
+    userId: number,
+    preset: {
+      name: string;
+      type: 'projects' | 'experience' | 'certificates' | 'skills';
+      filters: any;
+    }
+  ) {
     const savedPreset = await this.prisma.filterPreset.create({
       data: {
         userId,
@@ -292,11 +288,31 @@ export class SearchFilterService {
     ]);
 
     const results = [
-      ...profiles.map((p) => ({ type: 'profile', id: p.id, title: p.fullName, subtitle: p.headline })),
-      ...projects.map((p) => ({ type: 'project', id: p.id, title: p.title, subtitle: p.description?.substring(0, 100) })),
+      ...profiles.map((p) => ({
+        type: 'profile',
+        id: p.id,
+        title: p.fullName,
+        subtitle: p.headline,
+      })),
+      ...projects.map((p) => ({
+        type: 'project',
+        id: p.id,
+        title: p.title,
+        subtitle: p.description?.substring(0, 100),
+      })),
       ...skills.map((s) => ({ type: 'skill', id: s.id, title: s.name, subtitle: s.category })),
-      ...certificates.map((c) => ({ type: 'certificate', id: c.id, title: c.name, subtitle: c.organization })),
-      ...experiences.map((e) => ({ type: 'experience', id: e.id, title: e.position, subtitle: e.company })),
+      ...certificates.map((c) => ({
+        type: 'certificate',
+        id: c.id,
+        title: c.name,
+        subtitle: c.organization,
+      })),
+      ...experiences.map((e) => ({
+        type: 'experience',
+        id: e.id,
+        title: e.position,
+        subtitle: e.company,
+      })),
     ];
 
     return {

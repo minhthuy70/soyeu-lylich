@@ -9,7 +9,7 @@ import axios from 'axios';
 export class IntegrationsService {
   constructor(
     private prisma: PrismaService,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
   async create(userId: number, createIntegrationDto: CreateIntegrationDto) {
@@ -110,7 +110,7 @@ export class IntegrationsService {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-        },
+        }
       );
 
       // Get user info
@@ -156,7 +156,7 @@ export class IntegrationsService {
           client_id: process.env.SLACK_CLIENT_ID || '',
           client_secret: process.env.SLACK_CLIENT_SECRET || '',
           redirect_uri: process.env.SLACK_CALLBACK_URL || '',
-        }),
+        })
       );
 
       if (!tokenResponse.data.ok) {
@@ -240,7 +240,7 @@ export class IntegrationsService {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-        },
+        }
       );
 
       // Get user info
@@ -321,7 +321,7 @@ export class IntegrationsService {
         headers: {
           Authorization: `Bearer ${integration.accessToken}`,
         },
-      },
+      }
     );
 
     return { success: true };
@@ -378,7 +378,7 @@ export class IntegrationsService {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-      },
+      }
     );
 
     return { success: true };
@@ -430,7 +430,7 @@ export class IntegrationsService {
           Authorization: `Bearer ${integration.accessToken}`,
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-      },
+      }
     );
 
     // Create payment transaction record
@@ -449,7 +449,13 @@ export class IntegrationsService {
   }
 
   // AWS S3 Integration
-  async connectAwsS3(userId: number, accessKeyId: string, secretAccessKey: string, region: string, bucket: string) {
+  async connectAwsS3(
+    userId: number,
+    accessKeyId: string,
+    secretAccessKey: string,
+    region: string,
+    bucket: string
+  ) {
     return this.create(userId, {
       provider: IntegrationProvider.AWS_S3,
       settings: {

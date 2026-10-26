@@ -18,23 +18,18 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     accessToken: string,
     refreshToken: string,
     profile: any,
-    done: VerifyCallback,
+    done: VerifyCallback
   ): Promise<any> {
     try {
       const { id, emails, name } = profile;
       const email = emails?.[0]?.value;
 
-      const result = await this.socialAuthService.handleSocialLogin(
-        'google',
-        id,
-        email,
-        {
-          accessToken,
-          refreshToken,
-          firstName: name?.givenName,
-          lastName: name?.familyName,
-        },
-      );
+      const result = await this.socialAuthService.handleSocialLogin('google', id, email, {
+        accessToken,
+        refreshToken,
+        firstName: name?.givenName,
+        lastName: name?.familyName,
+      });
 
       return done(null, result);
     } catch (error) {

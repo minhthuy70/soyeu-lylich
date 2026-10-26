@@ -1,6 +1,10 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateProjectImageDto, UpdateProjectImageDto, ReorderImagesDto } from './dto/create-project-image.dto';
+import {
+  CreateProjectImageDto,
+  UpdateProjectImageDto,
+  ReorderImagesDto,
+} from './dto/create-project-image.dto';
 
 @Injectable()
 export class ProjectImageService {
@@ -47,7 +51,7 @@ export class ProjectImageService {
 
   async findAll(userId: number, projectId?: number) {
     const where: any = {};
-    
+
     if (projectId) {
       where.projectId = projectId;
       // Verify project belongs to user
@@ -57,7 +61,7 @@ export class ProjectImageService {
           userId,
         },
       });
-      
+
       if (!project) {
         throw new NotFoundException('Không tìm thấy dự án');
       }
@@ -67,7 +71,7 @@ export class ProjectImageService {
         where: { userId },
         select: { id: true },
       });
-      where.projectId = { in: userProjects.map(p => p.id) };
+      where.projectId = { in: userProjects.map((p) => p.id) };
     }
 
     const images = await this.prisma.projectImage.findMany({
@@ -192,7 +196,7 @@ export class ProjectImageService {
       this.prisma.projectImage.update({
         where: { id: imageId },
         data: { order: index },
-      }),
+      })
     );
 
     await Promise.all(updatePromises);

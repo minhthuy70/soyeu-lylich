@@ -64,18 +64,18 @@ describe('AuthService', () => {
     it('should throw UnauthorizedException if user not found', async () => {
       mockPrisma.user.findUnique.mockResolvedValue(null);
 
-      await expect(
-        service.validateUser('test@example.com', 'password'),
-      ).rejects.toThrow(UnauthorizedException);
+      await expect(service.validateUser('test@example.com', 'password')).rejects.toThrow(
+        UnauthorizedException
+      );
     });
 
     it('should throw UnauthorizedException if password is invalid', async () => {
       mockPrisma.user.findUnique.mockResolvedValue(mockUser);
       jest.spyOn(service as any, 'comparePassword').mockResolvedValue(false);
 
-      await expect(
-        service.validateUser('test@example.com', 'password'),
-      ).rejects.toThrow(UnauthorizedException);
+      await expect(service.validateUser('test@example.com', 'password')).rejects.toThrow(
+        UnauthorizedException
+      );
     });
   });
 

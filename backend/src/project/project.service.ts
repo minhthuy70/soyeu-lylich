@@ -143,7 +143,7 @@ export class ProjectService {
 
   async reorder(userId: number, projectOrders: { id: number; order: number }[]) {
     // Verify all projects belong to the user
-    const projectIds = projectOrders.map(p => p.id);
+    const projectIds = projectOrders.map((p) => p.id);
     const projects = await this.prisma.project.findMany({
       where: {
         id: { in: projectIds },
@@ -160,7 +160,7 @@ export class ProjectService {
       this.prisma.project.update({
         where: { id },
         data: { order },
-      }),
+      })
     );
 
     await Promise.all(updatePromises);

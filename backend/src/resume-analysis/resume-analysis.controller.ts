@@ -11,7 +11,7 @@ export class ResumeAnalysisController {
   async analyzeResume(
     @Param('id') id: string,
     @Body() body: { jobTitle?: string },
-    @Request() req,
+    @Request() req
   ): Promise<ResumeAnalysisResult> {
     const resumeId = parseInt(id, 10);
     const { jobTitle } = body;

@@ -34,7 +34,7 @@ export class RateLimitMiddleware implements NestMiddleware {
       res.setHeader('X-RateLimit-Limit', this.maxRequests.toString());
       res.setHeader('X-RateLimit-Remaining', '0');
       res.setHeader('X-RateLimit-Reset', record.resetTime.toString());
-      
+
       return res.status(429).json({
         message: 'Too many requests',
         error: 'TOO_MANY_REQUESTS',
@@ -44,7 +44,12 @@ export class RateLimitMiddleware implements NestMiddleware {
 
     // Increment count
     record.count++;
-    this.setRateLimitHeaders(res, this.maxRequests - record.count, this.maxRequests, record.resetTime);
+    this.setRateLimitHeaders(
+      res,
+      this.maxRequests - record.count,
+      this.maxRequests,
+      record.resetTime
+    );
     next();
   }
 

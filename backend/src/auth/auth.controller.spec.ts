@@ -125,7 +125,7 @@ describe('AuthController', () => {
       expect(result).toHaveProperty('message');
       expect(service.resetPassword).toHaveBeenCalledWith(
         resetPasswordDto.token,
-        resetPasswordDto.newPassword,
+        resetPasswordDto.newPassword
       );
     });
 
@@ -137,7 +137,9 @@ describe('AuthController', () => {
 
       mockAuthService.resetPassword.mockRejectedValue(new UnauthorizedException('Invalid token'));
 
-      await expect(controller.resetPassword(resetPasswordDto)).rejects.toThrow(UnauthorizedException);
+      await expect(controller.resetPassword(resetPasswordDto)).rejects.toThrow(
+        UnauthorizedException
+      );
     });
   });
 });

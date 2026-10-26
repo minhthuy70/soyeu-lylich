@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards, Request, UnauthorizedException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+  Request,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ActivityService } from './activity.service';
 
 @Controller('activities')
@@ -14,11 +26,11 @@ export class ActivityController {
   @Get()
   async findAll(@Request() req, @Query('type') type?: string) {
     const userId = this.extractUserIdFromRequest(req);
-    
+
     if (type) {
       return this.activityService.getActivitiesByType(userId, type);
     }
-    
+
     return this.activityService.findAll(userId);
   }
 

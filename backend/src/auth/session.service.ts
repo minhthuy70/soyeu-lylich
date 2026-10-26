@@ -11,7 +11,7 @@ export class SessionService {
     deviceInfo?: string,
     ipAddress?: string,
     userAgent?: string,
-    expiresIn: number = 7 * 24 * 60 * 60 * 1000, // 7 days default
+    expiresIn: number = 7 * 24 * 60 * 60 * 1000 // 7 days default
   ) {
     const expiresAt = new Date(Date.now() + expiresIn);
 

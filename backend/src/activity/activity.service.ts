@@ -5,16 +5,19 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ActivityService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: number, data: {
-    organizationName: string;
-    position: string;
-    startDate: Date;
-    endDate?: Date;
-    description: string;
-    achievements?: string;
-    activityType: string;
-    memberCount?: number;
-  }) {
+  async create(
+    userId: number,
+    data: {
+      organizationName: string;
+      position: string;
+      startDate: Date;
+      endDate?: Date;
+      description: string;
+      achievements?: string;
+      activityType: string;
+      memberCount?: number;
+    }
+  ) {
     return this.prisma.activity.create({
       data: {
         userId,

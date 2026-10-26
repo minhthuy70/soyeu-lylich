@@ -18,7 +18,7 @@ export class GitHubStrategy extends PassportStrategy(Strategy, 'github') {
     accessToken: string,
     refreshToken: string,
     profile: any,
-    done: VerifyCallback,
+    done: VerifyCallback
   ): Promise<any> {
     try {
       const { id, emails, username } = profile;
@@ -32,7 +32,7 @@ export class GitHubStrategy extends PassportStrategy(Strategy, 'github') {
           accessToken,
           refreshToken,
           username,
-        },
+        }
       );
 
       return done(null, result);

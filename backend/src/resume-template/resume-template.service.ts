@@ -62,10 +62,7 @@ export class ResumeTemplateService {
     const template = await this.prisma.resumeTemplate.findFirst({
       where: {
         id,
-        OR: [
-          { userId },
-          { isPublic: true },
-        ],
+        OR: [{ userId }, { isPublic: true }],
       },
     });
 

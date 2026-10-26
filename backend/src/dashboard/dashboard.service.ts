@@ -53,11 +53,14 @@ export class DashboardService {
     });
 
     // Group by date for chart data
-    const viewsByDate = views.reduce((acc, view) => {
-      const date = view.createdAt.toISOString().split('T')[0];
-      acc[date] = (acc[date] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    const viewsByDate = views.reduce(
+      (acc, view) => {
+        const date = view.createdAt.toISOString().split('T')[0];
+        acc[date] = (acc[date] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
 
     const chartData = Object.entries(viewsByDate).map(([date, count]) => ({
       date,

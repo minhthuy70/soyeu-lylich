@@ -48,7 +48,9 @@ export class AIAssistantController {
   }
 
   @Post('adjust-tone')
-  async adjustTone(@Body() body: { text: string; targetTone: 'formal' | 'casual' | 'professional' }) {
+  async adjustTone(
+    @Body() body: { text: string; targetTone: 'formal' | 'casual' | 'professional' }
+  ) {
     return this.aiAssistantService.adjustTone(body.text, body.targetTone);
   }
 

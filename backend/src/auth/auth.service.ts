@@ -20,7 +20,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly twoFactorAuthService: TwoFactorAuthService,
-    private readonly sessionService: SessionService,
+    private readonly sessionService: SessionService
   ) {}
 
   async login(loginDto: LoginDto) {
@@ -44,7 +44,7 @@ export class AuthService {
     if (user.lockedUntil && user.lockedUntil > new Date()) {
       const remainingTime = Math.ceil((user.lockedUntil.getTime() - Date.now()) / 60000);
       throw new UnauthorizedException(
-        `Tài khoản đã bị khóa. Vui lòng thử lại sau ${remainingTime} phút.`,
+        `Tài khoản đã bị khóa. Vui lòng thử lại sau ${remainingTime} phút.`
       );
     }
 
@@ -55,7 +55,9 @@ export class AuthService {
 
     // Kiểm tra mật khẩu
     if (!user.passwordHash) {
-      throw new UnauthorizedException('Tài khoản này không thể đăng nhập bằng mật khẩu. Vui lòng sử dụng đăng nhập mạng xã hội.');
+      throw new UnauthorizedException(
+        'Tài khoản này không thể đăng nhập bằng mật khẩu. Vui lòng sử dụng đăng nhập mạng xã hội.'
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
@@ -74,7 +76,7 @@ export class AuthService {
         });
 
         throw new UnauthorizedException(
-          'Tài khoản đã bị khóa do quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 15 phút.',
+          'Tài khoản đã bị khóa do quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 15 phút.'
         );
       }
 
@@ -87,13 +89,13 @@ export class AuthService {
 
       if (failedAttempts >= 5) {
         throw new UnauthorizedException(
-          'Tài khoản đã bị khóa do quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 15 phút.',
+          'Tài khoản đã bị khóa do quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 15 phút.'
         );
       }
 
       const remainingAttempts = 5 - failedAttempts;
       throw new UnauthorizedException(
-        `Email hoặc mật khẩu không đúng. Còn ${remainingAttempts} lần thử.`,
+        `Email hoặc mật khẩu không đúng. Còn ${remainingAttempts} lần thử.`
       );
     }
 
@@ -141,7 +143,7 @@ export class AuthService {
       undefined, // deviceInfo - can be extracted from request
       undefined, // ipAddress - can be extracted from request
       undefined, // userAgent - can be extracted from request
-      expiresIn,
+      expiresIn
     );
 
     return {
@@ -210,7 +212,7 @@ export class AuthService {
         undefined, // deviceInfo
         undefined, // ipAddress
         undefined, // userAgent
-        expiresIn,
+        expiresIn
       );
 
       return {
@@ -232,23 +234,17 @@ export class AuthService {
 
     // Kiểm tra mật khẩu xác nhận
     if (password !== confirmPassword) {
-      throw new BadRequestException(
-        'Mật khẩu xác nhận không khớp',
-      );
+      throw new BadRequestException('Mật khẩu xác nhận không khớp');
     }
 
     // Kiểm tra đồng ý điều khoản
     if (!agreeTerms) {
-      throw new BadRequestException(
-        'Vui lòng đồng ý với điều khoản sử dụng',
-      );
+      throw new BadRequestException('Vui lòng đồng ý với điều khoản sử dụng');
     }
 
     // Kiểm tra đồng ý chính sách bảo mật
     if (!agreePrivacy) {
-      throw new BadRequestException(
-        'Vui lòng đồng ý với chính sách bảo mật',
-      );
+      throw new BadRequestException('Vui lòng đồng ý với chính sách bảo mật');
     }
 
     // Chuẩn hóa email
@@ -262,9 +258,7 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException(
-        'Email đã được sử dụng',
-      );
+      throw new ConflictException('Email đã được sử dụng');
     }
 
     // Hash mật khẩu
@@ -301,7 +295,9 @@ export class AuthService {
   }
 
   private generateVerificationToken(): string {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    return (
+      Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    );
   }
 
   async verifyEmail(token: string) {
@@ -415,6 +411,8 @@ export class AuthService {
   }
 
   private generateResetToken(): string {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    return (
+      Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    );
   }
 }

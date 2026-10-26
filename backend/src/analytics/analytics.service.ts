@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AnalyticsService {
   constructor(
     private prisma: PrismaService,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
   // Generate session ID
@@ -252,7 +252,13 @@ export class AnalyticsService {
   }
 
   // A/B Testing
-  async createABTest(name: string, description: string, variantA: string, variantB: string, trafficSplit = 50) {
+  async createABTest(
+    name: string,
+    description: string,
+    variantA: string,
+    variantB: string,
+    trafficSplit = 50
+  ) {
     return this.prisma.aBTest.create({
       data: {
         name,
@@ -339,12 +345,14 @@ export class AnalyticsService {
       variantA: {
         total: variantA.length,
         conversions: variantAConversions,
-        conversionRate: variantA.length > 0 ? ((variantAConversions / variantA.length) * 100).toFixed(2) : '0',
+        conversionRate:
+          variantA.length > 0 ? ((variantAConversions / variantA.length) * 100).toFixed(2) : '0',
       },
       variantB: {
         total: variantB.length,
         conversions: variantBConversions,
-        conversionRate: variantB.length > 0 ? ((variantBConversions / variantB.length) * 100).toFixed(2) : '0',
+        conversionRate:
+          variantB.length > 0 ? ((variantBConversions / variantB.length) * 100).toFixed(2) : '0',
       },
     };
   }

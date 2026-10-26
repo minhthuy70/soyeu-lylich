@@ -20,17 +20,11 @@ export class RequestLoggingMiddleware implements NestMiddleware {
 
       // Log response
       if (statusCode >= 400) {
-        this.logger.error(
-          `${method} ${url} - ${statusCode} - ${duration}ms - ${ip}`,
-        );
+        this.logger.error(`${method} ${url} - ${statusCode} - ${duration}ms - ${ip}`);
       } else if (statusCode >= 300) {
-        this.logger.warn(
-          `${method} ${url} - ${statusCode} - ${duration}ms - ${ip}`,
-        );
+        this.logger.warn(`${method} ${url} - ${statusCode} - ${duration}ms - ${ip}`);
       } else {
-        this.logger.log(
-          `${method} ${url} - ${statusCode} - ${duration}ms - ${ip}`,
-        );
+        this.logger.log(`${method} ${url} - ${statusCode} - ${duration}ms - ${ip}`);
       }
 
       // Add response time header

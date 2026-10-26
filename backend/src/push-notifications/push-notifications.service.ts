@@ -24,7 +24,7 @@ export class PushNotificationService {
       enabled: boolean;
       categories: string[];
       quietHours: { start: string; end: string };
-    },
+    }
   ) {
     // Store user notification preferences
     console.log(`Updating notification preferences for user ${userId}:`, preferences);

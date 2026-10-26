@@ -110,7 +110,9 @@ export class FileUploadService {
 
     // Check file size
     if (file.size > this.maxFileSize) {
-      throw new BadRequestException(`File size exceeds maximum limit of ${this.maxFileSize / 1024 / 1024}MB`);
+      throw new BadRequestException(
+        `File size exceeds maximum limit of ${this.maxFileSize / 1024 / 1024}MB`
+      );
     }
 
     // Check file type

@@ -5,11 +5,14 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ResumeService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createResume(userId: number, data: {
-    title: string;
-    templateId?: number;
-    isDefault?: boolean;
-  }) {
+  async createResume(
+    userId: number,
+    data: {
+      title: string;
+      templateId?: number;
+      isDefault?: boolean;
+    }
+  ) {
     // If setting as default, unset other resumes
     if (data.isDefault) {
       await this.prisma.resume.updateMany({
@@ -142,7 +145,7 @@ export class ResumeService {
             resumeId: duplicatedResume.id,
             userId,
           },
-        }),
+        })
       ),
       ...originalResume.projects.map((proj) =>
         this.prisma.project.create({
@@ -152,7 +155,7 @@ export class ResumeService {
             resumeId: duplicatedResume.id,
             userId,
           },
-        }),
+        })
       ),
       ...originalResume.skills.map((skill) =>
         this.prisma.skill.create({
@@ -162,7 +165,7 @@ export class ResumeService {
             resumeId: duplicatedResume.id,
             userId,
           },
-        }),
+        })
       ),
       ...originalResume.certificates.map((cert) =>
         this.prisma.certificate.create({
@@ -172,7 +175,7 @@ export class ResumeService {
             resumeId: duplicatedResume.id,
             userId,
           },
-        }),
+        })
       ),
       ...originalResume.educations.map((edu) =>
         this.prisma.education.create({
@@ -182,7 +185,7 @@ export class ResumeService {
             resumeId: duplicatedResume.id,
             userId,
           },
-        }),
+        })
       ),
       ...originalResume.achievements.map((ach) =>
         this.prisma.achievement.create({
@@ -192,7 +195,7 @@ export class ResumeService {
             resumeId: duplicatedResume.id,
             userId,
           },
-        }),
+        })
       ),
       ...originalResume.publications.map((pub) =>
         this.prisma.publication.create({
@@ -202,7 +205,7 @@ export class ResumeService {
             resumeId: duplicatedResume.id,
             userId,
           },
-        }),
+        })
       ),
       ...originalResume.resumeSections.map((section) =>
         this.prisma.resumeSection.create({
@@ -211,7 +214,7 @@ export class ResumeService {
             id: undefined,
             resumeId: duplicatedResume.id,
           },
-        }),
+        })
       ),
     ]);
 
@@ -302,15 +305,19 @@ export class ResumeService {
     };
   }
 
-  async updateSectionOrder(resumeId: number, userId: number, sectionOrders: { sectionId: number; order: number }[]) {
+  async updateSectionOrder(
+    resumeId: number,
+    userId: number,
+    sectionOrders: { sectionId: number; order: number }[]
+  ) {
     // Update order of resume sections
     await Promise.all(
       sectionOrders.map(({ sectionId, order }) =>
         this.prisma.resumeSection.update({
           where: { id: sectionId },
           data: { order },
-        }),
-      ),
+        })
+      )
     );
 
     return { message: 'Section order updated successfully' };

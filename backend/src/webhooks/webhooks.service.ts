@@ -37,7 +37,7 @@ export class WebhooksService {
 
       try {
         const signature = this.generateSignature(payload, config.secret);
-        
+
         const response = await fetch(config.url, {
           method: 'POST',
           headers: {

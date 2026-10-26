@@ -5,30 +5,18 @@ export class ErrorHandlerUtil {
     console.error('Database error:', error);
 
     if (error.code === 'P2002') {
-      throw new HttpException(
-        'Dữ liệu đã tồn tại trong hệ thống',
-        HttpStatus.CONFLICT,
-      );
+      throw new HttpException('Dữ liệu đã tồn tại trong hệ thống', HttpStatus.CONFLICT);
     }
 
     if (error.code === 'P2025') {
-      throw new HttpException(
-        'Không tìm thấy dữ liệu',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('Không tìm thấy dữ liệu', HttpStatus.NOT_FOUND);
     }
 
     if (error.code === 'P2003') {
-      throw new HttpException(
-        'Dữ liệu tham chiếu không tồn tại',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('Dữ liệu tham chiếu không tồn tại', HttpStatus.BAD_REQUEST);
     }
 
-    throw new HttpException(
-      'Lỗi cơ sở dữ liệu',
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    throw new HttpException('Lỗi cơ sở dữ liệu', HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   static handleValidationError(errors: any[]): never {
@@ -42,7 +30,7 @@ export class ErrorHandlerUtil {
         message: 'Dữ liệu không hợp lệ',
         errors: formattedErrors,
       },
-      HttpStatus.BAD_REQUEST,
+      HttpStatus.BAD_REQUEST
     );
   }
 
@@ -50,15 +38,14 @@ export class ErrorHandlerUtil {
     throw new HttpException(message, HttpStatus.UNAUTHORIZED);
   }
 
-  static handleForbiddenError(message: string = 'Bạn không có quyền thực hiện hành động này'): never {
+  static handleForbiddenError(
+    message: string = 'Bạn không có quyền thực hiện hành động này'
+  ): never {
     throw new HttpException(message, HttpStatus.FORBIDDEN);
   }
 
   static handleNotFoundError(resource: string = 'Dữ liệu'): never {
-    throw new HttpException(
-      `Không tìm thấy ${resource}`,
-      HttpStatus.NOT_FOUND,
-    );
+    throw new HttpException(`Không tìm thấy ${resource}`, HttpStatus.NOT_FOUND);
   }
 
   static handleConflictError(message: string = 'Dữ liệu đã tồn tại'): never {

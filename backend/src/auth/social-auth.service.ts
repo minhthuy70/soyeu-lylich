@@ -6,7 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 export class SocialAuthService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly jwtService: JwtService,
+    private readonly jwtService: JwtService
   ) {}
 
   async handleSocialLogin(provider: string, providerId: string, email?: string, profileData?: any) {
@@ -136,7 +136,13 @@ export class SocialAuthService {
     };
   }
 
-  async linkSocialAccount(userId: number, provider: string, providerId: string, accessToken?: string, refreshToken?: string) {
+  async linkSocialAccount(
+    userId: number,
+    provider: string,
+    providerId: string,
+    accessToken?: string,
+    refreshToken?: string
+  ) {
     // Check if social account already exists
     const existingSocialAccount = await this.prisma.socialAccount.findUnique({
       where: {

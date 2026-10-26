@@ -15,7 +15,7 @@ export class EmailNotificationsController {
       userId,
       email,
       body.alertType,
-      body.details,
+      body.details
     );
   }
 
@@ -28,7 +28,7 @@ export class EmailNotificationsController {
       email,
       body.resumeTitle,
       body.sharedWith,
-      body.shareType,
+      body.shareType
     );
   }
 
@@ -48,7 +48,7 @@ export class EmailNotificationsController {
       email,
       body.certificateName,
       body.expiryDate,
-      body.daysUntilExpiry,
+      body.daysUntilExpiry
     );
   }
 
@@ -60,7 +60,7 @@ export class EmailNotificationsController {
       userId,
       email,
       body.milestone,
-      body.currentViews,
+      body.currentViews
     );
   }
 

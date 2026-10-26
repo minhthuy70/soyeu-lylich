@@ -45,7 +45,15 @@ export class SystemConfigurationService {
     return {
       provider: 'local', // or 's3', 'gcs', 'azure'
       maxFileSize: 5 * 1024 * 1024, // 5MB
-      allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+      allowedFileTypes: [
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'image/webp',
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      ],
       uploadPath: './uploads',
     };
   }

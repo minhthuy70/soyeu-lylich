@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Req,
+  Query,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { IntegrationsService } from './integrations.service';
 import { CreateIntegrationDto } from './dto/create-integration.dto';
 import { UpdateIntegrationDto } from './dto/update-integration.dto';
@@ -62,13 +75,22 @@ export class IntegrationsController {
   }
 
   @Post('sendgrid/send')
-  sendEmail(@Req() req, @Body('to') to: string, @Body('subject') subject: string, @Body('content') content: string) {
+  sendEmail(
+    @Req() req,
+    @Body('to') to: string,
+    @Body('subject') subject: string,
+    @Body('content') content: string
+  ) {
     return this.integrationsService.sendEmail(req.user.userId, to, subject, content);
   }
 
   // Twilio
   @Post('twilio/connect')
-  connectTwilio(@Req() req, @Body('accountSid') accountSid: string, @Body('authToken') authToken: string) {
+  connectTwilio(
+    @Req() req,
+    @Body('accountSid') accountSid: string,
+    @Body('authToken') authToken: string
+  ) {
     return this.integrationsService.connectTwilio(req.user.userId, accountSid, authToken);
   }
 
@@ -84,7 +106,11 @@ export class IntegrationsController {
   }
 
   @Post('stripe/payment-intent')
-  createPaymentIntent(@Req() req, @Body('amount') amount: number, @Body('currency') currency?: string) {
+  createPaymentIntent(
+    @Req() req,
+    @Body('amount') amount: number,
+    @Body('currency') currency?: string
+  ) {
     return this.integrationsService.createPaymentIntent(req.user.userId, amount, currency);
   }
 
@@ -95,9 +121,15 @@ export class IntegrationsController {
     @Body('accessKeyId') accessKeyId: string,
     @Body('secretAccessKey') secretAccessKey: string,
     @Body('region') region: string,
-    @Body('bucket') bucket: string,
+    @Body('bucket') bucket: string
   ) {
-    return this.integrationsService.connectAwsS3(req.user.userId, accessKeyId, secretAccessKey, region, bucket);
+    return this.integrationsService.connectAwsS3(
+      req.user.userId,
+      accessKeyId,
+      secretAccessKey,
+      region,
+      bucket
+    );
   }
 
   @Post('aws-s3/upload')

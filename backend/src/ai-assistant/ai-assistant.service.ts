@@ -16,7 +16,12 @@ export class AIAssistantService {
     const { title, skills } = profile;
     const role = targetRole || title || 'Senior Software Engineer';
 
-    return `To leverage my expertise in ${skills.map((s: any) => s.name).slice(0, 3).join(', ')} as a ${role} in a dynamic organization where I can contribute to innovative projects, mentor team members, and drive technical excellence while continuing to grow professionally and make meaningful contributions to the company's success.`;
+    return `To leverage my expertise in ${skills
+      .map((s: any) => s.name)
+      .slice(0, 3)
+      .join(
+        ', '
+      )} as a ${role} in a dynamic organization where I can contribute to innovative projects, mentor team members, and drive technical excellence while continuing to grow professionally and make meaningful contributions to the company's success.`;
   }
 
   // 3. AI Project Description Improvement
@@ -128,9 +133,12 @@ export class AIAssistantService {
   async translateText(text: string, targetLanguage: string): Promise<string> {
     // Mock implementation - in production, use Google Translate API or similar
     const translations: Record<string, string> = {
-      spanish: 'Esta es una traducción simulada. En producción, utilice una API de traducción real.',
-      french: 'Ceci est une traduction simulée. En production, utilisez une API de traduction réelle.',
-      german: 'Dies ist eine simulierte Übersetzung. In der Produktion verwenden Sie eine echte Übersetzungs-API.',
+      spanish:
+        'Esta es una traducción simulada. En producción, utilice una API de traducción real.',
+      french:
+        'Ceci est une traduction simulée. En production, utilisez une API de traduction réelle.',
+      german:
+        'Dies ist eine simulierte Übersetzung. In der Produktion verwenden Sie eine echte Übersetzungs-API.',
       japanese: 'これはです。ではのAPIをしてください。',
     };
 
@@ -138,7 +146,10 @@ export class AIAssistantService {
   }
 
   // 9. AI Tone Adjustment
-  async adjustTone(text: string, targetTone: 'formal' | 'casual' | 'professional'): Promise<string> {
+  async adjustTone(
+    text: string,
+    targetTone: 'formal' | 'casual' | 'professional'
+  ): Promise<string> {
     if (targetTone === 'formal') {
       return text
         .replace(/I'm/g, 'I am')

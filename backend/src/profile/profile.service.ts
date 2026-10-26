@@ -86,7 +86,9 @@ export class ProfileService {
 
     // Kiểm tra mật khẩu hiện tại
     if (!user.passwordHash) {
-      throw new BadRequestException('Tài khoản này không có mật khẩu. Vui lòng sử dụng tính năng khôi phục mật khẩu.');
+      throw new BadRequestException(
+        'Tài khoản này không có mật khẩu. Vui lòng sử dụng tính năng khôi phục mật khẩu.'
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(currentPassword, user.passwordHash);
@@ -122,7 +124,9 @@ export class ProfileService {
 
     // Kiểm tra mật khẩu
     if (!user.passwordHash) {
-      throw new BadRequestException('Tài khoản này không có mật khẩu. Vui lòng sử dụng tính năng khôi phục mật khẩu.');
+      throw new BadRequestException(
+        'Tài khoản này không có mật khẩu. Vui lòng sử dụng tính năng khôi phục mật khẩu.'
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);

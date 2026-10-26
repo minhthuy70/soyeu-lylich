@@ -7,7 +7,7 @@ export class EmailNotificationService {
     userId: number,
     email: string,
     alertType: 'login' | 'password_change' | '2fa_enabled' | 'suspicious_activity',
-    details?: any,
+    details?: any
   ) {
     // In production, use Nodemailer, SendGrid, AWS SES, or similar
     console.log(`Sending security alert email to ${email}: ${alertType}`);
@@ -32,7 +32,7 @@ export class EmailNotificationService {
     email: string,
     resumeTitle: string,
     sharedWith: string,
-    shareType: 'public' | 'private' | 'email',
+    shareType: 'public' | 'private' | 'email'
   ) {
     console.log(`Sending resume sharing notification to ${email}`);
     console.log(`Resume: ${resumeTitle}, Shared with: ${sharedWith}, Type: ${shareType}`);
@@ -52,7 +52,7 @@ export class EmailNotificationService {
       shares: number;
       newConnections: number;
       achievements: number;
-    },
+    }
   ) {
     console.log(`Sending weekly summary to ${email}`);
     console.log('Summary:', summary);
@@ -69,17 +69,15 @@ export class EmailNotificationService {
     email: string,
     certificateName: string,
     expiryDate: Date,
-    daysUntilExpiry: number,
+    daysUntilExpiry: number
   ) {
     console.log(`Sending certificate expiry reminder to ${email}`);
-    console.log(`Certificate: ${certificateName}, Expires: ${expiryDate}, Days left: ${daysUntilExpiry}`);
+    console.log(
+      `Certificate: ${certificateName}, Expires: ${expiryDate}, Days left: ${daysUntilExpiry}`
+    );
 
     const urgency =
-      daysUntilExpiry <= 7
-        ? 'URGENT'
-        : daysUntilExpiry <= 30
-          ? 'Important'
-          : 'Reminder';
+      daysUntilExpiry <= 7 ? 'URGENT' : daysUntilExpiry <= 30 ? 'Important' : 'Reminder';
 
     return {
       success: true,
@@ -92,7 +90,7 @@ export class EmailNotificationService {
     userId: number,
     email: string,
     milestone: number,
-    currentViews: number,
+    currentViews: number
   ) {
     console.log(`Sending profile view milestone email to ${email}`);
     console.log(`Milestone: ${milestone}, Current views: ${currentViews}`);

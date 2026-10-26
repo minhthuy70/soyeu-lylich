@@ -83,9 +83,9 @@ describe('ProfileService', () => {
     it('should throw error if profile not found', async () => {
       mockPrisma.profile.findFirst.mockResolvedValue(null);
 
-      await expect(
-        service.updateProfile(1, { title: 'New Title' }),
-      ).rejects.toThrow(UnauthorizedException);
+      await expect(service.updateProfile(1, { title: 'New Title' })).rejects.toThrow(
+        UnauthorizedException
+      );
     });
   });
 

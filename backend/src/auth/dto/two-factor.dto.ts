@@ -1,11 +1,4 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsNumber,
-  IsArray,
-  MinLength,
-  MaxLength,
-} from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsArray, MinLength, MaxLength } from 'class-validator';
 
 export class EnableTwoFactorDto {
   @IsString()

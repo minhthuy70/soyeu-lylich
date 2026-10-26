@@ -20,6 +20,6 @@ import { memoryStorage } from 'multer';
     }),
   ],
   controllers: [IntegrationsController],
-  providers: [IntegrationsService]
+  providers: [IntegrationsService],
 })
 export class IntegrationsModule {}

@@ -1,6 +1,9 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateIdentityDocumentDto, UpdateIdentityDocumentDto } from './dto/create-identity-document.dto';
+import {
+  CreateIdentityDocumentDto,
+  UpdateIdentityDocumentDto,
+} from './dto/create-identity-document.dto';
 
 @Injectable()
 export class IdentityDocumentService {

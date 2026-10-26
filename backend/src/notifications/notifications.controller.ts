@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Delete, Body, Param, Query, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { NotificationService } from './notifications.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
@@ -11,13 +21,13 @@ export class NotificationsController {
   async getUserNotifications(
     @Request() req,
     @Query('limit') limit = 20,
-    @Query('offset') offset = 0,
+    @Query('offset') offset = 0
   ) {
     const userId = req.user?.id || 1;
     return this.notificationService.getUserNotifications(
       userId,
       parseInt(limit as string),
-      parseInt(offset as string),
+      parseInt(offset as string)
     );
   }
 
@@ -35,9 +45,15 @@ export class NotificationsController {
   }
 
   @Post('profile-completion')
-  async createProfileCompletionReminder(@Body() body: { completionPercentage: number }, @Request() req) {
+  async createProfileCompletionReminder(
+    @Body() body: { completionPercentage: number },
+    @Request() req
+  ) {
     const userId = req.user?.id || 1;
-    return this.notificationService.createProfileCompletionReminder(userId, body.completionPercentage);
+    return this.notificationService.createProfileCompletionReminder(
+      userId,
+      body.completionPercentage
+    );
   }
 
   @Post('resume-update')
@@ -47,15 +63,30 @@ export class NotificationsController {
   }
 
   @Post('security')
-  async createSecurityNotification(@Body() body: { securityType: string; details?: any }, @Request() req) {
+  async createSecurityNotification(
+    @Body() body: { securityType: string; details?: any },
+    @Request() req
+  ) {
     const userId = req.user?.id || 1;
-    return this.notificationService.createSecurityNotification(userId, body.securityType, body.details);
+    return this.notificationService.createSecurityNotification(
+      userId,
+      body.securityType,
+      body.details
+    );
   }
 
   @Post('system')
-  async createSystemNotification(@Body() body: { title: string; message: string; metadata?: any }, @Request() req) {
+  async createSystemNotification(
+    @Body() body: { title: string; message: string; metadata?: any },
+    @Request() req
+  ) {
     const userId = req.user?.id || 1;
-    return this.notificationService.createSystemNotification(userId, body.title, body.message, body.metadata);
+    return this.notificationService.createSystemNotification(
+      userId,
+      body.title,
+      body.message,
+      body.metadata
+    );
   }
 
   @Post('achievement')
@@ -73,10 +104,14 @@ export class NotificationsController {
   @Post('resume-share')
   async createResumeShareNotification(
     @Body() body: { resumeTitle: string; sharedWith: string },
-    @Request() req,
+    @Request() req
   ) {
     const userId = req.user?.id || 1;
-    return this.notificationService.createResumeShareNotification(userId, body.resumeTitle, body.sharedWith);
+    return this.notificationService.createResumeShareNotification(
+      userId,
+      body.resumeTitle,
+      body.sharedWith
+    );
   }
 
   @Post(':id/mark-read')

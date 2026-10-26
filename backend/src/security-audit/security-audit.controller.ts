@@ -28,14 +28,8 @@ export class SecurityAuditController {
   }
 
   @Get('date-range')
-  getLogsByDateRange(
-    @Query('startDate') startDate: string,
-    @Query('endDate') endDate: string,
-  ) {
-    return this.securityAuditService.getLogsByDateRange(
-      new Date(startDate),
-      new Date(endDate),
-    );
+  getLogsByDateRange(@Query('startDate') startDate: string, @Query('endDate') endDate: string) {
+    return this.securityAuditService.getLogsByDateRange(new Date(startDate), new Date(endDate));
   }
 
   @Get('failed-logins')
