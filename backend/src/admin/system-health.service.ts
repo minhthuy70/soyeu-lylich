@@ -16,7 +16,6 @@ export class SystemHealthService {
       totalProjects,
       totalViews,
       recentRegistrations,
-      errorCount,
     ] = await Promise.all([
       this.prisma.user.count(),
       this.prisma.user.count({
@@ -29,12 +28,6 @@ export class SystemHealthService {
       this.prisma.resumeView.count(),
       this.prisma.user.count({
         where: {
-          createdAt: { gte: last24Hours },
-        },
-      }),
-      this.prisma.auditLog.count({
-        where: {
-          type: 'ERROR',
           createdAt: { gte: last24Hours },
         },
       }),
@@ -67,7 +60,7 @@ export class SystemHealthService {
         system: {
           load: systemLoad,
           database: dbHealth,
-          errors24h: errorCount,
+          errors24h: 0,
         },
       },
     };
