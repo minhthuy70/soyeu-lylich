@@ -8,20 +8,27 @@ export class ActivityService {
   async create(
     userId: number,
     data: {
-      organizationName: string;
+      organization: string;
       position: string;
       startDate: Date;
       endDate?: Date;
       description: string;
       achievements?: string;
-      activityType: string;
+      type: string;
       memberCount?: number;
     }
   ) {
     return this.prisma.activity.create({
       data: {
         userId,
-        ...data,
+        organization: data.organization,
+        position: data.position,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        description: data.description,
+        achievements: data.achievements ? [data.achievements] : [],
+        type: data.type,
+        memberCount: data.memberCount,
       },
     });
   }
@@ -57,7 +64,7 @@ export class ActivityService {
 
   async getActivitiesByType(userId: number, type: string) {
     return this.prisma.activity.findMany({
-      where: { userId, activityType: type },
+      where: { userId, type },
       orderBy: { startDate: 'desc' },
     });
   }
