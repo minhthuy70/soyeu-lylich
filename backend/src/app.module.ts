@@ -32,6 +32,10 @@ import { VolunteerExperienceModule } from './volunteer-experience/volunteer-expe
 import { PrivacyModule } from './privacy/privacy.module';
 import { UIPreferencesModule } from './ui-preferences/ui-preferences.module';
 import { ResumeModule } from './resume/resume.module';
+import { SkillModule } from './skills/skill.module';
+import { SoftSkillModule } from './skills/soft-skill.module';
+import { LanguageSkillModule } from './skills/language-skill.module';
+import { ToolSkillModule } from './skills/tool-skill.module';
 import { CompressionMiddleware } from './middleware/compression.middleware';
 import { CacheControlMiddleware } from './middleware/cache-control.middleware';
 import { CorsMiddleware } from './middleware/cors.middleware';
@@ -74,6 +78,10 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     PrivacyModule,
     UIPreferencesModule,
     ResumeModule,
+    SkillModule,
+    SoftSkillModule,
+    LanguageSkillModule,
+    ToolSkillModule,
   ],
 })
 export class AppModule implements NestModule {
