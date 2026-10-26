@@ -5,6 +5,26 @@ import { PrismaService } from '../prisma/prisma.service';
 export class UserManagementService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getAllUsers() {
+    const users = await this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      users,
+      count: users.length,
+    };
+  }
+
   async editUser(userId: number, updateData: any) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },

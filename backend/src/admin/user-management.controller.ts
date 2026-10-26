@@ -7,6 +7,11 @@ import { UserManagementService } from './user-management.service';
 export class UserManagementController {
   constructor(private readonly userManagementService: UserManagementService) {}
 
+  @Get()
+  async getAllUsers() {
+    return this.userManagementService.getAllUsers();
+  }
+
   @Put(':id')
   async editUser(@Param('id') id: string, @Body() updateData: any) {
     return this.userManagementService.editUser(parseInt(id), updateData);
