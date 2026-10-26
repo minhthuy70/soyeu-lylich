@@ -91,12 +91,10 @@ describe('API Endpoints (e2e)', () => {
     let authToken: string;
 
     beforeAll(async () => {
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          email: 'test@example.com',
-          password: 'SecurePass123',
-        });
+      const loginResponse = await request(app.getHttpServer()).post('/auth/login').send({
+        email: 'test@example.com',
+        password: 'SecurePass123',
+      });
       authToken = loginResponse.body.access_token;
     });
 
@@ -113,9 +111,7 @@ describe('API Endpoints (e2e)', () => {
       });
 
       it('should fail without auth', () => {
-        return request(app.getHttpServer())
-          .get('/profile')
-          .expect(401);
+        return request(app.getHttpServer()).get('/profile').expect(401);
       });
     });
 
@@ -146,12 +142,10 @@ describe('API Endpoints (e2e)', () => {
     let authToken: string;
 
     beforeAll(async () => {
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          email: 'test@example.com',
-          password: 'SecurePass123',
-        });
+      const loginResponse = await request(app.getHttpServer()).post('/auth/login').send({
+        email: 'test@example.com',
+        password: 'SecurePass123',
+      });
       authToken = loginResponse.body.access_token;
     });
 
@@ -212,12 +206,10 @@ describe('API Endpoints (e2e)', () => {
     let authToken: string;
 
     beforeAll(async () => {
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          email: 'test@example.com',
-          password: 'SecurePass123',
-        });
+      const loginResponse = await request(app.getHttpServer()).post('/auth/login').send({
+        email: 'test@example.com',
+        password: 'SecurePass123',
+      });
       authToken = loginResponse.body.access_token;
     });
 
