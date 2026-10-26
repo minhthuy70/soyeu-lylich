@@ -43,7 +43,7 @@ export class DatabaseHealthService {
   // 2. Get database size (PostgreSQL specific)
   async getDatabaseSize() {
     try {
-      const result = await this.prisma.$queryRaw`
+      const result = await this.prisma.$queryRaw<Array<{ size: string }>>`
         SELECT pg_size_pretty(pg_database_size(current_database())) as size
       `;
 
@@ -54,7 +54,7 @@ export class DatabaseHealthService {
     } catch (error) {
       return {
         databaseSize: 'Unknown',
-        error: error.message,
+        error: (error as Error).message,
         timestamp: new Date(),
       };
     }
@@ -118,7 +118,7 @@ export class DatabaseHealthService {
   // 5. Get active connections
   async getActiveConnections() {
     try {
-      const result = await this.prisma.$queryRaw`
+      const result = await this.prisma.$queryRaw<Array<{ count: string }>>`
         SELECT count(*) as count
         FROM pg_stat_activity
         WHERE state = 'active'
@@ -131,7 +131,7 @@ export class DatabaseHealthService {
     } catch (error) {
       return {
         activeConnections: 0,
-        error: error.message,
+        error: (error as Error).message,
         timestamp: new Date(),
       };
     }

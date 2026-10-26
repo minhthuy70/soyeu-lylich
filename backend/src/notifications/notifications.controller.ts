@@ -26,8 +26,8 @@ export class NotificationsController {
     const userId = req.user?.id || 1;
     return this.notificationService.getUserNotifications(
       userId,
-      parseInt(limit as string),
-      parseInt(offset as string)
+      Number(limit),
+      Number(offset)
     );
   }
 
@@ -64,7 +64,7 @@ export class NotificationsController {
 
   @Post('security')
   async createSecurityNotification(
-    @Body() body: { securityType: string; details?: any },
+    @Body() body: { securityType: 'LOGIN' | 'PASSWORD_CHANGE' | '2FA_ENABLED' | 'SUSPICIOUS_ACTIVITY'; details?: any },
     @Request() req
   ) {
     const userId = req.user?.id || 1;
@@ -147,6 +147,6 @@ export class NotificationsController {
   @Delete('old')
   async deleteOldNotifications(@Query('daysOld') daysOld = 90, @Request() req) {
     const userId = req.user?.id || 1;
-    return this.notificationService.deleteOldNotifications(userId, parseInt(daysOld as string));
+    return this.notificationService.deleteOldNotifications(userId, Number(daysOld));
   }
 }
