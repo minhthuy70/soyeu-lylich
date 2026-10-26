@@ -87,17 +87,6 @@ export class DashboardService {
   async getCompletionSuggestions(userId: number) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      include: {
-        resumes: {
-          include: {
-            experiences: true,
-            projects: true,
-            skills: true,
-            certificates: true,
-            educations: true,
-          },
-        },
-      },
     });
 
     if (!user) {
@@ -107,7 +96,11 @@ export class DashboardService {
     const suggestions: Array<{ type: string; message: string; priority: string; resumeId?: number }> = [];
 
     // Check resume completeness
-    if (user.resumes.length === 0) {
+    const resumes = await this.prisma.resume.findMany({
+      where: { userId },
+    });
+
+    if (resumes.length === 0) {
       suggestions.push({
         type: 'resume',
         message: 'Create your first resume',
@@ -116,43 +109,56 @@ export class DashboardService {
     }
 
     // Check for experience
-    user.resumes.forEach((resume) => {
-      if (resume.experiences.length === 0) {
-        suggestions.push({
-          type: 'experience',
-          message: `Add work experience to "${resume.title}"`,
-          priority: 'medium',
-          resumeId: resume.id,
-        });
-      }
-
-      if (resume.projects.length === 0) {
-        suggestions.push({
-          type: 'project',
-          message: `Add projects to "${resume.title}"`,
-          priority: 'medium',
-          resumeId: resume.id,
-        });
-      }
-
-      if (resume.skills.length === 0) {
-        suggestions.push({
-          type: 'skill',
-          message: `Add skills to "${resume.title}"`,
-          priority: 'medium',
-          resumeId: resume.id,
-        });
-      }
-
-      if (resume.certificates.length === 0) {
-        suggestions.push({
-          type: 'certificate',
-          message: `Add certificates to "${resume.title}"`,
-          priority: 'low',
-          resumeId: resume.id,
-        });
-      }
+    const experiences = await this.prisma.experience.findMany({
+      where: { userId },
     });
+
+    if (experiences.length === 0) {
+      suggestions.push({
+        type: 'experience',
+        message: 'Add work experience',
+        priority: 'medium',
+      });
+    }
+
+    // Check for projects
+    const projects = await this.prisma.project.findMany({
+      where: { userId },
+    });
+
+    if (projects.length === 0) {
+      suggestions.push({
+        type: 'project',
+        message: 'Add projects',
+        priority: 'medium',
+      });
+    }
+
+    // Check for skills
+    const skills = await this.prisma.skill.findMany({
+      where: { userId },
+    });
+
+    if (skills.length === 0) {
+      suggestions.push({
+        type: 'skill',
+        message: 'Add skills',
+        priority: 'medium',
+      });
+    }
+
+    // Check for certificates
+    const certificates = await this.prisma.certificate.findMany({
+      where: { userId },
+    });
+
+    if (certificates.length === 0) {
+      suggestions.push({
+        type: 'certificate',
+        message: 'Add certificates',
+        priority: 'low',
+      });
+    }
 
     return {
       suggestions,
@@ -163,17 +169,6 @@ export class DashboardService {
   async getCompletionScore(userId: number) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      include: {
-        resumes: {
-          include: {
-            experiences: true,
-            projects: true,
-            skills: true,
-            certificates: true,
-            educations: true,
-          },
-        },
-      },
     });
 
     if (!user) {
@@ -192,32 +187,50 @@ export class DashboardService {
     }
 
     // Resume existence (10 points)
-    if (user.resumes.length > 0) {
+    const resumes = await this.prisma.resume.findMany({
+      where: { userId },
+    });
+    if (resumes.length > 0) {
       totalScore += 10;
     }
 
     // Experience (20 points)
-    if (user.resumes.some((r) => r.experiences.length > 0)) {
+    const experiences = await this.prisma.experience.findMany({
+      where: { userId },
+    });
+    if (experiences.length > 0) {
       totalScore += 20;
     }
 
     // Projects (15 points)
-    if (user.resumes.some((r) => r.projects.length > 0)) {
+    const projects = await this.prisma.project.findMany({
+      where: { userId },
+    });
+    if (projects.length > 0) {
       totalScore += 15;
     }
 
     // Skills (15 points)
-    if (user.resumes.some((r) => r.skills.length > 0)) {
+    const skills = await this.prisma.skill.findMany({
+      where: { userId },
+    });
+    if (skills.length > 0) {
       totalScore += 15;
     }
 
     // Education (10 points)
-    if (user.resumes.some((r) => r.educations.length > 0)) {
+    const educations = await this.prisma.education.findMany({
+      where: { userId },
+    });
+    if (educations.length > 0) {
       totalScore += 10;
     }
 
     // Certificates (10 points)
-    if (user.resumes.some((r) => r.certificates.length > 0)) {
+    const certificates = await this.prisma.certificate.findMany({
+      where: { userId },
+    });
+    if (certificates.length > 0) {
       totalScore += 10;
     }
 
@@ -240,17 +253,6 @@ export class DashboardService {
   async getDashboardOverview(userId: number) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      include: {
-        resumes: {
-          include: {
-            experiences: true,
-            projects: true,
-            skills: true,
-            certificates: true,
-            educations: true,
-          },
-        },
-      },
     });
 
     if (!user) {
@@ -259,15 +261,25 @@ export class DashboardService {
 
     const completion = await this.getCompletionScore(userId);
 
+    // Get counts separately
+    const [resumes, educations, experiences, projects, skills, certificates] = await Promise.all([
+      this.prisma.resume.count({ where: { userId } }),
+      this.prisma.education.count({ where: { userId } }),
+      this.prisma.experience.count({ where: { userId } }),
+      this.prisma.project.count({ where: { userId } }),
+      this.prisma.skill.count({ where: { userId } }),
+      this.prisma.certificate.count({ where: { userId } }),
+    ]);
+
     return {
       userId,
       completionPercentage: completion.percentage,
-      resumeStatus: user.resumes.length > 0 ? 'active' : 'not_created',
-      educationCount: user.resumes.reduce((sum, r) => sum + r.educations.length, 0),
-      experienceCount: user.resumes.reduce((sum, r) => sum + r.experiences.length, 0),
-      projectCount: user.resumes.reduce((sum, r) => sum + r.projects.length, 0),
-      skillCount: user.resumes.reduce((sum, r) => sum + r.skills.length, 0),
-      certificateCount: user.resumes.reduce((sum, r) => sum + r.certificates.length, 0),
+      resumeStatus: resumes > 0 ? 'active' : 'not_created',
+      educationCount: educations,
+      experienceCount: experiences,
+      projectCount: projects,
+      skillCount: skills,
+      certificateCount: certificates,
       completionLevel: completion.level,
       completionScore: completion.score,
     };
@@ -419,19 +431,6 @@ export class DashboardService {
   async getSectionCompletionStatus(userId: number) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      include: {
-        resumes: {
-          include: {
-            experiences: true,
-            projects: true,
-            skills: true,
-            certificates: true,
-            educations: true,
-            achievements: true,
-            publications: true,
-          },
-        },
-      },
     });
 
     if (!user) {
@@ -442,6 +441,18 @@ export class DashboardService {
       where: { userId },
     });
 
+    // Get counts separately
+    const [resumes, experiences, projects, skills, educations, certificates, achievements, publications] = await Promise.all([
+      this.prisma.resume.count({ where: { userId } }),
+      this.prisma.experience.count({ where: { userId } }),
+      this.prisma.project.count({ where: { userId } }),
+      this.prisma.skill.count({ where: { userId } }),
+      this.prisma.education.count({ where: { userId } }),
+      this.prisma.certificate.count({ where: { userId } }),
+      this.prisma.achievement.count({ where: { userId } }),
+      this.prisma.publication.count({ where: { userId } }),
+    ]);
+
     const sections = [
       {
         name: 'Profile',
@@ -451,50 +462,50 @@ export class DashboardService {
       },
       {
         name: 'Resume',
-        completed: user.resumes.length > 0,
-        items: user.resumes.length,
+        completed: resumes > 0,
+        items: resumes,
         total: 1,
       },
       {
         name: 'Experience',
-        completed: user.resumes.some((r) => r.experiences.length > 0),
-        items: user.resumes.reduce((sum, r) => sum + r.experiences.length, 0),
+        completed: experiences > 0,
+        items: experiences,
         total: 3,
       },
       {
         name: 'Projects',
-        completed: user.resumes.some((r) => r.projects.length > 0),
-        items: user.resumes.reduce((sum, r) => sum + r.projects.length, 0),
+        completed: projects > 0,
+        items: projects,
         total: 3,
       },
       {
         name: 'Skills',
-        completed: user.resumes.some((r) => r.skills.length > 0),
-        items: user.resumes.reduce((sum, r) => sum + r.skills.length, 0),
+        completed: skills > 0,
+        items: skills,
         total: 5,
       },
       {
         name: 'Education',
-        completed: user.resumes.some((r) => r.educations.length > 0),
-        items: user.resumes.reduce((sum, r) => sum + r.educations.length, 0),
+        completed: educations > 0,
+        items: educations,
         total: 2,
       },
       {
         name: 'Certificates',
-        completed: user.resumes.some((r) => r.certificates.length > 0),
-        items: user.resumes.reduce((sum, r) => sum + r.certificates.length, 0),
+        completed: certificates > 0,
+        items: certificates,
         total: 2,
       },
       {
         name: 'Achievements',
-        completed: user.resumes.some((r) => r.achievements.length > 0),
-        items: user.resumes.reduce((sum, r) => sum + r.achievements.length, 0),
+        completed: achievements > 0,
+        items: achievements,
         total: 2,
       },
       {
         name: 'Publications',
-        completed: user.resumes.some((r) => r.publications.length > 0),
-        items: user.resumes.reduce((sum, r) => sum + r.publications.length, 0),
+        completed: publications > 0,
+        items: publications,
         total: 1,
       },
     ];

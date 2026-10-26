@@ -9,7 +9,7 @@ export class ResumeService {
     userId: number,
     data: {
       title: string;
-      templateId?: number;
+      template?: string;
       isDefault?: boolean;
     }
   ) {
@@ -25,7 +25,7 @@ export class ResumeService {
       data: {
         userId,
         title: data.title,
-        templateId: data.templateId,
+        template: data.template,
         isDefault: data.isDefault || false,
       },
     });
@@ -36,15 +36,6 @@ export class ResumeService {
   async getResumes(userId: number) {
     return this.prisma.resume.findMany({
       where: { userId },
-      include: {
-        experiences: true,
-        projects: true,
-        skills: true,
-        certificates: true,
-        educations: true,
-        achievements: true,
-        publications: true,
-      },
       orderBy: { updatedAt: 'desc' },
     });
   }
@@ -53,13 +44,6 @@ export class ResumeService {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
-        experiences: true,
-        projects: true,
-        skills: true,
-        certificates: true,
-        educations: true,
-        achievements: true,
-        publications: true,
         resumeSections: true,
       },
     });
@@ -111,13 +95,6 @@ export class ResumeService {
     const originalResume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
-        experiences: true,
-        projects: true,
-        skills: true,
-        certificates: true,
-        educations: true,
-        achievements: true,
-        publications: true,
         resumeSections: true,
       },
     });
@@ -130,84 +107,14 @@ export class ResumeService {
       data: {
         userId,
         title: `${originalResume.title} (Copy)`,
-        templateId: originalResume.templateId,
+        template: originalResume.template,
         isDefault: false,
       },
     });
 
-    // Duplicate related entities
-    await Promise.all([
-      ...originalResume.experiences.map((exp) =>
-        this.prisma.experience.create({
-          data: {
-            ...exp,
-            id: undefined,
-            resumeId: duplicatedResume.id,
-            userId,
-          },
-        })
-      ),
-      ...originalResume.projects.map((proj) =>
-        this.prisma.project.create({
-          data: {
-            ...proj,
-            id: undefined,
-            resumeId: duplicatedResume.id,
-            userId,
-          },
-        })
-      ),
-      ...originalResume.skills.map((skill) =>
-        this.prisma.skill.create({
-          data: {
-            ...skill,
-            id: undefined,
-            resumeId: duplicatedResume.id,
-            userId,
-          },
-        })
-      ),
-      ...originalResume.certificates.map((cert) =>
-        this.prisma.certificate.create({
-          data: {
-            ...cert,
-            id: undefined,
-            resumeId: duplicatedResume.id,
-            userId,
-          },
-        })
-      ),
-      ...originalResume.educations.map((edu) =>
-        this.prisma.education.create({
-          data: {
-            ...edu,
-            id: undefined,
-            resumeId: duplicatedResume.id,
-            userId,
-          },
-        })
-      ),
-      ...originalResume.achievements.map((ach) =>
-        this.prisma.achievement.create({
-          data: {
-            ...ach,
-            id: undefined,
-            resumeId: duplicatedResume.id,
-            userId,
-          },
-        })
-      ),
-      ...originalResume.publications.map((pub) =>
-        this.prisma.publication.create({
-          data: {
-            ...pub,
-            id: undefined,
-            resumeId: duplicatedResume.id,
-            userId,
-          },
-        })
-      ),
-      ...originalResume.resumeSections.map((section) =>
+    // Duplicate resume sections
+    await Promise.all(
+      originalResume.resumeSections.map((section) =>
         this.prisma.resumeSection.create({
           data: {
             ...section,
@@ -215,8 +122,8 @@ export class ResumeService {
             resumeId: duplicatedResume.id,
           },
         })
-      ),
-    ]);
+      )
+    );
 
     return duplicatedResume;
   }
@@ -243,28 +150,44 @@ export class ResumeService {
       this.getResumeById(resumeId2, userId),
     ]);
 
-    const differences = [];
+    const differences: Array<{ field: string; value1: any; value2: any }> = [];
 
     // Compare basic fields
     if (resume1.title !== resume2.title) {
       differences.push({ field: 'title', value1: resume1.title, value2: resume2.title });
     }
 
-    // Compare counts
+    // Get counts separately
+    const [exp1, proj1, skill1, cert1, edu1] = await Promise.all([
+      this.prisma.experience.count({ where: { userId } }),
+      this.prisma.project.count({ where: { userId } }),
+      this.prisma.skill.count({ where: { userId } }),
+      this.prisma.certificate.count({ where: { userId } }),
+      this.prisma.education.count({ where: { userId } }),
+    ]);
+
+    const [exp2, proj2, skill2, cert2, edu2] = await Promise.all([
+      this.prisma.experience.count({ where: { userId } }),
+      this.prisma.project.count({ where: { userId } }),
+      this.prisma.skill.count({ where: { userId } }),
+      this.prisma.certificate.count({ where: { userId } }),
+      this.prisma.education.count({ where: { userId } }),
+    ]);
+
     const counts1 = {
-      experiences: resume1.experiences.length,
-      projects: resume1.projects.length,
-      skills: resume1.skills.length,
-      certificates: resume1.certificates.length,
-      educations: resume1.educations.length,
+      experiences: exp1,
+      projects: proj1,
+      skills: skill1,
+      certificates: cert1,
+      educations: edu1,
     };
 
     const counts2 = {
-      experiences: resume2.experiences.length,
-      projects: resume2.projects.length,
-      skills: resume2.skills.length,
-      certificates: resume2.certificates.length,
-      educations: resume2.educations.length,
+      experiences: exp2,
+      projects: proj2,
+      skills: skill2,
+      certificates: cert2,
+      educations: edu2,
     };
 
     Object.keys(counts1).forEach((key) => {
@@ -326,7 +249,7 @@ export class ResumeService {
   async toggleSection(resumeId: number, userId: number, sectionId: number, enabled: boolean) {
     await this.prisma.resumeSection.update({
       where: { id: sectionId },
-      data: { enabled },
+      data: { isEnabled: enabled },
     });
 
     return { message: 'Section toggled successfully' };
