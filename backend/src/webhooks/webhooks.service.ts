@@ -28,7 +28,7 @@ export class WebhooksService {
   }
 
   async triggerWebhook(event: string, payload: WebhookPayload) {
-    const triggeredWebhooks = [];
+    const triggeredWebhooks: Array<{ webhookId: string; status: string; error?: string }> = [];
 
     for (const [webhookId, config] of this.webhooks.entries()) {
       if (!config.isActive || !config.events.includes(event)) {
@@ -54,7 +54,7 @@ export class WebhooksService {
           triggeredWebhooks.push({ webhookId, status: 'failed', error: response.statusText });
         }
       } catch (error) {
-        triggeredWebhooks.push({ webhookId, status: 'failed', error: error.message });
+        triggeredWebhooks.push({ webhookId, status: 'failed', error: (error as Error).message });
       }
     }
 
@@ -62,7 +62,7 @@ export class WebhooksService {
   }
 
   async getWebhooks(userId: number) {
-    const userWebhooks = [];
+    const userWebhooks: Array<{ webhookId: string } & WebhookConfig> = [];
     for (const [webhookId, config] of this.webhooks.entries()) {
       if (webhookId.startsWith(userId.toString())) {
         userWebhooks.push({ webhookId, ...config });
