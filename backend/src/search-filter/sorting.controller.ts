@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Query, Body, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { SortingService } from './sorting.service';
 
@@ -12,7 +12,7 @@ export class SortingController {
     @Query('sortBy') sortBy: string = 'date',
     @Query('order') order: string = 'desc'
   ) {
-    return this.sortingService.sortProjects(sortBy as any, order as any);
+    return this.sortingService.sortProjects(sortBy, order);
   }
 
   @Get('experience')
@@ -20,7 +20,7 @@ export class SortingController {
     @Query('sortBy') sortBy: string = 'date',
     @Query('order') order: string = 'desc'
   ) {
-    return this.sortingService.sortExperience(sortBy as any, order as any);
+    return this.sortingService.sortExperience(sortBy, order);
   }
 
   @Get('certificates')
@@ -28,7 +28,7 @@ export class SortingController {
     @Query('sortBy') sortBy: string = 'date',
     @Query('order') order: string = 'desc'
   ) {
-    return this.sortingService.sortCertificates(sortBy as any, order as any);
+    return this.sortingService.sortCertificates(sortBy, order);
   }
 
   @Get('skills')
@@ -36,7 +36,7 @@ export class SortingController {
     @Query('sortBy') sortBy: string = 'date',
     @Query('order') order: string = 'desc'
   ) {
-    return this.sortingService.sortSkills(sortBy as any, order as any);
+    return this.sortingService.sortSkills(sortBy, order);
   }
 
   @Post('custom')
