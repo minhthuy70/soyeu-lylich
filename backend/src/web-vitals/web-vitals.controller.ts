@@ -1,5 +1,6 @@
 import { Controller, Post, Get, Body } from '@nestjs/common';
-import { WebVitalsService, WebVitalsMetric } from './web-vitals.service';
+import { WebVitalsService } from './web-vitals.service';
+import type { WebVitalsMetric } from './web-vitals.service';
 
 @Controller('web-vitals')
 export class WebVitalsController {

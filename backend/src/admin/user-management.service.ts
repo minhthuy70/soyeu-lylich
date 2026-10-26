@@ -10,7 +10,6 @@ export class UserManagementService {
       select: {
         id: true,
         email: true,
-        name: true,
         role: true,
         isActive: true,
         createdAt: true,
@@ -43,7 +42,6 @@ export class UserManagementService {
       select: {
         id: true,
         email: true,
-        name: true,
         role: true,
         isActive: true,
         createdAt: true,
@@ -59,7 +57,6 @@ export class UserManagementService {
       select: {
         id: true,
         email: true,
-        name: true,
         role: true,
         isActive: true,
         createdAt: true,
@@ -77,11 +74,10 @@ export class UserManagementService {
     }
 
     // CSV format
-    const headers = ['ID', 'Email', 'Name', 'Role', 'Active', 'Created At', 'Updated At'];
+    const headers = ['ID', 'Email', 'Role', 'Active', 'Created At', 'Updated At'];
     const rows = users.map((user) => [
       user.id,
       user.email,
-      user.name,
       user.role,
       user.isActive ? 'Yes' : 'No',
       user.createdAt.toISOString(),
@@ -140,7 +136,6 @@ export class UserManagementService {
       select: {
         id: true,
         email: true,
-        name: true,
         role: true,
         isActive: true,
       },
