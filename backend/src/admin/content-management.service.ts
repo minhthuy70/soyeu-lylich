@@ -8,8 +8,7 @@ export class ContentManagementService {
   // Resume Templates
   async getAllResumeTemplates() {
     return this.prisma.resumeTemplate.findMany({
-      where: { isPublic: true },
-      orderBy: { usageCount: 'desc' },
+      orderBy: { createdAt: 'desc' },
     });
   }
 
@@ -114,10 +113,7 @@ export class ContentManagementService {
 
   // FAQ
   async getFAQs() {
-    return this.prisma.achievement.findMany({
-      where: { type: 'FAQ' },
-      take: 50,
-    });
+    return [];
   }
 
   async createFAQ(faq: any) {
