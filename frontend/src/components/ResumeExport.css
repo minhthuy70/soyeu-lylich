@@ -58,6 +58,25 @@
   gap: 12px;
 }
 
+.import-section {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.import-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.import-options {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
 .btn {
   padding: 10px 20px;
   border: none;

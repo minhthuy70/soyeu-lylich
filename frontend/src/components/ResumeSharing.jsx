@@ -5,6 +5,8 @@ export function ResumeSharing({ resumeId, userId }) {
   const [publicUrl, setPublicUrl] = useState(null);
   const [isPublic, setIsPublic] = useState(false);
   const [customSlug, setCustomSlug] = useState('');
+  const [password, setPassword] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
   const [qrCode, setQrCode] = useState(null);
   const [recipients, setRecipients] = useState('');
   const [message, setMessage] = useState('');
@@ -39,12 +41,18 @@ export function ResumeSharing({ resumeId, userId }) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ customSlug: customSlug || undefined }),
+        body: JSON.stringify({
+          customSlug: customSlug || undefined,
+          password: password || undefined,
+          expiryDate: expiryDate || undefined,
+        }),
       });
       const data = await response.json();
       setPublicUrl(data.publicUrl);
       setIsPublic(true);
       setCustomSlug('');
+      setPassword('');
+      setExpiryDate('');
     } catch (error) {
       console.error('Failed to generate public URL:', error);
       alert('Failed to generate public URL');
@@ -126,6 +134,40 @@ export function ResumeSharing({ resumeId, userId }) {
     alert('Copied to clipboard!');
   };
 
+  const shareOnSocial = (platform, url) => {
+    const fullUrl = `${window.location.origin}${url}`;
+    const text = 'Check out my resume!';
+    let shareUrl = '';
+
+    switch (platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fullUrl)}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(fullUrl)}&text=${encodeURIComponent(text)}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(fullUrl)}`;
+        break;
+      case 'whatsapp':
+        shareUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + fullUrl)}`;
+        break;
+      default:
+        return;
+    }
+
+    window.open(shareUrl, '_blank', 'width=600,height=400');
+  };
+
+  const downloadQrCode = (dataUrl) => {
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = 'resume-qr-code.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="resume-sharing">
       <h3>Share Resume</h3>
@@ -170,6 +212,23 @@ export function ResumeSharing({ resumeId, userId }) {
                   placeholder="my-resume"
                 />
               </div>
+              <div className="input-group">
+                <label>Password (optional):</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password to protect"
+                />
+              </div>
+              <div className="input-group">
+                <label>Expiry Date (optional):</label>
+                <input
+                  type="date"
+                  value={expiryDate}
+                  onChange={(e) => setExpiryDate(e.target.value)}
+                />
+              </div>
               <button
                 className="btn btn-primary"
                 onClick={handleGeneratePublicUrl}
@@ -196,6 +255,37 @@ export function ResumeSharing({ resumeId, userId }) {
                   </button>
                 </div>
               </div>
+
+              <div className="social-sharing">
+                <label>Share on Social Media:</label>
+                <div className="social-buttons">
+                  <button
+                    className="social-btn facebook"
+                    onClick={() => shareOnSocial('facebook', publicUrl)}
+                  >
+                    Facebook
+                  </button>
+                  <button
+                    className="social-btn twitter"
+                    onClick={() => shareOnSocial('twitter', publicUrl)}
+                  >
+                    Twitter
+                  </button>
+                  <button
+                    className="social-btn linkedin"
+                    onClick={() => shareOnSocial('linkedin', publicUrl)}
+                  >
+                    LinkedIn
+                  </button>
+                  <button
+                    className="social-btn whatsapp"
+                    onClick={() => shareOnSocial('whatsapp', publicUrl)}
+                  >
+                    WhatsApp
+                  </button>
+                </div>
+              </div>
+
               <button
                 className="btn btn-danger"
                 onClick={handleDisablePublic}
@@ -222,17 +312,24 @@ export function ResumeSharing({ resumeId, userId }) {
             </button>
           ) : (
             <div className="qr-code-display">
-              <div className="qr-code-placeholder">
-                <div className="qr-code-icon">📱</div>
+              <div className="qr-code-image">
+                <img src={qrCode.qrCodeDataUrl} alt="QR Code" />
                 <p>QR Code for: {qrCode.publicUrl}</p>
-                <p className="info-text">(Mock - requires qrcode library)</p>
               </div>
-              <button
-                className="btn btn-secondary"
-                onClick={() => copyToClipboard(qrCode.publicUrl)}
-              >
-                Copy URL
-              </button>
+              <div className="qr-code-actions">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => copyToClipboard(qrCode.publicUrl)}
+                >
+                  Copy URL
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => downloadQrCode(qrCode.qrCodeDataUrl)}
+                >
+                  Download QR Code
+                </button>
+              </div>
             </div>
           )}
         </div>

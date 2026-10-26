@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './ResumeExport.css';
 
-export function ResumeExport({ resumeId, userId }) {
+export function ResumeExport({ resumeId, userId, onImportSuccess }) {
   const [exportFormat, setExportFormat] = useState('pdf');
   const [loading, setLoading] = useState(false);
   const [watermark, setWatermark] = useState('');
   const [pageSize, setPageSize] = useState('A4');
+  const [importFile, setImportFile] = useState(null);
+  const [importing, setImporting] = useState(false);
 
   const handleExport = async () => {
     setLoading(true);
@@ -24,8 +26,23 @@ export function ResumeExport({ resumeId, userId }) {
       });
       const data = await response.json();
 
-      // Create download link
-      const blob = new Blob([data.content], { type: 'application/octet-stream' });
+      // Decode base64 content
+      const binaryString = atob(data.content);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // Determine MIME type based on format
+      const mimeTypes = {
+        pdf: 'application/pdf',
+        docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        html: 'text/html',
+        txt: 'text/plain',
+        json: 'application/json',
+      };
+
+      const blob = new Blob([bytes], { type: mimeTypes[exportFormat] || 'application/octet-stream' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -46,6 +63,46 @@ export function ResumeExport({ resumeId, userId }) {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleImport = async () => {
+    if (!importFile) {
+      alert('Please select a JSON file to import');
+      return;
+    }
+
+    setImporting(true);
+    try {
+      const fileContent = await importFile.text();
+      const jsonData = JSON.parse(fileContent);
+
+      const token = localStorage.getItem('token');
+      const response = await fetch('/resume-export/import', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ jsonData }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Resume imported successfully!');
+        setImportFile(null);
+        if (onImportSuccess) {
+          onImportSuccess(data.resume);
+        }
+      } else {
+        alert(data.message || 'Import failed');
+      }
+    } catch (error) {
+      console.error('Import failed:', error);
+      alert('Import failed. Please check the file format.');
+    } finally {
+      setImporting(false);
+    }
   };
 
   return (
@@ -98,6 +155,29 @@ export function ResumeExport({ resumeId, userId }) {
         <button className="btn btn-secondary" onClick={handlePrint}>
           Print
         </button>
+      </div>
+
+      <div className="import-section">
+        <h3>Import Resume</h3>
+        <div className="import-options">
+          <input
+            type="file"
+            accept=".json"
+            onChange={(e) => setImportFile(e.target.files[0])}
+            id="import-file"
+            style={{ display: 'none' }}
+          />
+          <label htmlFor="import-file" className="btn btn-secondary">
+            {importFile ? importFile.name : 'Select JSON File'}
+          </label>
+          <button
+            className="btn btn-primary"
+            onClick={handleImport}
+            disabled={importing || !importFile}
+          >
+            {importing ? 'Importing...' : 'Import'}
+          </button>
+        </div>
       </div>
     </div>
   );

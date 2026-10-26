@@ -7,6 +7,7 @@ import ForgotPasswordForm from "./components/ForgotPasswordForm";
 import TwoFactorForm from "./components/TwoFactorForm";
 import ResetPasswordForm from "./components/ResetPasswordForm";
 import ProfilePage from "./components/ProfilePage";
+import { PublicResumePage } from "./components/PublicResumePage";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
@@ -20,10 +21,11 @@ if ('serviceWorker' in navigator) {
 }
 
 export default function App() {
-  const [authState, setAuthState] = useState("login"); // login, register, forgot-password, reset-password, profile, two-factor
+  const [authState, setAuthState] = useState("login"); // login, register, forgot-password, reset-password, profile, two-factor, public-resume
 const [tempToken, setTempToken] = useState(null); // login, register, forgot-password, reset-password, profile
   const [resetToken, setResetToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [publicSlug, setPublicSlug] = useState(null);
 
   const [form, setForm] = useState({
     email: "",
@@ -54,6 +56,15 @@ const [tempToken, setTempToken] = useState(null); // login, register, forgot-pas
     if (token) {
       setResetToken(token);
       setAuthState("reset-password");
+    }
+  }, []);
+
+  // Check for public resume slug in URL
+  useEffect(() => {
+    const pathParts = window.location.pathname.split('/');
+    if (pathParts[1] === 'public' && pathParts[2]) {
+      setPublicSlug(pathParts[2]);
+      setAuthState("public-resume");
     }
   }, []);
 
@@ -376,6 +387,10 @@ const [tempToken, setTempToken] = useState(null); // login, register, forgot-pas
 
         {authState === "profile" && (
           <ProfilePage onLogout={handleLogout} />
+        )}
+
+        {authState === "public-resume" && publicSlug && (
+          <PublicResumePage slug={publicSlug} />
         )}
         </div>
       </ErrorBoundary>

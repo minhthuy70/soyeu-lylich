@@ -1,0 +1,261 @@
+.public-resume-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+.error-message {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+}
+
+.password-protected {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.password-protected h2 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.password-protected p {
+  margin-bottom: 24px;
+  color: #666;
+}
+
+.password-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.public-resume-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #007bff;
+}
+
+.public-resume-header h1 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.resume-author {
+  font-size: 16px;
+  color: #666;
+}
+
+.public-resume-content {
+  background-color: #fff;
+}
+
+.resume-section {
+  margin-bottom: 40px;
+}
+
+.resume-section h2 {
+  font-size: 24px;
+  color: #007bff;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.profile-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item label {
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.info-item span {
+  color: #333;
+}
+
+.experience-item,
+.education-item,
+.project-item,
+.certificate-item,
+.achievement-item,
+.publication-item {
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.experience-item h3,
+.education-item h3,
+.project-item h3,
+.certificate-item h3,
+.achievement-item h3,
+.publication-item h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.period {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.description {
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.experience-item ul {
+  margin-left: 20px;
+  color: #555;
+}
+
+.experience-item li {
+  margin-bottom: 8px;
+}
+
+.degree,
+.role,
+.issuer,
+.organization,
+.journal,
+.conference {
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.gpa {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.skill-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.skill-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.skill-level {
+  color: #007bff;
+  font-size: 14px;
+}
+
+.technologies {
+  margin-bottom: 12px;
+}
+
+.technologies strong {
+  color: #666;
+  margin-right: 8px;
+}
+
+.tech-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  margin: 4px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 16px;
+  font-size: 14px;
+}
+
+.project-link,
+.certificate-link,
+.publication-link {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-top: 12px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.project-link:hover,
+.certificate-link:hover,
+.publication-link:hover {
+  background-color: #0056b3;
+}
+
+.public-resume-footer {
+  text-align: center;
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  color: #666;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .public-resume-container {
+    padding: 20px 10px;
+  }
+
+  .public-resume-header h1 {
+    font-size: 24px;
+  }
+
+  .resume-section h2 {
+    font-size: 20px;
+  }
+
+  .profile-info {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}

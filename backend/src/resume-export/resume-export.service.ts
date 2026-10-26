@@ -1,16 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } from 'docx';
+import PDFDocument from 'pdfkit';
 
 @Injectable()
 export class ResumeExportService {
   constructor(private readonly prisma: PrismaService) {}
 
-  // 1. Export DOCX (mock implementation - needs docx library in production)
+  // 1. Export DOCX (using docx library)
   async exportToDocx(resumeId: number, userId: number) {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
         sections: true,
+        user: {
+          include: {
+            profile: true,
+          },
+        },
       },
     });
 
@@ -18,27 +25,122 @@ export class ResumeExportService {
       throw new Error('Resume not found');
     }
 
-    // In production, use library like 'docx' to generate DOCX
-    // This is a mock implementation
-    console.log(`Generating DOCX for resume: ${resume.title}`);
+    // Create DOCX document
+    const children: Paragraph[] = [];
+
+    // Add title
+    children.push(
+      new Paragraph({
+        text: resume.title,
+        heading: HeadingLevel.HEADING_1,
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 400 },
+      })
+    );
+
+    // Add profile information if available
+    if (resume.user?.profile) {
+      const profile = resume.user.profile;
+      if (profile.fullName) {
+        children.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `Name: ${profile.fullName}`,
+                bold: true,
+              }),
+            ],
+            spacing: { after: 200 },
+          })
+        );
+      }
+      if (profile.email) {
+        children.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `Email: ${profile.email}`,
+              }),
+            ],
+            spacing: { after: 200 },
+          })
+        );
+      }
+      if (profile.phoneNumber) {
+        children.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `Phone: ${profile.phoneNumber}`,
+              }),
+            ],
+            spacing: { after: 400 },
+          })
+        );
+      }
+    }
+
+    // Add sections
+    if (resume.sections && resume.sections.length > 0) {
+      resume.sections.forEach((section) => {
+        if (section.isEnabled) {
+          children.push(
+            new Paragraph({
+              text: section.customName || section.sectionType,
+              heading: HeadingLevel.HEADING_2,
+              spacing: { before: 400, after: 200 },
+            })
+          );
+
+          if (section.description) {
+            children.push(
+              new Paragraph({
+                text: section.description,
+                spacing: { after: 300 },
+              })
+            );
+          }
+        }
+      });
+    }
+
+    const doc = new Document({
+      sections: [
+        {
+          properties: {},
+          children,
+        },
+      ],
+    });
+
+    const buffer = await Packer.toBuffer(doc);
 
     return {
       format: 'docx',
       filename: `${resume.title.replace(/\s+/g, '_')}.docx`,
-      content: JSON.stringify(resume, null, 2),
-      message: 'DOCX export generated (mock - requires docx library)',
+      content: buffer.toString('base64'),
+      message: 'DOCX export generated successfully',
     };
   }
 
-  // 2. Export PDF (mock implementation - needs puppeteer/pdfkit in production)
-  async exportToPdf(resumeId: number, userId: number, options?: {
-    watermark?: string;
-    pageSize?: 'A4' | 'Letter';
-  }) {
+  // 2. Export PDF (using pdfkit library)
+  async exportToPdf(
+    resumeId: number,
+    userId: number,
+    options?: {
+      watermark?: string;
+      pageSize?: 'A4' | 'Letter';
+    }
+  ) {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
         sections: true,
+        user: {
+          include: {
+            profile: true,
+          },
+        },
       },
     });
 
@@ -46,20 +148,79 @@ export class ResumeExportService {
       throw new Error('Resume not found');
     }
 
-    // In production, use library like 'puppeteer' or 'pdfkit' to generate PDF
-    // This is a mock implementation
-    console.log(`Generating PDF for resume: ${resume.title}`);
-    if (options?.watermark) {
-      console.log(`Adding watermark: ${options.watermark}`);
-    }
+    return new Promise((resolve, reject) => {
+      try {
+        const doc = new PDFDocument({
+          size: options?.pageSize === 'Letter' ? 'LETTER' : 'A4',
+          margins: { top: 50, bottom: 50, left: 50, right: 50 },
+        });
 
-    return {
-      format: 'pdf',
-      filename: `${resume.title.replace(/\s+/g, '_')}.pdf`,
-      content: JSON.stringify(resume, null, 2),
-      message: 'PDF export generated (mock - requires puppeteer/pdfkit library)',
-      options,
-    };
+        const chunks: Buffer[] = [];
+
+        doc.on('data', (chunk) => chunks.push(chunk));
+        doc.on('end', () => {
+          const buffer = Buffer.concat(chunks);
+          resolve({
+            format: 'pdf',
+            filename: `${resume.title.replace(/\s+/g, '_')}.pdf`,
+            content: buffer.toString('base64'),
+            message: 'PDF export generated successfully',
+            options,
+          });
+        });
+        doc.on('error', reject);
+
+        // Add title
+        doc.fontSize(24).font('Helvetica-Bold').text(resume.title, { align: 'center' });
+        doc.moveDown();
+
+        // Add profile information if available
+        if (resume.user?.profile) {
+          const profile = resume.user.profile;
+          doc.fontSize(12).font('Helvetica');
+          if (profile.fullName) {
+            doc.text(`Name: ${profile.fullName}`);
+          }
+          if (profile.email) {
+            doc.text(`Email: ${profile.email}`);
+          }
+          if (profile.phoneNumber) {
+            doc.text(`Phone: ${profile.phoneNumber}`);
+          }
+          doc.moveDown();
+        }
+
+        // Add sections
+        if (resume.sections && resume.sections.length > 0) {
+          resume.sections.forEach((section) => {
+            if (section.isEnabled) {
+              doc
+                .fontSize(16)
+                .font('Helvetica-Bold')
+                .text(section.customName || section.sectionType);
+              doc.moveDown();
+              doc.fontSize(12).font('Helvetica');
+              if (section.description) {
+                doc.text(section.description);
+              }
+              doc.moveDown();
+            }
+          });
+        }
+
+        // Add watermark if provided
+        if (options?.watermark) {
+          doc.fontSize(40).fillColor('gray', 0.3).text(options.watermark, 50, 400, {
+            align: 'center',
+            angle: 45,
+          });
+        }
+
+        doc.end();
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   // 3. Export TXT
@@ -166,7 +327,11 @@ export class ResumeExportService {
   }
 
   // Additional: Batch export multiple resumes
-  async exportMultipleResumes(resumeIds: number[], userId: number, format: 'pdf' | 'docx' | 'txt' | 'json' | 'html') {
+  async exportMultipleResumes(
+    resumeIds: number[],
+    userId: number,
+    format: 'pdf' | 'docx' | 'txt' | 'json' | 'html'
+  ) {
     const exports = [];
 
     for (const resumeId of resumeIds) {
@@ -208,7 +373,15 @@ export class ResumeExportService {
   }
 
   // Generate public URL for resume
-  async generatePublicUrl(resumeId: number, userId: number, customSlug?: string) {
+  async generatePublicUrl(
+    resumeId: number,
+    userId: number,
+    options?: {
+      customSlug?: string;
+      password?: string;
+      expiryDate?: Date;
+    }
+  ) {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
     });
@@ -218,7 +391,16 @@ export class ResumeExportService {
     }
 
     // Generate unique slug if not provided
-    const slug = customSlug || `${resume.id}-${Buffer.from(resume.title).toString('base64').substring(0, 8)}`;
+    const slug =
+      options?.customSlug ||
+      `${resume.id}-${Buffer.from(resume.title).toString('base64').substring(0, 8)}`;
+
+    // Hash password if provided
+    let hashedPassword = null;
+    if (options?.password) {
+      const bcrypt = require('bcrypt');
+      hashedPassword = await bcrypt.hash(options.password, 10);
+    }
 
     // Update resume with public slug
     const updatedResume = await this.prisma.resume.update({
@@ -226,6 +408,8 @@ export class ResumeExportService {
       data: {
         publicSlug: slug,
         isPublic: true,
+        publicPassword: hashedPassword,
+        publicExpiryDate: options?.expiryDate,
       },
     });
 
@@ -234,6 +418,8 @@ export class ResumeExportService {
       publicUrl: `/public/${slug}`,
       slug,
       isPublic: true,
+      hasPassword: !!hashedPassword,
+      expiryDate: updatedResume.publicExpiryDate,
     };
   }
 
@@ -263,7 +449,7 @@ export class ResumeExportService {
   }
 
   // Get public resume by slug
-  async getPublicResume(slug: string) {
+  async getPublicResume(slug: string, password?: string) {
     const resume = await this.prisma.resume.findFirst({
       where: { publicSlug: slug, isPublic: true },
       include: {
@@ -278,7 +464,7 @@ export class ResumeExportService {
           select: {
             id: true,
             email: true,
-            name: true,
+            profile: true,
           },
         },
       },
@@ -288,15 +474,39 @@ export class ResumeExportService {
       throw new Error('Public resume not found');
     }
 
+    // Check expiry date
+    if (resume.publicExpiryDate && new Date() > resume.publicExpiryDate) {
+      throw new Error('Public resume has expired');
+    }
+
+    // Check password if set
+    if (resume.publicPassword) {
+      if (!password) {
+        return {
+          requiresPassword: true,
+          resumeId: resume.id,
+        };
+      }
+
+      const bcrypt = require('bcrypt');
+      const isPasswordValid = await bcrypt.compare(password, resume.publicPassword);
+      if (!isPasswordValid) {
+        throw new Error('Invalid password');
+      }
+    }
+
     return resume;
   }
 
   // Track public resume view
-  async trackPublicView(resumeId: number, metadata?: {
-    ipAddress?: string;
-    userAgent?: string;
-    referrer?: string;
-  }) {
+  async trackPublicView(
+    resumeId: number,
+    metadata?: {
+      ipAddress?: string;
+      userAgent?: string;
+      referrer?: string;
+    }
+  ) {
     await this.prisma.resumeView.create({
       data: {
         resumeId,
@@ -309,7 +519,7 @@ export class ResumeExportService {
     return { message: 'View tracked' };
   }
 
-  // Generate QR code data (requires qrcode library in production)
+  // Generate QR code data (using qrcode library)
   async generateQrCode(resumeId: number, userId: number) {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
@@ -325,13 +535,22 @@ export class ResumeExportService {
 
     const publicUrl = `${process.env.APP_URL || 'http://localhost:3000'}/public/${resume.publicSlug}`;
 
-    // In production, use library like 'qrcode' to generate actual QR code
-    // This is a mock implementation
+    // Use qrcode library to generate actual QR code
+    const QRCode = require('qrcode');
+    const qrCodeDataUrl = await QRCode.toDataURL(publicUrl, {
+      width: 300,
+      margin: 2,
+      color: {
+        dark: '#000000',
+        light: '#FFFFFF',
+      },
+    });
+
     return {
       resumeId,
       publicUrl,
-      qrCodeData: publicUrl, // In production, this would be base64 encoded QR image
-      message: 'QR code data generated (mock - requires qrcode library)',
+      qrCodeDataUrl,
+      message: 'QR code generated successfully',
     };
   }
 
@@ -345,9 +564,10 @@ export class ResumeExportService {
       throw new Error('Resume not found');
     }
 
-    const publicUrl = resume.isPublic && resume.publicSlug
-      ? `${process.env.APP_URL || 'http://localhost:3000'}/public/${resume.publicSlug}`
-      : null;
+    const publicUrl =
+      resume.isPublic && resume.publicSlug
+        ? `${process.env.APP_URL || 'http://localhost:3000'}/public/${resume.publicSlug}`
+        : null;
 
     // In production, use email service to send emails
     // This is a mock implementation
@@ -363,7 +583,11 @@ export class ResumeExportService {
   }
 
   // Get sharing analytics
-  async getSharingAnalytics(resumeId: number, userId: number, period: 'week' | 'month' | 'year' = 'month') {
+  async getSharingAnalytics(
+    resumeId: number,
+    userId: number,
+    period: 'week' | 'month' | 'year' = 'month'
+  ) {
     const now = new Date();
     let startDate: Date;
 
@@ -390,10 +614,13 @@ export class ResumeExportService {
 
     const totalViews = views.length;
     const uniqueVisitors = new Set(views.map((v) => v.ipAddress)).size;
-    const referrers = views.reduce((acc, v) => {
-      acc[v.referrer] = (acc[v.referrer] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    const referrers = views.reduce(
+      (acc, v) => {
+        acc[v.referrer] = (acc[v.referrer] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
 
     return {
       resumeId,
@@ -404,5 +631,50 @@ export class ResumeExportService {
       startDate,
       endDate: now,
     };
+  }
+
+  // Import resume from JSON
+  async importFromJson(userId: number, jsonData: any) {
+    try {
+      // Validate required fields
+      if (!jsonData.title) {
+        throw new Error('Resume title is required');
+      }
+
+      // Create resume
+      const resume = await this.prisma.resume.create({
+        data: {
+          userId,
+          title: jsonData.title,
+          template: jsonData.template || 'Modern',
+          colorScheme: jsonData.colorScheme,
+          font: jsonData.font,
+        },
+      });
+
+      // Import sections if provided
+      if (jsonData.sections && Array.isArray(jsonData.sections)) {
+        for (const section of jsonData.sections) {
+          await this.prisma.resumeSection.create({
+            data: {
+              resumeId: resume.id,
+              sectionType: section.sectionType,
+              customName: section.customName,
+              description: section.description,
+              isEnabled: section.isEnabled !== undefined ? section.isEnabled : true,
+              order: section.order || 0,
+            },
+          });
+        }
+      }
+
+      return {
+        resumeId: resume.id,
+        message: 'Resume imported successfully',
+        resume,
+      };
+    } catch (error) {
+      throw new Error(`Failed to import resume: ${error.message}`);
+    }
   }
 }

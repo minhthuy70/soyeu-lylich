@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Param, Query, UseGuards, Request, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+  Request,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { ResumeExportService } from './resume-export.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
@@ -19,7 +30,7 @@ export class ResumeExportController {
   async exportToPdf(
     @Param('id') id: string,
     @Body() body: { watermark?: string; pageSize?: 'A4' | 'Letter' },
-    @Request() req,
+    @Request() req
   ) {
     const userId = req.user?.id || 1;
     return this.resumeExportService.exportToPdf(parseInt(id), userId, body);
@@ -50,7 +61,7 @@ export class ResumeExportController {
   @HttpCode(HttpStatus.OK)
   async exportMultiple(
     @Body() body: { resumeIds: number[]; format: 'pdf' | 'docx' | 'txt' | 'json' | 'html' },
-    @Request() req,
+    @Request() req
   ) {
     const userId = req.user?.id || 1;
     return this.resumeExportService.exportMultipleResumes(body.resumeIds, userId, body.format);
@@ -60,11 +71,16 @@ export class ResumeExportController {
   @HttpCode(HttpStatus.OK)
   async generatePublicUrl(
     @Param('id') id: string,
-    @Body() body: { customSlug?: string },
-    @Request() req,
+    @Body() body: { customSlug?: string; password?: string; expiryDate?: string },
+    @Request() req
   ) {
     const userId = req.user?.id || 1;
-    return this.resumeExportService.generatePublicUrl(parseInt(id), userId, body.customSlug);
+    const options = {
+      customSlug: body.customSlug,
+      password: body.password,
+      expiryDate: body.expiryDate ? new Date(body.expiryDate) : undefined,
+    };
+    return this.resumeExportService.generatePublicUrl(parseInt(id), userId, options);
   }
 
   @Delete(':id/public')
@@ -76,15 +92,15 @@ export class ResumeExportController {
 
   @Get('public/:slug')
   @HttpCode(HttpStatus.OK)
-  async getPublicResume(@Param('slug') slug: string) {
-    return this.resumeExportService.getPublicResume(slug);
+  async getPublicResume(@Param('slug') slug: string, @Query('password') password?: string) {
+    return this.resumeExportService.getPublicResume(slug, password);
   }
 
   @Post(':id/track-view')
   @HttpCode(HttpStatus.OK)
   async trackView(
     @Param('id') id: string,
-    @Body() body: { ipAddress?: string; userAgent?: string; referrer?: string },
+    @Body() body: { ipAddress?: string; userAgent?: string; referrer?: string }
   ) {
     return this.resumeExportService.trackPublicView(parseInt(id), body);
   }
@@ -101,10 +117,15 @@ export class ResumeExportController {
   async shareViaEmail(
     @Param('id') id: string,
     @Body() body: { recipients: string[]; message?: string },
-    @Request() req,
+    @Request() req
   ) {
     const userId = req.user?.id || 1;
-    return this.resumeExportService.shareViaEmail(parseInt(id), userId, body.recipients, body.message);
+    return this.resumeExportService.shareViaEmail(
+      parseInt(id),
+      userId,
+      body.recipients,
+      body.message
+    );
   }
 
   @Get(':id/analytics')
@@ -112,9 +133,16 @@ export class ResumeExportController {
   async getAnalytics(
     @Param('id') id: string,
     @Query('period') period: 'week' | 'month' | 'year' = 'month',
-    @Request() req,
+    @Request() req
   ) {
     const userId = req.user?.id || 1;
     return this.resumeExportService.getSharingAnalytics(parseInt(id), userId, period);
+  }
+
+  @Post('import')
+  @HttpCode(HttpStatus.OK)
+  async importFromJson(@Body() body: { jsonData: any }, @Request() req) {
+    const userId = req.user?.id || 1;
+    return this.resumeExportService.importFromJson(userId, body.jsonData);
   }
 }
