@@ -8,6 +8,7 @@ import {
 } from "../services/projectService";
 import ProjectForm from "./ProjectForm";
 import ProjectGallery from "./ProjectGallery";
+import ProjectAnalytics from "./ProjectAnalytics";
 
 export default function ProjectsPage({ onBack }) {
   const [projects, setProjects] = useState([]);
@@ -16,6 +17,7 @@ export default function ProjectsPage({ onBack }) {
   const [showForm, setShowForm] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [showGallery, setShowGallery] = useState(null);
+  const [showAnalytics, setShowAnalytics] = useState(null);
   const [expandedProject, setExpandedProject] = useState(null);
 
   useEffect(() => {
@@ -89,6 +91,10 @@ export default function ProjectsPage({ onBack }) {
 
   const handleOpenGallery = (projectId) => {
     setShowGallery(projectId);
+  };
+
+  const handleOpenAnalytics = (projectId) => {
+    setShowAnalytics(projectId);
   };
 
   const getStatusColor = (status) => {
@@ -269,6 +275,12 @@ export default function ProjectsPage({ onBack }) {
                     </button>
                     <button
                       className="btn-secondary"
+                      onClick={() => handleOpenAnalytics(project.id)}
+                    >
+                      📊 Xem thống kê
+                    </button>
+                    <button
+                      className="btn-secondary"
                       onClick={() => handleEditProject(project)}
                     >
                       ✏️ Chỉnh sửa
@@ -302,6 +314,13 @@ export default function ProjectsPage({ onBack }) {
         <ProjectGallery
           projectId={showGallery}
           onClose={() => setShowGallery(null)}
+        />
+      )}
+
+      {showAnalytics && (
+        <ProjectAnalytics
+          projectId={showAnalytics}
+          onClose={() => setShowAnalytics(null)}
         />
       )}
     </div>

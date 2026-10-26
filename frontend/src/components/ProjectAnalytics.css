@@ -1,0 +1,260 @@
+.project-analytics-container {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.analytics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.analytics-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.close-btn:hover {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.period-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.period-selector label {
+  font-weight: 500;
+  color: #333;
+}
+
+.period-selector select {
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+.period-selector select:focus {
+  border-color: #1976d2;
+}
+
+.analytics-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.analytics-card {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.analytics-card h3 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.analytics-value {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1976d2;
+}
+
+.analytics-section {
+  margin-bottom: 32px;
+}
+
+.analytics-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.click-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.click-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.click-type {
+  font-weight: 500;
+  color: #333;
+}
+
+.click-count {
+  font-weight: 700;
+  color: #1976d2;
+}
+
+.most-viewed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.most-viewed-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.project-title {
+  font-weight: 500;
+  color: #333;
+}
+
+.view-count {
+  font-weight: 700;
+  color: #1976d2;
+}
+
+.analytics-footer {
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.period-info {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .project-analytics-container {
+    background: #2d2d2d;
+  }
+
+  .analytics-header h2,
+  .period-selector label,
+  .analytics-section h3,
+  .click-type,
+  .project-title {
+    color: #ffffff;
+  }
+
+  .analytics-header {
+    border-bottom-color: #404040;
+  }
+
+  .close-btn {
+    color: #aaaaaa;
+  }
+
+  .close-btn:hover {
+    background: #3d3d3d;
+    color: #ffffff;
+  }
+
+  .period-selector select {
+    background: #3d3d3d;
+    border-color: #404040;
+    color: #ffffff;
+  }
+
+  .period-selector select:focus {
+    border-color: #64b5f6;
+  }
+
+  .analytics-card,
+  .click-item,
+  .most-viewed-item {
+    background: #3d3d3d;
+  }
+
+  .analytics-card h3 {
+    color: #aaaaaa;
+  }
+
+  .analytics-value,
+  .click-count,
+  .view-count {
+    color: #64b5f6;
+  }
+
+  .analytics-footer {
+    border-top-color: #404040;
+  }
+
+  .period-info {
+    color: #aaaaaa;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .project-analytics-container {
+    padding: 16px;
+  }
+
+  .analytics-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-header h2 {
+    font-size: 20px;
+  }
+}
