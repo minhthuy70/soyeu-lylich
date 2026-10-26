@@ -12,7 +12,7 @@ export class SortingController {
     @Query('sortBy') sortBy: string = 'date',
     @Query('order') order: string = 'desc'
   ) {
-    return this.sortingService.sortProjects(sortBy, order);
+    return this.sortingService.sortProjects(sortBy as 'date' | 'name' | 'relevance', order as 'asc' | 'desc');
   }
 
   @Get('experience')
@@ -20,7 +20,7 @@ export class SortingController {
     @Query('sortBy') sortBy: string = 'date',
     @Query('order') order: string = 'desc'
   ) {
-    return this.sortingService.sortExperience(sortBy, order);
+    return this.sortingService.sortExperience(sortBy as 'date' | 'name' | 'relevance', order as 'asc' | 'desc');
   }
 
   @Get('certificates')
@@ -28,7 +28,7 @@ export class SortingController {
     @Query('sortBy') sortBy: string = 'date',
     @Query('order') order: string = 'desc'
   ) {
-    return this.sortingService.sortCertificates(sortBy, order);
+    return this.sortingService.sortCertificates(sortBy as 'date' | 'name' | 'relevance', order as 'asc' | 'desc');
   }
 
   @Get('skills')
@@ -36,7 +36,7 @@ export class SortingController {
     @Query('sortBy') sortBy: string = 'date',
     @Query('order') order: string = 'desc'
   ) {
-    return this.sortingService.sortSkills(sortBy, order);
+    return this.sortingService.sortSkills(sortBy as 'date' | 'name' | 'relevance', order as 'asc' | 'desc');
   }
 
   @Post('custom')

@@ -26,14 +26,6 @@ export class SortingService {
 
     const projects = await this.prisma.project.findMany({
       orderBy,
-      include: {
-        resume: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
-      },
     });
 
     return {
@@ -52,7 +44,7 @@ export class SortingService {
         orderBy.startDate = order;
         break;
       case 'name':
-        orderBy.company = order;
+        orderBy.companyName = order;
         break;
       case 'relevance':
         orderBy.startDate = 'desc';
@@ -63,14 +55,6 @@ export class SortingService {
 
     const experiences = await this.prisma.experience.findMany({
       orderBy,
-      include: {
-        resume: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
-      },
     });
 
     return {
@@ -100,14 +84,6 @@ export class SortingService {
 
     const certificates = await this.prisma.certificate.findMany({
       orderBy,
-      include: {
-        resume: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
-      },
     });
 
     return {
@@ -137,14 +113,6 @@ export class SortingService {
 
     const skills = await this.prisma.skill.findMany({
       orderBy,
-      include: {
-        resume: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
-      },
     });
 
     return {
