@@ -32,6 +32,7 @@ import { VolunteerExperienceModule } from './volunteer-experience/volunteer-expe
 import { ExperienceModule } from './experience/experience.module';
 import { FreelanceModule } from './freelance/freelance.module';
 import { EducationModule } from './education/education.module';
+import { ReferenceModule } from './reference/reference.module';
 import { PrivacyModule } from './privacy/privacy.module';
 import { UIPreferencesModule } from './ui-preferences/ui-preferences.module';
 import { ResumeModule } from './resume/resume.module';
@@ -81,6 +82,7 @@ import { RequestLoggingMiddleware } from './middleware/request-logging.middlewar
     ExperienceModule,
     FreelanceModule,
     EducationModule,
+    ReferenceModule,
     PrivacyModule,
     UIPreferencesModule,
     ResumeModule,
