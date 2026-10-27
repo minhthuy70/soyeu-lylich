@@ -242,9 +242,12 @@ export class ResumeExportService {
 
     if (resume.sections) {
       resume.sections.forEach((section) => {
-        txtContent += `${section.title}\n`;
-        txtContent += '-'.repeat(section.title.length) + '\n';
-        txtContent += `${section.content}\n\n`;
+        const title = section.customName || section.sectionType;
+        txtContent += `${title}\n`;
+        txtContent += '-'.repeat(title.length) + '\n';
+        if (section.description) {
+          txtContent += `${section.description}\n\n`;
+        }
       });
     }
 
@@ -308,9 +311,11 @@ export class ResumeExportService {
 
     if (resume.sections) {
       resume.sections.forEach((section) => {
+        const title = section.customName || section.sectionType;
+        const content = section.description || '';
         htmlContent += `  <div class="section">
-    <h2 class="section-title">${section.title}</h2>
-    <div>${section.content}</div>
+    <h2 class="section-title">${title}</h2>
+    <div>${content}</div>
   </div>
 `;
       });
@@ -332,7 +337,7 @@ export class ResumeExportService {
     userId: number,
     format: 'pdf' | 'docx' | 'txt' | 'json' | 'html'
   ) {
-    const exports = [];
+    const exports: any[] = [];
 
     for (const resumeId of resumeIds) {
       try {
@@ -453,18 +458,19 @@ export class ResumeExportService {
     const resume = await this.prisma.resume.findFirst({
       where: { publicSlug: slug, isPublic: true },
       include: {
-        experiences: true,
-        projects: true,
-        skills: true,
-        certificates: true,
-        educations: true,
-        achievements: true,
-        publications: true,
+        sections: true,
         user: {
           select: {
             id: true,
             email: true,
             profile: true,
+            experiences: true,
+            projects: true,
+            skills: true,
+            certificates: true,
+            educations: true,
+            achievements: true,
+            publications: true,
           },
         },
       },
@@ -510,9 +516,8 @@ export class ResumeExportService {
     await this.prisma.resumeView.create({
       data: {
         resumeId,
-        ipAddress: metadata?.ipAddress || 'unknown',
-        userAgent: metadata?.userAgent || 'unknown',
-        referrer: metadata?.referrer || 'direct',
+        viewerIp: metadata?.ipAddress || 'unknown',
+        referralSource: metadata?.referrer || 'direct',
       },
     });
 
@@ -608,15 +613,16 @@ export class ResumeExportService {
     const views = await this.prisma.resumeView.findMany({
       where: {
         resumeId,
-        createdAt: { gte: startDate },
+        viewedAt: { gte: startDate },
       },
     });
 
     const totalViews = views.length;
-    const uniqueVisitors = new Set(views.map((v) => v.ipAddress)).size;
+    const uniqueVisitors = new Set(views.map((v) => v.viewerIp).filter(Boolean)).size;
     const referrers = views.reduce(
       (acc, v) => {
-        acc[v.referrer] = (acc[v.referrer] || 0) + 1;
+        const ref = v.referralSource || 'direct';
+        acc[ref] = (acc[ref] || 0) + 1;
         return acc;
       },
       {} as Record<string, number>
