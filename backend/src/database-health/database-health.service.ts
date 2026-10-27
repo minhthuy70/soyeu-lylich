@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
 @Injectable()
 export class DatabaseHealthService {
   constructor(private readonly prisma: PrismaService) {}
@@ -30,12 +34,12 @@ export class DatabaseHealthService {
           resumes: resumeCount,
         },
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         status: 'unhealthy',
         timestamp: new Date(),
         database: 'disconnected',
-        error: error.message,
+        error: getErrorMessage(error),
       };
     }
   }
@@ -51,10 +55,10 @@ export class DatabaseHealthService {
         databaseSize: result[0]?.size || 'Unknown',
         timestamp: new Date(),
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         databaseSize: 'Unknown',
-        error: (error as Error).message,
+        error: getErrorMessage(error),
         timestamp: new Date(),
       };
     }
@@ -63,7 +67,9 @@ export class DatabaseHealthService {
   // 3. Get table sizes
   async getTableSizes() {
     try {
-      const result = await this.prisma.$queryRaw`
+      const result = await this.prisma.$queryRaw<
+        Array<{ schemaname: string; tablename: string; size: string }>
+      >`
         SELECT 
           schemaname,
           tablename,
@@ -77,10 +83,10 @@ export class DatabaseHealthService {
         tables: result,
         timestamp: new Date(),
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         tables: [],
-        error: error.message,
+        error: getErrorMessage(error),
         timestamp: new Date(),
       };
     }
@@ -89,7 +95,15 @@ export class DatabaseHealthService {
   // 4. Get slow queries (PostgreSQL pg_stat_statements)
   async getSlowQueries() {
     try {
-      const result = await this.prisma.$queryRaw`
+      const result = await this.prisma.$queryRaw<
+        Array<{
+          query: string;
+          calls: bigint;
+          total_time: number;
+          mean_time: number;
+          max_time: number;
+        }>
+      >`
         SELECT 
           query,
           calls,
@@ -105,7 +119,7 @@ export class DatabaseHealthService {
         queries: result,
         timestamp: new Date(),
       };
-    } catch (error) {
+    } catch {
       // pg_stat_statements might not be enabled
       return {
         queries: [],
@@ -128,10 +142,10 @@ export class DatabaseHealthService {
         activeConnections: parseInt(result[0]?.count || '0'),
         timestamp: new Date(),
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         activeConnections: 0,
-        error: (error as Error).message,
+        error: getErrorMessage(error),
         timestamp: new Date(),
       };
     }
@@ -140,7 +154,9 @@ export class DatabaseHealthService {
   // 6. Get index usage statistics
   async getIndexUsage() {
     try {
-      const result = await this.prisma.$queryRaw`
+      const result = await this.prisma.$queryRaw<
+        Array<{ schemaname: string; tablename: string; indexname: string; index_scans: bigint }>
+      >`
         SELECT 
           schemaname,
           tablename,
@@ -154,10 +170,10 @@ export class DatabaseHealthService {
         indexes: result,
         timestamp: new Date(),
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         indexes: [],
-        error: error.message,
+        error: getErrorMessage(error),
         timestamp: new Date(),
       };
     }
@@ -173,11 +189,11 @@ export class DatabaseHealthService {
         message: 'Database optimized successfully',
         timestamp: new Date(),
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         success: false,
         message: 'Failed to optimize database',
-        error: error.message,
+        error: getErrorMessage(error),
         timestamp: new Date(),
       };
     }
@@ -186,7 +202,7 @@ export class DatabaseHealthService {
   // 8. Get database configuration
   async getDatabaseConfig() {
     try {
-      const result = await this.prisma.$queryRaw`
+      const result = await this.prisma.$queryRaw<Array<Record<string, unknown>>>`
         SHOW ALL
       `;
 
@@ -194,10 +210,10 @@ export class DatabaseHealthService {
         config: result,
         timestamp: new Date(),
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         config: [],
-        error: error.message,
+        error: getErrorMessage(error),
         timestamp: new Date(),
       };
     }
