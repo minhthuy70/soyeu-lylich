@@ -69,16 +69,21 @@ describe('ActivityService', () => {
         memberCount: 50,
       };
 
-      const result = await service.create(1, data);
+      await service.create(1, data);
 
       expect(prisma.activity.create).toHaveBeenCalledWith({
-        data: expect.objectContaining({
+        data: {
           userId: 1,
           organization: 'GDG Hanoi',
+          position: 'Core Organizer',
+          startDate: new Date('2023-01-01'),
+          endDate: undefined,
+          description: 'Organized events',
           achievements: ['Best Organizer'],
-        }),
+          type: 'Community',
+          memberCount: 50,
+        },
       });
-      expect(result).toEqual(mockActivity);
     });
 
     it('should set empty array for achievements if omitted', async () => {
@@ -95,9 +100,17 @@ describe('ActivityService', () => {
       await service.create(1, data);
 
       expect(prisma.activity.create).toHaveBeenCalledWith({
-        data: expect.objectContaining({
+        data: {
+          userId: 1,
+          organization: 'GDG Hanoi',
+          position: 'Organizer',
+          startDate: new Date('2023-01-01'),
+          endDate: undefined,
+          description: 'Organized events',
           achievements: [],
-        }),
+          type: 'Community',
+          memberCount: undefined,
+        },
       });
     });
   });
@@ -106,13 +119,12 @@ describe('ActivityService', () => {
     it('should return activities ordered by startDate desc', async () => {
       prisma.activity.findMany.mockResolvedValue([mockActivity]);
 
-      const result = await service.findAll(1);
+      await service.findAll(1);
 
       expect(prisma.activity.findMany).toHaveBeenCalledWith({
         where: { userId: 1 },
         orderBy: { startDate: 'desc' },
       });
-      expect(result).toEqual([mockActivity]);
     });
   });
 
@@ -132,29 +144,39 @@ describe('ActivityService', () => {
   describe('update', () => {
     it('should update activity and attach updatedAt', async () => {
       const updated = { ...mockActivity, position: 'Lead Organizer' };
+      prisma.activity.findFirst.mockResolvedValue(mockActivity);
       prisma.activity.update.mockResolvedValue(updated);
 
-      const result = await service.update(1, 1, { position: 'Lead Organizer' });
+      jest.useFakeTimers().setSystemTime(new Date('2024-01-01'));
+      await service.update(1, 1, { position: 'Lead Organizer' });
 
       expect(prisma.activity.update).toHaveBeenCalledWith({
-        where: { id: 1 },
-        data: expect.objectContaining({
+        where: { id: 1, userId: 1 },
+        data: {
+          organization: undefined,
           position: 'Lead Organizer',
-          updatedAt: expect.any(Date),
-        }),
+          startDate: undefined,
+          endDate: undefined,
+          description: undefined,
+          achievements: undefined,
+          type: undefined,
+          memberCount: undefined,
+          updatedAt: new Date('2024-01-01'),
+        },
       });
-      expect(result.position).toBe('Lead Organizer');
+      jest.useRealTimers();
     });
   });
 
   describe('remove', () => {
     it('should delete activity by id', async () => {
+      prisma.activity.findFirst.mockResolvedValue(mockActivity);
       prisma.activity.delete.mockResolvedValue(mockActivity);
 
       const result = await service.remove(1, 1);
 
       expect(prisma.activity.delete).toHaveBeenCalledWith({
-        where: { id: 1 },
+        where: { id: 1, userId: 1 },
       });
       expect(result).toEqual(mockActivity);
     });

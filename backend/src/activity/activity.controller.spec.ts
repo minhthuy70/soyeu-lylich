@@ -1,11 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UnauthorizedException } from '@nestjs/common';
 import { ActivityController } from './activity.controller';
 import { ActivityService } from './activity.service';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 
 describe('ActivityController', () => {
   let controller: ActivityController;
-  let service: jest.Mocked<ActivityService>;
 
   const mockActivityService = {
     create: jest.fn(),
@@ -15,27 +14,15 @@ describe('ActivityController', () => {
     remove: jest.fn(),
     getActivitiesByType: jest.fn(),
   };
-
-  const validToken = `dummy.${Buffer.from(JSON.stringify({ sub: 7 })).toString('base64')}.sig`;
-  const validReq = {
-    headers: {
-      authorization: `Bearer ${validToken}`,
-    },
-  };
+  const authenticatedRequest = { user: { id: 7 } } as AuthenticatedRequest;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ActivityController],
-      providers: [
-        {
-          provide: ActivityService,
-          useValue: mockActivityService,
-        },
-      ],
+      providers: [{ provide: ActivityService, useValue: mockActivityService }],
     }).compile();
 
     controller = module.get<ActivityController>(ActivityController);
-    service = module.get(ActivityService);
     jest.clearAllMocks();
   });
 
@@ -43,82 +30,50 @@ describe('ActivityController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('extractUserIdFromRequest', () => {
-    it('should throw UnauthorizedException when auth header is missing', async () => {
-      await expect(controller.create({ headers: {} } as any, {})).rejects.toThrow(
-        UnauthorizedException
-      );
-    });
+  it('uses the verified user identity when creating an activity', async () => {
+    const activity = {
+      organization: 'Tech Club',
+      position: 'Organizer',
+      startDate: new Date('2024-01-01'),
+      description: 'Organized events',
+      type: 'Community',
+    };
+    mockActivityService.create.mockResolvedValue({ id: 1, ...activity });
 
-    it('should throw UnauthorizedException when token cannot be parsed', async () => {
-      await expect(
-        controller.create({ headers: { authorization: 'Bearer broken.token' } } as any, {})
-      ).rejects.toThrow(UnauthorizedException);
-    });
+    const result = await controller.create(authenticatedRequest, activity);
+
+    expect(mockActivityService.create).toHaveBeenCalledWith(7, activity);
+    expect(result).toEqual({ id: 1, ...activity });
   });
 
-  describe('create', () => {
-    it('should create activity with decoded userId', async () => {
-      const data = { organization: 'Tech Club' };
-      mockActivityService.create.mockResolvedValue({ id: 1, ...data } as any);
+  it('uses the verified user identity when listing activities by type', async () => {
+    mockActivityService.getActivitiesByType.mockResolvedValue([]);
 
-      const result = await controller.create(validReq, data);
+    await controller.findAll(authenticatedRequest, 'Community');
 
-      expect(service.create).toHaveBeenCalledWith(7, data);
-      expect(result).toEqual({ id: 1, ...data });
-    });
+    expect(mockActivityService.getActivitiesByType).toHaveBeenCalledWith(7, 'Community');
+    expect(mockActivityService.findAll).not.toHaveBeenCalled();
   });
 
-  describe('findAll', () => {
-    it('should call getActivitiesByType when type query is given', async () => {
-      mockActivityService.getActivitiesByType.mockResolvedValue([]);
+  it('uses the verified user identity when listing all activities', async () => {
+    mockActivityService.findAll.mockResolvedValue([]);
 
-      await controller.findAll(validReq, 'Club');
+    await controller.findAll(authenticatedRequest);
 
-      expect(service.getActivitiesByType).toHaveBeenCalledWith(7, 'Club');
-      expect(service.findAll).not.toHaveBeenCalled();
-    });
-
-    it('should call findAll when no type is provided', async () => {
-      mockActivityService.findAll.mockResolvedValue([]);
-
-      await controller.findAll(validReq);
-
-      expect(service.findAll).toHaveBeenCalledWith(7);
-    });
+    expect(mockActivityService.findAll).toHaveBeenCalledWith(7);
   });
 
-  describe('findOne', () => {
-    it('should find single activity by parsed id', async () => {
-      mockActivityService.findOne.mockResolvedValue({ id: 3 } as any);
+  it('passes parsed activity ids and verified user identity to service methods', async () => {
+    mockActivityService.findOne.mockResolvedValue({ id: 3 });
+    mockActivityService.update.mockResolvedValue({ id: 3 });
+    mockActivityService.remove.mockResolvedValue({ id: 3 });
 
-      const result = await controller.findOne(validReq, '3');
+    await controller.findOne(authenticatedRequest, 3);
+    await controller.update(authenticatedRequest, 3, { memberCount: 100 });
+    await controller.remove(authenticatedRequest, 3);
 
-      expect(service.findOne).toHaveBeenCalledWith(7, 3);
-      expect(result).toEqual({ id: 3 });
-    });
-  });
-
-  describe('update', () => {
-    it('should update activity with parsed id and data', async () => {
-      const data = { memberCount: 100 };
-      mockActivityService.update.mockResolvedValue({ id: 3, ...data } as any);
-
-      const result = await controller.update(validReq, '3', data);
-
-      expect(service.update).toHaveBeenCalledWith(7, 3, data);
-      expect(result).toEqual({ id: 3, ...data });
-    });
-  });
-
-  describe('remove', () => {
-    it('should remove activity by parsed id', async () => {
-      mockActivityService.remove.mockResolvedValue({ id: 3 } as any);
-
-      const result = await controller.remove(validReq, '3');
-
-      expect(service.remove).toHaveBeenCalledWith(7, 3);
-      expect(result).toEqual({ id: 3 });
-    });
+    expect(mockActivityService.findOne).toHaveBeenCalledWith(7, 3);
+    expect(mockActivityService.update).toHaveBeenCalledWith(7, 3, { memberCount: 100 });
+    expect(mockActivityService.remove).toHaveBeenCalledWith(7, 3);
   });
 });

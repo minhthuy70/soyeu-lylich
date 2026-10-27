@@ -8,63 +8,52 @@ import {
   Param,
   UseGuards,
   Request,
-  UnauthorizedException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto, UpdateProjectDto } from './dto/create-project.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 
 @Controller('projects')
+@UseGuards(JwtAuthGuard)
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
-  async create(@Request() req, @Body() createDto: CreateProjectDto) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectService.create(userId, createDto);
+  create(@Request() req: AuthenticatedRequest, @Body() createDto: CreateProjectDto) {
+    return this.projectService.create(req.user.id, createDto);
   }
 
   @Get()
-  async findAll(@Request() req) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectService.findAll(userId);
+  findAll(@Request() req: AuthenticatedRequest) {
+    return this.projectService.findAll(req.user.id);
   }
 
   @Get(':id')
-  async findOne(@Request() req, @Param('id') id: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectService.findOne(userId, parseInt(id));
+  findOne(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.projectService.findOne(req.user.id, id);
   }
 
   @Put(':id')
-  async update(@Request() req, @Param('id') id: string, @Body() updateDto: UpdateProjectDto) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectService.update(userId, parseInt(id), updateDto);
+  update(
+    @Request() req: AuthenticatedRequest,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateDto: UpdateProjectDto
+  ) {
+    return this.projectService.update(req.user.id, id, updateDto);
   }
 
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectService.remove(userId, parseInt(id));
+  remove(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.projectService.remove(req.user.id, id);
   }
 
   @Post('reorder')
-  async reorder(@Request() req, @Body() body: { projectOrders: { id: number; order: number }[] }) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectService.reorder(userId, body.projectOrders);
-  }
-
-  private extractUserIdFromRequest(req: any): number {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      throw new UnauthorizedException('Token không hợp lệ');
-    }
-
-    const token = authHeader.replace('Bearer ', '');
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.sub;
-    } catch (error) {
-      throw new UnauthorizedException('Token không hợp lệ');
-    }
+  reorder(
+    @Request() req: AuthenticatedRequest,
+    @Body() body: { projectOrders: { id: number; order: number }[] }
+  ) {
+    return this.projectService.reorder(req.user.id, body.projectOrders);
   }
 }
