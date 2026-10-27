@@ -4,12 +4,10 @@ import "./App.css";
 import { registerUser } from "./services/authService";
 import LoginForm from "./components/LoginForm";
 import ForgotPasswordForm from "./components/ForgotPasswordForm";
-import TwoFactorForm from "./components/TwoFactorForm";
 import ResetPasswordForm from "./components/ResetPasswordForm";
 import ProfilePage from "./components/ProfilePage";
 import { PublicResumePage } from "./components/PublicResumePage";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
 
 // Register service worker for PWA support
 if ('serviceWorker' in navigator) {
@@ -196,9 +194,8 @@ const [tempToken, setTempToken] = useState(null); // login, register, forgot-pas
   };
 
   return (
-    <ThemeProvider>
-      <ErrorBoundary>
-        <div>
+    <ErrorBoundary>
+      <div>
           {authState === "login" && (
           <LoginForm
             onSwitchToRegister={() => setAuthState("register")}
@@ -394,6 +391,5 @@ const [tempToken, setTempToken] = useState(null); // login, register, forgot-pas
         )}
         </div>
       </ErrorBoundary>
-    </ThemeProvider>
   );
 }
