@@ -1,23 +1,41 @@
 import { Injectable } from '@nestjs/common';
 
+export interface AssistantProfileInput {
+  title?: string;
+  skills: Array<{ name: string }>;
+  experiences: unknown[];
+}
+
+export interface AssistantProjectInput {
+  title: string;
+  description?: string;
+  technologies: string[];
+}
+
+export interface AssistantExperienceInput {
+  title: string;
+  company: string;
+  description?: string;
+}
+
 @Injectable()
 export class AIAssistantService {
   // 1. AI Profile Summary Generation
-  async generateProfileSummary(profile: any): Promise<string> {
-    const { name, title, skills, experiences } = profile;
-    const skillNames = skills.map((s: any) => s.name).join(', ');
+  generateProfileSummary(profile: AssistantProfileInput): string {
+    const { title, skills, experiences } = profile;
+    const skillNames = skills.map((skill) => skill.name).join(', ');
     const expCount = experiences.length;
 
     return `A passionate and results-driven ${title || 'professional'} with ${expCount} years of experience in ${skillNames || 'various technologies'}. Proven track record of delivering high-quality solutions and driving project success. Strong analytical and problem-solving skills with excellent communication abilities. Committed to continuous learning and professional growth while contributing to team success.`;
   }
 
   // 2. AI Career Objective Generation
-  async generateCareerObjective(profile: any, targetRole?: string): Promise<string> {
+  generateCareerObjective(profile: AssistantProfileInput, targetRole?: string): string {
     const { title, skills } = profile;
     const role = targetRole || title || 'Senior Software Engineer';
 
     return `To leverage my expertise in ${skills
-      .map((s: any) => s.name)
+      .map((skill) => skill.name)
       .slice(0, 3)
       .join(
         ', '
@@ -25,7 +43,7 @@ export class AIAssistantService {
   }
 
   // 3. AI Project Description Improvement
-  async improveProjectDescription(project: any): Promise<string> {
+  improveProjectDescription(project: AssistantProjectInput): string {
     const { title, description, technologies } = project;
     const techList = technologies.join(', ');
 
@@ -37,8 +55,8 @@ export class AIAssistantService {
   }
 
   // 4. AI Experience Description Improvement
-  async improveExperienceDescription(experience: any): Promise<string> {
-    const { title, company, description, achievements } = experience;
+  improveExperienceDescription(experience: AssistantExperienceInput): string {
+    const { title, company, description } = experience;
 
     if (!description || description.length < 50) {
       return `Served as ${title} at ${company}, where I led key initiatives and drove significant improvements in team productivity and project delivery. Mentored junior developers, implemented best practices, and contributed to the development of innovative solutions. Successfully delivered multiple high-impact projects that improved business outcomes and enhanced customer satisfaction.`;
@@ -48,7 +66,7 @@ export class AIAssistantService {
   }
 
   // 5. AI Skill Suggestions
-  async suggestSkills(profile: any, jobTitle?: string): Promise<string[]> {
+  suggestSkills(profile: AssistantProfileInput, jobTitle?: string): string[] {
     const jobSpecificSkills: Record<string, string[]> = {
       'Software Engineer': [
         'TypeScript',
@@ -83,7 +101,7 @@ export class AIAssistantService {
   }
 
   // 6. AI Grammar Correction
-  async correctGrammar(text: string): Promise<{ corrected: string; corrections: string[] }> {
+  correctGrammar(text: string): { corrected: string; corrections: string[] } {
     // Mock implementation - in production, use Grammarly API or similar
     const corrections: string[] = [];
     let corrected = text;
@@ -102,7 +120,7 @@ export class AIAssistantService {
   }
 
   // 7. AI Writing Suggestions
-  async suggestWritingImprovements(text: string, section: string): Promise<string[]> {
+  suggestWritingImprovements(text: string, section: string): string[] {
     const suggestions: string[] = [];
 
     if (section === 'summary') {
@@ -130,7 +148,7 @@ export class AIAssistantService {
   }
 
   // 8. AI Translation
-  async translateText(text: string, targetLanguage: string): Promise<string> {
+  translateText(text: string, targetLanguage: string): string {
     // Mock implementation - in production, use Google Translate API or similar
     const translations: Record<string, string> = {
       spanish:
@@ -146,10 +164,7 @@ export class AIAssistantService {
   }
 
   // 9. AI Tone Adjustment
-  async adjustTone(
-    text: string,
-    targetTone: 'formal' | 'casual' | 'professional'
-  ): Promise<string> {
+  adjustTone(text: string, targetTone: 'formal' | 'casual' | 'professional'): string {
     if (targetTone === 'formal') {
       return text
         .replace(/I'm/g, 'I am')
@@ -172,8 +187,8 @@ export class AIAssistantService {
   }
 
   // 10. AI Bullet Point Generation
-  async generateBulletPoints(experience: any): Promise<string[]> {
-    const { title, company, description } = experience;
+  generateBulletPoints(experience: AssistantExperienceInput): string[] {
+    const { title, company } = experience;
 
     return [
       `Led key initiatives as ${title} at ${company}, driving significant improvements in team productivity`,

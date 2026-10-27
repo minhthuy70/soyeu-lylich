@@ -1,5 +1,10 @@
-import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
-import { AIAssistantService } from './ai-assistant.service';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import {
+  AIAssistantService,
+  AssistantExperienceInput,
+  AssistantProfileInput,
+  AssistantProjectInput,
+} from './ai-assistant.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('ai-assistant')
@@ -8,54 +13,52 @@ export class AIAssistantController {
   constructor(private readonly aiAssistantService: AIAssistantService) {}
 
   @Post('generate-summary')
-  async generateSummary(@Body() body: { profile: any }) {
+  generateSummary(@Body() body: { profile: AssistantProfileInput }) {
     return this.aiAssistantService.generateProfileSummary(body.profile);
   }
 
   @Post('generate-objective')
-  async generateObjective(@Body() body: { profile: any; targetRole?: string }) {
+  generateObjective(@Body() body: { profile: AssistantProfileInput; targetRole?: string }) {
     return this.aiAssistantService.generateCareerObjective(body.profile, body.targetRole);
   }
 
   @Post('improve-project')
-  async improveProject(@Body() body: { project: any }) {
+  improveProject(@Body() body: { project: AssistantProjectInput }) {
     return this.aiAssistantService.improveProjectDescription(body.project);
   }
 
   @Post('improve-experience')
-  async improveExperience(@Body() body: { experience: any }) {
+  improveExperience(@Body() body: { experience: AssistantExperienceInput }) {
     return this.aiAssistantService.improveExperienceDescription(body.experience);
   }
 
   @Post('suggest-skills')
-  async suggestSkills(@Body() body: { profile: any; jobTitle?: string }) {
+  suggestSkills(@Body() body: { profile: AssistantProfileInput; jobTitle?: string }) {
     return this.aiAssistantService.suggestSkills(body.profile, body.jobTitle);
   }
 
   @Post('correct-grammar')
-  async correctGrammar(@Body() body: { text: string }) {
+  correctGrammar(@Body() body: { text: string }) {
     return this.aiAssistantService.correctGrammar(body.text);
   }
 
   @Post('writing-suggestions')
-  async writingSuggestions(@Body() body: { text: string; section: string }) {
+  writingSuggestions(@Body() body: { text: string; section: string }) {
     return this.aiAssistantService.suggestWritingImprovements(body.text, body.section);
   }
 
   @Post('translate')
-  async translate(@Body() body: { text: string; targetLanguage: string }) {
+  translate(@Body() body: { text: string; targetLanguage: string }) {
     return this.aiAssistantService.translateText(body.text, body.targetLanguage);
   }
 
   @Post('adjust-tone')
-  async adjustTone(
-    @Body() body: { text: string; targetTone: 'formal' | 'casual' | 'professional' }
-  ) {
+  adjustTone(@Body() body: { text: string; targetTone: 'formal' | 'casual' | 'professional' }) {
     return this.aiAssistantService.adjustTone(body.text, body.targetTone);
   }
 
   @Post('generate-bullets')
-  async generateBullets(@Body() body: { experience: any }) {
+  generateBullets(@Body() body: { experience: AssistantExperienceInput }) {
     return this.aiAssistantService.generateBulletPoints(body.experience);
   }
 }
