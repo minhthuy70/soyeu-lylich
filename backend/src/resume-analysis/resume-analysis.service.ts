@@ -38,11 +38,16 @@ export class ResumeAnalysisService {
       where: { id: resumeId },
       include: {
         sections: true,
-        achievements: true,
-        educations: true,
-        experiences: true,
-        projects: true,
-        skills: true,
+        user: {
+          include: {
+            profile: true,
+            achievements: true,
+            educations: true,
+            experiences: true,
+            projects: true,
+            skills: true,
+          },
+        },
       },
     });
 
@@ -50,12 +55,27 @@ export class ResumeAnalysisService {
       throw new Error('Resume not found');
     }
 
-    const completeness = this.analyzeCompleteness(resume);
-    const quality = this.analyzeQuality(resume);
-    const missingSections = this.getMissingSections(resume);
-    const keywordSuggestions = this.getKeywordSuggestions(resume);
+    const user = resume.user;
+    const profile = user?.profile;
+    const resumeData = {
+      ...resume,
+      name: profile?.fullName,
+      email: profile?.email || user?.email,
+      phone: profile?.phoneNumber,
+      summary: profile?.introduction || profile?.careerObjective,
+      experiences: user?.experiences || [],
+      educations: user?.educations || [],
+      skills: user?.skills || [],
+      projects: user?.projects || [],
+      achievements: user?.achievements || [],
+    };
+
+    const completeness = this.analyzeCompleteness(resumeData);
+    const quality = this.analyzeQuality(resumeData);
+    const missingSections = this.getMissingSections(resumeData);
+    const keywordSuggestions = this.getKeywordSuggestions(resumeData);
     const jobOrientedSuggestions = jobTitle
-      ? this.getJobOrientedSuggestions(resume, jobTitle)
+      ? this.getJobOrientedSuggestions(resumeData, jobTitle)
       : undefined;
 
     return {
@@ -86,7 +106,7 @@ export class ResumeAnalysisService {
   }
 
   private analyzeQuality(resume: any) {
-    const factors = [];
+    const factors: { name: string; score: number; suggestions: string[] }[] = [];
 
     // Check professional summary length
     if (resume.summary) {
@@ -162,7 +182,7 @@ export class ResumeAnalysisService {
   }
 
   private getMissingSections(resume: any): string[] {
-    const missing = [];
+    const missing: string[] = [];
 
     if (!resume.name) missing.push('Name');
     if (!resume.email) missing.push('Email');
@@ -176,7 +196,7 @@ export class ResumeAnalysisService {
   }
 
   private getKeywordSuggestions(resume: any) {
-    const suggestions = [];
+    const suggestions: { section: string; keywords: string[] }[] = [];
 
     // Experience keywords
     if (resume.experiences.length > 0) {
