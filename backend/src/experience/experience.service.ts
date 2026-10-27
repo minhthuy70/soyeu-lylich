@@ -1,11 +1,28 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+
+export type CreateExperienceInput = Omit<
+  Prisma.ExperienceUncheckedCreateInput,
+  'userId' | 'startDate' | 'endDate'
+> & {
+  startDate?: string | Date | null;
+  endDate?: string | Date | null;
+};
+
+export type UpdateExperienceInput = Omit<
+  Prisma.ExperienceUncheckedUpdateInput,
+  'userId' | 'startDate' | 'endDate'
+> & {
+  startDate?: string | Date | null;
+  endDate?: string | Date | null;
+};
 
 @Injectable()
 export class ExperienceService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: number, createDto: any) {
+  async create(userId: number, createDto: CreateExperienceInput) {
     const experience = await this.prisma.experience.create({
       data: {
         userId,
@@ -33,7 +50,7 @@ export class ExperienceService {
   }
 
   async findAll(userId: number, employmentType?: string) {
-    const where: any = { userId };
+    const where: Prisma.ExperienceWhereInput = { userId };
 
     if (employmentType) {
       where.employmentType = employmentType;
@@ -65,7 +82,7 @@ export class ExperienceService {
     return experience;
   }
 
-  async update(userId: number, id: number, updateDto: any) {
+  async update(userId: number, id: number, updateDto: UpdateExperienceInput) {
     const experience = await this.prisma.experience.findFirst({
       where: {
         id,

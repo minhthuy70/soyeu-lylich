@@ -50,7 +50,7 @@ describe('VolunteerExperienceController', () => {
     });
 
     it('should default to userId 1 if req.user is undefined', async () => {
-      const dto = { organization: 'WWF' };
+      const dto = { organization: 'WWF', role: 'Volunteer', startDate: '2024-01-01' };
       await controller.create({}, dto);
 
       expect(service.create).toHaveBeenCalledWith(1, dto);

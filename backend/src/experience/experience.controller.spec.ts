@@ -50,7 +50,7 @@ describe('ExperienceController', () => {
     });
 
     it('should fallback to userId 1 if req.user is undefined', async () => {
-      const dto = { companyName: 'OpenAI' };
+      const dto = { companyName: 'OpenAI', position: 'Engineer' };
       await controller.create({}, dto);
 
       expect(service.create).toHaveBeenCalledWith(1, dto);

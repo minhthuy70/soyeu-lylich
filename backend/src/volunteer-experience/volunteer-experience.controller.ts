@@ -11,6 +11,10 @@ import {
   Request,
 } from '@nestjs/common';
 import { VolunteerExperienceService } from './volunteer-experience.service';
+import type {
+  CreateVolunteerExperienceInput,
+  UpdateVolunteerExperienceInput,
+} from './volunteer-experience.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('volunteer-experiences')
@@ -19,43 +23,50 @@ export class VolunteerExperienceController {
   constructor(private readonly volunteerExperienceService: VolunteerExperienceService) {}
 
   @Post()
-  async create(@Request() req, @Body() createDto: any) {
+  async create(
+    @Request() req: { user?: { id?: number } },
+    @Body() createDto: CreateVolunteerExperienceInput
+  ) {
     const userId = req.user?.id || 1;
     return this.volunteerExperienceService.create(userId, createDto);
   }
 
   @Get()
-  async findAll(@Request() req, @Query('cause') cause?: string) {
+  async findAll(@Request() req: { user?: { id?: number } }, @Query('cause') cause?: string) {
     const userId = req.user?.id || 1;
     return this.volunteerExperienceService.findAll(userId, cause);
   }
 
   @Get('total-hours')
-  async getTotalHours(@Request() req) {
+  async getTotalHours(@Request() req: { user?: { id?: number } }) {
     const userId = req.user?.id || 1;
     return this.volunteerExperienceService.getTotalHours(userId);
   }
 
   @Get('by-cause')
-  async getByCause(@Request() req) {
+  async getByCause(@Request() req: { user?: { id?: number } }) {
     const userId = req.user?.id || 1;
     return this.volunteerExperienceService.getByCause(userId);
   }
 
   @Get(':id')
-  async findOne(@Request() req, @Param('id') id: string) {
+  async findOne(@Request() req: { user?: { id?: number } }, @Param('id') id: string) {
     const userId = req.user?.id || 1;
     return this.volunteerExperienceService.findOne(userId, parseInt(id));
   }
 
   @Put(':id')
-  async update(@Request() req, @Param('id') id: string, @Body() updateDto: any) {
+  async update(
+    @Request() req: { user?: { id?: number } },
+    @Param('id') id: string,
+    @Body() updateDto: UpdateVolunteerExperienceInput
+  ) {
     const userId = req.user?.id || 1;
     return this.volunteerExperienceService.update(userId, parseInt(id), updateDto);
   }
 
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
+  async remove(@Request() req: { user?: { id?: number } }, @Param('id') id: string) {
     const userId = req.user?.id || 1;
     return this.volunteerExperienceService.remove(userId, parseInt(id));
   }

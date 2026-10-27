@@ -1,11 +1,27 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+
+export type CreateVolunteerExperienceInput = Omit<
+  Prisma.VolunteerExperienceUncheckedCreateInput,
+  'userId' | 'startDate'
+> & {
+  startDate: string | Date;
+};
+
+export type UpdateVolunteerExperienceInput = Omit<
+  Prisma.VolunteerExperienceUncheckedUpdateInput,
+  'userId' | 'startDate' | 'endDate'
+> & {
+  startDate?: string | Date | null;
+  endDate?: string | Date | null;
+};
 
 @Injectable()
 export class VolunteerExperienceService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: number, createDto: any) {
+  async create(userId: number, createDto: CreateVolunteerExperienceInput) {
     const volunteer = await this.prisma.volunteerExperience.create({
       data: {
         userId,
@@ -26,7 +42,7 @@ export class VolunteerExperienceService {
   }
 
   async findAll(userId: number, cause?: string) {
-    const where: any = { userId };
+    const where: Prisma.VolunteerExperienceWhereInput = { userId };
 
     if (cause) {
       where.cause = cause;
@@ -58,7 +74,7 @@ export class VolunteerExperienceService {
     return volunteer;
   }
 
-  async update(userId: number, id: number, updateDto: any) {
+  async update(userId: number, id: number, updateDto: UpdateVolunteerExperienceInput) {
     const volunteer = await this.prisma.volunteerExperience.findFirst({
       where: {
         id,
@@ -133,7 +149,7 @@ export class VolunteerExperienceService {
       where: { userId },
     });
 
-    const causeMap = new Map();
+    const causeMap = new Map<string, number>();
     volunteers.forEach((v) => {
       if (v.cause) {
         const count = causeMap.get(v.cause) || 0;

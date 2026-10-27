@@ -1,11 +1,28 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+
+export type CreateEducationInput = Omit<
+  Prisma.EducationUncheckedCreateInput,
+  'userId' | 'startDate' | 'endDate'
+> & {
+  startDate?: string | Date | null;
+  endDate?: string | Date | null;
+};
+
+export type UpdateEducationInput = Omit<
+  Prisma.EducationUncheckedUpdateInput,
+  'userId' | 'startDate' | 'endDate'
+> & {
+  startDate?: string | Date | null;
+  endDate?: string | Date | null;
+};
 
 @Injectable()
 export class EducationService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: number, createDto: any) {
+  async create(userId: number, createDto: CreateEducationInput) {
     const education = await this.prisma.education.create({
       data: {
         userId,
@@ -28,7 +45,7 @@ export class EducationService {
   }
 
   async findAll(userId: number, degree?: string) {
-    const where: any = { userId };
+    const where: Prisma.EducationWhereInput = { userId };
 
     if (degree) {
       where.degree = degree;
@@ -60,7 +77,7 @@ export class EducationService {
     return education;
   }
 
-  async update(userId: number, id: number, updateDto: any) {
+  async update(userId: number, id: number, updateDto: UpdateEducationInput) {
     const education = await this.prisma.education.findFirst({
       where: {
         id,
