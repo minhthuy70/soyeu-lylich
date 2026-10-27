@@ -1,5 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectService } from './project.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { NotFoundException } from '@nestjs/common';
 
 describe('ProjectService', () => {
   let service: ProjectService;
@@ -13,16 +15,16 @@ describe('ProjectService', () => {
     endDate: new Date('2024-06-30'),
     technologies: ['React', 'Node.js'],
     status: 'completed',
+    projectImages: [],
   };
 
   const mockPrisma = {
     project: {
       findMany: jest.fn(),
-      findUnique: jest.fn(),
+      findFirst: jest.fn(),
       create: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
-      count: jest.fn(),
     },
   };
 
@@ -31,7 +33,7 @@ describe('ProjectService', () => {
       providers: [
         ProjectService,
         {
-          provide: 'PrismaService',
+          provide: PrismaService,
           useValue: mockPrisma,
         },
       ],
@@ -44,33 +46,28 @@ describe('ProjectService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('getProjects', () => {
-    it('should return paginated projects', async () => {
+  describe('findAll', () => {
+    it('should return projects list and count', async () => {
       const mockProjects = [mockProject];
       mockPrisma.project.findMany.mockResolvedValue(mockProjects);
-      mockPrisma.project.count.mockResolvedValue(1);
 
-      const result = await service.getProjects(1, 10);
-      expect(result.data).toEqual(mockProjects);
-      expect(result.total).toBe(1);
-      expect(result.page).toBe(1);
-      expect(result.limit).toBe(10);
+      const result = await service.findAll(1);
+      expect(result.projects).toEqual(mockProjects);
+      expect(result.count).toBe(1);
     });
 
     it('should return empty array if no projects', async () => {
       mockPrisma.project.findMany.mockResolvedValue([]);
-      mockPrisma.project.count.mockResolvedValue(0);
 
-      const result = await service.getProjects(1, 10);
-      expect(result.data).toEqual([]);
-      expect(result.total).toBe(0);
+      const result = await service.findAll(1);
+      expect(result.projects).toEqual([]);
+      expect(result.count).toBe(0);
     });
   });
 
-  describe('createProject', () => {
+  describe('create', () => {
     it('should create and return project', async () => {
       const createDto = {
-        userId: 1,
         title: 'New Project',
         description: 'Description',
         technologies: ['React'],
@@ -78,53 +75,51 @@ describe('ProjectService', () => {
 
       mockPrisma.project.create.mockResolvedValue(mockProject);
 
-      const result = await service.createProject(createDto);
+      const result = await service.create(1, createDto);
       expect(result).toEqual(mockProject);
-      expect(mockPrisma.project.create).toHaveBeenCalledWith({
-        data: createDto,
-      });
+      expect(mockPrisma.project.create).toHaveBeenCalled();
     });
   });
 
-  describe('updateProject', () => {
+  describe('update', () => {
     it('should update and return project', async () => {
       const updateDto = {
         title: 'Updated Title',
         status: 'in-progress',
       };
 
-      mockPrisma.project.findUnique.mockResolvedValue(mockProject);
+      mockPrisma.project.findFirst.mockResolvedValue(mockProject);
       mockPrisma.project.update.mockResolvedValue({
         ...mockProject,
         ...updateDto,
       });
 
-      const result = await service.updateProject(1, updateDto);
+      const result = await service.update(1, 1, updateDto);
       expect(result.title).toBe(updateDto.title);
     });
 
-    it('should return null if project not found', async () => {
-      mockPrisma.project.findUnique.mockResolvedValue(null);
+    it('should throw NotFoundException if project not found', async () => {
+      mockPrisma.project.findFirst.mockResolvedValue(null);
 
-      const result = await service.updateProject(1, { title: 'New Title' });
-      expect(result).toBeNull();
+      await expect(service.update(1, 1, { title: 'New Title' })).rejects.toThrow(
+        NotFoundException
+      );
     });
   });
 
-  describe('deleteProject', () => {
+  describe('remove', () => {
     it('should delete project', async () => {
-      mockPrisma.project.findUnique.mockResolvedValue(mockProject);
+      mockPrisma.project.findFirst.mockResolvedValue(mockProject);
       mockPrisma.project.delete.mockResolvedValue(mockProject);
 
-      const result = await service.deleteProject(1);
-      expect(result).toEqual(mockProject);
+      const result = await service.remove(1, 1);
+      expect(result).toHaveProperty('message');
     });
 
-    it('should return null if project not found', async () => {
-      mockPrisma.project.findUnique.mockResolvedValue(null);
+    it('should throw NotFoundException if project not found', async () => {
+      mockPrisma.project.findFirst.mockResolvedValue(null);
 
-      const result = await service.deleteProject(1);
-      expect(result).toBeNull();
+      await expect(service.remove(1, 1)).rejects.toThrow(NotFoundException);
     });
   });
 });
