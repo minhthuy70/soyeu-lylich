@@ -17,7 +17,7 @@ export class PublicationService {
   async getPublications(userId: number) {
     return this.prisma.publication.findMany({
       where: { userId },
-      orderBy: { date: 'desc' },
+      orderBy: { publicationDate: 'desc' },
     });
   }
 
