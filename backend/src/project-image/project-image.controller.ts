@@ -9,73 +9,69 @@ import {
   Query,
   UseGuards,
   Request,
-  UnauthorizedException,
+  ParseIntPipe,
+  BadRequestException,
 } from '@nestjs/common';
 import { ProjectImageService } from './project-image.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 import {
   CreateProjectImageDto,
-  UpdateProjectImageDto,
   ReorderImagesDto,
+  UpdateProjectImageDto,
 } from './dto/create-project-image.dto';
 
 @Controller('project-images')
+@UseGuards(JwtAuthGuard)
 export class ProjectImageController {
   constructor(private readonly projectImageService: ProjectImageService) {}
 
   @Post()
-  async create(@Request() req, @Body() createDto: CreateProjectImageDto) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectImageService.create(userId, createDto);
+  create(@Request() req: AuthenticatedRequest, @Body() createDto: CreateProjectImageDto) {
+    return this.projectImageService.create(req.user.id, createDto);
   }
 
   @Get()
-  async findAll(@Request() req, @Query('projectId') projectId?: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectImageService.findAll(userId, projectId ? parseInt(projectId) : undefined);
+  findAll(@Request() req: AuthenticatedRequest, @Query('projectId') projectId?: string) {
+    const parsedProjectId = projectId === undefined ? undefined : Number(projectId);
+    if (parsedProjectId !== undefined && !Number.isSafeInteger(parsedProjectId)) {
+      throw new BadRequestException('projectId must be a valid integer');
+    }
+
+    return this.projectImageService.findAll(req.user.id, parsedProjectId);
   }
 
   @Get(':id')
-  async findOne(@Request() req, @Param('id') id: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectImageService.findOne(userId, parseInt(id));
+  findOne(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.projectImageService.findOne(req.user.id, id);
   }
 
   @Put(':id')
-  async update(@Request() req, @Param('id') id: string, @Body() updateDto: UpdateProjectImageDto) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectImageService.update(userId, parseInt(id), updateDto);
+  update(
+    @Request() req: AuthenticatedRequest,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateDto: UpdateProjectImageDto
+  ) {
+    return this.projectImageService.update(req.user.id, id, updateDto);
   }
 
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectImageService.remove(userId, parseInt(id));
+  remove(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.projectImageService.remove(req.user.id, id);
   }
 
   @Post('reorder')
-  async reorder(@Request() req, @Body() body: { projectId: number; imageIds: number[] }) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectImageService.reorder(userId, body.projectId, { imageIds: body.imageIds });
+  reorder(
+    @Request() req: AuthenticatedRequest,
+    @Body() body: ReorderImagesDto & { projectId: number }
+  ) {
+    return this.projectImageService.reorder(req.user.id, body.projectId, {
+      imageIds: body.imageIds,
+    });
   }
 
   @Post(':id/set-thumbnail')
-  async setThumbnail(@Request() req, @Param('id') id: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.projectImageService.setThumbnail(userId, parseInt(id));
-  }
-
-  private extractUserIdFromRequest(req: any): number {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      throw new UnauthorizedException('Token không hợp lệ');
-    }
-
-    const token = authHeader.replace('Bearer ', '');
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.sub;
-    } catch (error) {
-      throw new UnauthorizedException('Token không hợp lệ');
-    }
+  setThumbnail(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.projectImageService.setThumbnail(req.user.id, id);
   }
 }
