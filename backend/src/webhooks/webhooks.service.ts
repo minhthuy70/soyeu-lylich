@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { createHmac } from 'crypto';
 
 export interface WebhookPayload {
   event: string;
-  data: any;
+  data: unknown;
   timestamp: Date;
   userId?: number;
 }
@@ -18,7 +19,7 @@ export interface WebhookConfig {
 export class WebhooksService {
   private webhooks: Map<string, WebhookConfig> = new Map();
 
-  async registerWebhook(userId: number, config: Omit<WebhookConfig, 'isActive'>) {
+  registerWebhook(userId: number, config: Omit<WebhookConfig, 'isActive'>) {
     const webhookId = `${userId}-${Date.now()}`;
     this.webhooks.set(webhookId, {
       ...config,
@@ -54,14 +55,18 @@ export class WebhooksService {
           triggeredWebhooks.push({ webhookId, status: 'failed', error: response.statusText });
         }
       } catch (error) {
-        triggeredWebhooks.push({ webhookId, status: 'failed', error: (error as Error).message });
+        triggeredWebhooks.push({
+          webhookId,
+          status: 'failed',
+          error: error instanceof Error ? error.message : String(error),
+        });
       }
     }
 
     return triggeredWebhooks;
   }
 
-  async getWebhooks(userId: number) {
+  getWebhooks(userId: number) {
     const userWebhooks: Array<{ webhookId: string } & WebhookConfig> = [];
     for (const [webhookId, config] of this.webhooks.entries()) {
       if (webhookId.startsWith(userId.toString())) {
@@ -71,14 +76,17 @@ export class WebhooksService {
     return userWebhooks;
   }
 
-  async deleteWebhook(webhookId: string) {
+  deleteWebhook(webhookId: string) {
     return this.webhooks.delete(webhookId);
   }
 
-  private generateSignature(payload: any, secret: string): string {
-    const crypto = require('crypto');
-    const hmac = crypto.createHmac('sha256', secret);
-    hmac.update(JSON.stringify(payload));
+  private generateSignature(payload: WebhookPayload, secret: string): string {
+    const hmac = createHmac('sha256', secret);
+    const serializedPayload = JSON.stringify(payload);
+    if (serializedPayload === undefined) {
+      throw new TypeError('Webhook payload could not be serialized');
+    }
+    hmac.update(serializedPayload);
     return hmac.digest('hex');
   }
 }

@@ -2,6 +2,14 @@ import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/co
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 
+interface SocialProfileData {
+  accessToken?: string;
+  refreshToken?: string;
+  firstName?: string;
+  lastName?: string;
+  username?: string;
+}
+
 @Injectable()
 export class SocialAuthService {
   constructor(
@@ -9,7 +17,12 @@ export class SocialAuthService {
     private readonly jwtService: JwtService
   ) {}
 
-  async handleSocialLogin(provider: string, providerId: string, email?: string, profileData?: any) {
+  async handleSocialLogin(
+    provider: string,
+    providerId: string,
+    email?: string,
+    profileData?: SocialProfileData
+  ) {
     // Check if social account exists
     const socialAccount = await this.prisma.socialAccount.findUnique({
       where: {
