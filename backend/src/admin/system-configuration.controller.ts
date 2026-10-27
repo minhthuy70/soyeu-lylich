@@ -8,57 +8,57 @@ export class SystemConfigurationController {
   constructor(private readonly systemConfigurationService: SystemConfigurationService) {}
 
   @Get('general')
-  async getGeneralSettings() {
+  getGeneralSettings() {
     return this.systemConfigurationService.getGeneralSettings();
   }
 
   @Put('general')
-  async updateGeneralSettings(@Body() settings: any) {
+  updateGeneralSettings(@Body() settings: Record<string, unknown>) {
     return this.systemConfigurationService.updateGeneralSettings(settings);
   }
 
   @Get('email')
-  async getEmailConfiguration() {
+  getEmailConfiguration() {
     return this.systemConfigurationService.getEmailConfiguration();
   }
 
   @Put('email')
-  async updateEmailConfiguration(@Body() config: any) {
+  updateEmailConfiguration(@Body() config: Record<string, unknown>) {
     return this.systemConfigurationService.updateEmailConfiguration(config);
   }
 
   @Get('storage')
-  async getStorageConfiguration() {
+  getStorageConfiguration() {
     return this.systemConfigurationService.getStorageConfiguration();
   }
 
   @Put('storage')
-  async updateStorageConfiguration(@Body() config: any) {
+  updateStorageConfiguration(@Body() config: Record<string, unknown>) {
     return this.systemConfigurationService.updateStorageConfiguration(config);
   }
 
   @Get('ai')
-  async getAIServiceConfiguration() {
+  getAIServiceConfiguration() {
     return this.systemConfigurationService.getAIServiceConfiguration();
   }
 
   @Put('ai')
-  async updateAIServiceConfiguration(@Body() config: any) {
+  updateAIServiceConfiguration(@Body() config: Record<string, unknown>) {
     return this.systemConfigurationService.updateAIServiceConfiguration(config);
   }
 
   @Get('feature-flags')
-  async getFeatureFlags() {
+  getFeatureFlags() {
     return this.systemConfigurationService.getFeatureFlags();
   }
 
   @Put('feature-flags')
-  async updateFeatureFlags(@Body() flags: any) {
+  updateFeatureFlags(@Body() flags: Record<string, unknown>) {
     return this.systemConfigurationService.updateFeatureFlags(flags);
   }
 
   @Put('maintenance-mode')
-  async toggleMaintenanceMode(@Body() body: { enabled: boolean }) {
+  toggleMaintenanceMode(@Body() body: { enabled: boolean }) {
     return this.systemConfigurationService.toggleMaintenanceMode(body.enabled);
   }
 }

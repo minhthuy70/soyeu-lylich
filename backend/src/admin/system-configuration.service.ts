@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class SystemConfigurationService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getGeneralSettings() {
+  getGeneralSettings() {
     return {
       appName: 'Sơ yếu lý lịch',
       appVersion: '4.4',
@@ -16,7 +16,7 @@ export class SystemConfigurationService {
     };
   }
 
-  async updateGeneralSettings(settings: any) {
+  updateGeneralSettings(settings: Record<string, unknown>) {
     // In production, these would be stored in a settings table or environment variables
     return {
       ...settings,
@@ -24,7 +24,7 @@ export class SystemConfigurationService {
     };
   }
 
-  async getEmailConfiguration() {
+  getEmailConfiguration() {
     return {
       provider: 'sendgrid', // or 'nodemailer', 'aws-ses'
       fromEmail: process.env.EMAIL_FROM || 'noreply@soyeulylich.com',
@@ -33,7 +33,7 @@ export class SystemConfigurationService {
     };
   }
 
-  async updateEmailConfiguration(config: any) {
+  updateEmailConfiguration(config: Record<string, unknown>) {
     // In production, update environment variables or secure storage
     return {
       ...config,
@@ -41,7 +41,7 @@ export class SystemConfigurationService {
     };
   }
 
-  async getStorageConfiguration() {
+  getStorageConfiguration() {
     return {
       provider: 'local', // or 's3', 'gcs', 'azure'
       maxFileSize: 5 * 1024 * 1024, // 5MB
@@ -58,14 +58,14 @@ export class SystemConfigurationService {
     };
   }
 
-  async updateStorageConfiguration(config: any) {
+  updateStorageConfiguration(config: Record<string, unknown>) {
     return {
       ...config,
       updatedAt: new Date(),
     };
   }
 
-  async getAIServiceConfiguration() {
+  getAIServiceConfiguration() {
     return {
       provider: 'openai', // or 'anthropic', 'mock'
       enabled: !!process.env.OPENAI_API_KEY,
@@ -74,14 +74,14 @@ export class SystemConfigurationService {
     };
   }
 
-  async updateAIServiceConfiguration(config: any) {
+  updateAIServiceConfiguration(config: Record<string, unknown>) {
     return {
       ...config,
       updatedAt: new Date(),
     };
   }
 
-  async getFeatureFlags() {
+  getFeatureFlags() {
     return {
       aiFeatures: true,
       pushNotifications: true,
@@ -93,14 +93,14 @@ export class SystemConfigurationService {
     };
   }
 
-  async updateFeatureFlags(flags: any) {
+  updateFeatureFlags(flags: Record<string, unknown>) {
     return {
       ...flags,
       updatedAt: new Date(),
     };
   }
 
-  async toggleMaintenanceMode(enabled: boolean) {
+  toggleMaintenanceMode(enabled: boolean) {
     // In production, this would update a global flag or environment variable
     return {
       maintenanceMode: enabled,
