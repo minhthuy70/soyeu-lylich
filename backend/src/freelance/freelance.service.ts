@@ -1,11 +1,28 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+
+export type CreateFreelanceInput = Omit<
+  Prisma.FreelanceProjectUncheckedCreateInput,
+  'userId' | 'startDate' | 'endDate'
+> & {
+  startDate?: string | Date | null;
+  endDate?: string | Date | null;
+};
+
+export type UpdateFreelanceInput = Omit<
+  Prisma.FreelanceProjectUncheckedUpdateInput,
+  'userId' | 'startDate' | 'endDate'
+> & {
+  startDate?: string | Date | null;
+  endDate?: string | Date | null;
+};
 
 @Injectable()
 export class FreelanceService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: number, createDto: any) {
+  async create(userId: number, createDto: CreateFreelanceInput) {
     const freelance = await this.prisma.freelanceProject.create({
       data: {
         userId,
@@ -52,7 +69,7 @@ export class FreelanceService {
     return freelance;
   }
 
-  async update(userId: number, id: number, updateDto: any) {
+  async update(userId: number, id: number, updateDto: UpdateFreelanceInput) {
     const freelance = await this.prisma.freelanceProject.findFirst({
       where: {
         id,
