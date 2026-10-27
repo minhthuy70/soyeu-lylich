@@ -7,14 +7,15 @@ import {
   BadRequestException,
   UseGuards,
   Request,
-  UnauthorizedException,
   Req,
   Res,
   Param,
 } from '@nestjs/common';
-import type { Response } from 'express';
+import type { Request as ExpressRequest, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import type { AuthenticatedRequest } from './authenticated-request.type';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -23,7 +24,6 @@ import {
   EnableTwoFactorDto,
   VerifyTwoFactorDto,
   VerifyEmailTwoFactorDto,
-  GenerateBackupCodesDto,
 } from './dto/two-factor.dto';
 import { SocialAuthService } from './social-auth.service';
 import { TwoFactorAuthService } from './two-factor-auth.service';
@@ -49,16 +49,8 @@ export class AuthController {
   }
 
   @Post('login/2fa')
-  async loginWithTwoFactor(
-    @Request() req,
-    @Body() body: { tempToken: string; otp: string; rememberMe?: boolean }
-  ) {
-    const result = await this.authService.completeTwoFactorLogin(
-      body.tempToken,
-      body.otp,
-      body.rememberMe
-    );
-    return result;
+  loginWithTwoFactor(@Body() body: { tempToken: string; otp: string; rememberMe?: boolean }) {
+    return this.authService.completeTwoFactorLogin(body.tempToken, body.otp, body.rememberMe);
   }
 
   @Get('verify-email')
@@ -80,10 +72,11 @@ export class AuthController {
   }
 
   @Post('logout')
-  async logout(@Request() req) {
+  @UseGuards(JwtAuthGuard)
+  logout(@Request() req: AuthenticatedRequest) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-      throw new UnauthorizedException('Token không hợp lệ');
+      throw new BadRequestException('Token không hợp lệ');
     }
 
     // In a real implementation, you might want to:
@@ -98,13 +91,13 @@ export class AuthController {
   // Google OAuth
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  async googleLogin() {
+  googleLogin() {
     // Guard handles the redirect
   }
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleCallback(@Req() req, @Res() res: Response) {
+  googleCallback(@Req() req: SocialOAuthRequest, @Res() res: Response) {
     const result = req.user;
     return res.redirect(
       `http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`
@@ -114,13 +107,13 @@ export class AuthController {
   // GitHub OAuth
   @Get('github')
   @UseGuards(AuthGuard('github'))
-  async githubLogin() {
+  githubLogin() {
     // Guard handles the redirect
   }
 
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
-  async githubCallback(@Req() req, @Res() res: Response) {
+  githubCallback(@Req() req: SocialOAuthRequest, @Res() res: Response) {
     const result = req.user;
     return res.redirect(
       `http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`
@@ -130,13 +123,13 @@ export class AuthController {
   // Facebook OAuth
   @Get('facebook')
   @UseGuards(AuthGuard('facebook'))
-  async facebookLogin() {
+  facebookLogin() {
     // Guard handles the redirect
   }
 
   @Get('facebook/callback')
   @UseGuards(AuthGuard('facebook'))
-  async facebookCallback(@Req() req, @Res() res: Response) {
+  facebookCallback(@Req() req: SocialOAuthRequest, @Res() res: Response) {
     const result = req.user;
     return res.redirect(
       `http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`
@@ -146,13 +139,13 @@ export class AuthController {
   // LinkedIn OAuth
   @Get('linkedin')
   @UseGuards(AuthGuard('linkedin'))
-  async linkedinLogin() {
+  linkedinLogin() {
     // Guard handles the redirect
   }
 
   @Get('linkedin/callback')
   @UseGuards(AuthGuard('linkedin'))
-  async linkedinCallback(@Req() req, @Res() res: Response) {
+  linkedinCallback(@Req() req: SocialOAuthRequest, @Res() res: Response) {
     const result = req.user;
     return res.redirect(
       `http://localhost:5177?token=${result.accessToken}&userId=${result.user.id}`
@@ -161,14 +154,14 @@ export class AuthController {
 
   // Link/Unlink social accounts
   @Post('social/link')
+  @UseGuards(JwtAuthGuard)
   async linkSocialAccount(
-    @Request() req,
+    @Request() req: AuthenticatedRequest,
     @Body()
     body: { provider: string; providerId: string; accessToken?: string; refreshToken?: string }
   ) {
-    const userId = this.extractUserIdFromRequest(req);
     return this.socialAuthService.linkSocialAccount(
-      userId,
+      req.user.id,
       body.provider,
       body.providerId,
       body.accessToken,
@@ -177,107 +170,113 @@ export class AuthController {
   }
 
   @Post('social/unlink')
-  async unlinkSocialAccount(@Request() req, @Body() body: { provider: string }) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.socialAuthService.unlinkSocialAccount(userId, body.provider);
+  @UseGuards(JwtAuthGuard)
+  async unlinkSocialAccount(
+    @Request() req: AuthenticatedRequest,
+    @Body() body: { provider: string }
+  ) {
+    return this.socialAuthService.unlinkSocialAccount(req.user.id, body.provider);
   }
 
   @Get('social/accounts')
-  async getSocialAccounts(@Request() req) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.socialAuthService.getSocialAccounts(userId);
+  @UseGuards(JwtAuthGuard)
+  async getSocialAccounts(@Request() req: AuthenticatedRequest) {
+    return this.socialAuthService.getSocialAccounts(req.user.id);
   }
 
   // Two-Factor Authentication endpoints
   @Post('2fa/generate-secret')
-  async generateTwoFactorSecret(@Request() req) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.twoFactorAuthService.generateTwoFactorSecret(userId);
+  @UseGuards(JwtAuthGuard)
+  async generateTwoFactorSecret(@Request() req: AuthenticatedRequest) {
+    return this.twoFactorAuthService.generateTwoFactorSecret(req.user.id);
   }
 
   @Post('2fa/enable')
-  async enableTwoFactor(@Request() req, @Body() enableTwoFactorDto: EnableTwoFactorDto) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.twoFactorAuthService.enableTwoFactor(userId, enableTwoFactorDto.otp);
+  @UseGuards(JwtAuthGuard)
+  async enableTwoFactor(
+    @Request() req: AuthenticatedRequest,
+    @Body() enableTwoFactorDto: EnableTwoFactorDto
+  ) {
+    return this.twoFactorAuthService.enableTwoFactor(req.user.id, enableTwoFactorDto.otp);
   }
 
   @Post('2fa/disable')
-  async disableTwoFactor(@Request() req, @Body() body: { password: string }) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.twoFactorAuthService.disableTwoFactor(userId, body.password);
+  @UseGuards(JwtAuthGuard)
+  async disableTwoFactor(@Request() req: AuthenticatedRequest, @Body() body: { password: string }) {
+    return this.twoFactorAuthService.disableTwoFactor(req.user.id, body.password);
   }
 
   @Post('2fa/verify')
-  async verifyTwoFactor(@Request() req, @Body() verifyTwoFactorDto: VerifyTwoFactorDto) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.twoFactorAuthService.verifyTwoFactorToken(userId, verifyTwoFactorDto.otp);
+  @UseGuards(JwtAuthGuard)
+  async verifyTwoFactor(
+    @Request() req: AuthenticatedRequest,
+    @Body() verifyTwoFactorDto: VerifyTwoFactorDto
+  ) {
+    return this.twoFactorAuthService.verifyTwoFactorToken(req.user.id, verifyTwoFactorDto.otp);
   }
 
   @Post('2fa/email/generate')
-  async generateEmailOTP(@Request() req) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.twoFactorAuthService.generateEmailOTP(userId);
+  @UseGuards(JwtAuthGuard)
+  async generateEmailOTP(@Request() req: AuthenticatedRequest) {
+    return this.twoFactorAuthService.generateEmailOTP(req.user.id);
   }
 
   @Post('2fa/email/verify')
-  async verifyEmailOTP(@Request() req, @Body() verifyEmailTwoFactorDto: VerifyEmailTwoFactorDto) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.twoFactorAuthService.verifyEmailOTP(userId, verifyEmailTwoFactorDto.otp);
+  @UseGuards(JwtAuthGuard)
+  async verifyEmailOTP(
+    @Request() req: AuthenticatedRequest,
+    @Body() verifyEmailTwoFactorDto: VerifyEmailTwoFactorDto
+  ) {
+    return this.twoFactorAuthService.verifyEmailOTP(req.user.id, verifyEmailTwoFactorDto.otp);
   }
 
   @Get('2fa/status')
-  async getTwoFactorStatus(@Request() req) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.twoFactorAuthService.getTwoFactorStatus(userId);
+  @UseGuards(JwtAuthGuard)
+  async getTwoFactorStatus(@Request() req: AuthenticatedRequest) {
+    return this.twoFactorAuthService.getTwoFactorStatus(req.user.id);
   }
 
   // Session Management endpoints
   @Get('sessions')
-  async getActiveSessions(@Request() req) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.sessionService.getActiveSessions(userId);
+  @UseGuards(JwtAuthGuard)
+  async getActiveSessions(@Request() req: AuthenticatedRequest) {
+    return this.sessionService.getActiveSessions(req.user.id);
   }
 
   @Post('sessions/:id/revoke')
-  async revokeSession(@Request() req, @Param('id') sessionId: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.sessionService.revokeSession(userId, parseInt(sessionId));
+  @UseGuards(JwtAuthGuard)
+  async revokeSession(@Request() req: AuthenticatedRequest, @Param('id') sessionId: string) {
+    return this.sessionService.revokeSession(req.user.id, parseInt(sessionId));
   }
 
   @Post('sessions/revoke-all')
-  async revokeAllSessions(@Request() req, @Body() body: { exceptCurrent?: boolean }) {
-    const userId = this.extractUserIdFromRequest(req);
+  @UseGuards(JwtAuthGuard)
+  async revokeAllSessions(
+    @Request() req: AuthenticatedRequest,
+    @Body() body: { exceptCurrent?: boolean }
+  ) {
     const exceptCurrentToken = body.exceptCurrent ? this.extractTokenFromRequest(req) : undefined;
-    return this.sessionService.revokeAllSessions(userId, exceptCurrentToken);
+    return this.sessionService.revokeAllSessions(req.user.id, exceptCurrentToken);
   }
 
   @Get('sessions/:id')
-  async getSessionDetails(@Request() req, @Param('id') sessionId: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.sessionService.getSessionDetails(userId, parseInt(sessionId));
+  @UseGuards(JwtAuthGuard)
+  async getSessionDetails(@Request() req: AuthenticatedRequest, @Param('id') sessionId: string) {
+    return this.sessionService.getSessionDetails(req.user.id, parseInt(sessionId));
   }
 
-  private extractUserIdFromRequest(req: any): number {
+  private extractTokenFromRequest(req: AuthenticatedRequest): string {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-      throw new UnauthorizedException('Token không hợp lệ');
-    }
-
-    const token = authHeader.replace('Bearer ', '');
-    try {
-      // Simple JWT decoding (in production, use proper JWT verification)
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.sub;
-    } catch (error) {
-      throw new UnauthorizedException('Token không hợp lệ');
-    }
-  }
-
-  private extractTokenFromRequest(req: any): string {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      throw new UnauthorizedException('Token không hợp lệ');
+      throw new BadRequestException('Token không hợp lệ');
     }
     return authHeader.replace('Bearer ', '');
   }
 }
+
+type SocialOAuthRequest = ExpressRequest & {
+  user: {
+    accessToken: string;
+    user: { id: number };
+  };
+};
