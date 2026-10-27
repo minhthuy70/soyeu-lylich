@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -15,6 +15,10 @@ export class PrivacyService {
         createdAt: true,
       },
     });
+
+    if (!user) {
+      throw new NotFoundException('Không tìm thấy người dùng');
+    }
 
     return {
       userId: user.id,
