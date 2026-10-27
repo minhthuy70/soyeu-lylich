@@ -131,7 +131,9 @@ describe('ToolSkillService', () => {
     it('should throw NotFoundException when updating non-existent tool skill', async () => {
       prisma.toolSkill.findFirst.mockResolvedValue(null);
 
-      await expect(service.update(1, 999, { name: 'Kubernetes' })).rejects.toThrow(NotFoundException);
+      await expect(service.update(1, 999, { name: 'Kubernetes' })).rejects.toThrow(
+        NotFoundException
+      );
     });
   });
 

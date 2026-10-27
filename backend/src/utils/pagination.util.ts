@@ -51,18 +51,20 @@ export class PaginationUtil {
     page?: number | string | null,
     limit?: number | string | null,
     defaultLimit: number = PaginationUtil.DEFAULT_LIMIT,
-    maxLimit: number = PaginationUtil.MAX_LIMIT,
+    maxLimit: number = PaginationUtil.MAX_LIMIT
   ): NormalizedPagination {
     const parsedPage = typeof page === 'string' ? parseInt(page, 10) : page;
     const parsedLimit = typeof limit === 'string' ? parseInt(limit, 10) : limit;
 
-    const safePage = !parsedPage || isNaN(parsedPage) || parsedPage < 1 
-      ? PaginationUtil.DEFAULT_PAGE 
-      : Math.floor(parsedPage);
+    const safePage =
+      !parsedPage || isNaN(parsedPage) || parsedPage < 1
+        ? PaginationUtil.DEFAULT_PAGE
+        : Math.floor(parsedPage);
 
-    let safeLimit = !parsedLimit || isNaN(parsedLimit) || parsedLimit < 1 
-      ? defaultLimit 
-      : Math.floor(parsedLimit);
+    let safeLimit =
+      !parsedLimit || isNaN(parsedLimit) || parsedLimit < 1
+        ? defaultLimit
+        : Math.floor(parsedLimit);
 
     if (safeLimit > maxLimit) {
       safeLimit = maxLimit;
@@ -110,7 +112,11 @@ export class PaginationUtil {
   /**
    * Slice an in-memory array and return a paginated result.
    */
-  static paginateArray<T>(items: T[], page: number = 1, limit: number = PaginationUtil.DEFAULT_LIMIT): PaginatedResult<T> {
+  static paginateArray<T>(
+    items: T[],
+    page: number = 1,
+    limit: number = PaginationUtil.DEFAULT_LIMIT
+  ): PaginatedResult<T> {
     const { skip, take, page: safePage, limit: safeLimit } = PaginationUtil.normalize(page, limit);
     const sliced = items.slice(skip, skip + take);
     return PaginationUtil.paginate(sliced, items.length, safePage, safeLimit);

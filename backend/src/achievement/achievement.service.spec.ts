@@ -65,7 +65,7 @@ describe('AchievementService', () => {
         organization: 'FPT Software',
       };
 
-      const result = await service.create(1, dto as any);
+      const result = await service.create(1, dto);
 
       expect(prisma.achievement.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
@@ -118,7 +118,7 @@ describe('AchievementService', () => {
       const updated = { ...mockAchievement, title: 'Giải Đặc Biệt' };
       prisma.achievement.update.mockResolvedValue(updated);
 
-      const result = await service.update(1, 1, { title: 'Giải Đặc Biệt' } as any);
+      const result = await service.update(1, 1, { title: 'Giải Đặc Biệt' });
 
       expect(prisma.achievement.update).toHaveBeenCalledWith({
         where: { id: 1 },
@@ -130,7 +130,9 @@ describe('AchievementService', () => {
     it('should throw NotFoundException when updating non-existent achievement', async () => {
       prisma.achievement.findFirst.mockResolvedValue(null);
 
-      await expect(service.update(1, 999, { title: 'New' } as any)).rejects.toThrow(NotFoundException);
+      await expect(service.update(1, 999, { title: 'New' } as any)).rejects.toThrow(
+        NotFoundException
+      );
     });
   });
 

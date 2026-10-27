@@ -46,13 +46,13 @@ describe('ActivityController', () => {
   describe('extractUserIdFromRequest', () => {
     it('should throw UnauthorizedException when auth header is missing', async () => {
       await expect(controller.create({ headers: {} } as any, {})).rejects.toThrow(
-        UnauthorizedException,
+        UnauthorizedException
       );
     });
 
     it('should throw UnauthorizedException when token cannot be parsed', async () => {
       await expect(
-        controller.create({ headers: { authorization: 'Bearer broken.token' } } as any, {}),
+        controller.create({ headers: { authorization: 'Bearer broken.token' } } as any, {})
       ).rejects.toThrow(UnauthorizedException);
     });
   });

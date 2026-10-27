@@ -104,7 +104,9 @@ describe('ValidationUtil', () => {
   describe('sanitizeInput', () => {
     it('should trim whitespace and remove angle brackets', () => {
       expect(ValidationUtil.sanitizeInput('  hello  ')).toBe('hello');
-      expect(ValidationUtil.sanitizeInput('<script>alert(1)</script>')).toBe('scriptalert(1)/script');
+      expect(ValidationUtil.sanitizeInput('<script>alert(1)</script>')).toBe(
+        'scriptalert(1)/script'
+      );
     });
   });
 

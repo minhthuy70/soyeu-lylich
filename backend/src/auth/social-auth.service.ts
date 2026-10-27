@@ -11,7 +11,7 @@ export class SocialAuthService {
 
   async handleSocialLogin(provider: string, providerId: string, email?: string, profileData?: any) {
     // Check if social account exists
-    let socialAccount = await this.prisma.socialAccount.findUnique({
+    const socialAccount = await this.prisma.socialAccount.findUnique({
       where: {
         provider_providerId: {
           provider,

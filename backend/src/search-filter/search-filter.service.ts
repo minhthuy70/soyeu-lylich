@@ -181,9 +181,7 @@ export class SearchFilterService {
       this.prisma.profile.findMany({
         where: {
           userId,
-          OR: [
-            { fullName: { contains: searchTerm, mode: 'insensitive' } },
-          ],
+          OR: [{ fullName: { contains: searchTerm, mode: 'insensitive' } }],
         },
         take: 5,
       }),

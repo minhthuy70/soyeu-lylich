@@ -120,7 +120,9 @@ describe('SoftSkillService', () => {
     it('should throw NotFoundException when updating non-existent soft skill', async () => {
       prisma.softSkill.findFirst.mockResolvedValue(null);
 
-      await expect(service.update(1, 999, { name: 'Communication' })).rejects.toThrow(NotFoundException);
+      await expect(service.update(1, 999, { name: 'Communication' })).rejects.toThrow(
+        NotFoundException
+      );
     });
   });
 

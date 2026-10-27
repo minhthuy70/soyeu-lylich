@@ -170,7 +170,9 @@ describe('VolunteerExperienceService', () => {
     });
 
     it('should handle record without hoursPerWeek', async () => {
-      prisma.volunteerExperience.findMany.mockResolvedValue([{ ...mockVolunteer, hoursPerWeek: null }]);
+      prisma.volunteerExperience.findMany.mockResolvedValue([
+        { ...mockVolunteer, hoursPerWeek: null },
+      ]);
 
       const result = await service.getTotalHours(1);
 

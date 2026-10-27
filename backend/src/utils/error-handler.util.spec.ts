@@ -48,7 +48,7 @@ describe('ErrorHandlerUtil', () => {
         ErrorHandlerUtil.handleValidationError(errors);
       } catch (e) {
         expect(e.getStatus()).toBe(HttpStatus.BAD_REQUEST);
-        const response = e.getResponse() as any;
+        const response = e.getResponse();
         expect(response.errors).toHaveLength(2);
         expect(response.errors[0].field).toBe('email');
       }
@@ -157,7 +157,10 @@ describe('ErrorHandlerUtil', () => {
 
   describe('createErrorResponse', () => {
     it('should return error response object with timestamp', () => {
-      const response = ErrorHandlerUtil.createErrorResponse('Error occurred', HttpStatus.BAD_REQUEST);
+      const response = ErrorHandlerUtil.createErrorResponse(
+        'Error occurred',
+        HttpStatus.BAD_REQUEST
+      );
       expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
       expect(response.message).toBe('Error occurred');
       expect(response.timestamp).toBeDefined();
@@ -165,7 +168,11 @@ describe('ErrorHandlerUtil', () => {
 
     it('should include details when provided', () => {
       const details = { field: 'email' };
-      const response = ErrorHandlerUtil.createErrorResponse('Error', HttpStatus.BAD_REQUEST, details);
+      const response = ErrorHandlerUtil.createErrorResponse(
+        'Error',
+        HttpStatus.BAD_REQUEST,
+        details
+      );
       expect(response.details).toEqual(details);
     });
 

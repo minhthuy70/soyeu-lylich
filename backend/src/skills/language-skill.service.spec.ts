@@ -131,7 +131,9 @@ describe('LanguageSkillService', () => {
     it('should throw NotFoundException if updating non-existent skill', async () => {
       prisma.languageSkill.findFirst.mockResolvedValue(null);
 
-      await expect(service.update(1, 999, { language: 'French' })).rejects.toThrow(NotFoundException);
+      await expect(service.update(1, 999, { language: 'French' })).rejects.toThrow(
+        NotFoundException
+      );
     });
   });
 

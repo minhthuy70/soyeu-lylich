@@ -102,7 +102,10 @@ describe('SkillController', () => {
 
   describe('endorse', () => {
     it('should call incrementEndorsement with userId and parsed id', async () => {
-      mockSkillService.incrementEndorsement.mockResolvedValue({ id: 5, endorsementCount: 1 } as any);
+      mockSkillService.incrementEndorsement.mockResolvedValue({
+        id: 5,
+        endorsementCount: 1,
+      } as any);
 
       const result = await controller.endorse(mockReq, '5');
 

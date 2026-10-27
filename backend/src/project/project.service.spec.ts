@@ -101,9 +101,7 @@ describe('ProjectService', () => {
     it('should throw NotFoundException if project not found', async () => {
       mockPrisma.project.findFirst.mockResolvedValue(null);
 
-      await expect(service.update(1, 1, { title: 'New Title' })).rejects.toThrow(
-        NotFoundException
-      );
+      await expect(service.update(1, 1, { title: 'New Title' })).rejects.toThrow(NotFoundException);
     });
   });
 

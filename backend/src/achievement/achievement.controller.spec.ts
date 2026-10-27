@@ -48,14 +48,14 @@ describe('AchievementController', () => {
   describe('extractUserIdFromRequest', () => {
     it('should throw UnauthorizedException when authorization header is missing', async () => {
       await expect(controller.create({ headers: {} } as any, {} as any)).rejects.toThrow(
-        UnauthorizedException,
+        UnauthorizedException
       );
     });
 
     it('should throw UnauthorizedException when token payload cannot be decoded', async () => {
       const invalidReq = { headers: { authorization: 'Bearer invalid.token' } };
       await expect(controller.create(invalidReq as any, {} as any)).rejects.toThrow(
-        UnauthorizedException,
+        UnauthorizedException
       );
     });
   });
@@ -65,7 +65,7 @@ describe('AchievementController', () => {
       const dto = { title: 'First Place', organization: 'Org' };
       mockService.create.mockResolvedValue({ id: 1, ...dto } as any);
 
-      const result = await controller.create(validReq, dto as any);
+      const result = await controller.create(validReq, dto);
 
       expect(service.create).toHaveBeenCalledWith(10, dto);
       expect(result).toEqual({ id: 1, ...dto });
@@ -74,7 +74,10 @@ describe('AchievementController', () => {
 
   describe('findAll', () => {
     it('should call getAchievementsByCategory if category query is provided', async () => {
-      mockService.getAchievementsByCategory.mockResolvedValue({ achievements: [], count: 0 } as any);
+      mockService.getAchievementsByCategory.mockResolvedValue({
+        achievements: [],
+        count: 0,
+      } as any);
 
       await controller.findAll(validReq, 'Cert');
 
@@ -116,7 +119,7 @@ describe('AchievementController', () => {
       const dto = { title: 'Updated' };
       mockService.update.mockResolvedValue({ id: 7, ...dto } as any);
 
-      const result = await controller.update(validReq, '7', dto as any);
+      const result = await controller.update(validReq, '7', dto);
 
       expect(service.update).toHaveBeenCalledWith(10, 7, dto);
       expect(result).toEqual({ id: 7, ...dto });

@@ -107,7 +107,11 @@ describe('NotificationService', () => {
     it('should create custom system notification', async () => {
       prisma.notification.create.mockResolvedValue(mockNotification);
 
-      await service.createSystemNotification(1, 'Maintenance Notice', 'System will restart at midnight');
+      await service.createSystemNotification(
+        1,
+        'Maintenance Notice',
+        'System will restart at midnight'
+      );
 
       expect(prisma.notification.create).toHaveBeenCalledWith({
         data: expect.objectContaining({

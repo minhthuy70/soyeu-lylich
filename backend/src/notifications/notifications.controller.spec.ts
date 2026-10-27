@@ -96,8 +96,13 @@ describe('NotificationsController', () => {
     });
 
     it('should create security notification', async () => {
-      await controller.createSecurityNotification({ securityType: 'LOGIN', details: { ip: '1.1.1.1' } }, mockReq);
-      expect(service.createSecurityNotification).toHaveBeenCalledWith(9, 'LOGIN', { ip: '1.1.1.1' });
+      await controller.createSecurityNotification(
+        { securityType: 'LOGIN', details: { ip: '1.1.1.1' } },
+        mockReq
+      );
+      expect(service.createSecurityNotification).toHaveBeenCalledWith(9, 'LOGIN', {
+        ip: '1.1.1.1',
+      });
     });
 
     it('should create system notification', async () => {
@@ -116,7 +121,10 @@ describe('NotificationsController', () => {
     });
 
     it('should create resume share notification', async () => {
-      await controller.createResumeShareNotification({ resumeTitle: 'CV', sharedWith: 'HR' }, mockReq);
+      await controller.createResumeShareNotification(
+        { resumeTitle: 'CV', sharedWith: 'HR' },
+        mockReq
+      );
       expect(service.createResumeShareNotification).toHaveBeenCalledWith(9, 'CV', 'HR');
     });
   });

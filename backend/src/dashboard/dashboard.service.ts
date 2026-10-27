@@ -93,7 +93,12 @@ export class DashboardService {
       throw new Error('User not found');
     }
 
-    const suggestions: Array<{ type: string; message: string; priority: string; resumeId?: number }> = [];
+    const suggestions: Array<{
+      type: string;
+      message: string;
+      priority: string;
+      resumeId?: number;
+    }> = [];
 
     // Check resume completeness
     const resumes = await this.prisma.resume.findMany({
@@ -176,7 +181,7 @@ export class DashboardService {
     }
 
     let totalScore = 0;
-    let maxScore = 100;
+    const maxScore = 100;
 
     // Profile completion (20 points) - check if profile exists separately
     const profile = await this.prisma.profile.findUnique({
@@ -442,7 +447,16 @@ export class DashboardService {
     });
 
     // Get counts separately
-    const [resumes, experiences, projects, skills, educations, certificates, achievements, publications] = await Promise.all([
+    const [
+      resumes,
+      experiences,
+      projects,
+      skills,
+      educations,
+      certificates,
+      achievements,
+      publications,
+    ] = await Promise.all([
       this.prisma.resume.count({ where: { userId } }),
       this.prisma.experience.count({ where: { userId } }),
       this.prisma.project.count({ where: { userId } }),

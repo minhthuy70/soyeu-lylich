@@ -70,7 +70,10 @@ describe('EducationController', () => {
 
   describe('getCurrentStudies', () => {
     it('should call service.getCurrentStudies with userId', async () => {
-      mockEducationService.getCurrentStudies.mockResolvedValue({ currentStudies: [], count: 0 } as any);
+      mockEducationService.getCurrentStudies.mockResolvedValue({
+        currentStudies: [],
+        count: 0,
+      } as any);
 
       await controller.getCurrentStudies(mockUserReq);
 

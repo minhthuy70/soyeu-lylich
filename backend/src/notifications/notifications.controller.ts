@@ -24,11 +24,7 @@ export class NotificationsController {
     @Query('offset') offset = 0
   ) {
     const userId = req.user?.id || 1;
-    return this.notificationService.getUserNotifications(
-      userId,
-      Number(limit),
-      Number(offset)
-    );
+    return this.notificationService.getUserNotifications(userId, Number(limit), Number(offset));
   }
 
   @Get('unread-count')
@@ -64,7 +60,11 @@ export class NotificationsController {
 
   @Post('security')
   async createSecurityNotification(
-    @Body() body: { securityType: 'LOGIN' | 'PASSWORD_CHANGE' | '2FA_ENABLED' | 'SUSPICIOUS_ACTIVITY'; details?: any },
+    @Body()
+    body: {
+      securityType: 'LOGIN' | 'PASSWORD_CHANGE' | '2FA_ENABLED' | 'SUSPICIOUS_ACTIVITY';
+      details?: any;
+    },
     @Request() req
   ) {
     const userId = req.user?.id || 1;

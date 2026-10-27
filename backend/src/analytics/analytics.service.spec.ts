@@ -64,7 +64,11 @@ describe('AnalyticsService', () => {
         metadata: { section: 'personal-info' },
       };
 
-      mockPrisma.analyticsSession.findUnique.mockResolvedValue({ id: 1, sessionId: 'session_123', pageViews: 1 });
+      mockPrisma.analyticsSession.findUnique.mockResolvedValue({
+        id: 1,
+        sessionId: 'session_123',
+        pageViews: 1,
+      });
       mockPrisma.userBehaviorEvent.create.mockResolvedValue(mockEvent);
 
       const result = await service.trackEvent(1, trackDto);

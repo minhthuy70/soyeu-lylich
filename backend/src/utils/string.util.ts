@@ -60,7 +60,8 @@ export class StringUtil {
     const [local, domain] = email.split('@');
     if (!domain) return email;
     const visibleChars = Math.min(2, local.length);
-    const maskedLocal = local.slice(0, visibleChars) + '*'.repeat(Math.max(0, local.length - visibleChars));
+    const maskedLocal =
+      local.slice(0, visibleChars) + '*'.repeat(Math.max(0, local.length - visibleChars));
     return `${maskedLocal}@${domain}`;
   }
 

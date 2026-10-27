@@ -41,7 +41,9 @@ describe('StringUtil', () => {
     });
 
     it('should remove consecutive hyphens and trim', () => {
-      expect(StringUtil.toSlug('   Multiple   Spaces   -- And Symbols ## ')).toBe('multiple-spaces-and-symbols');
+      expect(StringUtil.toSlug('   Multiple   Spaces   -- And Symbols ## ')).toBe(
+        'multiple-spaces-and-symbols'
+      );
     });
   });
 
@@ -55,7 +57,9 @@ describe('StringUtil', () => {
     });
 
     it('should truncate with custom ellipsis', () => {
-      expect(StringUtil.truncate('This is a very long description', 15, ' [more]')).toBe('This is  [more]');
+      expect(StringUtil.truncate('This is a very long description', 15, ' [more]')).toBe(
+        'This is  [more]'
+      );
     });
   });
 
