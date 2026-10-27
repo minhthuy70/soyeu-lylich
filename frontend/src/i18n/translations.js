@@ -83,7 +83,7 @@ export const translations = {
   },
 };
 
-export function t(key: string, locale = 'en') {
+export function t(key, locale = 'en') {
   const keys = key.split('.');
   let value = translations[locale];
   

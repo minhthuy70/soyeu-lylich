@@ -4,7 +4,6 @@ import {
   createProject,
   updateProject,
   deleteProject,
-  reorderProjects,
 } from "../services/projectService";
 import ProjectForm from "./ProjectForm";
 import ProjectGallery from "./ProjectGallery";

@@ -38,7 +38,7 @@ const FreelanceProjects = ({ onClose }) => {
       });
       const data = await response.json();
       setFreelanceProjects(data.freelanceProjects || []);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch freelance projects');
     } finally {
       setLoading(false);
@@ -54,7 +54,7 @@ const FreelanceProjects = ({ onClose }) => {
       });
       const data = await response.json();
       setTotalEarnings(data.totalEarnings || 0);
-    } catch (err) {
+    } catch {
       console.error('Failed to fetch total earnings');
     }
   };
@@ -99,7 +99,7 @@ const FreelanceProjects = ({ onClose }) => {
         fetchFreelanceProjects();
         fetchTotalEarnings();
       }
-    } catch (err) {
+    } catch {
       setError('Failed to save freelance project');
     }
   };
@@ -136,7 +136,7 @@ const FreelanceProjects = ({ onClose }) => {
         fetchFreelanceProjects();
         fetchTotalEarnings();
       }
-    } catch (err) {
+    } catch {
       setError('Failed to delete freelance project');
     }
   };

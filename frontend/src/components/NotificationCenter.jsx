@@ -88,7 +88,7 @@ export default function NotificationCenter() {
         setUnreadCount((prev) => Math.max(0, prev - 1));
         setMessage('Notification marked as read');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error marking notification as read');
     }
   };
@@ -106,7 +106,7 @@ export default function NotificationCenter() {
         setUnreadCount(0);
         setMessage('All notifications marked as read');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error marking all as read');
     }
   };
@@ -124,7 +124,7 @@ export default function NotificationCenter() {
         fetchUnreadCount();
         setMessage('Notification deleted');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error deleting notification');
     }
   };
@@ -144,7 +144,7 @@ export default function NotificationCenter() {
       } else {
         setMessage('Failed to save preferences');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error saving preferences');
     }
   };

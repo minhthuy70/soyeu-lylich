@@ -20,9 +20,9 @@ if ('serviceWorker' in navigator) {
 
 export default function App() {
   const [authState, setAuthState] = useState("login"); // login, register, forgot-password, reset-password, profile, two-factor, public-resume
-const [tempToken, setTempToken] = useState(null); // login, register, forgot-password, reset-password, profile
+  const [, setTempToken] = useState(null);
   const [resetToken, setResetToken] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [, setIsAuthenticated] = useState(false);
   const [publicSlug, setPublicSlug] = useState(null);
 
   const [form, setForm] = useState({

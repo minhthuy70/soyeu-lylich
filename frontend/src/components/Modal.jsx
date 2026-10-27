@@ -3,11 +3,13 @@ import './Modal.css';
 import { useFocusTrap } from '../hooks/useAccessibility.js';
 
 export default function Modal({ isOpen, onClose, title, children, size = 'medium' }) {
+  const modalRef = useFocusTrap(isOpen);
+
   useEffect(() => {
+    if (!isOpen) return;
+
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
     }
 
     return () => {
@@ -15,26 +17,26 @@ export default function Modal({ isOpen, onClose, title, children, size = 'medium
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (!isOpen) return;
 
-  const modalRef = useFocusTrap(isOpen);
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
-
-  const handleEscape = (e) => {
-    if (e.key === 'Escape') {
-      onClose();
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
-  }, [onClose]);
 
   const getSizeClass = () => {
     switch (size) {

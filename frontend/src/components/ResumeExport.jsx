@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ResumeExport.css';
 
-export function ResumeExport({ resumeId, userId, onImportSuccess }) {
+export function ResumeExport({ resumeId, onImportSuccess }) {
   const [exportFormat, setExportFormat] = useState('pdf');
   const [loading, setLoading] = useState(false);
   const [watermark, setWatermark] = useState('');

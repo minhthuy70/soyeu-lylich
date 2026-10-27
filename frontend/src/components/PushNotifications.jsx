@@ -40,7 +40,7 @@ export default function PushNotifications() {
       } else {
         setMessage('Notification permission denied');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error requesting notification permission');
     }
   };
@@ -61,7 +61,7 @@ export default function PushNotifications() {
       } else {
         setMessage('Failed to save preferences');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error saving preferences');
     }
   };
@@ -89,7 +89,7 @@ export default function PushNotifications() {
       } else {
         setMessage('Failed to send test notification');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error sending test notification');
     }
   };

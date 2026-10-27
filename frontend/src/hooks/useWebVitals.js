@@ -24,7 +24,7 @@ export function useWebVitals() {
       }).catch((err) => console.error('Failed to report web vital:', err));
 
       // Log to console in development
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log(`[Web Vitals] ${name}:`, value, metric);
       }
     };
@@ -44,7 +44,7 @@ export function useWebVitals() {
           });
         });
         lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-      } catch (e) {
+      } catch {
         console.warn('LCP observer not supported');
       }
     }
@@ -65,7 +65,7 @@ export function useWebVitals() {
           });
         });
         fidObserver.observe({ entryTypes: ['first-input'] });
-      } catch (e) {
+      } catch {
         console.warn('FID observer not supported');
       }
     }
@@ -90,7 +90,7 @@ export function useWebVitals() {
           });
         });
         clsObserver.observe({ entryTypes: ['layout-shift'] });
-      } catch (e) {
+      } catch {
         console.warn('CLS observer not supported');
       }
     }
@@ -110,7 +110,7 @@ export function useWebVitals() {
           });
         });
         fcpObserver.observe({ entryTypes: ['paint'] });
-      } catch (e) {
+      } catch {
         console.warn('FCP observer not supported');
       }
     }

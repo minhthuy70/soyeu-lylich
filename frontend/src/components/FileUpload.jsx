@@ -117,7 +117,7 @@ export default function FileUpload({ onUploadSuccess, uploadType = 'image' }) {
       xhr.open('POST', endpoint);
       xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('accessToken')}`);
       xhr.send(formData);
-    } catch (error) {
+    } catch {
       setMessage('Error uploading file');
       setUploading(false);
     }
@@ -144,7 +144,7 @@ export default function FileUpload({ onUploadSuccess, uploadType = 'image' }) {
       } else {
         setMessage('Failed to delete file');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error deleting file');
     }
   };

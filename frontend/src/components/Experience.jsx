@@ -45,7 +45,7 @@ const Experience = ({ onClose }) => {
       });
       const data = await response.json();
       setExperiences(data.experiences || []);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch experiences');
     } finally {
       setLoading(false);
@@ -61,7 +61,7 @@ const Experience = ({ onClose }) => {
       });
       const data = await response.json();
       setCurrentJobs(data.currentJobs || []);
-    } catch (err) {
+    } catch {
       console.error('Failed to fetch current jobs');
     }
   };
@@ -115,7 +115,7 @@ const Experience = ({ onClose }) => {
         fetchExperiences();
         fetchCurrentJobs();
       }
-    } catch (err) {
+    } catch {
       setError('Failed to save experience');
     }
   };
@@ -159,7 +159,7 @@ const Experience = ({ onClose }) => {
         fetchExperiences();
         fetchCurrentJobs();
       }
-    } catch (err) {
+    } catch {
       setError('Failed to delete experience');
     }
   };

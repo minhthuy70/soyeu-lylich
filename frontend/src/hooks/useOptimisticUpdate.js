@@ -45,8 +45,6 @@ export function useOptimisticDelete(items) {
 
   const deleteOptimistically = useCallback(
     async (itemId, apiCall) => {
-      const originalItems = items;
-
       // Remove item optimistically
       const updatedItems = items.filter((item) => item.id !== itemId);
       setDeletedItems([...deletedItems, itemId]);
@@ -72,7 +70,7 @@ export function useOptimisticDelete(items) {
 }
 
 // Hook for optimistic creation
-export function useOptimisticCreate(items) {
+export function useOptimisticCreate() {
   const [tempItems, setTempItems] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState(null);

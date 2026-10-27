@@ -40,7 +40,7 @@ const Education = ({ onClose }) => {
       });
       const data = await response.json();
       setEducations(data.educations || []);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch educations');
     } finally {
       setLoading(false);
@@ -56,7 +56,7 @@ const Education = ({ onClose }) => {
       });
       const data = await response.json();
       setCurrentStudies(data.currentStudies || []);
-    } catch (err) {
+    } catch {
       console.error('Failed to fetch current studies');
     }
   };
@@ -108,7 +108,7 @@ const Education = ({ onClose }) => {
         fetchEducations();
         fetchCurrentStudies();
       }
-    } catch (err) {
+    } catch {
       setError('Failed to save education');
     }
   };
@@ -147,7 +147,7 @@ const Education = ({ onClose }) => {
         fetchEducations();
         fetchCurrentStudies();
       }
-    } catch (err) {
+    } catch {
       setError('Failed to delete education');
     }
   };

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
 import './CustomizationPreview.css';
 
 export default function CustomizationPreview({ theme = 'light', accentColor = '#007bff', fontSize = 'medium', borderRadius = 'medium', spacing = 'medium' }) {
-  const [previewData, setPreviewData] = useState({
+  const previewData = {
     name: 'John Doe',
     title: 'Software Engineer',
     summary: 'Passionate developer with 5+ years of experience in building web applications.',
-  });
+  };
 
   const getFontSizeClass = () => {
     switch (fontSize) {

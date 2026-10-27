@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
 import './RetryButton.css';
 
 export default function RetryButton({ onRetry, isRetrying, retryCount = 0, maxRetries = 3 }) {
-  const [retryDelay, setRetryDelay] = useState(1000);
+  const retryDelay = 1000 * 2 ** retryCount;
 
   const handleRetry = async () => {
     if (isRetrying || retryCount >= maxRetries) {

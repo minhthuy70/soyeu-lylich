@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ResumeSharing.css';
 
-export function ResumeSharing({ resumeId, userId }) {
+export function ResumeSharing({ resumeId }) {
   const [publicUrl, setPublicUrl] = useState(null);
   const [isPublic, setIsPublic] = useState(false);
   const [customSlug, setCustomSlug] = useState('');

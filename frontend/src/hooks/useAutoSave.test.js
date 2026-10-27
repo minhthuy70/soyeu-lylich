@@ -1,30 +1,31 @@
 import { renderHook, act } from '@testing-library/react';
+import { vi } from 'vitest';
 import { useAutoSave } from './useAutoSave';
 
 describe('useAutoSave', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should call onSave after delay', () => {
-    const onSave = jest.fn();
+    const onSave = vi.fn();
     const data = { name: 'Test' };
 
     renderHook(() => useAutoSave(data, onSave, 500));
 
     act(() => {
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
     });
 
     expect(onSave).toHaveBeenCalledWith(data);
   });
 
   it('should debounce multiple changes', () => {
-    const onSave = jest.fn();
+    const onSave = vi.fn();
 
     const { rerender } = renderHook(
       ({ data, delay }) => useAutoSave(data, onSave, delay),
@@ -37,7 +38,7 @@ describe('useAutoSave', () => {
     rerender({ data: { name: 'Test Updated Again' }, delay: 500 });
 
     act(() => {
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
     });
 
     expect(onSave).toHaveBeenCalledTimes(1);
@@ -45,7 +46,7 @@ describe('useAutoSave', () => {
   });
 
   it('should cleanup on unmount', () => {
-    const onSave = jest.fn();
+    const onSave = vi.fn();
     const data = { name: 'Test' };
 
     const { unmount } = renderHook(() => useAutoSave(data, onSave, 500));
@@ -53,7 +54,7 @@ describe('useAutoSave', () => {
     unmount();
 
     act(() => {
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
     });
 
     expect(onSave).not.toHaveBeenCalled();

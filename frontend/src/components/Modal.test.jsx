@@ -1,10 +1,11 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { vi } from 'vitest';
 import Modal from './Modal';
 
 describe('Modal', () => {
   const defaultProps = {
     isOpen: true,
-    onClose: jest.fn(),
+    onClose: vi.fn(),
     title: 'Test Modal',
     children: <p>Modal content</p>,
   };
@@ -40,7 +41,7 @@ describe('Modal', () => {
   });
 
   it('should render with correct size class', () => {
-    const { container } = render(<Modal {...defaultProps} size="large" />);
+    render(<Modal {...defaultProps} size="large" />);
 
     const modal = screen.getByRole('dialog');
     expect(modal).toHaveClass('modal-large');

@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import FormWizard from '../FormWizard';
+import { vi } from 'vitest';
+import FormWizard from './FormWizard';
 
 const mockSteps = [
   {
@@ -10,7 +11,7 @@ const mockSteps = [
         <input
           data-testid="name-input"
           value={data.name || ''}
-          onChange={(e) => onChange({ ...data, name: e.target.value })}
+          onChange={(e) => onChange('name', e.target.value)}
           placeholder="Name"
         />
       </div>
@@ -24,7 +25,7 @@ const mockSteps = [
         <input
           data-testid="email-input"
           value={data.email || ''}
-          onChange={(e) => onChange({ ...data, email: e.target.value })}
+          onChange={(e) => onChange('email', e.target.value)}
           placeholder="Email"
         />
       </div>
@@ -34,14 +35,14 @@ const mockSteps = [
 
 describe('FormWizard', () => {
   it('should render first step initially', () => {
-    render(<FormWizard steps={mockSteps} onComplete={jest.fn()} />);
+    render(<FormWizard steps={mockSteps} onComplete={vi.fn()} />);
 
     expect(screen.getByText('Step 1')).toBeInTheDocument();
     expect(screen.getByTestId('name-input')).toBeInTheDocument();
   });
 
   it('should navigate to next step when Next is clicked', () => {
-    render(<FormWizard steps={mockSteps} onComplete={jest.fn()} />);
+    render(<FormWizard steps={mockSteps} onComplete={vi.fn()} />);
 
     const nextButton = screen.getByText('Next');
     fireEvent.click(nextButton);
@@ -51,7 +52,7 @@ describe('FormWizard', () => {
   });
 
   it('should navigate to previous step when Previous is clicked', () => {
-    render(<FormWizard steps={mockSteps} onComplete={jest.fn()} />);
+    render(<FormWizard steps={mockSteps} onComplete={vi.fn()} />);
 
     // Go to step 2
     fireEvent.click(screen.getByText('Next'));
@@ -63,7 +64,7 @@ describe('FormWizard', () => {
   });
 
   it('should call onComplete when wizard is finished', async () => {
-    const onComplete = jest.fn();
+    const onComplete = vi.fn();
     render(<FormWizard steps={mockSteps} onComplete={onComplete} />);
 
     // Fill step 1
@@ -91,7 +92,7 @@ describe('FormWizard', () => {
   });
 
   it('should show progress indicators', () => {
-    render(<FormWizard steps={mockSteps} onComplete={jest.fn()} />);
+    render(<FormWizard steps={mockSteps} onComplete={vi.fn()} />);
 
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
@@ -106,7 +107,7 @@ describe('FormWizard', () => {
       mockSteps[1],
     ];
 
-    render(<FormWizard steps={stepsWithValidation} onComplete={jest.fn()} />);
+    render(<FormWizard steps={stepsWithValidation} onComplete={vi.fn()} />);
 
     const nextButton = screen.getByText('Next');
     fireEvent.click(nextButton);

@@ -24,6 +24,28 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'react-refresh/only-export-components': [
+        'error',
+        { allowExportNames: ['useLocale'] },
+      ],
+    },
+  },
+  {
+    files: ['**/*.{test,spec}.{js,jsx}'],
+    languageOptions: {
+      globals: globals.vitest,
+    },
+  },
+  {
+    files: ['public/sw.js'],
+    languageOptions: {
+      globals: globals.serviceworker,
+    },
+  },
+  {
+    files: ['vite.config.js'],
+    languageOptions: {
+      globals: globals.node,
     },
   },
 ])

@@ -31,15 +31,6 @@ export default function ProjectAnalytics({ projectId, onClose }) {
     }
   };
 
-  const getPeriodLabel = () => {
-    const labels = {
-      week: 'Tuần',
-      month: 'Tháng',
-      year: 'Năm',
-    };
-    return labels[period] || period;
-  };
-
   return (
     <div className="project-analytics-container">
       <div className="analytics-header">

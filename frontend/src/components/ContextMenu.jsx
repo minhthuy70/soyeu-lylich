@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './ContextMenu.css';
 
 export default function ContextMenu({ items, onClose, position }) {

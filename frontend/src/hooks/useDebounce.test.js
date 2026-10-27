@@ -1,13 +1,14 @@
 import { renderHook, act } from '@testing-library/react';
+import { vi } from 'vitest';
 import { useDebounce, useDebouncedCallback } from './useDebounce';
 
 describe('useDebounce', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should debounce value changes', () => {
@@ -25,7 +26,7 @@ describe('useDebounce', () => {
     expect(result.current).toBe('initial');
 
     act(() => {
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
     });
 
     expect(result.current).toBe('updated');
@@ -40,15 +41,15 @@ describe('useDebounce', () => {
 
 describe('useDebouncedCallback', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should debounce callback execution', () => {
-    const callback = jest.fn();
+    const callback = vi.fn();
     const { result } = renderHook(() => useDebouncedCallback(callback, 500));
 
     act(() => {
@@ -58,14 +59,14 @@ describe('useDebouncedCallback', () => {
     expect(callback).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
     });
 
     expect(callback).toHaveBeenCalledTimes(1);
   });
 
   it('should debounce multiple calls', () => {
-    const callback = jest.fn();
+    const callback = vi.fn();
     const { result } = renderHook(() => useDebouncedCallback(callback, 500));
 
     act(() => {
@@ -75,7 +76,7 @@ describe('useDebouncedCallback', () => {
     });
 
     act(() => {
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
     });
 
     expect(callback).toHaveBeenCalledTimes(1);

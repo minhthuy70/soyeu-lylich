@@ -23,7 +23,7 @@ const UserManagement = ({ onClose }) => {
       });
       const data = await response.json();
       setUsers(data.users || []);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch users');
     } finally {
       setLoading(false);
@@ -62,7 +62,7 @@ const UserManagement = ({ onClose }) => {
         setSelectedUsers([]);
         fetchUsers();
       }
-    } catch (err) {
+    } catch {
       setError(`Failed to ${action} users`);
     }
   };
@@ -83,7 +83,7 @@ const UserManagement = ({ onClose }) => {
       a.download = data.filename;
       a.click();
       window.URL.revokeObjectURL(url);
-    } catch (err) {
+    } catch {
       setError('Failed to export users');
     }
   };
@@ -102,7 +102,7 @@ const UserManagement = ({ onClose }) => {
       if (response.ok) {
         fetchUsers();
       }
-    } catch (err) {
+    } catch {
       setError('Failed to update user status');
     }
   };
@@ -121,7 +121,7 @@ const UserManagement = ({ onClose }) => {
       if (response.ok) {
         fetchUsers();
       }
-    } catch (err) {
+    } catch {
       setError('Failed to update user role');
     }
   };

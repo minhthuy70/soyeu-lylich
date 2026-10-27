@@ -31,7 +31,7 @@ export function PublicResumePage({ slug }) {
       } else {
         setError(data.message || 'Failed to load resume');
       }
-    } catch (err) {
+    } catch {
       setError('Network error. Please try again.');
     } finally {
       setLoading(false);

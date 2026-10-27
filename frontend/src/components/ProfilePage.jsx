@@ -7,16 +7,10 @@ import {
   deleteAccount,
   logoutUser,
 } from "../services/authService";
-import Dashboard from "./Dashboard";
-import ResumeBuilder from "./ResumeBuilder";
-import BasicInformation from "./BasicInformation";
-import ContactInformation from "./ContactInformation";
-import IdentityInformation from "./IdentityInformation";
-import CareerObjective from "./CareerObjective";
+import { Dashboard } from "./Dashboard";
+import { ResumeBuilder } from "./ResumeBuilder";
 import References from "./References";
 import Education from "./Education";
-import Certificates from "./Certificates";
-import OnlineCourses from "./OnlineCourses";
 import Experience from "./Experience";
 import FreelanceProjects from "./FreelanceProjects";
 import TechnicalSkills from "./TechnicalSkills";
@@ -25,21 +19,17 @@ import LanguageSkills from "./LanguageSkills";
 import ToolSkills from "./ToolSkills";
 import Projects from "./ProjectsPage";
 
-import ProjectAnalytics from "./ProjectAnalytics";
-import Achievements from "./AchievementsPage";
-import Activities from "./Activities";
-import Volunteering from "./Volunteering";
-import Publications from "./Publications";
-import Patents from "./Patents";
-import SessionManagement from "./SessionManagement";
+import { AchievementsPage } from "./AchievementsPage";
+import { ActivitiesPage } from "./ActivitiesPage";
+import { VolunteerExperiencePage } from "./VolunteerExperiencePage";
+import { PublicationsPage } from "./PublicationsPage";
+import { PatentsPage } from "./PatentsPage";
 import AnalyticsDashboard from "./AnalyticsDashboard";
-import AdminDashboard from "./AdminDashboard";
 import UserManagement from "./UserManagement";
 import IntegrationsPage from "./IntegrationsPage";
 
 export default function ProfilePage({ onLogout }) {
   const [activeSection, setActiveSection] = useState("dashboard");
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [changePasswordMode, setChangePasswordMode] = useState(false);
@@ -249,30 +239,6 @@ export default function ProfilePage({ onLogout }) {
             📈 Phân tích
           </button>
           <button
-            className={`nav-item ${activeSection === "basic-info" ? "active" : ""}`}
-            onClick={() => setActiveSection("basic-info")}
-          >
-            👤 Thông tin cơ bản
-          </button>
-          <button
-            className={`nav-item ${activeSection === "contact" ? "active" : ""}`}
-            onClick={() => setActiveSection("contact")}
-          >
-            📞 Thông tin liên hệ
-          </button>
-          <button
-            className={`nav-item ${activeSection === "identity" ? "active" : ""}`}
-            onClick={() => setActiveSection("identity")}
-          >
-            🪪 Giấy tờ định danh
-          </button>
-          <button
-            className={`nav-item ${activeSection === "career" ? "active" : ""}`}
-            onClick={() => setActiveSection("career")}
-          >
-            🎯 Mục tiêu nghề nghiệp
-          </button>
-          <button
             className={`nav-item ${activeSection === "references" ? "active" : ""}`}
             onClick={() => setActiveSection("references")}
           >
@@ -283,18 +249,6 @@ export default function ProfilePage({ onLogout }) {
             onClick={() => setActiveSection("education")}
           >
             🎓 Học vấn
-          </button>
-          <button
-            className={`nav-item ${activeSection === "certificates" ? "active" : ""}`}
-            onClick={() => setActiveSection("certificates")}
-          >
-            📜 Chứng chỉ
-          </button>
-          <button
-            className={`nav-item ${activeSection === "online-courses" ? "active" : ""}`}
-            onClick={() => setActiveSection("online-courses")}
-          >
-            💻 Khóa học online
           </button>
           <button
             className={`nav-item ${activeSection === "experience" ? "active" : ""}`}
@@ -375,18 +329,6 @@ export default function ProfilePage({ onLogout }) {
             📄 Tạo sơ yếu lý lịch
           </button>
           <button
-            className={`nav-item ${activeSection === "sessions" ? "active" : ""}`}
-            onClick={() => setActiveSection("sessions")}
-          >
-            🔐 Quản lý phiên
-          </button>
-          <button
-            className={`nav-item ${activeSection === "admin-dashboard" ? "active" : ""}`}
-            onClick={() => setActiveSection("admin-dashboard")}
-          >
-            👑 Dashboard Admin
-          </button>
-          <button
             className={`nav-item ${activeSection === "user-management" ? "active" : ""}`}
             onClick={() => setActiveSection("user-management")}
           >
@@ -414,16 +356,10 @@ export default function ProfilePage({ onLogout }) {
 
         {/* Content Section */}
         <div className="content-section">
-          {activeSection === "dashboard" && <Dashboard onClose={() => setActiveSection("account")} />}
+          {activeSection === "dashboard" && <Dashboard userId={profile?.user?.id} />}
           {activeSection === "analytics" && <AnalyticsDashboard onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "basic-info" && <BasicInformation onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "contact" && <ContactInformation onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "identity" && <IdentityInformation onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "career" && <CareerObjective onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "references" && <References onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "education" && <Education onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "certificates" && <Certificates onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "online-courses" && <OnlineCourses onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "experience" && <Experience onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "freelance" && <FreelanceProjects onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "technical-skills" && <TechnicalSkills onClose={() => setActiveSection("dashboard")} />}
@@ -431,20 +367,17 @@ export default function ProfilePage({ onLogout }) {
           {activeSection === "language-skills" && <LanguageSkills onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "tool-skills" && <ToolSkills onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "projects" && <Projects onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "achievements" && <Achievements onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "activities" && <Activities onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "volunteering" && <Volunteering onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "publications" && <Publications onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "patents" && <Patents onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "resume-builder" && <ResumeBuilder onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "sessions" && <SessionManagement onClose={() => setActiveSection("dashboard")} />}
-          {activeSection === "admin-dashboard" && <AdminDashboard onClose={() => setActiveSection("dashboard")} />}
+          {activeSection === "achievements" && <AchievementsPage userId={profile?.user?.id} />}
+          {activeSection === "activities" && <ActivitiesPage userId={profile?.user?.id} />}
+          {activeSection === "volunteering" && <VolunteerExperiencePage userId={profile?.user?.id} />}
+          {activeSection === "publications" && <PublicationsPage userId={profile?.user?.id} />}
+          {activeSection === "patents" && <PatentsPage userId={profile?.user?.id} />}
+          {activeSection === "resume-builder" && <ResumeBuilder userId={profile?.user?.id} />}
           {activeSection === "user-management" && <UserManagement onClose={() => setActiveSection("dashboard")} />}
           {activeSection === "integrations" && <IntegrationsPage />}
-          {activeSection === "analytics" && <AnalyticsDashboard />}
 
           {/* Temporarily disabled account section */}
-          {false && (
+          {activeSection === "account" && (
             <div className="account-section">
               {error && (
           <div className="error-message" role="alert">
@@ -803,7 +736,8 @@ export default function ProfilePage({ onLogout }) {
           </div>
         )}
         </div>
-        </div>
+        )}
+      </div>
       </div>
     </div>
   );

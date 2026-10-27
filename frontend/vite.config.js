@@ -9,20 +9,16 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-vendor': ['@headlessui/react'],
+          'react-vendor': ['react', 'react-dom'],
         },
       },
     },
     // Bundle size optimization
     chunkSizeWarningLimit: 1000,
     // Tree shaking is enabled by default in Vite
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
+    minify: 'esbuild',
+    esbuild: {
+      drop: ['console', 'debugger'],
     },
   },
   // CDN configuration for production

@@ -73,8 +73,9 @@ export function FilterPanel({ type, onFilterChange, onPresetSave, userId }) {
             type,
             filters,
           },
-        },
+        }),
       });
+      onPresetSave?.({ name: presetName, type, filters });
       await loadPresets();
       setShowPresetModal(false);
       setPresetName('');

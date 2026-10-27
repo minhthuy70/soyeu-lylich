@@ -40,7 +40,6 @@ export default function LazyLoad({ children, threshold = 0.1, rootMargin = '0px'
 
 export function LazyImage({ src, alt, className, loading = 'lazy', ...props }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState(false);
 
   return (
     <img
@@ -49,7 +48,6 @@ export function LazyImage({ src, alt, className, loading = 'lazy', ...props }) {
       className={className}
       loading={loading}
       onLoad={() => setIsLoaded(true)}
-      onError={() => setError(true)}
       style={{
         opacity: isLoaded ? 1 : 0,
         transition: 'opacity 0.3s ease-in',

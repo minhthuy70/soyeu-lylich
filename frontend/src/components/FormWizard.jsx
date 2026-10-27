@@ -4,8 +4,18 @@ import './FormWizard.css';
 export default function FormWizard({ steps, onComplete }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({});
+  const [validationError, setValidationError] = useState('');
 
   const handleNext = () => {
+    const currentStepConfig = steps[currentStep];
+
+    if (currentStepConfig.validate && !currentStepConfig.validate(formData)) {
+      setValidationError('Please complete this step before continuing.');
+      return;
+    }
+
+    setValidationError('');
+
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -24,6 +34,7 @@ export default function FormWizard({ steps, onComplete }) {
       ...formData,
       [fieldName]: value,
     });
+    setValidationError('');
   };
 
   const CurrentStepComponent = steps[currentStep].component;
@@ -47,9 +58,10 @@ export default function FormWizard({ steps, onComplete }) {
 
       <div className="wizard-content">
         <CurrentStepComponent
-          formData={formData}
+          data={formData}
           onChange={handleFieldChange}
         />
+        {validationError && <p role="alert">{validationError}</p>}
       </div>
 
       <div className="wizard-footer">

@@ -31,7 +31,7 @@ const References = ({ onClose }) => {
       });
       const data = await response.json();
       setReferences(data.references || []);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch references');
     } finally {
       setLoading(false);
@@ -65,7 +65,7 @@ const References = ({ onClose }) => {
         setEditingId(null);
         fetchReferences();
       }
-    } catch (err) {
+    } catch {
       setError('Failed to save reference');
     }
   };
@@ -96,7 +96,7 @@ const References = ({ onClose }) => {
       if (response.ok) {
         fetchReferences();
       }
-    } catch (err) {
+    } catch {
       setError('Failed to delete reference');
     }
   };

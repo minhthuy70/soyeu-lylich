@@ -77,7 +77,7 @@ export default function LoginForm({ onSwitchToRegister, onForgotPassword, onLogi
 
       // Notify parent component
       if (onLoginSuccess) {
-        onLoginSuccess();
+        onLoginSuccess(result);
       }
     } catch (err) {
       setError(err.message || "Đăng nhập thất bại.");

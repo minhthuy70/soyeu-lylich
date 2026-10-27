@@ -4,7 +4,6 @@ export function useKeyboardShortcuts(shortcuts) {
   const handleKeyDown = useCallback(
     (e) => {
       const pressedKey = e.key.toLowerCase();
-      const hasModifier = e.ctrlKey || e.metaKey || e.shiftKey || e.altKey;
 
       for (const shortcut of shortcuts) {
         const shortcutKey = shortcut.key.toLowerCase();
