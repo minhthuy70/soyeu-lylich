@@ -7,7 +7,6 @@ import {
   deleteAccount,
   logoutUser,
 } from "../services/authService";
-import { useTheme } from "../contexts/ThemeContext";
 import Dashboard from "./Dashboard";
 import ResumeBuilder from "./ResumeBuilder";
 import BasicInformation from "./BasicInformation";
@@ -34,17 +33,12 @@ import Publications from "./Publications";
 import Patents from "./Patents";
 import SessionManagement from "./SessionManagement";
 import AnalyticsDashboard from "./AnalyticsDashboard";
-import GlobalSearch from "./GlobalSearch";
 import AdminDashboard from "./AdminDashboard";
 import UserManagement from "./UserManagement";
-import UISettings from "./UISettings";
 import IntegrationsPage from "./IntegrationsPage";
 
 export default function ProfilePage({ onLogout }) {
-  const { isDarkMode, toggleDarkMode } = useTheme();
   const [activeSection, setActiveSection] = useState("dashboard");
-  const [showGlobalSearch, setShowGlobalSearch] = useState(false);
-  const [showUISettings, setShowUISettings] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
@@ -231,13 +225,7 @@ export default function ProfilePage({ onLogout }) {
         <div className="profile-header">
           <h1>Hệ thống Sơ yếu lý lịch</h1>
           <div className="header-actions">
-            <button onClick={toggleDarkMode} className="theme-toggle-btn">
-              {isDarkMode ? "☀️" : "🌙"}
-            </button>
-            <button onClick={() => setShowUISettings(true)} className="settings-btn">
-              ⚙️
-            </button>
-            <button onClick={() => setShowGlobalSearch(true)} className="search-btn">
+            <button className="search-btn">
               🔍 Tìm kiếm
             </button>
             <button onClick={handleLogout} className="logout-btn">
@@ -455,7 +443,8 @@ export default function ProfilePage({ onLogout }) {
           {activeSection === "integrations" && <IntegrationsPage />}
           {activeSection === "analytics" && <AnalyticsDashboard />}
 
-          {activeSection === "account" && (
+          {/* Temporarily disabled account section */}
+          {false && (
             <div className="account-section">
               {error && (
           <div className="error-message" role="alert">
@@ -813,229 +802,9 @@ export default function ProfilePage({ onLogout }) {
             </div>
           </div>
         )}
+        </div>
+        </div>
       </div>
     </div>
-
-    <style jsx>{`
-      .profile-page {
-        min-height: 100vh;
-        background: #f8fafc;
-        padding: 20px;
-      }
-
-      .profile-container {
-        max-width: 1400px;
-        margin: 0 auto;
-      }
-
-      .profile-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 24px;
-        padding: 20px;
-        background: white;
-        border-radius: 12px;
-        border: 1px solid #e2e8f0;
-      }
-
-      .profile-header h1 {
-        font-size: 24px;
-        font-weight: 700;
-        color: #0f172a;
-        margin: 0;
-      }
-
-      .header-actions {
-        display: flex;
-        gap: 12px;
-      }
-
-      .search-btn {
-        padding: 10px 20px;
-        background: #667eea;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .search-btn:hover {
-        background: #5a67d8;
-      }
-
-      .theme-toggle-btn {
-        padding: 10px 16px;
-        background: #f1f5f9;
-        color: #0f172a;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        font-size: 18px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .theme-toggle-btn:hover {
-        background: #e2e8f0;
-      }
-
-      .settings-btn {
-        padding: 10px 16px;
-        background: #f1f5f9;
-        color: #0f172a;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        font-size: 18px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .settings-btn:hover {
-        background: #e2e8f0;
-      }
-
-      .logout-btn {
-        padding: 10px 20px;
-        background: #ef4444;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .logout-btn:hover {
-        background: #dc2626;
-      }
-
-      .navigation-menu {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 12px;
-        margin-bottom: 24px;
-        padding: 20px;
-        background: white;
-        border-radius: 12px;
-        border: 1px solid #e2e8f0;
-      }
-
-      .nav-item {
-        padding: 12px 16px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        color: #64748b;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        text-align: left;
-      }
-
-      .nav-item:hover {
-        background: #e2e8f0;
-        transform: translateY(-2px);
-      }
-
-      .nav-item.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-color: #667eea;
-      }
-
-      .content-section {
-        min-height: 400px;
-      }
-
-      .account-section {
-        background: white;
-        border-radius: 12px;
-        padding: 24px;
-        border: 1px solid #e2e8f0;
-      }
-
-      /* Dark mode styles */
-      :global(.dark-mode) .profile-page {
-        background: #0f172a;
-      }
-
-      :global(.dark-mode) .profile-header,
-      :global(.dark-mode) .account-section,
-      :global(.dark-mode) .profile-section {
-        background: #1e293b;
-        border-color: #334155;
-      }
-
-      :global(.dark-mode) .profile-header h1,
-      :global(.dark-mode) .profile-section h2 {
-        color: #f1f5f9;
-      }
-
-      :global(.dark-mode) .nav-item {
-        background: #1e293b;
-        border-color: #334155;
-        color: #f1f5f9;
-      }
-
-      :global(.dark-mode) .nav-item:hover {
-        background: #334155;
-      }
-
-      :global(.dark-mode) .theme-toggle-btn,
-      :global(.dark-mode) .settings-btn {
-        background: #334155;
-        border-color: #475569;
-        color: #f1f5f9;
-      }
-
-      :global(.dark-mode) .theme-toggle-btn:hover,
-      :global(.dark-mode) .settings-btn:hover {
-        background: #475569;
-      }
-
-      @media (max-width: 768px) {
-        .navigation-menu {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        .profile-header {
-          flex-direction: column;
-          gap: 12px;
-          text-align: center;
-        }
-      }
-
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-      }
-    `}</style>
-
-      {/* Global Search Modal */}
-      {showGlobalSearch && (
-        <div className="modal-overlay">
-          <GlobalSearch onClose={() => setShowGlobalSearch(false)} />
-        </div>
-      )}
-
-      {/* UI Settings Modal */}
-      {showUISettings && (
-        <div className="modal-overlay">
-          <UISettings onClose={() => setShowUISettings(false)} />
-        </div>
-      )}
   );
 }
