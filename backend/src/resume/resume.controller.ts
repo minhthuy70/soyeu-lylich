@@ -8,9 +8,17 @@ import {
   Param,
   UseGuards,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ResumeService } from './resume.service';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
+
+type ResumeData = {
+  title?: string;
+  template?: string;
+  isDefault?: boolean;
+};
 
 @Controller('resumes')
 @UseGuards(JwtAuthGuard)
@@ -18,82 +26,74 @@ export class ResumeController {
   constructor(private readonly resumeService: ResumeService) {}
 
   @Post()
-  async create(@Request() req, @Body() data: any) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.createResume(userId, data);
+  create(@Request() req: AuthenticatedRequest, @Body() data: ResumeData & { title: string }) {
+    return this.resumeService.createResume(req.user.id, data);
   }
 
   @Get()
-  async findAll(@Request() req) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.getResumes(userId);
+  findAll(@Request() req: AuthenticatedRequest) {
+    return this.resumeService.getResumes(req.user.id);
   }
 
   @Get(':id')
-  async findOne(@Request() req, @Param('id') id: string) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.getResumeById(parseInt(id), userId);
+  findOne(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.resumeService.getResumeById(id, req.user.id);
   }
 
   @Put(':id')
-  async update(@Request() req, @Param('id') id: string, @Body() data: any) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.updateResume(parseInt(id), userId, data);
+  update(
+    @Request() req: AuthenticatedRequest,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: ResumeData
+  ) {
+    return this.resumeService.updateResume(id, req.user.id, data);
   }
 
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.deleteResume(parseInt(id), userId);
+  remove(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.resumeService.deleteResume(id, req.user.id);
   }
 
   @Post(':id/duplicate')
-  async duplicate(@Request() req, @Param('id') id: string) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.duplicateResume(parseInt(id), userId);
+  duplicate(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.resumeService.duplicateResume(id, req.user.id);
   }
 
   @Post(':id/set-default')
-  async setDefault(@Request() req, @Param('id') id: string) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.setDefaultResume(parseInt(id), userId);
+  setDefault(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.resumeService.setDefaultResume(id, req.user.id);
   }
 
   @Get(':id/compare/:otherId')
-  async compare(@Request() req, @Param('id') id: string, @Param('otherId') otherId: string) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.compareResumes(parseInt(id), parseInt(otherId), userId);
+  compare(
+    @Request() req: AuthenticatedRequest,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('otherId', ParseIntPipe) otherId: number
+  ) {
+    return this.resumeService.compareResumes(id, otherId, req.user.id);
   }
 
   @Get(':id/history')
-  async getHistory(@Request() req, @Param('id') id: string) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.getResumeVersionHistory(parseInt(id), userId);
+  getHistory(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.resumeService.getResumeVersionHistory(id, req.user.id);
   }
 
   @Put(':id/sections/order')
-  async updateSectionOrder(
-    @Request() req,
-    @Param('id') id: string,
-    @Body() body: { sectionOrders: any[] }
+  updateSectionOrder(
+    @Request() req: AuthenticatedRequest,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: { sectionOrders: { sectionId: number; order: number }[] }
   ) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.updateSectionOrder(parseInt(id), userId, body.sectionOrders);
+    return this.resumeService.updateSectionOrder(id, req.user.id, body.sectionOrders);
   }
 
   @Put(':id/sections/:sectionId/toggle')
-  async toggleSection(
-    @Request() req,
-    @Param('id') id: string,
-    @Param('sectionId') sectionId: string,
+  toggleSection(
+    @Request() req: AuthenticatedRequest,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('sectionId', ParseIntPipe) sectionId: number,
     @Body() body: { enabled: boolean }
   ) {
-    const userId = req.user?.id || 1;
-    return this.resumeService.toggleSection(
-      parseInt(id),
-      userId,
-      parseInt(sectionId),
-      body.enabled
-    );
+    return this.resumeService.toggleSection(id, req.user.id, sectionId, body.enabled);
   }
 }

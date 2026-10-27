@@ -5,6 +5,7 @@ import {
   Delete,
   Body,
   Param,
+  ParseIntPipe,
   Query,
   UseGuards,
   Request,
@@ -13,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { ResumeExportService } from './resume-export.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 
 @Controller('resume-export')
 @UseGuards(JwtAuthGuard)
@@ -21,129 +23,112 @@ export class ResumeExportController {
 
   @Post(':id/docx')
   @HttpCode(HttpStatus.OK)
-  async exportToDocx(@Param('id') id: string, @Request() req) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.exportToDocx(parseInt(id), userId);
+  exportToDocx(@Param('id', ParseIntPipe) id: number, @Request() req: AuthenticatedRequest) {
+    return this.resumeExportService.exportToDocx(id, req.user.id);
   }
 
   @Post(':id/pdf')
   @HttpCode(HttpStatus.OK)
-  async exportToPdf(
-    @Param('id') id: string,
+  exportToPdf(
+    @Param('id', ParseIntPipe) id: number,
     @Body() body: { watermark?: string; pageSize?: 'A4' | 'Letter' },
-    @Request() req
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.exportToPdf(parseInt(id), userId, body);
+    return this.resumeExportService.exportToPdf(id, req.user.id, body);
   }
 
   @Post(':id/txt')
   @HttpCode(HttpStatus.OK)
-  async exportToTxt(@Param('id') id: string, @Request() req) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.exportToTxt(parseInt(id), userId);
+  exportToTxt(@Param('id', ParseIntPipe) id: number, @Request() req: AuthenticatedRequest) {
+    return this.resumeExportService.exportToTxt(id, req.user.id);
   }
 
   @Post(':id/json')
   @HttpCode(HttpStatus.OK)
-  async exportToJson(@Param('id') id: string, @Request() req) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.exportToJson(parseInt(id), userId);
+  exportToJson(@Param('id', ParseIntPipe) id: number, @Request() req: AuthenticatedRequest) {
+    return this.resumeExportService.exportToJson(id, req.user.id);
   }
 
   @Post(':id/html')
   @HttpCode(HttpStatus.OK)
-  async exportToHtml(@Param('id') id: string, @Request() req) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.exportToHtml(parseInt(id), userId);
+  exportToHtml(@Param('id', ParseIntPipe) id: number, @Request() req: AuthenticatedRequest) {
+    return this.resumeExportService.exportToHtml(id, req.user.id);
   }
 
   @Post('batch')
   @HttpCode(HttpStatus.OK)
-  async exportMultiple(
+  exportMultiple(
     @Body() body: { resumeIds: number[]; format: 'pdf' | 'docx' | 'txt' | 'json' | 'html' },
-    @Request() req
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.exportMultipleResumes(body.resumeIds, userId, body.format);
+    return this.resumeExportService.exportMultipleResumes(body.resumeIds, req.user.id, body.format);
   }
 
   @Post(':id/public')
   @HttpCode(HttpStatus.OK)
-  async generatePublicUrl(
-    @Param('id') id: string,
+  generatePublicUrl(
+    @Param('id', ParseIntPipe) id: number,
     @Body() body: { customSlug?: string; password?: string; expiryDate?: string },
-    @Request() req
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
     const options = {
       customSlug: body.customSlug,
       password: body.password,
       expiryDate: body.expiryDate ? new Date(body.expiryDate) : undefined,
     };
-    return this.resumeExportService.generatePublicUrl(parseInt(id), userId, options);
+    return this.resumeExportService.generatePublicUrl(id, req.user.id, options);
   }
 
   @Delete(':id/public')
   @HttpCode(HttpStatus.OK)
-  async disablePublicAccess(@Param('id') id: string, @Request() req) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.disablePublicAccess(parseInt(id), userId);
+  disablePublicAccess(@Param('id', ParseIntPipe) id: number, @Request() req: AuthenticatedRequest) {
+    return this.resumeExportService.disablePublicAccess(id, req.user.id);
   }
 
   @Get('public/:slug')
   @HttpCode(HttpStatus.OK)
-  async getPublicResume(@Param('slug') slug: string, @Query('password') password?: string) {
+  getPublicResume(@Param('slug') slug: string, @Query('password') password?: string) {
     return this.resumeExportService.getPublicResume(slug, password);
   }
 
   @Post(':id/track-view')
   @HttpCode(HttpStatus.OK)
-  async trackView(
-    @Param('id') id: string,
+  trackView(
+    @Param('id', ParseIntPipe) id: number,
     @Body() body: { ipAddress?: string; userAgent?: string; referrer?: string }
   ) {
-    return this.resumeExportService.trackPublicView(parseInt(id), body);
+    return this.resumeExportService.trackPublicView(id, body);
   }
 
   @Get(':id/qrcode')
   @HttpCode(HttpStatus.OK)
-  async generateQrCode(@Param('id') id: string, @Request() req) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.generateQrCode(parseInt(id), userId);
+  generateQrCode(@Param('id', ParseIntPipe) id: number, @Request() req: AuthenticatedRequest) {
+    return this.resumeExportService.generateQrCode(id, req.user.id);
   }
 
   @Post(':id/share-email')
   @HttpCode(HttpStatus.OK)
-  async shareViaEmail(
-    @Param('id') id: string,
+  shareViaEmail(
+    @Param('id', ParseIntPipe) id: number,
     @Body() body: { recipients: string[]; message?: string },
-    @Request() req
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.shareViaEmail(
-      parseInt(id),
-      userId,
-      body.recipients,
-      body.message
-    );
+    return this.resumeExportService.shareViaEmail(id, req.user.id, body.recipients, body.message);
   }
 
   @Get(':id/analytics')
   @HttpCode(HttpStatus.OK)
-  async getAnalytics(
-    @Param('id') id: string,
+  getAnalytics(
+    @Param('id', ParseIntPipe) id: number,
     @Query('period') period: 'week' | 'month' | 'year' = 'month',
-    @Request() req
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.getSharingAnalytics(parseInt(id), userId, period);
+    return this.resumeExportService.getSharingAnalytics(id, req.user.id, period);
   }
 
   @Post('import')
   @HttpCode(HttpStatus.OK)
-  async importFromJson(@Body() body: { jsonData: any }, @Request() req) {
-    const userId = req.user?.id || 1;
-    return this.resumeExportService.importFromJson(userId, body.jsonData);
+  importFromJson(@Body() body: { jsonData: unknown }, @Request() req: AuthenticatedRequest) {
+    return this.resumeExportService.importFromJson(req.user.id, body.jsonData);
   }
 }
