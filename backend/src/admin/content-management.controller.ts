@@ -1,6 +1,13 @@
 import { Controller, Get, Put, Post, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { AdminGuard } from '../guards/admin.guard';
 import { ContentManagementService } from './content-management.service';
+import type {
+  AnnouncementBannerInput,
+  FAQInput,
+  PublicContent,
+  SystemSettings,
+} from './content-management.service';
+import type { UpdateResumeTemplateInput } from '../resume-template/resume-template.service';
 
 @Controller('admin/content')
 @UseGuards(AdminGuard)
@@ -9,97 +16,100 @@ export class ContentManagementController {
 
   // Resume Templates
   @Get('resume-templates')
-  async getAllResumeTemplates() {
+  getAllResumeTemplates() {
     return this.contentManagementService.getAllResumeTemplates();
   }
 
   @Put('resume-templates/:id')
-  async updateResumeTemplate(@Param('id') id: string, @Body() updateData: any) {
+  updateResumeTemplate(@Param('id') id: string, @Body() updateData: UpdateResumeTemplateInput) {
     return this.contentManagementService.updateResumeTemplate(parseInt(id), updateData);
   }
 
   @Delete('resume-templates/:id')
-  async deleteResumeTemplate(@Param('id') id: string) {
+  deleteResumeTemplate(@Param('id') id: string) {
     return this.contentManagementService.deleteResumeTemplate(parseInt(id));
   }
 
   // Skill Categories
   @Get('skill-categories')
-  async getSkillCategories() {
+  getSkillCategories() {
     return this.contentManagementService.getSkillCategories();
   }
 
   @Post('skill-categories')
-  async createSkillCategory(@Body() body: { category: string }) {
+  createSkillCategory(@Body() body: { category: string }) {
     return this.contentManagementService.createSkillCategory(body.category);
   }
 
   @Delete('skill-categories/:category')
-  async deleteSkillCategory(@Param('category') category: string) {
+  deleteSkillCategory(@Param('category') category: string) {
     return this.contentManagementService.deleteSkillCategory(category);
   }
 
   // System Settings
   @Get('settings')
-  async getSystemSettings() {
+  getSystemSettings() {
     return this.contentManagementService.getSystemSettings();
   }
 
   @Put('settings')
-  async updateSystemSettings(@Body() settings: any) {
+  updateSystemSettings(@Body() settings: Partial<SystemSettings>) {
     return this.contentManagementService.updateSystemSettings(settings);
   }
 
   // Public Content
   @Get('public')
-  async getPublicContent() {
+  getPublicContent() {
     return this.contentManagementService.getPublicContent();
   }
 
   @Put('public')
-  async updatePublicContent(@Body() content: any) {
+  updatePublicContent(@Body() content: Partial<PublicContent>) {
     return this.contentManagementService.updatePublicContent(content);
   }
 
   // Announcement Banners
   @Get('banners')
-  async getAnnouncementBanners() {
+  getAnnouncementBanners() {
     return this.contentManagementService.getAnnouncementBanners();
   }
 
   @Post('banners')
-  async createAnnouncementBanner(@Body() banner: any) {
+  createAnnouncementBanner(@Body() banner: AnnouncementBannerInput) {
     return this.contentManagementService.createAnnouncementBanner(banner);
   }
 
   @Put('banners/:id')
-  async updateAnnouncementBanner(@Param('id') id: string, @Body() banner: any) {
+  updateAnnouncementBanner(
+    @Param('id') id: string,
+    @Body() banner: Partial<AnnouncementBannerInput>
+  ) {
     return this.contentManagementService.updateAnnouncementBanner(parseInt(id), banner);
   }
 
   @Delete('banners/:id')
-  async deleteAnnouncementBanner(@Param('id') id: string) {
-    return this.contentManagementService.deleteAnnouncementBanner(parseInt(id));
+  deleteAnnouncementBanner() {
+    return this.contentManagementService.deleteAnnouncementBanner();
   }
 
   // FAQ
   @Get('faqs')
-  async getFAQs() {
+  getFAQs() {
     return this.contentManagementService.getFAQs();
   }
 
   @Post('faqs')
-  async createFAQ(@Body() faq: any) {
+  createFAQ(@Body() faq: FAQInput) {
     return this.contentManagementService.createFAQ(faq);
   }
 
   @Put('faqs/:id')
-  async updateFAQ(@Param('id') id: string, @Body() faq: any) {
+  updateFAQ(@Param('id') id: string, @Body() faq: Partial<FAQInput>) {
     return this.contentManagementService.updateFAQ(parseInt(id), faq);
   }
 
   @Delete('faqs/:id')
-  async deleteFAQ(@Param('id') id: string) {
-    return this.contentManagementService.deleteFAQ(parseInt(id));
+  deleteFAQ() {
+    return this.contentManagementService.deleteFAQ();
   }
 }

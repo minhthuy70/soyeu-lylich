@@ -1,23 +1,60 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+
+export interface SystemSettings {
+  maintenanceMode: boolean;
+  maxUsers: number;
+  allowRegistration: boolean;
+  defaultLanguage: string;
+  timezone: string;
+}
+
+export interface PublicContent {
+  privacyPolicy: string;
+  termsOfService: string;
+  aboutUs: string;
+}
+
+export interface AnnouncementBannerInput {
+  title: string;
+  message: string;
+  isActive: boolean;
+  startDate?: Date;
+  endDate?: Date;
+}
+
+export interface FAQInput {
+  question: string;
+  answer: string;
+}
 
 @Injectable()
 export class ContentManagementService {
   constructor(private readonly prisma: PrismaService) {}
 
   // Resume Templates
-  async getAllResumeTemplates() {
-    // Return placeholder data since resumeTemplate model doesn't exist
-    return [];
+  getAllResumeTemplates() {
+    return this.prisma.resumeTemplate.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
-  async updateResumeTemplate(id: number, updateData: any) {
-    // Return placeholder data since resumeTemplate model doesn't exist
-    return { id, ...updateData, updatedAt: new Date() };
+  updateResumeTemplate(
+    id: number,
+    updateData: Omit<Prisma.ResumeTemplateUncheckedUpdateInput, 'id' | 'userId'>
+  ) {
+    return this.prisma.resumeTemplate.update({
+      where: { id },
+      data: updateData,
+    });
   }
 
   async deleteResumeTemplate(id: number) {
-    // Return placeholder data since resumeTemplate model doesn't exist
+    const { count } = await this.prisma.resumeTemplate.deleteMany({ where: { id } });
+    if (count === 0) {
+      throw new NotFoundException('Resume template not found');
+    }
     return { message: 'Template deleted' };
   }
 
@@ -30,7 +67,7 @@ export class ContentManagementService {
     return skills.map((s) => s.category).filter(Boolean);
   }
 
-  async createSkillCategory(category: string) {
+  createSkillCategory(category: string) {
     // Verify category exists or mark it as available
     return { category, message: 'Category created' };
   }
@@ -45,7 +82,7 @@ export class ContentManagementService {
   }
 
   // System Settings
-  async getSystemSettings() {
+  getSystemSettings(): SystemSettings {
     return {
       maintenanceMode: false,
       maxUsers: 1000,
@@ -55,13 +92,13 @@ export class ContentManagementService {
     };
   }
 
-  async updateSystemSettings(settings: any) {
+  updateSystemSettings(settings: Partial<SystemSettings>) {
     // Store settings in a dedicated settings table or use environment variables
     return { ...settings, updatedAt: new Date() };
   }
 
   // Public Content
-  async getPublicContent() {
+  getPublicContent(): PublicContent {
     return {
       privacyPolicy: 'Privacy policy content...',
       termsOfService: 'Terms of service content...',
@@ -69,12 +106,12 @@ export class ContentManagementService {
     };
   }
 
-  async updatePublicContent(content: any) {
+  updatePublicContent(content: Partial<PublicContent>) {
     return { ...content, updatedAt: new Date() };
   }
 
   // Announcement Banners
-  async getAnnouncementBanners() {
+  getAnnouncementBanners(): Array<AnnouncementBannerInput & { id: number }> {
     return [
       {
         id: 1,
@@ -87,7 +124,7 @@ export class ContentManagementService {
     ];
   }
 
-  async createAnnouncementBanner(banner: any) {
+  createAnnouncementBanner(banner: AnnouncementBannerInput) {
     return {
       id: Date.now(),
       ...banner,
@@ -95,7 +132,7 @@ export class ContentManagementService {
     };
   }
 
-  async updateAnnouncementBanner(id: number, banner: any) {
+  updateAnnouncementBanner(id: number, banner: Partial<AnnouncementBannerInput>) {
     return {
       id,
       ...banner,
@@ -103,16 +140,16 @@ export class ContentManagementService {
     };
   }
 
-  async deleteAnnouncementBanner(id: number) {
+  deleteAnnouncementBanner() {
     return { message: 'Banner deleted' };
   }
 
   // FAQ
-  async getFAQs() {
+  getFAQs(): FAQInput[] {
     return [];
   }
 
-  async createFAQ(faq: any) {
+  createFAQ(faq: FAQInput) {
     return {
       id: Date.now(),
       ...faq,
@@ -120,7 +157,7 @@ export class ContentManagementService {
     };
   }
 
-  async updateFAQ(id: number, faq: any) {
+  updateFAQ(id: number, faq: Partial<FAQInput>) {
     return {
       id,
       ...faq,
@@ -128,7 +165,7 @@ export class ContentManagementService {
     };
   }
 
-  async deleteFAQ(id: number) {
+  deleteFAQ() {
     return { message: 'FAQ deleted' };
   }
 }
