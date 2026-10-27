@@ -8,9 +8,12 @@ import {
   Param,
   UseGuards,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
-import { SkillService } from './skill.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
+import { SkillService } from './skill.service';
+import type { CreateSkillInput, UpdateSkillInput } from './skill.service';
 
 @Controller('skills')
 @UseGuards(JwtAuthGuard)
@@ -18,38 +21,36 @@ export class SkillController {
   constructor(private readonly skillService: SkillService) {}
 
   @Post()
-  async create(@Request() req, @Body() createDto: any) {
-    const userId = req.user?.id || 1;
-    return this.skillService.create(userId, createDto);
+  create(@Request() req: AuthenticatedRequest, @Body() createDto: CreateSkillInput) {
+    return this.skillService.create(req.user.id, createDto);
   }
 
   @Get()
-  async findAll(@Request() req) {
-    const userId = req.user?.id || 1;
-    return this.skillService.findAll(userId);
+  findAll(@Request() req: AuthenticatedRequest) {
+    return this.skillService.findAll(req.user.id);
   }
 
   @Get(':id')
-  async findOne(@Request() req, @Param('id') id: string) {
-    const userId = req.user?.id || 1;
-    return this.skillService.findOne(userId, parseInt(id));
+  findOne(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.skillService.findOne(req.user.id, id);
   }
 
   @Put(':id')
-  async update(@Request() req, @Param('id') id: string, @Body() updateDto: any) {
-    const userId = req.user?.id || 1;
-    return this.skillService.update(userId, parseInt(id), updateDto);
+  update(
+    @Request() req: AuthenticatedRequest,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateDto: UpdateSkillInput
+  ) {
+    return this.skillService.update(req.user.id, id, updateDto);
   }
 
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
-    const userId = req.user?.id || 1;
-    return this.skillService.remove(userId, parseInt(id));
+  remove(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.skillService.remove(req.user.id, id);
   }
 
   @Post(':id/endorse')
-  async endorse(@Request() req, @Param('id') id: string) {
-    const userId = req.user?.id || 1;
-    return this.skillService.incrementEndorsement(userId, parseInt(id));
+  endorse(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.skillService.incrementEndorsement(req.user.id, id);
   }
 }

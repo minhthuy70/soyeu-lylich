@@ -40,7 +40,7 @@ export class PrivacyService {
     };
   }
 
-  async updatePrivacySettings(userId: number, settings: any) {
+  updatePrivacySettings(userId: number, settings: Record<string, unknown>) {
     // In production, store these in a privacy_settings table
     return {
       message: 'Đã cập nhật cài đặt quyền riêng tư',
@@ -120,7 +120,7 @@ export class PrivacyService {
     };
   }
 
-  async getDataRetentionInfo() {
+  getDataRetentionInfo() {
     return {
       dataRetentionPolicy: {
         userAccounts: '365 days after deletion',
@@ -138,7 +138,7 @@ export class PrivacyService {
     };
   }
 
-  async acceptCookieConsent(userId: number, consent: any) {
+  acceptCookieConsent(userId: number, consent: Record<string, unknown>) {
     // Store cookie consent preferences
     return {
       message: 'Đã lưu đồng ý sử dụng cookie',
@@ -150,7 +150,7 @@ export class PrivacyService {
     };
   }
 
-  async getCookieConsent(userId: number) {
+  getCookieConsent() {
     return {
       cookieConsent: {
         necessary: true,

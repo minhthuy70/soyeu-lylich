@@ -66,12 +66,17 @@ describe('SkillService', () => {
       });
 
       expect(prisma.skill.create).toHaveBeenCalledWith({
-        data: expect.objectContaining({
+        data: {
           userId: 1,
           name: 'TypeScript',
+          category: undefined,
+          level: undefined,
+          yearsOfExperience: undefined,
+          description: undefined,
           progress: 0,
           tags: [],
-        }),
+          portfolioLink: undefined,
+        },
       });
       expect(result).toEqual(mockSkill);
     });
@@ -119,8 +124,18 @@ describe('SkillService', () => {
       const result = await service.update(1, 1, { progress: 95 });
 
       expect(prisma.skill.update).toHaveBeenCalledWith({
-        where: { id: 1 },
-        data: expect.objectContaining({ progress: 95 }),
+        where: { id: 1, userId: 1 },
+        data: {
+          name: undefined,
+          category: undefined,
+          level: undefined,
+          yearsOfExperience: undefined,
+          description: undefined,
+          progress: 95,
+          tags: undefined,
+          portfolioLink: undefined,
+          endorsementCount: undefined,
+        },
       });
       expect(result.progress).toBe(95);
     });
@@ -139,7 +154,7 @@ describe('SkillService', () => {
 
       const result = await service.remove(1, 1);
 
-      expect(prisma.skill.delete).toHaveBeenCalledWith({ where: { id: 1 } });
+      expect(prisma.skill.delete).toHaveBeenCalledWith({ where: { id: 1, userId: 1 } });
       expect(result).toEqual({ message: 'Skill deleted successfully' });
     });
 
@@ -159,7 +174,7 @@ describe('SkillService', () => {
       const result = await service.incrementEndorsement(1, 1);
 
       expect(prisma.skill.update).toHaveBeenCalledWith({
-        where: { id: 1 },
+        where: { id: 1, userId: 1 },
         data: { endorsementCount: 13 },
       });
       expect(result.endorsementCount).toBe(13);
@@ -173,7 +188,7 @@ describe('SkillService', () => {
       await service.incrementEndorsement(1, 1);
 
       expect(prisma.skill.update).toHaveBeenCalledWith({
-        where: { id: 1 },
+        where: { id: 1, userId: 1 },
         data: { endorsementCount: 1 },
       });
     });

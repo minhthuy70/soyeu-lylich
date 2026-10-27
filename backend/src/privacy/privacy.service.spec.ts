@@ -40,6 +40,10 @@ describe('PrivacyService', () => {
     service = module.get<PrivacyService>(PrivacyService);
   });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
@@ -71,9 +75,9 @@ describe('PrivacyService', () => {
   });
 
   describe('updatePrivacySettings', () => {
-    it('should return updated settings message and payload', async () => {
+    it('should return updated settings message and payload', () => {
       const customSettings = { marketingEmails: true };
-      const result = await service.updatePrivacySettings(1, customSettings);
+      const result = service.updatePrivacySettings(1, customSettings);
 
       expect(result.message).toContain('quyền riêng tư');
       expect(result.settings.marketingEmails).toBe(true);
@@ -112,23 +116,26 @@ describe('PrivacyService', () => {
   describe('requestGDPRDataDeletion', () => {
     it('should update user to inactive and mark deletedAt', async () => {
       prisma.user.update.mockResolvedValue({ id: 1 });
+      const deletedAt = new Date('2024-01-01');
+      jest.useFakeTimers().setSystemTime(deletedAt);
 
       const result = await service.requestGDPRDataDeletion(1);
 
       expect(prisma.user.update).toHaveBeenCalledWith({
         where: { id: 1 },
-        data: expect.objectContaining({
+        data: {
+          deletedAt,
           email: 'deleted_1@deleted.local',
           isActive: false,
-        }),
+        },
       });
       expect(result.message).toContain('GDPR');
     });
   });
 
   describe('getDataRetentionInfo', () => {
-    it('should return system data retention policies', async () => {
-      const result = await service.getDataRetentionInfo();
+    it('should return system data retention policies', () => {
+      const result = service.getDataRetentionInfo();
 
       expect(result.gdprCompliant).toBe(true);
       expect(result.rightToAccess).toBe(true);
@@ -137,9 +144,9 @@ describe('PrivacyService', () => {
   });
 
   describe('acceptCookieConsent', () => {
-    it('should return accepted cookie preferences', async () => {
+    it('should return accepted cookie preferences', () => {
       const consent = { analytics: true, marketing: false };
-      const result = await service.acceptCookieConsent(1, consent);
+      const result = service.acceptCookieConsent(1, consent);
 
       expect(result.consent.userId).toBe(1);
       expect(result.consent.analytics).toBe(true);
@@ -148,8 +155,8 @@ describe('PrivacyService', () => {
   });
 
   describe('getCookieConsent', () => {
-    it('should return default cookie consent structure', async () => {
-      const result = await service.getCookieConsent(1);
+    it('should return default cookie consent structure', () => {
+      const result = service.getCookieConsent();
 
       expect(result.cookieConsent.necessary).toBe(true);
       expect(result.cookieConsent.analytics).toBe(false);

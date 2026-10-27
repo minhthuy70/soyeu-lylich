@@ -1,23 +1,26 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+
+export interface CreateSkillInput {
+  name: string;
+  category?: string;
+  level?: string;
+  yearsOfExperience?: number;
+  description?: string;
+  progress?: number;
+  tags?: string[];
+  portfolioLink?: string;
+}
+
+export interface UpdateSkillInput extends Partial<CreateSkillInput> {
+  endorsementCount?: number;
+}
 
 @Injectable()
 export class SkillService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(
-    userId: number,
-    createDto: {
-      name: string;
-      category?: string;
-      level?: string;
-      yearsOfExperience?: number;
-      description?: string;
-      progress?: number;
-      tags?: string[];
-      portfolioLink?: string;
-    }
-  ) {
+  async create(userId: number, createDto: CreateSkillInput) {
     const skill = await this.prisma.skill.create({
       data: {
         userId,
@@ -59,21 +62,7 @@ export class SkillService {
     return skill;
   }
 
-  async update(
-    userId: number,
-    id: number,
-    updateDto: {
-      name?: string;
-      category?: string;
-      level?: string;
-      yearsOfExperience?: number;
-      description?: string;
-      progress?: number;
-      tags?: string[];
-      portfolioLink?: string;
-      endorsementCount?: number;
-    }
-  ) {
+  async update(userId: number, id: number, updateDto: UpdateSkillInput) {
     const skill = await this.prisma.skill.findFirst({
       where: { id, userId },
     });
@@ -83,7 +72,7 @@ export class SkillService {
     }
 
     const updated = await this.prisma.skill.update({
-      where: { id },
+      where: { id, userId },
       data: {
         name: updateDto.name,
         category: updateDto.category,
@@ -110,7 +99,7 @@ export class SkillService {
     }
 
     await this.prisma.skill.delete({
-      where: { id },
+      where: { id, userId },
     });
 
     return {
@@ -128,7 +117,7 @@ export class SkillService {
     }
 
     const updated = await this.prisma.skill.update({
-      where: { id },
+      where: { id, userId },
       data: {
         endorsementCount: (skill.endorsementCount || 0) + 1,
       },

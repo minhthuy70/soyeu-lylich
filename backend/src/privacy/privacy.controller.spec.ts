@@ -4,7 +4,6 @@ import { PrivacyService } from './privacy.service';
 
 describe('PrivacyController', () => {
   let controller: PrivacyController;
-  let service: jest.Mocked<PrivacyService>;
 
   const mockPrivacyService = {
     getPrivacySettings: jest.fn(),
@@ -30,7 +29,6 @@ describe('PrivacyController', () => {
     }).compile();
 
     controller = module.get<PrivacyController>(PrivacyController);
-    service = module.get(PrivacyService);
     jest.clearAllMocks();
   });
 
@@ -44,25 +42,19 @@ describe('PrivacyController', () => {
 
       const result = await controller.getPrivacySettings(mockReq);
 
-      expect(service.getPrivacySettings).toHaveBeenCalledWith(3);
+      expect(mockPrivacyService.getPrivacySettings).toHaveBeenCalledWith(3);
       expect(result).toEqual({ userId: 3 });
-    });
-
-    it('should fallback to userId 1 if req.user is absent', async () => {
-      await controller.getPrivacySettings({});
-
-      expect(service.getPrivacySettings).toHaveBeenCalledWith(1);
     });
   });
 
   describe('updatePrivacySettings', () => {
-    it('should call service.updatePrivacySettings with settings body', async () => {
+    it('should call service.updatePrivacySettings with settings body', () => {
       const settings = { marketingEmails: false };
-      mockPrivacyService.updatePrivacySettings.mockResolvedValue({ message: 'Success' } as any);
+      mockPrivacyService.updatePrivacySettings.mockReturnValue({ message: 'Success' });
 
-      const result = await controller.updatePrivacySettings(mockReq, settings);
+      const result = controller.updatePrivacySettings(mockReq, settings);
 
-      expect(service.updatePrivacySettings).toHaveBeenCalledWith(3, settings);
+      expect(mockPrivacyService.updatePrivacySettings).toHaveBeenCalledWith(3, settings);
       expect(result).toEqual({ message: 'Success' });
     });
   });
@@ -73,7 +65,7 @@ describe('PrivacyController', () => {
 
       const result = await controller.requestGDPRDataExport(mockReq);
 
-      expect(service.requestGDPRDataExport).toHaveBeenCalledWith(3);
+      expect(mockPrivacyService.requestGDPRDataExport).toHaveBeenCalledWith(3);
       expect(result).toEqual({ format: 'JSON' });
     });
   });
@@ -84,41 +76,41 @@ describe('PrivacyController', () => {
 
       const result = await controller.requestGDPRDataDeletion(mockReq);
 
-      expect(service.requestGDPRDataDeletion).toHaveBeenCalledWith(3);
+      expect(mockPrivacyService.requestGDPRDataDeletion).toHaveBeenCalledWith(3);
       expect(result).toEqual({ message: 'Deleted' });
     });
   });
 
   describe('getDataRetentionInfo', () => {
-    it('should call service.getDataRetentionInfo', async () => {
-      mockPrivacyService.getDataRetentionInfo.mockResolvedValue({ gdprCompliant: true } as any);
+    it('should call service.getDataRetentionInfo', () => {
+      mockPrivacyService.getDataRetentionInfo.mockReturnValue({ gdprCompliant: true });
 
-      const result = await controller.getDataRetentionInfo();
+      const result = controller.getDataRetentionInfo();
 
-      expect(service.getDataRetentionInfo).toHaveBeenCalled();
+      expect(mockPrivacyService.getDataRetentionInfo).toHaveBeenCalled();
       expect(result).toEqual({ gdprCompliant: true });
     });
   });
 
   describe('acceptCookieConsent', () => {
-    it('should call service.acceptCookieConsent with consent body', async () => {
+    it('should call service.acceptCookieConsent with consent body', () => {
       const consent = { analytics: true };
-      mockPrivacyService.acceptCookieConsent.mockResolvedValue({ message: 'Saved' } as any);
+      mockPrivacyService.acceptCookieConsent.mockReturnValue({ message: 'Saved' });
 
-      const result = await controller.acceptCookieConsent(mockReq, consent);
+      const result = controller.acceptCookieConsent(mockReq, consent);
 
-      expect(service.acceptCookieConsent).toHaveBeenCalledWith(3, consent);
+      expect(mockPrivacyService.acceptCookieConsent).toHaveBeenCalledWith(3, consent);
       expect(result).toEqual({ message: 'Saved' });
     });
   });
 
   describe('getCookieConsent', () => {
-    it('should call service.getCookieConsent with user id', async () => {
-      mockPrivacyService.getCookieConsent.mockResolvedValue({ cookieConsent: {} } as any);
+    it('should call service.getCookieConsent with user id', () => {
+      mockPrivacyService.getCookieConsent.mockReturnValue({ cookieConsent: {} });
 
-      const result = await controller.getCookieConsent(mockReq);
+      const result = controller.getCookieConsent();
 
-      expect(service.getCookieConsent).toHaveBeenCalledWith(3);
+      expect(mockPrivacyService.getCookieConsent).toHaveBeenCalledWith();
       expect(result).toEqual({ cookieConsent: {} });
     });
   });

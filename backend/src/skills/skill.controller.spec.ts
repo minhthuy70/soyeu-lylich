@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SkillController } from './skill.controller';
 import { SkillService } from './skill.service';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 
 describe('SkillController', () => {
   let controller: SkillController;
-  let service: jest.Mocked<SkillService>;
 
   const mockSkillService = {
     create: jest.fn(),
@@ -29,7 +29,6 @@ describe('SkillController', () => {
     }).compile();
 
     controller = module.get<SkillController>(SkillController);
-    service = module.get(SkillService);
     jest.clearAllMocks();
   });
 
@@ -44,15 +43,14 @@ describe('SkillController', () => {
 
       const result = await controller.create(mockReq, dto);
 
-      expect(service.create).toHaveBeenCalledWith(3, dto);
+      expect(mockSkillService.create).toHaveBeenCalledWith(3, dto);
       expect(result).toEqual({ id: 1, ...dto });
     });
 
-    it('should default to userId 1 if req.user is undefined', async () => {
+    it('should require an authenticated user instead of falling back to another user', () => {
       const dto = { name: 'React' };
-      await controller.create({}, dto);
 
-      expect(service.create).toHaveBeenCalledWith(1, dto);
+      expect(() => controller.create({} as AuthenticatedRequest, dto)).toThrow();
     });
   });
 
@@ -62,7 +60,7 @@ describe('SkillController', () => {
 
       await controller.findAll(mockReq);
 
-      expect(service.findAll).toHaveBeenCalledWith(3);
+      expect(mockSkillService.findAll).toHaveBeenCalledWith(3);
     });
   });
 
@@ -70,9 +68,9 @@ describe('SkillController', () => {
     it('should return single skill by id', async () => {
       mockSkillService.findOne.mockResolvedValue({ id: 5, name: 'Docker' } as any);
 
-      const result = await controller.findOne(mockReq, '5');
+      const result = await controller.findOne(mockReq, 5);
 
-      expect(service.findOne).toHaveBeenCalledWith(3, 5);
+      expect(mockSkillService.findOne).toHaveBeenCalledWith(3, 5);
       expect(result).toEqual({ id: 5, name: 'Docker' });
     });
   });
@@ -82,9 +80,9 @@ describe('SkillController', () => {
       const dto = { progress: 95 };
       mockSkillService.update.mockResolvedValue({ id: 5, ...dto } as any);
 
-      const result = await controller.update(mockReq, '5', dto);
+      const result = await controller.update(mockReq, 5, dto);
 
-      expect(service.update).toHaveBeenCalledWith(3, 5, dto);
+      expect(mockSkillService.update).toHaveBeenCalledWith(3, 5, dto);
       expect(result).toEqual({ id: 5, ...dto });
     });
   });
@@ -93,9 +91,9 @@ describe('SkillController', () => {
     it('should remove skill by id', async () => {
       mockSkillService.remove.mockResolvedValue({ message: 'Deleted' } as any);
 
-      const result = await controller.remove(mockReq, '5');
+      const result = await controller.remove(mockReq, 5);
 
-      expect(service.remove).toHaveBeenCalledWith(3, 5);
+      expect(mockSkillService.remove).toHaveBeenCalledWith(3, 5);
       expect(result).toEqual({ message: 'Deleted' });
     });
   });
@@ -107,9 +105,9 @@ describe('SkillController', () => {
         endorsementCount: 1,
       } as any);
 
-      const result = await controller.endorse(mockReq, '5');
+      const result = await controller.endorse(mockReq, 5);
 
-      expect(service.incrementEndorsement).toHaveBeenCalledWith(3, 5);
+      expect(mockSkillService.incrementEndorsement).toHaveBeenCalledWith(3, 5);
       expect(result).toEqual({ id: 5, endorsementCount: 1 });
     });
   });
