@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { SocialAuthService } from './social-auth.service';
+import { TwoFactorAuthService } from './two-factor-auth.service';
+import { SessionService } from './session.service';
 import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthController', () => {
@@ -22,6 +25,18 @@ describe('AuthController', () => {
         {
           provide: AuthService,
           useValue: mockAuthService,
+        },
+        {
+          provide: SocialAuthService,
+          useValue: {},
+        },
+        {
+          provide: TwoFactorAuthService,
+          useValue: {},
+        },
+        {
+          provide: SessionService,
+          useValue: {},
         },
       ],
     }).compile();
@@ -50,7 +65,7 @@ describe('AuthController', () => {
 
       const result = await controller.login(loginDto);
       expect(result).toEqual(mockResponse);
-      expect(service.login).toHaveBeenCalledWith(loginDto.email, loginDto.password);
+      expect(service.login).toHaveBeenCalledWith(loginDto);
     });
 
     it('should throw UnauthorizedException on invalid credentials', async () => {
@@ -70,7 +85,9 @@ describe('AuthController', () => {
       const registerDto = {
         email: 'new@example.com',
         password: 'Password123',
-        name: 'New User',
+        confirmPassword: 'Password123',
+        agreeTerms: true,
+        agreePrivacy: true,
       };
 
       const mockResponse = {
@@ -89,7 +106,9 @@ describe('AuthController', () => {
       const registerDto = {
         email: 'existing@example.com',
         password: 'Password123',
-        name: 'Existing User',
+        confirmPassword: 'Password123',
+        agreeTerms: true,
+        agreePrivacy: true,
       };
 
       mockAuthService.register.mockRejectedValue(new Error('User already exists'));
@@ -108,7 +127,7 @@ describe('AuthController', () => {
 
       const result = await controller.forgotPassword(forgotPasswordDto);
       expect(result).toHaveProperty('message');
-      expect(service.forgotPassword).toHaveBeenCalledWith(forgotPasswordDto.email);
+      expect(service.forgotPassword).toHaveBeenCalledWith(forgotPasswordDto);
     });
   });
 
@@ -117,22 +136,21 @@ describe('AuthController', () => {
       const resetPasswordDto = {
         token: 'valid-token',
         newPassword: 'NewPassword123',
+        confirmPassword: 'NewPassword123',
       };
 
       mockAuthService.resetPassword.mockResolvedValue({ message: 'Password reset successful' });
 
       const result = await controller.resetPassword(resetPasswordDto);
       expect(result).toHaveProperty('message');
-      expect(service.resetPassword).toHaveBeenCalledWith(
-        resetPasswordDto.token,
-        resetPasswordDto.newPassword
-      );
+      expect(service.resetPassword).toHaveBeenCalledWith(resetPasswordDto);
     });
 
     it('should throw error with invalid token', async () => {
       const resetPasswordDto = {
         token: 'invalid-token',
         newPassword: 'NewPassword123',
+        confirmPassword: 'NewPassword123',
       };
 
       mockAuthService.resetPassword.mockRejectedValue(new UnauthorizedException('Invalid token'));

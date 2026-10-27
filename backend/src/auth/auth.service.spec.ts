@@ -1,24 +1,33 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
+import { TwoFactorAuthService } from './two-factor-auth.service';
+import { SessionService } from './session.service';
 import { UnauthorizedException } from '@nestjs/common';
+
+jest.mock('bcrypt', () => ({
+  compare: jest.fn().mockImplementation(async (pass: string, hash: string) => pass === 'password'),
+  hash: jest.fn().mockImplementation(async () => 'hashedPassword'),
+}));
 
 describe('AuthService', () => {
   let service: AuthService;
-  let jwtService: JwtService;
 
   const mockUser = {
     id: 1,
     email: 'test@example.com',
-    password: 'hashedPassword',
+    passwordHash: '$2b$10$hashedpassword',
     name: 'Test User',
+    isEmailVerified: true,
+    lockedUntil: null,
+    failedLoginAttempts: 0,
+    twoFactorEnabled: false,
   };
 
   const mockJwtService = {
-    sign: jest.fn().mockReturnValue('mock-token'),
-    verify: jest.fn().mockReturnValue({ userId: 1 }),
+    signAsync: jest.fn().mockResolvedValue('mock-token'),
+    verify: jest.fn().mockReturnValue({ sub: 1, requires2FA: true }),
   };
 
   const mockPrisma = {
@@ -27,6 +36,17 @@ describe('AuthService', () => {
       create: jest.fn(),
       update: jest.fn(),
     },
+    profile: {
+      create: jest.fn(),
+    },
+  };
+
+  const mockTwoFactorAuthService = {
+    verifyTwoFactorToken: jest.fn(),
+  };
+
+  const mockSessionService = {
+    createSession: jest.fn().mockResolvedValue({ id: 1 }),
   };
 
   beforeEach(async () => {
@@ -38,44 +58,46 @@ describe('AuthService', () => {
           useValue: mockJwtService,
         },
         {
-          provide: 'PrismaService',
+          provide: PrismaService,
           useValue: mockPrisma,
+        },
+        {
+          provide: TwoFactorAuthService,
+          useValue: mockTwoFactorAuthService,
+        },
+        {
+          provide: SessionService,
+          useValue: mockSessionService,
         },
       ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
-    jwtService = module.get<JwtService>(JwtService);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  describe('validateUser', () => {
-    it('should return user if credentials are valid', async () => {
-      mockPrisma.user.findUnique.mockResolvedValue(mockUser);
-      jest.spyOn(service as any, 'comparePassword').mockResolvedValue(true);
+  describe('validateUserById', () => {
+    it('should return user if id is valid', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 1,
+        email: 'test@example.com',
+        isEmailVerified: true,
+        role: 'user',
+      });
 
-      const result = await service.validateUser('test@example.com', 'password');
-      expect(result).toEqual(mockUser);
+      const result = await service.validateUserById(1);
+      expect(result).toBeDefined();
+      expect(result?.email).toBe('test@example.com');
     });
 
-    it('should throw UnauthorizedException if user not found', async () => {
+    it('should return null if user not found', async () => {
       mockPrisma.user.findUnique.mockResolvedValue(null);
 
-      await expect(service.validateUser('test@example.com', 'password')).rejects.toThrow(
-        UnauthorizedException
-      );
-    });
-
-    it('should throw UnauthorizedException if password is invalid', async () => {
-      mockPrisma.user.findUnique.mockResolvedValue(mockUser);
-      jest.spyOn(service as any, 'comparePassword').mockResolvedValue(false);
-
-      await expect(service.validateUser('test@example.com', 'password')).rejects.toThrow(
-        UnauthorizedException
-      );
+      const result = await service.validateUserById(999);
+      expect(result).toBeNull();
     });
   });
 
@@ -83,10 +105,21 @@ describe('AuthService', () => {
     it('should return access token and user', async () => {
       mockPrisma.user.findUnique.mockResolvedValue(mockUser);
 
-      const result = await service.login('test@example.com', 'password');
-      expect(result).toHaveProperty('access_token');
+      const result = await service.login({
+        email: 'test@example.com',
+        password: 'password',
+      });
+      expect(result).toHaveProperty('accessToken');
       expect(result).toHaveProperty('user');
-      expect(result.access_token).toBe('mock-token');
+      expect(result.accessToken).toBe('mock-token');
+    });
+
+    it('should throw UnauthorizedException if user not found', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue(null);
+
+      await expect(
+        service.login({ email: 'unknown@example.com', password: 'password' })
+      ).rejects.toThrow(UnauthorizedException);
     });
   });
 
@@ -94,24 +127,31 @@ describe('AuthService', () => {
     it('should create new user and return token', async () => {
       const registerDto = {
         email: 'new@example.com',
-        password: 'Password123',
-        name: 'New User',
+        password: 'Password123!',
+        confirmPassword: 'Password123!',
+        agreeTerms: true,
+        agreePrivacy: true,
       };
 
       mockPrisma.user.findUnique.mockResolvedValue(null);
-      mockPrisma.user.create.mockResolvedValue(mockUser);
-      jest.spyOn(service as any, 'hashPassword').mockResolvedValue('hashedPassword');
+      mockPrisma.user.create.mockResolvedValue({
+        ...mockUser,
+        id: 2,
+        email: 'new@example.com',
+      });
 
       const result = await service.register(registerDto);
-      expect(result).toHaveProperty('access_token');
+      expect(result).toHaveProperty('requiresEmailVerification');
       expect(result).toHaveProperty('user');
     });
 
     it('should throw error if user already exists', async () => {
       const registerDto = {
         email: 'test@example.com',
-        password: 'Password123',
-        name: 'Test User',
+        password: 'Password123!',
+        confirmPassword: 'Password123!',
+        agreeTerms: true,
+        agreePrivacy: true,
       };
 
       mockPrisma.user.findUnique.mockResolvedValue(mockUser);
