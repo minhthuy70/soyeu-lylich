@@ -13,6 +13,7 @@ import {
   Param,
 } from '@nestjs/common';
 import type { Response } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -27,10 +28,6 @@ import {
 import { SocialAuthService } from './social-auth.service';
 import { TwoFactorAuthService } from './two-factor-auth.service';
 import { SessionService } from './session.service';
-import { GoogleStrategy } from './strategies/google.strategy';
-import { GitHubStrategy } from './strategies/github.strategy';
-import { FacebookStrategy } from './strategies/facebook.strategy';
-import { LinkedInStrategy } from './strategies/linkedin.strategy';
 
 @Controller('auth')
 export class AuthController {
@@ -100,13 +97,13 @@ export class AuthController {
 
   // Google OAuth
   @Get('google')
-  @UseGuards(GoogleStrategy)
+  @UseGuards(AuthGuard('google'))
   async googleLogin() {
     // Guard handles the redirect
   }
 
   @Get('google/callback')
-  @UseGuards(GoogleStrategy)
+  @UseGuards(AuthGuard('google'))
   async googleCallback(@Req() req, @Res() res: Response) {
     const result = req.user;
     return res.redirect(
@@ -116,13 +113,13 @@ export class AuthController {
 
   // GitHub OAuth
   @Get('github')
-  @UseGuards(GitHubStrategy)
+  @UseGuards(AuthGuard('github'))
   async githubLogin() {
     // Guard handles the redirect
   }
 
   @Get('github/callback')
-  @UseGuards(GitHubStrategy)
+  @UseGuards(AuthGuard('github'))
   async githubCallback(@Req() req, @Res() res: Response) {
     const result = req.user;
     return res.redirect(
@@ -132,13 +129,13 @@ export class AuthController {
 
   // Facebook OAuth
   @Get('facebook')
-  @UseGuards(FacebookStrategy)
+  @UseGuards(AuthGuard('facebook'))
   async facebookLogin() {
     // Guard handles the redirect
   }
 
   @Get('facebook/callback')
-  @UseGuards(FacebookStrategy)
+  @UseGuards(AuthGuard('facebook'))
   async facebookCallback(@Req() req, @Res() res: Response) {
     const result = req.user;
     return res.redirect(
@@ -148,13 +145,13 @@ export class AuthController {
 
   // LinkedIn OAuth
   @Get('linkedin')
-  @UseGuards(LinkedInStrategy)
+  @UseGuards(AuthGuard('linkedin'))
   async linkedinLogin() {
     // Guard handles the redirect
   }
 
   @Get('linkedin/callback')
-  @UseGuards(LinkedInStrategy)
+  @UseGuards(AuthGuard('linkedin'))
   async linkedinCallback(@Req() req, @Res() res: Response) {
     const result = req.user;
     return res.redirect(
