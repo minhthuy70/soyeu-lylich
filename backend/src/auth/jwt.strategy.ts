@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) {
+  async validate(payload: { sub: number }) {
     const user = await this.authService.validateUserById(payload.sub);
     if (!user) {
       throw new UnauthorizedException();
@@ -21,6 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // Include role in the returned user object for AdminGuard
     return {
       id: user.id,
+      userId: user.id,
       email: user.email,
       isEmailVerified: user.isEmailVerified,
       role: user.role,

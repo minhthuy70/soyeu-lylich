@@ -1,4 +1,5 @@
-import { IsString, IsOptional, IsBoolean, IsArray, IsEnum } from 'class-validator';
+import { Prisma } from '@prisma/client';
+import { IsEnum, IsObject, IsOptional, IsString } from 'class-validator';
 
 export enum IntegrationProvider {
   TWITTER = 'twitter',
@@ -28,8 +29,10 @@ export class CreateIntegrationDto {
   refreshToken?: string;
 
   @IsOptional()
-  metadata?: Record<string, any>;
+  @IsObject()
+  metadata?: Prisma.InputJsonValue;
 
   @IsOptional()
-  settings?: Record<string, any>;
+  @IsObject()
+  settings?: Prisma.InputJsonValue;
 }

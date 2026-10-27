@@ -16,6 +16,7 @@ import { IntegrationsService } from './integrations.service';
 import { CreateIntegrationDto } from './dto/create-integration.dto';
 import { UpdateIntegrationDto } from './dto/update-integration.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('integrations')
@@ -26,7 +27,7 @@ export class IntegrationsController {
   // OAuth endpoints must come before dynamic routes
   // Twitter OAuth
   @Get('twitter/auth-url')
-  getTwitterAuthUrl(@Req() req) {
+  getTwitterAuthUrl(@Req() req: AuthenticatedRequest) {
     return this.integrationsService.getTwitterAuthUrl(req.user.userId);
   }
 
@@ -37,7 +38,7 @@ export class IntegrationsController {
 
   // Slack OAuth
   @Get('slack/auth-url')
-  getSlackAuthUrl(@Req() req) {
+  getSlackAuthUrl(@Req() req: AuthenticatedRequest) {
     return this.integrationsService.getSlackAuthUrl(req.user.userId);
   }
 
@@ -48,7 +49,7 @@ export class IntegrationsController {
 
   // Notion OAuth
   @Get('notion/auth-url')
-  getNotionAuthUrl(@Req() req) {
+  getNotionAuthUrl(@Req() req: AuthenticatedRequest) {
     return this.integrationsService.getNotionAuthUrl(req.user.userId);
   }
 
@@ -59,7 +60,7 @@ export class IntegrationsController {
 
   // Google Calendar OAuth
   @Get('google-calendar/auth-url')
-  getGoogleCalendarAuthUrl(@Req() req) {
+  getGoogleCalendarAuthUrl(@Req() req: AuthenticatedRequest) {
     return this.integrationsService.getGoogleCalendarAuthUrl(req.user.userId);
   }
 
@@ -70,13 +71,13 @@ export class IntegrationsController {
 
   // SendGrid
   @Post('sendgrid/connect')
-  connectSendgrid(@Req() req, @Body('apiKey') apiKey: string) {
+  connectSendgrid(@Req() req: AuthenticatedRequest, @Body('apiKey') apiKey: string) {
     return this.integrationsService.connectSendgrid(req.user.userId, apiKey);
   }
 
   @Post('sendgrid/send')
   sendEmail(
-    @Req() req,
+    @Req() req: AuthenticatedRequest,
     @Body('to') to: string,
     @Body('subject') subject: string,
     @Body('content') content: string
@@ -87,7 +88,7 @@ export class IntegrationsController {
   // Twilio
   @Post('twilio/connect')
   connectTwilio(
-    @Req() req,
+    @Req() req: AuthenticatedRequest,
     @Body('accountSid') accountSid: string,
     @Body('authToken') authToken: string
   ) {
@@ -95,19 +96,23 @@ export class IntegrationsController {
   }
 
   @Post('twilio/send')
-  sendSMS(@Req() req, @Body('to') to: string, @Body('message') message: string) {
+  sendSMS(
+    @Req() req: AuthenticatedRequest,
+    @Body('to') to: string,
+    @Body('message') message: string
+  ) {
     return this.integrationsService.sendSMS(req.user.userId, to, message);
   }
 
   // Stripe
   @Post('stripe/connect')
-  connectStripe(@Req() req, @Body('apiKey') apiKey: string) {
+  connectStripe(@Req() req: AuthenticatedRequest, @Body('apiKey') apiKey: string) {
     return this.integrationsService.connectStripe(req.user.userId, apiKey);
   }
 
   @Post('stripe/payment-intent')
   createPaymentIntent(
-    @Req() req,
+    @Req() req: AuthenticatedRequest,
     @Body('amount') amount: number,
     @Body('currency') currency?: string
   ) {
@@ -117,7 +122,7 @@ export class IntegrationsController {
   // AWS S3
   @Post('aws-s3/connect')
   connectAwsS3(
-    @Req() req,
+    @Req() req: AuthenticatedRequest,
     @Body('accessKeyId') accessKeyId: string,
     @Body('secretAccessKey') secretAccessKey: string,
     @Body('region') region: string,
@@ -134,43 +139,51 @@ export class IntegrationsController {
 
   @Post('aws-s3/upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFileToS3(@Req() req, @UploadedFile() file: any, @Body('key') key?: string) {
+  uploadFileToS3(
+    @Req() req: AuthenticatedRequest,
+    @UploadedFile() file: Express.Multer.File | undefined,
+    @Body('key') key?: string
+  ) {
     return this.integrationsService.uploadFileToS3(req.user.userId, file, key);
   }
 
   @Get('aws-s3/files')
-  listS3Files(@Req() req) {
+  listS3Files(@Req() req: AuthenticatedRequest) {
     return this.integrationsService.listS3Files(req.user.userId);
   }
 
   @Delete('aws-s3/files/:id')
-  deleteS3File(@Req() req, @Param('id') id: string) {
+  deleteS3File(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.integrationsService.deleteS3File(req.user.userId, +id);
   }
 
   // CRUD endpoints
   @Post()
-  create(@Req() req, @Body() createIntegrationDto: CreateIntegrationDto) {
+  create(@Req() req: AuthenticatedRequest, @Body() createIntegrationDto: CreateIntegrationDto) {
     return this.integrationsService.create(req.user.userId, createIntegrationDto);
   }
 
   @Get()
-  findAll(@Req() req) {
+  findAll(@Req() req: AuthenticatedRequest) {
     return this.integrationsService.findAll(req.user.userId);
   }
 
   @Get(':id')
-  findOne(@Req() req, @Param('id') id: string) {
+  findOne(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.integrationsService.findOne(req.user.userId, +id);
   }
 
   @Patch(':id')
-  update(@Req() req, @Param('id') id: string, @Body() updateIntegrationDto: UpdateIntegrationDto) {
+  update(
+    @Req() req: AuthenticatedRequest,
+    @Param('id') id: string,
+    @Body() updateIntegrationDto: UpdateIntegrationDto
+  ) {
     return this.integrationsService.update(req.user.userId, +id, updateIntegrationDto);
   }
 
   @Delete(':id')
-  remove(@Req() req, @Param('id') id: string) {
+  remove(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.integrationsService.remove(req.user.userId, +id);
   }
 }

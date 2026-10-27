@@ -1,9 +1,74 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateIntegrationDto, IntegrationProvider } from './dto/create-integration.dto';
 import { UpdateIntegrationDto } from './dto/update-integration.dto';
 import { JwtService } from '@nestjs/jwt';
 import axios from 'axios';
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { Prisma } from '@prisma/client';
+
+interface OAuthState {
+  userId: number;
+  provider: string;
+}
+
+interface OAuthTokenResponse {
+  access_token: string;
+  refresh_token?: string;
+}
+
+interface TwitterUserResponse {
+  data: {
+    id: string;
+    username: string;
+    name: string;
+  };
+}
+
+interface SlackOAuthResponse {
+  ok: boolean;
+  team: {
+    id: string;
+    name: string;
+  };
+  access_token: string;
+  bot_user_id: string;
+}
+
+interface NotionOAuthResponse {
+  workspace_id: string;
+  access_token: string;
+  workspace_name: string;
+  workspace_icon: string | null;
+}
+
+interface GoogleUserResponse {
+  id: string;
+  email: string;
+  name: string;
+}
+
+export interface StripePaymentIntentResponse {
+  id: string;
+}
+
+function getStringSetting(settings: Prisma.JsonValue | null, key: string): string {
+  if (typeof settings !== 'object' || settings === null || Array.isArray(settings)) {
+    throw new Error('Integration settings are missing');
+  }
+
+  const value = settings[key];
+  if (typeof value !== 'string') {
+    throw new Error(`Integration setting "${key}" is missing`);
+  }
+
+  return value;
+}
 
 @Injectable()
 export class IntegrationsService {
@@ -25,7 +90,7 @@ export class IntegrationsService {
 
     if (existing) {
       // Update existing integration
-      return this.update(userId, existing.id, createIntegrationDto as any);
+      return this.update(userId, existing.id, createIntegrationDto);
     }
 
     return this.prisma.integration.create({
@@ -62,14 +127,14 @@ export class IntegrationsService {
   }
 
   async update(userId: number, id: number, updateIntegrationDto: UpdateIntegrationDto) {
-    const integration = await this.findOne(userId, id);
+    await this.findOne(userId, id);
 
     return this.prisma.integration.update({
       where: { id },
       data: {
         ...updateIntegrationDto,
-        metadata: (updateIntegrationDto as any).metadata || integration.metadata,
-        settings: (updateIntegrationDto as any).settings || integration.settings,
+        metadata: updateIntegrationDto.metadata,
+        settings: updateIntegrationDto.settings,
         lastSyncedAt: new Date(),
       },
     });
@@ -83,7 +148,7 @@ export class IntegrationsService {
   }
 
   // Twitter OAuth
-  async getTwitterAuthUrl(userId: number) {
+  getTwitterAuthUrl(userId: number) {
     const state = this.jwtService.sign({ userId, provider: 'twitter' });
     const twitterClientId = process.env.TWITTER_CLIENT_ID || '';
     const callbackUrl = process.env.TWITTER_CALLBACK_URL || '';
@@ -93,11 +158,11 @@ export class IntegrationsService {
 
   async handleTwitterCallback(code: string, state: string) {
     try {
-      const payload = this.jwtService.verify(state);
+      const payload = this.jwtService.verify<OAuthState>(state);
       const { userId } = payload;
 
       // Exchange code for access token
-      const tokenResponse = await axios.post(
+      const tokenResponse = await axios.post<OAuthTokenResponse>(
         'https://api.twitter.com/2/oauth2/token',
         new URLSearchParams({
           code,
@@ -114,11 +179,14 @@ export class IntegrationsService {
       );
 
       // Get user info
-      const userResponse = await axios.get('https://api.twitter.com/2/users/me', {
-        headers: {
-          Authorization: `Bearer ${tokenResponse.data.access_token}`,
-        },
-      });
+      const userResponse = await axios.get<TwitterUserResponse>(
+        'https://api.twitter.com/2/users/me',
+        {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.data.access_token}`,
+          },
+        }
+      );
 
       return this.create(userId, {
         provider: IntegrationProvider.TWITTER,
@@ -130,13 +198,13 @@ export class IntegrationsService {
           name: userResponse.data.data.name,
         },
       });
-    } catch (error) {
+    } catch {
       throw new Error('Twitter OAuth failed');
     }
   }
 
   // Slack OAuth
-  async getSlackAuthUrl(userId: number) {
+  getSlackAuthUrl(userId: number) {
     const state = this.jwtService.sign({ userId, provider: 'slack' });
     const slackClientId = process.env.SLACK_CLIENT_ID || '';
     const callbackUrl = process.env.SLACK_CALLBACK_URL || '';
@@ -146,10 +214,10 @@ export class IntegrationsService {
 
   async handleSlackCallback(code: string, state: string) {
     try {
-      const payload = this.jwtService.verify(state);
+      const payload = this.jwtService.verify<OAuthState>(state);
       const { userId } = payload;
 
-      const tokenResponse = await axios.post(
+      const tokenResponse = await axios.post<SlackOAuthResponse>(
         'https://slack.com/api/oauth.v2.access',
         new URLSearchParams({
           code,
@@ -172,13 +240,13 @@ export class IntegrationsService {
           botUserId: tokenResponse.data.bot_user_id,
         },
       });
-    } catch (error) {
+    } catch {
       throw new Error('Slack OAuth failed');
     }
   }
 
   // Notion OAuth
-  async getNotionAuthUrl(userId: number) {
+  getNotionAuthUrl(userId: number) {
     const state = this.jwtService.sign({ userId, provider: 'notion' });
     const notionClientId = process.env.NOTION_CLIENT_ID || '';
     const callbackUrl = process.env.NOTION_CALLBACK_URL || '';
@@ -188,16 +256,19 @@ export class IntegrationsService {
 
   async handleNotionCallback(code: string, state: string) {
     try {
-      const payload = this.jwtService.verify(state);
+      const payload = this.jwtService.verify<OAuthState>(state);
       const { userId } = payload;
 
-      const tokenResponse = await axios.post('https://api.notion.com/v1/oauth/token', {
-        grant_type: 'authorization_code',
-        code,
-        redirect_uri: process.env.NOTION_CALLBACK_URL,
-        client_id: process.env.NOTION_CLIENT_ID,
-        client_secret: process.env.NOTION_CLIENT_SECRET,
-      });
+      const tokenResponse = await axios.post<NotionOAuthResponse>(
+        'https://api.notion.com/v1/oauth/token',
+        {
+          grant_type: 'authorization_code',
+          code,
+          redirect_uri: process.env.NOTION_CALLBACK_URL,
+          client_id: process.env.NOTION_CLIENT_ID,
+          client_secret: process.env.NOTION_CLIENT_SECRET,
+        }
+      );
 
       return this.create(userId, {
         provider: IntegrationProvider.NOTION,
@@ -208,13 +279,13 @@ export class IntegrationsService {
           workspaceIcon: tokenResponse.data.workspace_icon,
         },
       });
-    } catch (error) {
+    } catch {
       throw new Error('Notion OAuth failed');
     }
   }
 
   // Google Calendar OAuth
-  async getGoogleCalendarAuthUrl(userId: number) {
+  getGoogleCalendarAuthUrl(userId: number) {
     const state = this.jwtService.sign({ userId, provider: 'google_calendar' });
     const googleClientId = process.env.GOOGLE_CLIENT_ID || '';
     const callbackUrl = process.env.GOOGLE_CALENDAR_CALLBACK_URL || '';
@@ -224,10 +295,10 @@ export class IntegrationsService {
 
   async handleGoogleCalendarCallback(code: string, state: string) {
     try {
-      const payload = this.jwtService.verify(state);
+      const payload = this.jwtService.verify<OAuthState>(state);
       const { userId } = payload;
 
-      const tokenResponse = await axios.post(
+      const tokenResponse = await axios.post<OAuthTokenResponse>(
         'https://oauth2.googleapis.com/token',
         new URLSearchParams({
           code,
@@ -244,11 +315,14 @@ export class IntegrationsService {
       );
 
       // Get user info
-      const userResponse = await axios.get('https://www.googleapis.com/oauth2/v2/userinfo', {
-        headers: {
-          Authorization: `Bearer ${tokenResponse.data.access_token}`,
-        },
-      });
+      const userResponse = await axios.get<GoogleUserResponse>(
+        'https://www.googleapis.com/oauth2/v2/userinfo',
+        {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.data.access_token}`,
+          },
+        }
+      );
 
       return this.create(userId, {
         provider: IntegrationProvider.GOOGLE_CALENDAR,
@@ -260,7 +334,7 @@ export class IntegrationsService {
           name: userResponse.data.name,
         },
       });
-    } catch (error) {
+    } catch {
       throw new Error('Google Calendar OAuth failed');
     }
   }
@@ -282,7 +356,7 @@ export class IntegrationsService {
           apiKey,
         },
       });
-    } catch (error) {
+    } catch {
       throw new Error('Invalid SendGrid API key');
     }
   }
@@ -346,7 +420,7 @@ export class IntegrationsService {
           authToken,
         },
       });
-    } catch (error) {
+    } catch {
       throw new Error('Invalid Twilio credentials');
     }
   }
@@ -364,7 +438,8 @@ export class IntegrationsService {
       throw new NotFoundException('Twilio not connected');
     }
 
-    const { accountSid, authToken } = integration.settings as any;
+    const accountSid = getStringSetting(integration.settings, 'accountSid');
+    const authToken = getStringSetting(integration.settings, 'authToken');
     const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER || '';
 
     await axios.post(
@@ -401,7 +476,7 @@ export class IntegrationsService {
           apiKey,
         },
       });
-    } catch (error) {
+    } catch {
       throw new Error('Invalid Stripe API key');
     }
   }
@@ -419,7 +494,7 @@ export class IntegrationsService {
       throw new NotFoundException('Stripe not connected');
     }
 
-    const response = await axios.post(
+    const response = await axios.post<StripePaymentIntentResponse>(
       'https://api.stripe.com/v1/payment_intents',
       new URLSearchParams({
         amount: (amount * 100).toString(),
@@ -467,7 +542,11 @@ export class IntegrationsService {
     });
   }
 
-  async uploadFileToS3(userId: number, file: any, key?: string) {
+  async uploadFileToS3(userId: number, file: Express.Multer.File | undefined, key?: string) {
+    if (!file) {
+      throw new BadRequestException('File is required');
+    }
+
     const integration = await this.prisma.integration.findFirst({
       where: {
         userId,
@@ -480,8 +559,10 @@ export class IntegrationsService {
       throw new NotFoundException('AWS S3 not connected');
     }
 
-    const { accessKeyId, secretAccessKey, region, bucket } = integration.settings as any;
-    const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+    const accessKeyId = getStringSetting(integration.settings, 'accessKeyId');
+    const secretAccessKey = getStringSetting(integration.settings, 'secretAccessKey');
+    const region = getStringSetting(integration.settings, 'region');
+    const bucket = getStringSetting(integration.settings, 'bucket');
 
     const s3Client = new S3Client({
       region,
@@ -564,8 +645,10 @@ export class IntegrationsService {
       throw new NotFoundException('AWS S3 not connected');
     }
 
-    const { accessKeyId, secretAccessKey, region, bucket } = integration.settings as any;
-    const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
+    const accessKeyId = getStringSetting(integration.settings, 'accessKeyId');
+    const secretAccessKey = getStringSetting(integration.settings, 'secretAccessKey');
+    const region = getStringSetting(integration.settings, 'region');
+    const bucket = getStringSetting(integration.settings, 'bucket');
 
     const s3Client = new S3Client({
       region,
