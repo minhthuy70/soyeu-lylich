@@ -1,28 +1,54 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
+import type { ValidationError } from 'class-validator';
+
+function getErrorCode(error: unknown): string | undefined {
+  if (typeof error === 'object' && error !== null && 'code' in error) {
+    return typeof error.code === 'string' ? error.code : undefined;
+  }
+  return undefined;
+}
+
+function getErrorLogDetails(error: unknown) {
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+      stack: error.stack,
+      code: getErrorCode(error),
+      statusCode:
+        typeof error === 'object' && error !== null && 'status' in error ? error.status : undefined,
+    };
+  }
+
+  return {
+    message: String(error),
+    code: getErrorCode(error),
+  };
+}
 
 export class ErrorHandlerUtil {
-  static handleDatabaseError(error: any): never {
+  static handleDatabaseError(error: unknown): never {
     console.error('Database error:', error);
+    const errorCode = getErrorCode(error);
 
-    if (error.code === 'P2002') {
+    if (errorCode === 'P2002') {
       throw new HttpException('Dữ liệu đã tồn tại trong hệ thống', HttpStatus.CONFLICT);
     }
 
-    if (error.code === 'P2025') {
+    if (errorCode === 'P2025') {
       throw new HttpException('Không tìm thấy dữ liệu', HttpStatus.NOT_FOUND);
     }
 
-    if (error.code === 'P2003') {
+    if (errorCode === 'P2003') {
       throw new HttpException('Dữ liệu tham chiếu không tồn tại', HttpStatus.BAD_REQUEST);
     }
 
     throw new HttpException('Lỗi cơ sở dữ liệu', HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  static handleValidationError(errors: any[]): never {
+  static handleValidationError(errors: ValidationError[]): never {
     const formattedErrors = errors.map((err) => ({
       field: err.property,
-      message: Object.values(err.constraints).join(', '),
+      message: Object.values(err.constraints ?? {}).join(', '),
     }));
 
     throw new HttpException(
@@ -68,21 +94,16 @@ export class ErrorHandlerUtil {
     throw new HttpException(message, HttpStatus.SERVICE_UNAVAILABLE);
   }
 
-  static logError(error: any, context?: string): void {
-    console.error(`[${context || 'ERROR'}]`, {
-      message: error.message,
-      stack: error.stack,
-      code: error.code,
-      statusCode: error.status,
-    });
+  static logError(error: unknown, context?: string): void {
+    console.error(`[${context || 'ERROR'}]`, getErrorLogDetails(error));
   }
 
-  static createErrorResponse(message: string, statusCode: HttpStatus, details?: any) {
+  static createErrorResponse(message: string, statusCode: HttpStatus, details?: unknown) {
     return {
       statusCode,
       message,
       timestamp: new Date().toISOString(),
-      ...(details && { details }),
+      ...(details ? { details } : {}),
     };
   }
 }
