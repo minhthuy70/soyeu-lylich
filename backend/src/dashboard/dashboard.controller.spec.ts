@@ -4,7 +4,6 @@ import { DashboardService } from './dashboard.service';
 
 describe('DashboardController', () => {
   let controller: DashboardController;
-  let service: jest.Mocked<DashboardService>;
 
   const mockDashboardService = {
     getActivityFeed: jest.fn(),
@@ -32,7 +31,6 @@ describe('DashboardController', () => {
     }).compile();
 
     controller = module.get<DashboardController>(DashboardController);
-    service = module.get(DashboardService);
     jest.clearAllMocks();
   });
 
@@ -47,7 +45,7 @@ describe('DashboardController', () => {
 
       const result = await controller.getActivityFeed('5');
 
-      expect(service.getActivityFeed).toHaveBeenCalledWith(5, 20);
+      expect(mockDashboardService.getActivityFeed).toHaveBeenCalledWith(5, 20);
       expect(result).toEqual(mockResult);
     });
 
@@ -56,7 +54,7 @@ describe('DashboardController', () => {
 
       await controller.getActivityFeed('5', '10');
 
-      expect(service.getActivityFeed).toHaveBeenCalledWith(5, 10);
+      expect(mockDashboardService.getActivityFeed).toHaveBeenCalledWith(5, 10);
     });
   });
 
@@ -67,7 +65,7 @@ describe('DashboardController', () => {
 
       const result = await controller.getResumeViewStatistics('10');
 
-      expect(service.getResumeViewStatistics).toHaveBeenCalledWith(10, 'month');
+      expect(mockDashboardService.getResumeViewStatistics).toHaveBeenCalledWith(10, 'month');
       expect(result).toEqual(mockStats);
     });
 
@@ -76,7 +74,7 @@ describe('DashboardController', () => {
 
       await controller.getResumeViewStatistics('10', 'week');
 
-      expect(service.getResumeViewStatistics).toHaveBeenCalledWith(10, 'week');
+      expect(mockDashboardService.getResumeViewStatistics).toHaveBeenCalledWith(10, 'week');
     });
   });
 
@@ -86,7 +84,7 @@ describe('DashboardController', () => {
 
       await controller.getTopViewedSections('12');
 
-      expect(service.getTopViewedSections).toHaveBeenCalledWith(12, 10);
+      expect(mockDashboardService.getTopViewedSections).toHaveBeenCalledWith(12, 10);
     });
 
     it('should call service.getTopViewedSections with custom limit', async () => {
@@ -94,7 +92,7 @@ describe('DashboardController', () => {
 
       await controller.getTopViewedSections('12', '5');
 
-      expect(service.getTopViewedSections).toHaveBeenCalledWith(12, 5);
+      expect(mockDashboardService.getTopViewedSections).toHaveBeenCalledWith(12, 5);
     });
   });
 
@@ -105,7 +103,7 @@ describe('DashboardController', () => {
 
       const result = await controller.getCompletionSuggestions('3');
 
-      expect(service.getCompletionSuggestions).toHaveBeenCalledWith(3);
+      expect(mockDashboardService.getCompletionSuggestions).toHaveBeenCalledWith(3);
       expect(result).toEqual(suggestions);
     });
   });
@@ -116,7 +114,7 @@ describe('DashboardController', () => {
 
       const result = await controller.getCompletionScore('3');
 
-      expect(service.getCompletionScore).toHaveBeenCalledWith(3);
+      expect(mockDashboardService.getCompletionScore).toHaveBeenCalledWith(3);
       expect(result).toEqual({ score: 85 });
     });
   });
@@ -128,7 +126,7 @@ describe('DashboardController', () => {
 
       const result = await controller.getDashboardOverview('7');
 
-      expect(service.getDashboardOverview).toHaveBeenCalledWith(7);
+      expect(mockDashboardService.getDashboardOverview).toHaveBeenCalledWith(7);
       expect(result).toEqual(overview);
     });
   });
@@ -139,7 +137,7 @@ describe('DashboardController', () => {
 
       await controller.getUpcomingCertificateExpiry('7');
 
-      expect(service.getUpcomingCertificateExpiry).toHaveBeenCalledWith(7, 30);
+      expect(mockDashboardService.getUpcomingCertificateExpiry).toHaveBeenCalledWith(7, 30);
     });
 
     it('should call service.getUpcomingCertificateExpiry with custom days', async () => {
@@ -147,7 +145,7 @@ describe('DashboardController', () => {
 
       await controller.getUpcomingCertificateExpiry('7', '60');
 
-      expect(service.getUpcomingCertificateExpiry).toHaveBeenCalledWith(7, 60);
+      expect(mockDashboardService.getUpcomingCertificateExpiry).toHaveBeenCalledWith(7, 60);
     });
   });
 
@@ -157,7 +155,7 @@ describe('DashboardController', () => {
 
       await controller.getVisitorGeography('2', 'year');
 
-      expect(service.getVisitorGeography).toHaveBeenCalledWith(2, 'year');
+      expect(mockDashboardService.getVisitorGeography).toHaveBeenCalledWith(2, 'year');
     });
   });
 
@@ -167,7 +165,7 @@ describe('DashboardController', () => {
 
       const result = await controller.getDeviceBreakdown('2', 'month');
 
-      expect(service.getDeviceBreakdown).toHaveBeenCalledWith(2, 'month');
+      expect(mockDashboardService.getDeviceBreakdown).toHaveBeenCalledWith(2, 'month');
       expect(result).toEqual({ desktop: 60, mobile: 40 });
     });
   });
@@ -178,7 +176,7 @@ describe('DashboardController', () => {
 
       await controller.getReferralSources('2', 'week');
 
-      expect(service.getReferralSources).toHaveBeenCalledWith(2, 'week');
+      expect(mockDashboardService.getReferralSources).toHaveBeenCalledWith(2, 'week');
     });
   });
 
@@ -188,7 +186,7 @@ describe('DashboardController', () => {
 
       const result = await controller.getSectionCompletionStatus('8');
 
-      expect(service.getSectionCompletionStatus).toHaveBeenCalledWith(8);
+      expect(mockDashboardService.getSectionCompletionStatus).toHaveBeenCalledWith(8);
       expect(result).toEqual({ profile: true });
     });
   });
