@@ -1,5 +1,6 @@
 import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
 import * as speakeasy from 'speakeasy';
 import * as QRCode from 'qrcode';
 
@@ -25,6 +26,10 @@ export class TwoFactorAuthService {
       name: `Sơ yếu lý lịch (${user.email})`,
       issuer: 'Sơ yếu lý lịch',
     });
+
+    if (!secret.otpauth_url) {
+      throw new Error('Unable to generate 2FA authentication URL');
+    }
 
     // Generate QR code
     const qrCodeUrl = await QRCode.toDataURL(secret.otpauth_url);
@@ -111,7 +116,6 @@ export class TwoFactorAuthService {
       throw new BadRequestException('Tài khoản này không có mật khẩu');
     }
 
-    const bcrypt = require('bcrypt');
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (!isPasswordValid) {
       throw new UnauthorizedException('Mật khẩu không đúng');
