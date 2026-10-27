@@ -1,31 +1,64 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+
+type DateFilterValue = string | Date;
+
+export interface ProjectSearchFilters {
+  technologies?: string[] | string;
+  startDate?: DateFilterValue;
+  endDate?: DateFilterValue;
+  status?: string;
+}
+
+export interface ExperienceSearchFilters {
+  startDate?: DateFilterValue;
+  endDate?: DateFilterValue;
+  currentPosition?: boolean | string;
+}
+
+export interface CertificateSearchFilters {
+  organization?: string;
+  startDate?: DateFilterValue;
+  endDate?: DateFilterValue;
+  expiryDate?: DateFilterValue;
+}
+
+export interface SkillSearchFilters {
+  category?: string;
+  proficiency?: string;
+}
+
+function parseDate(value: DateFilterValue): Date {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    throw new BadRequestException('Search date filters must be valid dates');
+  }
+  return date;
+}
 
 @Injectable()
 export class SearchFilterService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async filterProjects(filters: {
-    technologies?: string[];
-    startDate?: Date;
-    endDate?: Date;
-    status?: string;
-  }) {
-    const where: any = {};
+  async filterProjects(userId: number, filters: ProjectSearchFilters) {
+    const where: Prisma.ProjectWhereInput = { userId };
 
     if (filters.technologies && filters.technologies.length > 0) {
       where.technologies = {
-        hasSome: filters.technologies,
+        hasSome: Array.isArray(filters.technologies)
+          ? filters.technologies
+          : [filters.technologies],
       };
     }
 
     if (filters.startDate || filters.endDate) {
       where.startDate = {};
       if (filters.startDate) {
-        where.startDate.gte = filters.startDate;
+        where.startDate.gte = parseDate(filters.startDate);
       }
       if (filters.endDate) {
-        where.startDate.lte = filters.endDate;
+        where.startDate.lte = parseDate(filters.endDate);
       }
     }
 
@@ -45,21 +78,27 @@ export class SearchFilterService {
     };
   }
 
-  async filterExperience(filters: { startDate?: Date; endDate?: Date; currentPosition?: boolean }) {
-    const where: any = {};
+  async filterExperience(userId: number, filters: ExperienceSearchFilters) {
+    const where: Prisma.ExperienceWhereInput = { userId };
 
     if (filters.startDate || filters.endDate) {
       where.startDate = {};
       if (filters.startDate) {
-        where.startDate.gte = filters.startDate;
+        where.startDate.gte = parseDate(filters.startDate);
       }
       if (filters.endDate) {
-        where.startDate.lte = filters.endDate;
+        where.startDate.lte = parseDate(filters.endDate);
       }
     }
 
     if (filters.currentPosition !== undefined) {
-      where.currentPosition = filters.currentPosition;
+      if (filters.currentPosition === 'true' || filters.currentPosition === true) {
+        where.currentJobStatus = true;
+      } else if (filters.currentPosition === 'false' || filters.currentPosition === false) {
+        where.currentJobStatus = false;
+      } else {
+        throw new BadRequestException('currentPosition must be true or false');
+      }
     }
 
     const experiences = await this.prisma.experience.findMany({
@@ -74,16 +113,11 @@ export class SearchFilterService {
     };
   }
 
-  async filterCertificates(filters: {
-    organization?: string;
-    startDate?: Date;
-    endDate?: Date;
-    expiryDate?: Date;
-  }) {
-    const where: any = {};
+  async filterCertificates(userId: number, filters: CertificateSearchFilters) {
+    const where: Prisma.CertificateWhereInput = { userId };
 
     if (filters.organization) {
-      where.organization = {
+      where.issuingOrganization = {
         contains: filters.organization,
         mode: 'insensitive',
       };
@@ -92,16 +126,16 @@ export class SearchFilterService {
     if (filters.startDate || filters.endDate) {
       where.issueDate = {};
       if (filters.startDate) {
-        where.issueDate.gte = filters.startDate;
+        where.issueDate.gte = parseDate(filters.startDate);
       }
       if (filters.endDate) {
-        where.issueDate.lte = filters.endDate;
+        where.issueDate.lte = parseDate(filters.endDate);
       }
     }
 
     if (filters.expiryDate) {
       where.expiryDate = {
-        lte: filters.expiryDate,
+        lte: parseDate(filters.expiryDate),
       };
     }
 
@@ -117,15 +151,15 @@ export class SearchFilterService {
     };
   }
 
-  async filterSkills(filters: { category?: string; proficiency?: string }) {
-    const where: any = {};
+  async filterSkills(userId: number, filters: SkillSearchFilters) {
+    const where: Prisma.SkillWhereInput = { userId };
 
     if (filters.category) {
       where.category = filters.category;
     }
 
     if (filters.proficiency) {
-      where.proficiency = filters.proficiency;
+      where.level = filters.proficiency;
     }
 
     const skills = await this.prisma.skill.findMany({
@@ -140,33 +174,46 @@ export class SearchFilterService {
     };
   }
 
-  async saveFilterPreset(
+  saveFilterPreset(
     userId: number,
     preset: {
       name: string;
       type: 'projects' | 'experience' | 'certificates' | 'skills';
-      filters: any;
+      filters: Prisma.InputJsonValue;
     }
   ) {
-    // Return placeholder data since filterPreset model doesn't exist
-    return {
-      id: Date.now(),
-      userId,
-      name: preset.name,
-      type: preset.type,
-      filters: preset.filters,
-      createdAt: new Date(),
-    };
+    return this.prisma.filterPreset.create({
+      data: {
+        userId,
+        ...preset,
+      },
+    });
   }
 
-  async getFilterPresets(userId: number, type?: string) {
-    // Return placeholder data since filterPreset model doesn't exist
-    return [];
+  getFilterPresets(userId: number, type?: string) {
+    return this.prisma.filterPreset.findMany({
+      where: {
+        userId,
+        ...(type ? { type } : {}),
+      },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
-  async deleteFilterPreset(userId: number, presetId: number) {
-    // Return placeholder data since filterPreset model doesn't exist
-    return { message: 'Filter preset deleted successfully' };
+  deleteFilterPreset(userId: number, presetId: number) {
+    return this.prisma.filterPreset
+      .deleteMany({
+        where: {
+          id: presetId,
+          userId,
+        },
+      })
+      .then(({ count }) => {
+        if (count === 0) {
+          throw new NotFoundException('Filter preset not found');
+        }
+        return { message: 'Filter preset deleted successfully' };
+      });
   }
 
   async globalSearch(query: string, userId: number) {
@@ -292,7 +339,20 @@ export class SearchFilterService {
       take: limit,
     });
 
-    const queries = events.map((e) => (e.metadata as any)?.query).filter(Boolean);
+    const queries = events
+      .map((event) => {
+        const metadata = event.metadata;
+        if (
+          typeof metadata === 'object' &&
+          metadata !== null &&
+          !Array.isArray(metadata) &&
+          typeof metadata.query === 'string'
+        ) {
+          return metadata.query;
+        }
+        return null;
+      })
+      .filter((query): query is string => query !== null);
 
     return {
       queries,
