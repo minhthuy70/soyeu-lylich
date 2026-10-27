@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -158,7 +159,7 @@ export class ResumeTemplateService {
         name: `${original.name} (Copy)`,
         description: original.description,
         category: original.category,
-        template: original.template,
+        template: original.template as Prisma.InputJsonValue,
         thumbnail: original.thumbnail,
         isPublic: false,
         isDefault: false,
