@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+
+export type PatentInput = Pick<
+  Prisma.PatentUncheckedCreateInput,
+  'patentNumber' | 'title' | 'filingDate' | 'status' | 'description'
+>;
+export type PatentUpdateInput = Partial<PatentInput>;
 
 @Injectable()
 export class PatentService {
   constructor(private prisma: PrismaService) {}
 
-  async createPatent(userId: number, data: any) {
+  async createPatent(userId: number, data: PatentInput) {
     return this.prisma.patent.create({
       data: {
         ...data,
@@ -27,7 +34,7 @@ export class PatentService {
     });
   }
 
-  async updatePatent(id: number, userId: number, data: any) {
+  async updatePatent(id: number, userId: number, data: PatentUpdateInput) {
     return this.prisma.patent.updateMany({
       where: { id, userId },
       data,

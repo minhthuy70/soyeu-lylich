@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PatentController } from './patent.controller';
 import { PatentService } from './patent.service';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 
 describe('PatentController', () => {
   let controller: PatentController;
-  let service: jest.Mocked<PatentService>;
 
   const mockPatentService = {
     createPatent: jest.fn(),
@@ -13,94 +13,48 @@ describe('PatentController', () => {
     updatePatent: jest.fn(),
     deletePatent: jest.fn(),
   };
-
-  const validToken = `h.${Buffer.from(JSON.stringify({ sub: 12 })).toString('base64')}.s`;
-  const authReq = {
-    headers: {
-      authorization: `Bearer ${validToken}`,
-    },
-  };
+  const authenticatedRequest = { user: { id: 12 } } as AuthenticatedRequest;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PatentController],
-      providers: [
-        {
-          provide: PatentService,
-          useValue: mockPatentService,
-        },
-      ],
+      providers: [{ provide: PatentService, useValue: mockPatentService }],
     }).compile();
 
     controller = module.get<PatentController>(PatentController);
-    service = module.get(PatentService);
     jest.clearAllMocks();
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('creates patents for the verified user', async () => {
+    const patent = { title: 'New Patent' };
+    mockPatentService.createPatent.mockResolvedValue({ id: 1, ...patent });
+
+    const result = await controller.createPatent(authenticatedRequest, patent);
+
+    expect(mockPatentService.createPatent).toHaveBeenCalledWith(12, patent);
+    expect(result).toEqual({ id: 1, ...patent });
   });
 
-  describe('createPatent', () => {
-    it('should create patent with extracted userId', async () => {
-      const data = { title: 'New Patent' };
-      mockPatentService.createPatent.mockResolvedValue({ id: 1, ...data } as any);
+  it('lists patents for the verified user', async () => {
+    mockPatentService.getPatents.mockResolvedValue([]);
 
-      const result = await controller.createPatent(authReq, data);
+    await controller.getPatents(authenticatedRequest);
 
-      expect(service.createPatent).toHaveBeenCalledWith(12, data);
-      expect(result).toEqual({ id: 1, ...data });
-    });
-
-    it('should default to userId 1 when authorization header is absent', async () => {
-      const data = { title: 'New Patent' };
-      await controller.createPatent({ headers: {} }, data);
-
-      expect(service.createPatent).toHaveBeenCalledWith(1, data);
-    });
+    expect(mockPatentService.getPatents).toHaveBeenCalledWith(12);
   });
 
-  describe('getPatents', () => {
-    it('should get patents for user', async () => {
-      mockPatentService.getPatents.mockResolvedValue([]);
+  it('uses numeric ids and verified identity for resource operations', async () => {
+    const updateData = { status: 'ISSUED' };
+    mockPatentService.getPatentById.mockResolvedValue({ id: 5 });
+    mockPatentService.updatePatent.mockResolvedValue({ count: 1 });
+    mockPatentService.deletePatent.mockResolvedValue({ count: 1 });
 
-      await controller.getPatents(authReq);
+    await controller.getPatentById(5, authenticatedRequest);
+    await controller.updatePatent(5, authenticatedRequest, updateData);
+    await controller.deletePatent(5, authenticatedRequest);
 
-      expect(service.getPatents).toHaveBeenCalledWith(12);
-    });
-  });
-
-  describe('getPatentById', () => {
-    it('should get patent by parsed numeric id and userId', async () => {
-      mockPatentService.getPatentById.mockResolvedValue({ id: 5 } as any);
-
-      const result = await controller.getPatentById('5', authReq);
-
-      expect(service.getPatentById).toHaveBeenCalledWith(5, 12);
-      expect(result).toEqual({ id: 5 });
-    });
-  });
-
-  describe('updatePatent', () => {
-    it('should update patent by id and userId', async () => {
-      const updateData = { status: 'ISSUED' };
-      mockPatentService.updatePatent.mockResolvedValue({ count: 1 } as any);
-
-      const result = await controller.updatePatent('5', authReq, updateData);
-
-      expect(service.updatePatent).toHaveBeenCalledWith(5, 12, updateData);
-      expect(result).toEqual({ count: 1 });
-    });
-  });
-
-  describe('deletePatent', () => {
-    it('should delete patent by id and userId', async () => {
-      mockPatentService.deletePatent.mockResolvedValue({ count: 1 } as any);
-
-      const result = await controller.deletePatent('5', authReq);
-
-      expect(service.deletePatent).toHaveBeenCalledWith(5, 12);
-      expect(result).toEqual({ count: 1 });
-    });
+    expect(mockPatentService.getPatentById).toHaveBeenCalledWith(5, 12);
+    expect(mockPatentService.updatePatent).toHaveBeenCalledWith(5, 12, updateData);
+    expect(mockPatentService.deletePatent).toHaveBeenCalledWith(5, 12);
   });
 });

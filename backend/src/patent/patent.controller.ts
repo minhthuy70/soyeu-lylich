@@ -1,45 +1,51 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  UseGuards,
+  Request,
+  ParseIntPipe,
+} from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 import { PatentService } from './patent.service';
+import type { PatentInput, PatentUpdateInput } from './patent.service';
 
 @Controller('patents')
+@UseGuards(JwtAuthGuard)
 export class PatentController {
-  constructor(private patentService: PatentService) {}
-
-  private extractUserId(req: any): number {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) return 1;
-    const token = authHeader.replace('Bearer ', '');
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.sub;
-  }
+  constructor(private readonly patentService: PatentService) {}
 
   @Post()
-  async createPatent(@Req() req, @Body() data: any) {
-    const userId = this.extractUserId(req);
-    return this.patentService.createPatent(userId, data);
+  createPatent(@Request() req: AuthenticatedRequest, @Body() data: PatentInput) {
+    return this.patentService.createPatent(req.user.id, data);
   }
 
   @Get()
-  async getPatents(@Req() req) {
-    const userId = this.extractUserId(req);
-    return this.patentService.getPatents(userId);
+  getPatents(@Request() req: AuthenticatedRequest) {
+    return this.patentService.getPatents(req.user.id);
   }
 
   @Get(':id')
-  async getPatentById(@Param('id') id: string, @Req() req) {
-    const userId = this.extractUserId(req);
-    return this.patentService.getPatentById(+id, userId);
+  getPatentById(@Param('id', ParseIntPipe) id: number, @Request() req: AuthenticatedRequest) {
+    return this.patentService.getPatentById(id, req.user.id);
   }
 
   @Put(':id')
-  async updatePatent(@Param('id') id: string, @Req() req, @Body() data: any) {
-    const userId = this.extractUserId(req);
-    return this.patentService.updatePatent(+id, userId, data);
+  updatePatent(
+    @Param('id', ParseIntPipe) id: number,
+    @Request() req: AuthenticatedRequest,
+    @Body() data: PatentUpdateInput
+  ) {
+    return this.patentService.updatePatent(id, req.user.id, data);
   }
 
   @Delete(':id')
-  async deletePatent(@Param('id') id: string, @Req() req) {
-    const userId = this.extractUserId(req);
-    return this.patentService.deletePatent(+id, userId);
+  deletePatent(@Param('id', ParseIntPipe) id: number, @Request() req: AuthenticatedRequest) {
+    return this.patentService.deletePatent(id, req.user.id);
   }
 }
