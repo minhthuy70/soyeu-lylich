@@ -1,12 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+
+export interface NotificationPreferences {
+  profileCompletion: boolean;
+  resumeUpdates: boolean;
+  security: boolean;
+  system: boolean;
+  achievements: boolean;
+  profileViews: boolean;
+  resumeShares: boolean;
+}
 
 @Injectable()
 export class NotificationService {
   constructor(private readonly prisma: PrismaService) {}
 
   // 1. Profile completion reminders
-  async createProfileCompletionReminder(userId: number, completionPercentage: number) {
+  createProfileCompletionReminder(userId: number, completionPercentage: number) {
     return this.prisma.notification.create({
       data: {
         userId,
@@ -19,7 +30,7 @@ export class NotificationService {
   }
 
   // 2. Resume update notifications
-  async createResumeUpdateNotification(userId: number, resumeTitle: string) {
+  createResumeUpdateNotification(userId: number, resumeTitle: string) {
     return this.prisma.notification.create({
       data: {
         userId,
@@ -32,10 +43,10 @@ export class NotificationService {
   }
 
   // 3. Security notifications
-  async createSecurityNotification(
+  createSecurityNotification(
     userId: number,
     securityType: 'LOGIN' | 'PASSWORD_CHANGE' | '2FA_ENABLED' | 'SUSPICIOUS_ACTIVITY',
-    details?: any
+    details?: Prisma.InputJsonObject
   ) {
     const titles = {
       LOGIN: 'New Login Detected',
@@ -64,7 +75,12 @@ export class NotificationService {
   }
 
   // 4. System notifications
-  async createSystemNotification(userId: number, title: string, message: string, metadata?: any) {
+  createSystemNotification(
+    userId: number,
+    title: string,
+    message: string,
+    metadata?: Prisma.InputJsonValue
+  ) {
     return this.prisma.notification.create({
       data: {
         userId,
@@ -92,7 +108,7 @@ export class NotificationService {
   }
 
   // 6. Notification preferences (mock - can be extended with user preferences table)
-  async getUserNotificationPreferences(userId: number) {
+  getUserNotificationPreferences() {
     // In production, this would query a user_preferences table
     return {
       profileCompletion: true,
@@ -105,13 +121,13 @@ export class NotificationService {
     };
   }
 
-  async updateUserNotificationPreferences(userId: number, preferences: any) {
+  updateUserNotificationPreferences(userId: number, preferences: Partial<NotificationPreferences>) {
     // In production, this would update a user_preferences table
     return { success: true, preferences };
   }
 
   // 7. Mark as read
-  async markAsRead(notificationId: number, userId: number) {
+  markAsRead(notificationId: number, userId: number) {
     return this.prisma.notification.updateMany({
       where: {
         id: notificationId,
@@ -125,7 +141,7 @@ export class NotificationService {
   }
 
   // 8. Mark all as read
-  async markAllAsRead(userId: number) {
+  markAllAsRead(userId: number) {
     return this.prisma.notification.updateMany({
       where: {
         userId,
@@ -139,7 +155,7 @@ export class NotificationService {
   }
 
   // 9. Delete notification
-  async deleteNotification(notificationId: number, userId: number) {
+  deleteNotification(notificationId: number, userId: number) {
     return this.prisma.notification.deleteMany({
       where: {
         id: notificationId,
@@ -149,7 +165,7 @@ export class NotificationService {
   }
 
   // 10. Notification badge count (unread count)
-  async getUnreadCount(userId: number) {
+  getUnreadCount(userId: number) {
     return this.prisma.notification.count({
       where: {
         userId,
@@ -159,7 +175,7 @@ export class NotificationService {
   }
 
   // Additional: Create achievement notification
-  async createAchievementNotification(userId: number, achievementTitle: string) {
+  createAchievementNotification(userId: number, achievementTitle: string) {
     return this.prisma.notification.create({
       data: {
         userId,
@@ -172,7 +188,7 @@ export class NotificationService {
   }
 
   // Additional: Create profile view notification
-  async createProfileViewNotification(userId: number, viewCount: number) {
+  createProfileViewNotification(userId: number, viewCount: number) {
     return this.prisma.notification.create({
       data: {
         userId,
@@ -185,7 +201,7 @@ export class NotificationService {
   }
 
   // Additional: Create resume share notification
-  async createResumeShareNotification(userId: number, resumeTitle: string, sharedWith: string) {
+  createResumeShareNotification(userId: number, resumeTitle: string, sharedWith: string) {
     return this.prisma.notification.create({
       data: {
         userId,
@@ -198,7 +214,7 @@ export class NotificationService {
   }
 
   // Additional: Get notifications by type
-  async getNotificationsByType(userId: number, type: string) {
+  getNotificationsByType(userId: number, type: string) {
     return this.prisma.notification.findMany({
       where: {
         userId,
@@ -209,7 +225,7 @@ export class NotificationService {
   }
 
   // Additional: Delete old notifications (cleanup)
-  async deleteOldNotifications(userId: number, daysOld = 90) {
+  deleteOldNotifications(userId: number, daysOld = 90) {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysOld);
 

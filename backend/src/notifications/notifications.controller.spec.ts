@@ -155,9 +155,9 @@ describe('NotificationsController', () => {
     it('should get notification preferences', async () => {
       mockService.getUserNotificationPreferences.mockResolvedValue({ security: true } as any);
 
-      const result = await controller.getPreferences(mockReq);
+      const result = await controller.getPreferences();
 
-      expect(service.getUserNotificationPreferences).toHaveBeenCalledWith(9);
+      expect(service.getUserNotificationPreferences).toHaveBeenCalledWith();
       expect(result).toEqual({ security: true });
     });
 
