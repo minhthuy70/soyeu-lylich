@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 export function useRenderCount() {
   const renderCount = useRef(0);
@@ -12,4 +12,23 @@ export function usePrevious(value) {
     ref.current = value;
   });
   return ref.current;
+}
+
+export function usePerformance(value) {
+  const renderCount = useRef(0);
+  renderCount.current += 1;
+
+  const previousValueRef = useRef(undefined);
+  const previousValue = previousValueRef.current;
+  const hasChanged = previousValue !== undefined && previousValue !== value;
+
+  useEffect(() => {
+    previousValueRef.current = value;
+  });
+
+  return {
+    renderCount: renderCount.current,
+    previousValue,
+    hasChanged,
+  };
 }

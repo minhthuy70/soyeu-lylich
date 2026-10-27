@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { usePerformance } from '../usePerformance';
+import { usePerformance } from './usePerformance';
 
 describe('usePerformance', () => {
   it('should track render count', () => {
