@@ -9,70 +9,56 @@ import {
   Query,
   UseGuards,
   Request,
-  UnauthorizedException,
+  ParseIntPipe,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 import { AchievementService } from './achievement.service';
 import { CreateAchievementDto, UpdateAchievementDto } from './dto/create-achievement.dto';
 
 @Controller('achievements')
+@UseGuards(JwtAuthGuard)
 export class AchievementController {
   constructor(private readonly achievementService: AchievementService) {}
 
   @Post()
-  async create(@Request() req, @Body() createDto: CreateAchievementDto) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.achievementService.create(userId, createDto);
+  create(@Request() req: AuthenticatedRequest, @Body() createDto: CreateAchievementDto) {
+    return this.achievementService.create(req.user.id, createDto);
   }
 
   @Get()
-  async findAll(
-    @Request() req,
+  findAll(
+    @Request() req: AuthenticatedRequest,
     @Query('category') category?: string,
     @Query('level') level?: string
   ) {
-    const userId = this.extractUserIdFromRequest(req);
-
     if (category) {
-      return this.achievementService.getAchievementsByCategory(userId, category);
+      return this.achievementService.getAchievementsByCategory(req.user.id, category);
     }
 
     if (level) {
-      return this.achievementService.getAchievementsByLevel(userId, level);
+      return this.achievementService.getAchievementsByLevel(req.user.id, level);
     }
 
-    return this.achievementService.findAll(userId);
+    return this.achievementService.findAll(req.user.id);
   }
 
   @Get(':id')
-  async findOne(@Request() req, @Param('id') id: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.achievementService.findOne(userId, parseInt(id));
+  findOne(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.achievementService.findOne(req.user.id, id);
   }
 
   @Put(':id')
-  async update(@Request() req, @Param('id') id: string, @Body() updateDto: UpdateAchievementDto) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.achievementService.update(userId, parseInt(id), updateDto);
+  update(
+    @Request() req: AuthenticatedRequest,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateDto: UpdateAchievementDto
+  ) {
+    return this.achievementService.update(req.user.id, id, updateDto);
   }
 
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.achievementService.remove(userId, parseInt(id));
-  }
-
-  private extractUserIdFromRequest(req: any): number {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      throw new UnauthorizedException('Token không hợp lệ');
-    }
-
-    const token = authHeader.replace('Bearer ', '');
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.sub;
-    } catch (error) {
-      throw new UnauthorizedException('Token không hợp lệ');
-    }
+  remove(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.achievementService.remove(req.user.id, id);
   }
 }

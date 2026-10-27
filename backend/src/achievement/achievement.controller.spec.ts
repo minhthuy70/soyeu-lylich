@@ -1,11 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UnauthorizedException } from '@nestjs/common';
 import { AchievementController } from './achievement.controller';
 import { AchievementService } from './achievement.service';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 
 describe('AchievementController', () => {
   let controller: AchievementController;
-  let service: jest.Mocked<AchievementService>;
 
   const mockService = {
     create: jest.fn(),
@@ -16,28 +15,15 @@ describe('AchievementController', () => {
     update: jest.fn(),
     remove: jest.fn(),
   };
-
-  // Helper to make a dummy Bearer token with sub = 10
-  const validToken = `dummyHeader.${Buffer.from(JSON.stringify({ sub: 10 })).toString('base64')}.dummySig`;
-  const validReq = {
-    headers: {
-      authorization: `Bearer ${validToken}`,
-    },
-  };
+  const authenticatedRequest = { user: { id: 10 } } as AuthenticatedRequest;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AchievementController],
-      providers: [
-        {
-          provide: AchievementService,
-          useValue: mockService,
-        },
-      ],
+      providers: [{ provide: AchievementService, useValue: mockService }],
     }).compile();
 
     controller = module.get<AchievementController>(AchievementController);
-    service = module.get(AchievementService);
     jest.clearAllMocks();
   });
 
@@ -45,95 +31,53 @@ describe('AchievementController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('extractUserIdFromRequest', () => {
-    it('should throw UnauthorizedException when authorization header is missing', async () => {
-      await expect(controller.create({ headers: {} } as any, {} as any)).rejects.toThrow(
-        UnauthorizedException
-      );
-    });
+  it('creates achievements for the authenticated user', async () => {
+    const dto = { title: 'First Place', organization: 'Org' };
+    mockService.create.mockResolvedValue({ id: 1, ...dto });
 
-    it('should throw UnauthorizedException when token payload cannot be decoded', async () => {
-      const invalidReq = { headers: { authorization: 'Bearer invalid.token' } };
-      await expect(controller.create(invalidReq as any, {} as any)).rejects.toThrow(
-        UnauthorizedException
-      );
-    });
+    const result = await controller.create(authenticatedRequest, dto);
+
+    expect(mockService.create).toHaveBeenCalledWith(10, dto);
+    expect(result).toEqual({ id: 1, ...dto });
   });
 
-  describe('create', () => {
-    it('should create achievement with extracted userId', async () => {
-      const dto = { title: 'First Place', organization: 'Org' };
-      mockService.create.mockResolvedValue({ id: 1, ...dto } as any);
+  it('filters by category before level', async () => {
+    mockService.getAchievementsByCategory.mockResolvedValue({ achievements: [], count: 0 });
+    mockService.getAchievementsByLevel.mockResolvedValue({ achievements: [], count: 0 });
 
-      const result = await controller.create(validReq, dto);
+    await controller.findAll(authenticatedRequest, 'Academic', 'National');
 
-      expect(service.create).toHaveBeenCalledWith(10, dto);
-      expect(result).toEqual({ id: 1, ...dto });
-    });
+    expect(mockService.getAchievementsByCategory).toHaveBeenCalledWith(10, 'Academic');
+    expect(mockService.getAchievementsByLevel).not.toHaveBeenCalled();
   });
 
-  describe('findAll', () => {
-    it('should call getAchievementsByCategory if category query is provided', async () => {
-      mockService.getAchievementsByCategory.mockResolvedValue({
-        achievements: [],
-        count: 0,
-      } as any);
+  it('filters by level when no category is specified', async () => {
+    mockService.getAchievementsByLevel.mockResolvedValue({ achievements: [], count: 0 });
 
-      await controller.findAll(validReq, 'Cert');
+    await controller.findAll(authenticatedRequest, undefined, 'National');
 
-      expect(service.getAchievementsByCategory).toHaveBeenCalledWith(10, 'Cert');
-      expect(service.findAll).not.toHaveBeenCalled();
-    });
-
-    it('should call getAchievementsByLevel if level query is provided', async () => {
-      mockService.getAchievementsByLevel.mockResolvedValue({ achievements: [], count: 0 } as any);
-
-      await controller.findAll(validReq, undefined, 'National');
-
-      expect(service.getAchievementsByLevel).toHaveBeenCalledWith(10, 'National');
-      expect(service.findAll).not.toHaveBeenCalled();
-    });
-
-    it('should call findAll if no filters provided', async () => {
-      mockService.findAll.mockResolvedValue({ achievements: [], count: 0 } as any);
-
-      await controller.findAll(validReq);
-
-      expect(service.findAll).toHaveBeenCalledWith(10);
-    });
+    expect(mockService.getAchievementsByLevel).toHaveBeenCalledWith(10, 'National');
   });
 
-  describe('findOne', () => {
-    it('should call findOne with parsed id', async () => {
-      mockService.findOne.mockResolvedValue({ id: 7 } as any);
+  it('lists all achievements when no filter is provided', async () => {
+    mockService.findAll.mockResolvedValue({ achievements: [], count: 0 });
 
-      const result = await controller.findOne(validReq, '7');
+    await controller.findAll(authenticatedRequest);
 
-      expect(service.findOne).toHaveBeenCalledWith(10, 7);
-      expect(result).toEqual({ id: 7 });
-    });
+    expect(mockService.findAll).toHaveBeenCalledWith(10);
   });
 
-  describe('update', () => {
-    it('should call update with parsed id and dto', async () => {
-      const dto = { title: 'Updated' };
-      mockService.update.mockResolvedValue({ id: 7, ...dto } as any);
+  it('passes numeric ids and authenticated user identity to resource methods', async () => {
+    mockService.findOne.mockResolvedValue({ id: 7 });
+    mockService.update.mockResolvedValue({ id: 7, title: 'Updated' });
+    mockService.remove.mockResolvedValue({ message: 'Deleted' });
 
-      const result = await controller.update(validReq, '7', dto);
+    await controller.findOne(authenticatedRequest, 7);
+    await controller.update(authenticatedRequest, 7, { title: 'Updated' });
+    await controller.remove(authenticatedRequest, 7);
 
-      expect(service.update).toHaveBeenCalledWith(10, 7, dto);
-      expect(result).toEqual({ id: 7, ...dto });
-    });
-  });
-
-  describe('remove', () => {
-    it('should call remove with parsed id', async () => {
-      mockService.remove.mockResolvedValue({ message: 'Deleted' } as any);
-
-      const result = await controller.remove(validReq, '7');
-
-      expect(service.remove).toHaveBeenCalledWith(10, 7);
-      expect(result).toEqual({ message: 'Deleted' });
-    });
+    expect(mockService.findOne).toHaveBeenCalledWith(10, 7);
+    expect(mockService.update).toHaveBeenCalledWith(10, 7, { title: 'Updated' });
+    expect(mockService.remove).toHaveBeenCalledWith(10, 7);
   });
 });

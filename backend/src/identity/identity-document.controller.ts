@@ -8,8 +8,10 @@ import {
   Param,
   UseGuards,
   Request,
-  UnauthorizedException,
+  ParseIntPipe,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 import { IdentityDocumentService } from './identity-document.service';
 import {
   CreateIdentityDocumentDto,
@@ -17,63 +19,44 @@ import {
 } from './dto/create-identity-document.dto';
 
 @Controller('identity-documents')
+@UseGuards(JwtAuthGuard)
 export class IdentityDocumentController {
   constructor(private readonly identityDocumentService: IdentityDocumentService) {}
 
   @Post()
-  async create(@Request() req, @Body() createDto: CreateIdentityDocumentDto) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.identityDocumentService.create(userId, createDto);
+  create(@Request() req: AuthenticatedRequest, @Body() createDto: CreateIdentityDocumentDto) {
+    return this.identityDocumentService.create(req.user.id, createDto);
   }
 
   @Get()
-  async findAll(@Request() req) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.identityDocumentService.findAll(userId);
+  findAll(@Request() req: AuthenticatedRequest) {
+    return this.identityDocumentService.findAll(req.user.id);
   }
 
   @Get(':id')
-  async findOne(@Request() req, @Param('id') id: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.identityDocumentService.findOne(userId, parseInt(id));
+  findOne(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.identityDocumentService.findOne(req.user.id, id);
   }
 
   @Put(':id')
-  async update(
-    @Request() req,
-    @Param('id') id: string,
+  update(
+    @Request() req: AuthenticatedRequest,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateDto: UpdateIdentityDocumentDto
   ) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.identityDocumentService.update(userId, parseInt(id), updateDto);
+    return this.identityDocumentService.update(req.user.id, id, updateDto);
   }
 
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
-    const userId = this.extractUserIdFromRequest(req);
-    return this.identityDocumentService.remove(userId, parseInt(id));
+  remove(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.identityDocumentService.remove(req.user.id, id);
   }
 
   @Post('validate')
-  async validate(@Body() body: { documentType: string; documentNumber: string }) {
+  validate(@Body() body: { documentType: string; documentNumber: string }) {
     return this.identityDocumentService.validateDocumentData(
       body.documentType,
       body.documentNumber
     );
-  }
-
-  private extractUserIdFromRequest(req: any): number {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      throw new UnauthorizedException('Token không hợp lệ');
-    }
-
-    const token = authHeader.replace('Bearer ', '');
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.sub;
-    } catch (error) {
-      throw new UnauthorizedException('Token không hợp lệ');
-    }
   }
 }
