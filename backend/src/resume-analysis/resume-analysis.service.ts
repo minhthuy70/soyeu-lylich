@@ -29,9 +29,21 @@ export interface ResumeAnalysisResult {
   };
 }
 
+interface ResumeAnalysisInput {
+  name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  summary?: string | null;
+  experiences: Array<{ jobDescription: string | null }>;
+  educations: unknown[];
+  skills: Array<{ name: string }>;
+  projects: unknown[];
+  achievements: unknown[];
+}
+
 @Injectable()
 export class ResumeAnalysisService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async analyzeResume(resumeId: number, jobTitle?: string): Promise<ResumeAnalysisResult> {
     const resume = await this.prisma.resume.findUnique({
@@ -57,7 +69,7 @@ export class ResumeAnalysisService {
 
     const user = resume.user;
     const profile = user?.profile;
-    const resumeData = {
+    const resumeData: ResumeAnalysisInput = {
       ...resume,
       name: profile?.fullName,
       email: profile?.email || user?.email,
@@ -87,7 +99,7 @@ export class ResumeAnalysisService {
     };
   }
 
-  private analyzeCompleteness(resume: any) {
+  private analyzeCompleteness(resume: ResumeAnalysisInput) {
     const sections = [
       { name: 'Personal Information', present: !!resume.name, weight: 20 },
       { name: 'Contact Information', present: !!resume.email, weight: 15 },
@@ -105,7 +117,7 @@ export class ResumeAnalysisService {
     return { score, sections };
   }
 
-  private analyzeQuality(resume: any) {
+  private analyzeQuality(resume: ResumeAnalysisInput) {
     const factors: { name: string; score: number; suggestions: string[] }[] = [];
 
     // Check professional summary length
@@ -140,7 +152,7 @@ export class ResumeAnalysisService {
     // Check experience descriptions
     if (resume.experiences.length > 0) {
       const hasDetailedDescriptions = resume.experiences.some(
-        (exp: any) => exp.description && exp.description.length > 50
+        (experience) => experience.jobDescription && experience.jobDescription.length > 50
       );
       factors.push({
         name: 'Experience Descriptions',
@@ -181,7 +193,7 @@ export class ResumeAnalysisService {
     return { score: overallScore, factors };
   }
 
-  private getMissingSections(resume: any): string[] {
+  private getMissingSections(resume: ResumeAnalysisInput): string[] {
     const missing: string[] = [];
 
     if (!resume.name) missing.push('Name');
@@ -195,7 +207,7 @@ export class ResumeAnalysisService {
     return missing;
   }
 
-  private getKeywordSuggestions(resume: any) {
+  private getKeywordSuggestions(resume: ResumeAnalysisInput) {
     const suggestions: { section: string; keywords: string[] }[] = [];
 
     // Experience keywords
@@ -217,7 +229,7 @@ export class ResumeAnalysisService {
         'Problem-solving',
       ];
 
-      const existingKeywords = resume.skills.map((s: any) => s.name.toLowerCase());
+      const existingKeywords = resume.skills.map((skill) => skill.name.toLowerCase());
       const missingKeywords = techKeywords.filter(
         (k) => !existingKeywords.includes(k.toLowerCase())
       );
@@ -248,7 +260,7 @@ export class ResumeAnalysisService {
     return suggestions;
   }
 
-  private getJobOrientedSuggestions(resume: any, jobTitle: string) {
+  private getJobOrientedSuggestions(resume: ResumeAnalysisInput, jobTitle: string) {
     const suggestions: string[] = [];
 
     const jobKeywords: Record<string, string[]> = {
