@@ -8,11 +8,13 @@ import {
   Query,
   UseGuards,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
 import { NotificationService } from './notifications.service';
 import type { NotificationPreferences } from './notifications.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 
 @Controller('notifications')
 @UseGuards(JwtAuthGuard)
@@ -21,35 +23,35 @@ export class NotificationsController {
 
   @Get()
   getUserNotifications(
-    @Request() req: { user?: { id?: number } },
+    @Request() req: AuthenticatedRequest,
     @Query('limit') limit = 20,
     @Query('offset') offset = 0
   ) {
-    const userId = req.user?.id || 1;
-    return this.notificationService.getUserNotifications(userId, Number(limit), Number(offset));
+    return this.notificationService.getUserNotifications(
+      req.user.id,
+      Number(limit),
+      Number(offset)
+    );
   }
 
   @Get('unread-count')
-  async getUnreadCount(@Request() req: { user?: { id?: number } }) {
-    const userId = req.user?.id || 1;
-    const count = await this.notificationService.getUnreadCount(userId);
+  async getUnreadCount(@Request() req: AuthenticatedRequest) {
+    const count = await this.notificationService.getUnreadCount(req.user.id);
     return { count };
   }
 
   @Get('type/:type')
-  getNotificationsByType(@Param('type') type: string, @Request() req: { user?: { id?: number } }) {
-    const userId = req.user?.id || 1;
-    return this.notificationService.getNotificationsByType(userId, type);
+  getNotificationsByType(@Param('type') type: string, @Request() req: AuthenticatedRequest) {
+    return this.notificationService.getNotificationsByType(req.user.id, type);
   }
 
   @Post('profile-completion')
   createProfileCompletionReminder(
     @Body() body: { completionPercentage: number },
-    @Request() req: { user?: { id?: number } }
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
     return this.notificationService.createProfileCompletionReminder(
-      userId,
+      req.user.id,
       body.completionPercentage
     );
   }
@@ -57,10 +59,9 @@ export class NotificationsController {
   @Post('resume-update')
   createResumeUpdateNotification(
     @Body() body: { resumeTitle: string },
-    @Request() req: { user?: { id?: number } }
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
-    return this.notificationService.createResumeUpdateNotification(userId, body.resumeTitle);
+    return this.notificationService.createResumeUpdateNotification(req.user.id, body.resumeTitle);
   }
 
   @Post('security')
@@ -70,11 +71,10 @@ export class NotificationsController {
       securityType: 'LOGIN' | 'PASSWORD_CHANGE' | '2FA_ENABLED' | 'SUSPICIOUS_ACTIVITY';
       details?: Prisma.InputJsonObject;
     },
-    @Request() req: { user?: { id?: number } }
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
     return this.notificationService.createSecurityNotification(
-      userId,
+      req.user.id,
       body.securityType,
       body.details
     );
@@ -88,11 +88,10 @@ export class NotificationsController {
       message: string;
       metadata?: Prisma.InputJsonValue;
     },
-    @Request() req: { user?: { id?: number } }
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
     return this.notificationService.createSystemNotification(
-      userId,
+      req.user.id,
       body.title,
       body.message,
       body.metadata
@@ -102,50 +101,47 @@ export class NotificationsController {
   @Post('achievement')
   createAchievementNotification(
     @Body() body: { achievementTitle: string },
-    @Request() req: { user?: { id?: number } }
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
-    return this.notificationService.createAchievementNotification(userId, body.achievementTitle);
+    return this.notificationService.createAchievementNotification(
+      req.user.id,
+      body.achievementTitle
+    );
   }
 
   @Post('profile-view')
   createProfileViewNotification(
     @Body() body: { viewCount: number },
-    @Request() req: { user?: { id?: number } }
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
-    return this.notificationService.createProfileViewNotification(userId, body.viewCount);
+    return this.notificationService.createProfileViewNotification(req.user.id, body.viewCount);
   }
 
   @Post('resume-share')
   createResumeShareNotification(
     @Body() body: { resumeTitle: string; sharedWith: string },
-    @Request() req: { user?: { id?: number } }
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
     return this.notificationService.createResumeShareNotification(
-      userId,
+      req.user.id,
       body.resumeTitle,
       body.sharedWith
     );
   }
 
   @Post(':id/mark-read')
-  markAsRead(@Param('id') id: string, @Request() req: { user?: { id?: number } }) {
-    const userId = req.user?.id || 1;
-    return this.notificationService.markAsRead(parseInt(id), userId);
+  markAsRead(@Param('id', ParseIntPipe) id: number, @Request() req: AuthenticatedRequest) {
+    return this.notificationService.markAsRead(id, req.user.id);
   }
 
   @Post('mark-all-read')
-  markAllAsRead(@Request() req: { user?: { id?: number } }) {
-    const userId = req.user?.id || 1;
-    return this.notificationService.markAllAsRead(userId);
+  markAllAsRead(@Request() req: AuthenticatedRequest) {
+    return this.notificationService.markAllAsRead(req.user.id);
   }
 
   @Delete(':id')
-  deleteNotification(@Param('id') id: string, @Request() req: { user?: { id?: number } }) {
-    const userId = req.user?.id || 1;
-    return this.notificationService.deleteNotification(parseInt(id), userId);
+  deleteNotification(@Param('id', ParseIntPipe) id: number, @Request() req: AuthenticatedRequest) {
+    return this.notificationService.deleteNotification(id, req.user.id);
   }
 
   @Get('preferences')
@@ -156,18 +152,13 @@ export class NotificationsController {
   @Post('preferences')
   updatePreferences(
     @Body() body: Partial<NotificationPreferences>,
-    @Request() req: { user?: { id?: number } }
+    @Request() req: AuthenticatedRequest
   ) {
-    const userId = req.user?.id || 1;
-    return this.notificationService.updateUserNotificationPreferences(userId, body);
+    return this.notificationService.updateUserNotificationPreferences(req.user.id, body);
   }
 
   @Delete('old')
-  deleteOldNotifications(
-    @Query('daysOld') daysOld = 90,
-    @Request() req: { user?: { id?: number } }
-  ) {
-    const userId = req.user?.id || 1;
-    return this.notificationService.deleteOldNotifications(userId, Number(daysOld));
+  deleteOldNotifications(@Query('daysOld') daysOld = 90, @Request() req: AuthenticatedRequest) {
+    return this.notificationService.deleteOldNotifications(req.user.id, Number(daysOld));
   }
 }

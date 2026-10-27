@@ -4,7 +4,6 @@ import { NotificationService } from './notifications.service';
 
 describe('NotificationsController', () => {
   let controller: NotificationsController;
-  let service: jest.Mocked<NotificationService>;
 
   const mockService = {
     getUserNotifications: jest.fn(),
@@ -39,7 +38,6 @@ describe('NotificationsController', () => {
     }).compile();
 
     controller = module.get<NotificationsController>(NotificationsController);
-    service = module.get(NotificationService);
     jest.clearAllMocks();
   });
 
@@ -53,13 +51,7 @@ describe('NotificationsController', () => {
 
       await controller.getUserNotifications(mockReq, 10, 20);
 
-      expect(service.getUserNotifications).toHaveBeenCalledWith(9, 10, 20);
-    });
-
-    it('should default to userId 1 if req.user is absent', async () => {
-      await controller.getUserNotifications({});
-
-      expect(service.getUserNotifications).toHaveBeenCalledWith(1, 20, 0);
+      expect(mockService.getUserNotifications).toHaveBeenCalledWith(9, 10, 20);
     });
   });
 
@@ -69,7 +61,7 @@ describe('NotificationsController', () => {
 
       const result = await controller.getUnreadCount(mockReq);
 
-      expect(service.getUnreadCount).toHaveBeenCalledWith(9);
+      expect(mockService.getUnreadCount).toHaveBeenCalledWith(9);
       expect(result).toEqual({ count: 5 });
     });
   });
@@ -80,19 +72,19 @@ describe('NotificationsController', () => {
 
       await controller.getNotificationsByType('SECURITY', mockReq);
 
-      expect(service.getNotificationsByType).toHaveBeenCalledWith(9, 'SECURITY');
+      expect(mockService.getNotificationsByType).toHaveBeenCalledWith(9, 'SECURITY');
     });
   });
 
   describe('creation endpoints', () => {
     it('should create profile completion reminder', async () => {
       await controller.createProfileCompletionReminder({ completionPercentage: 75 }, mockReq);
-      expect(service.createProfileCompletionReminder).toHaveBeenCalledWith(9, 75);
+      expect(mockService.createProfileCompletionReminder).toHaveBeenCalledWith(9, 75);
     });
 
     it('should create resume update notification', async () => {
       await controller.createResumeUpdateNotification({ resumeTitle: 'My Resume' }, mockReq);
-      expect(service.createResumeUpdateNotification).toHaveBeenCalledWith(9, 'My Resume');
+      expect(mockService.createResumeUpdateNotification).toHaveBeenCalledWith(9, 'My Resume');
     });
 
     it('should create security notification', async () => {
@@ -100,24 +92,24 @@ describe('NotificationsController', () => {
         { securityType: 'LOGIN', details: { ip: '1.1.1.1' } },
         mockReq
       );
-      expect(service.createSecurityNotification).toHaveBeenCalledWith(9, 'LOGIN', {
+      expect(mockService.createSecurityNotification).toHaveBeenCalledWith(9, 'LOGIN', {
         ip: '1.1.1.1',
       });
     });
 
     it('should create system notification', async () => {
       await controller.createSystemNotification({ title: 'T', message: 'M' }, mockReq);
-      expect(service.createSystemNotification).toHaveBeenCalledWith(9, 'T', 'M', undefined);
+      expect(mockService.createSystemNotification).toHaveBeenCalledWith(9, 'T', 'M', undefined);
     });
 
     it('should create achievement notification', async () => {
       await controller.createAchievementNotification({ achievementTitle: 'Star' }, mockReq);
-      expect(service.createAchievementNotification).toHaveBeenCalledWith(9, 'Star');
+      expect(mockService.createAchievementNotification).toHaveBeenCalledWith(9, 'Star');
     });
 
     it('should create profile view notification', async () => {
       await controller.createProfileViewNotification({ viewCount: 10 }, mockReq);
-      expect(service.createProfileViewNotification).toHaveBeenCalledWith(9, 10);
+      expect(mockService.createProfileViewNotification).toHaveBeenCalledWith(9, 10);
     });
 
     it('should create resume share notification', async () => {
@@ -125,47 +117,47 @@ describe('NotificationsController', () => {
         { resumeTitle: 'CV', sharedWith: 'HR' },
         mockReq
       );
-      expect(service.createResumeShareNotification).toHaveBeenCalledWith(9, 'CV', 'HR');
+      expect(mockService.createResumeShareNotification).toHaveBeenCalledWith(9, 'CV', 'HR');
     });
   });
 
   describe('actions: mark read & delete', () => {
     it('should mark single notification read', async () => {
-      await controller.markAsRead('15', mockReq);
-      expect(service.markAsRead).toHaveBeenCalledWith(15, 9);
+      await controller.markAsRead(15, mockReq);
+      expect(mockService.markAsRead).toHaveBeenCalledWith(15, 9);
     });
 
     it('should mark all notifications read', async () => {
       await controller.markAllAsRead(mockReq);
-      expect(service.markAllAsRead).toHaveBeenCalledWith(9);
+      expect(mockService.markAllAsRead).toHaveBeenCalledWith(9);
     });
 
     it('should delete notification by id', async () => {
-      await controller.deleteNotification('15', mockReq);
-      expect(service.deleteNotification).toHaveBeenCalledWith(15, 9);
+      await controller.deleteNotification(15, mockReq);
+      expect(mockService.deleteNotification).toHaveBeenCalledWith(15, 9);
     });
 
     it('should delete old notifications', async () => {
       await controller.deleteOldNotifications(30, mockReq);
-      expect(service.deleteOldNotifications).toHaveBeenCalledWith(9, 30);
+      expect(mockService.deleteOldNotifications).toHaveBeenCalledWith(9, 30);
     });
   });
 
   describe('preferences', () => {
-    it('should get notification preferences', async () => {
-      mockService.getUserNotificationPreferences.mockResolvedValue({ security: true } as any);
+    it('should get notification preferences', () => {
+      mockService.getUserNotificationPreferences.mockReturnValue({ security: true });
 
-      const result = await controller.getPreferences();
+      const result = controller.getPreferences();
 
-      expect(service.getUserNotificationPreferences).toHaveBeenCalledWith();
+      expect(mockService.getUserNotificationPreferences).toHaveBeenCalledWith();
       expect(result).toEqual({ security: true });
     });
 
-    it('should update notification preferences', async () => {
+    it('should update notification preferences', () => {
       const prefs = { security: false };
-      await controller.updatePreferences(prefs, mockReq);
+      controller.updatePreferences(prefs, mockReq);
 
-      expect(service.updateUserNotificationPreferences).toHaveBeenCalledWith(9, prefs);
+      expect(mockService.updateUserNotificationPreferences).toHaveBeenCalledWith(9, prefs);
     });
   });
 });
