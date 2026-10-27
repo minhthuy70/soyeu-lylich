@@ -11,6 +11,10 @@ import {
   Request,
 } from '@nestjs/common';
 import { ResumeTemplateService } from './resume-template.service';
+import type {
+  CreateResumeTemplateInput,
+  UpdateResumeTemplateInput,
+} from './resume-template.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('resume-templates')
@@ -19,53 +23,57 @@ export class ResumeTemplateController {
   constructor(private readonly resumeTemplateService: ResumeTemplateService) {}
 
   @Post()
-  async create(@Request() req, @Body() createDto: any) {
+  create(@Request() req: { user?: { id?: number } }, @Body() createDto: CreateResumeTemplateInput) {
     const userId = req.user?.id || 1;
     return this.resumeTemplateService.create(userId, createDto);
   }
 
   @Get()
-  async findAll(@Request() req, @Query('category') category?: string) {
+  findAll(@Request() req: { user?: { id?: number } }, @Query('category') category?: string) {
     const userId = req.user?.id || 1;
     return this.resumeTemplateService.findAll(userId, category);
   }
 
   @Get('public')
-  async findPublic(@Query('category') category?: string) {
+  findPublic(@Query('category') category?: string) {
     return this.resumeTemplateService.findPublicTemplates(category);
   }
 
   @Get(':id')
-  async findOne(@Request() req, @Param('id') id: string) {
+  findOne(@Request() req: { user?: { id?: number } }, @Param('id') id: string) {
     const userId = req.user?.id || 1;
     return this.resumeTemplateService.findOne(userId, parseInt(id));
   }
 
   @Put(':id')
-  async update(@Request() req, @Param('id') id: string, @Body() updateDto: any) {
+  update(
+    @Request() req: { user?: { id?: number } },
+    @Param('id') id: string,
+    @Body() updateDto: UpdateResumeTemplateInput
+  ) {
     const userId = req.user?.id || 1;
     return this.resumeTemplateService.update(userId, parseInt(id), updateDto);
   }
 
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
+  remove(@Request() req: { user?: { id?: number } }, @Param('id') id: string) {
     const userId = req.user?.id || 1;
     return this.resumeTemplateService.remove(userId, parseInt(id));
   }
 
   @Post(':id/use')
-  async incrementUsage(@Param('id') id: string) {
+  incrementUsage(@Param('id') id: string) {
     return this.resumeTemplateService.incrementUsage(parseInt(id));
   }
 
   @Post(':id/set-default')
-  async setAsDefault(@Request() req, @Param('id') id: string) {
+  setAsDefault(@Request() req: { user?: { id?: number } }, @Param('id') id: string) {
     const userId = req.user?.id || 1;
     return this.resumeTemplateService.setAsDefault(userId, parseInt(id));
   }
 
   @Post(':id/duplicate')
-  async duplicate(@Request() req, @Param('id') id: string) {
+  duplicate(@Request() req: { user?: { id?: number } }, @Param('id') id: string) {
     const userId = req.user?.id || 1;
     return this.resumeTemplateService.duplicate(userId, parseInt(id));
   }

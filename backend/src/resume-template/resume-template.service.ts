@@ -1,12 +1,16 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+
+export type CreateResumeTemplateInput = Omit<Prisma.ResumeTemplateUncheckedCreateInput, 'userId'>;
+
+export type UpdateResumeTemplateInput = Omit<Prisma.ResumeTemplateUncheckedUpdateInput, 'userId'>;
 
 @Injectable()
 export class ResumeTemplateService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: number, createDto: any) {
+  async create(userId: number, createDto: CreateResumeTemplateInput) {
     const template = await this.prisma.resumeTemplate.create({
       data: {
         userId,
@@ -24,7 +28,7 @@ export class ResumeTemplateService {
   }
 
   async findAll(userId: number, category?: string) {
-    const where: any = { userId };
+    const where: Prisma.ResumeTemplateWhereInput = { userId };
 
     if (category) {
       where.category = category;
@@ -42,7 +46,7 @@ export class ResumeTemplateService {
   }
 
   async findPublicTemplates(category?: string) {
-    const where: any = { isPublic: true };
+    const where: Prisma.ResumeTemplateWhereInput = { isPublic: true };
 
     if (category) {
       where.category = category;
@@ -74,7 +78,7 @@ export class ResumeTemplateService {
     return template;
   }
 
-  async update(userId: number, id: number, updateDto: any) {
+  async update(userId: number, id: number, updateDto: UpdateResumeTemplateInput) {
     const template = await this.prisma.resumeTemplate.findFirst({
       where: { id, userId },
     });
