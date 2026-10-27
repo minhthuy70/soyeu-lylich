@@ -55,11 +55,14 @@ export default function Modal({ isOpen, onClose, title, children, size = 'medium
     <div
       className="modal-overlay"
       onClick={handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
     >
-      <div ref={modalRef} className={`modal ${getSizeClass()}`}>
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        className={`modal ${getSizeClass()}`}
+      >
         <div className="modal-header">
           <h2 id="modal-title">{title}</h2>
           <button
