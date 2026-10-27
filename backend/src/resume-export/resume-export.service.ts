@@ -1,14 +1,107 @@
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import * as QRCode from 'qrcode';
 import { PrismaService } from '../prisma/prisma.service';
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } from 'docx';
 import PDFDocument from 'pdfkit';
+
+type ResumeExportResult = {
+  format: 'docx' | 'pdf' | 'txt' | 'json' | 'html';
+  filename: string;
+  content: string;
+  message: string;
+  options?: {
+    watermark?: string;
+    pageSize?: 'A4' | 'Letter';
+  };
+};
+
+type ResumeExportFailure = {
+  resumeId: number;
+  error: string;
+};
+
+interface ResumeImportSection {
+  sectionType: string;
+  customName?: string | null;
+  description?: string | null;
+  isEnabled?: boolean;
+  order?: number;
+}
+
+interface ResumeImportData {
+  title: string;
+  template?: string | null;
+  colorScheme?: string | null;
+  font?: string | null;
+  sections?: ResumeImportSection[];
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isResumeImportSection(value: unknown): value is ResumeImportSection {
+  if (!isRecord(value)) {
+    return false;
+  }
+
+  return (
+    typeof value.sectionType === 'string' &&
+    (value.customName === undefined ||
+      value.customName === null ||
+      typeof value.customName === 'string') &&
+    (value.description === undefined ||
+      value.description === null ||
+      typeof value.description === 'string') &&
+    (value.isEnabled === undefined || typeof value.isEnabled === 'boolean') &&
+    (value.order === undefined || typeof value.order === 'number')
+  );
+}
+
+function parseResumeImportData(value: unknown): ResumeImportData {
+  if (!isRecord(value)) {
+    throw new Error('Resume import data must be an object');
+  }
+
+  if (typeof value.title !== 'string' || !value.title.trim()) {
+    throw new Error('Resume title is required');
+  }
+
+  const sections = value.sections;
+  if (
+    sections !== undefined &&
+    (!Array.isArray(sections) || !sections.every(isResumeImportSection))
+  ) {
+    throw new Error('Resume sections must be an array of sections');
+  }
+
+  for (const key of ['template', 'colorScheme', 'font'] as const) {
+    const field = value[key];
+    if (field !== undefined && field !== null && typeof field !== 'string') {
+      throw new Error(`Resume import field "${key}" must be a string`);
+    }
+  }
+
+  return {
+    title: value.title,
+    ...(typeof value.template === 'string' || value.template === null
+      ? { template: value.template }
+      : {}),
+    ...(typeof value.colorScheme === 'string' || value.colorScheme === null
+      ? { colorScheme: value.colorScheme }
+      : {}),
+    ...(typeof value.font === 'string' || value.font === null ? { font: value.font } : {}),
+    ...(sections === undefined ? {} : { sections }),
+  };
+}
 
 @Injectable()
 export class ResumeExportService {
   constructor(private readonly prisma: PrismaService) {}
 
   // 1. Export DOCX (using docx library)
-  async exportToDocx(resumeId: number, userId: number) {
+  async exportToDocx(resumeId: number, userId: number): Promise<ResumeExportResult> {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
@@ -131,7 +224,7 @@ export class ResumeExportService {
       watermark?: string;
       pageSize?: 'A4' | 'Letter';
     }
-  ) {
+  ): Promise<ResumeExportResult> {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
@@ -148,7 +241,7 @@ export class ResumeExportService {
       throw new Error('Resume not found');
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise<ResumeExportResult>((resolve, reject) => {
       try {
         const doc = new PDFDocument({
           size: options?.pageSize === 'Letter' ? 'LETTER' : 'A4',
@@ -157,7 +250,7 @@ export class ResumeExportService {
 
         const chunks: Buffer[] = [];
 
-        doc.on('data', (chunk) => chunks.push(chunk));
+        doc.on('data', (chunk: Buffer) => chunks.push(chunk));
         doc.on('end', () => {
           const buffer = Buffer.concat(chunks);
           resolve({
@@ -210,21 +303,24 @@ export class ResumeExportService {
 
         // Add watermark if provided
         if (options?.watermark) {
-          doc.fontSize(40).fillColor('gray', 0.3).text(options.watermark, 50, 400, {
-            align: 'center',
-            angle: 45,
-          });
+          doc.save();
+          doc
+            .rotate(45, { origin: [300, 450] })
+            .fontSize(40)
+            .fillColor('gray', 0.3)
+            .text(options.watermark, 50, 400, { align: 'center' });
+          doc.restore();
         }
 
         doc.end();
       } catch (error) {
-        reject(error);
+        reject(error instanceof Error ? error : new Error(String(error)));
       }
     });
   }
 
   // 3. Export TXT
-  async exportToTxt(resumeId: number, userId: number) {
+  async exportToTxt(resumeId: number, userId: number): Promise<ResumeExportResult> {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
@@ -260,7 +356,7 @@ export class ResumeExportService {
   }
 
   // Additional: Export JSON
-  async exportToJson(resumeId: number, userId: number) {
+  async exportToJson(resumeId: number, userId: number): Promise<ResumeExportResult> {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
@@ -281,7 +377,7 @@ export class ResumeExportService {
   }
 
   // Additional: Export HTML
-  async exportToHtml(resumeId: number, userId: number) {
+  async exportToHtml(resumeId: number, userId: number): Promise<ResumeExportResult> {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
@@ -337,11 +433,11 @@ export class ResumeExportService {
     userId: number,
     format: 'pdf' | 'docx' | 'txt' | 'json' | 'html'
   ) {
-    const exports: any[] = [];
+    const exports: (ResumeExportResult | ResumeExportFailure)[] = [];
 
     for (const resumeId of resumeIds) {
       try {
-        let exportResult;
+        let exportResult: ResumeExportResult;
         switch (format) {
           case 'docx':
             exportResult = await this.exportToDocx(resumeId, userId);
@@ -363,7 +459,7 @@ export class ResumeExportService {
       } catch (error) {
         exports.push({
           resumeId,
-          error: error.message,
+          error: error instanceof Error ? error.message : 'Resume export failed',
         });
       }
     }
@@ -372,8 +468,8 @@ export class ResumeExportService {
       format,
       exports,
       total: resumeIds.length,
-      successful: exports.filter((e) => !e.error).length,
-      failed: exports.filter((e) => e.error).length,
+      successful: exports.filter((entry) => !('error' in entry)).length,
+      failed: exports.filter((entry) => 'error' in entry).length,
     };
   }
 
@@ -401,9 +497,8 @@ export class ResumeExportService {
       `${resume.id}-${Buffer.from(resume.title).toString('base64').substring(0, 8)}`;
 
     // Hash password if provided
-    let hashedPassword = null;
+    let hashedPassword: string | null = null;
     if (options?.password) {
-      const bcrypt = require('bcrypt');
       hashedPassword = await bcrypt.hash(options.password, 10);
     }
 
@@ -494,7 +589,6 @@ export class ResumeExportService {
         };
       }
 
-      const bcrypt = require('bcrypt');
       const isPasswordValid = await bcrypt.compare(password, resume.publicPassword);
       if (!isPasswordValid) {
         throw new Error('Invalid password');
@@ -541,7 +635,6 @@ export class ResumeExportService {
     const publicUrl = `${process.env.APP_URL || 'http://localhost:3000'}/public/${resume.publicSlug}`;
 
     // Use qrcode library to generate actual QR code
-    const QRCode = require('qrcode');
     const qrCodeDataUrl = await QRCode.toDataURL(publicUrl, {
       width: 300,
       margin: 2,
@@ -640,27 +733,24 @@ export class ResumeExportService {
   }
 
   // Import resume from JSON
-  async importFromJson(userId: number, jsonData: any) {
+  async importFromJson(userId: number, jsonData: unknown) {
     try {
-      // Validate required fields
-      if (!jsonData.title) {
-        throw new Error('Resume title is required');
-      }
+      const importedResume = parseResumeImportData(jsonData);
 
       // Create resume
       const resume = await this.prisma.resume.create({
         data: {
           userId,
-          title: jsonData.title,
-          template: jsonData.template || 'Modern',
-          colorScheme: jsonData.colorScheme,
-          font: jsonData.font,
+          title: importedResume.title,
+          template: importedResume.template || 'Modern',
+          colorScheme: importedResume.colorScheme,
+          font: importedResume.font,
         },
       });
 
       // Import sections if provided
-      if (jsonData.sections && Array.isArray(jsonData.sections)) {
-        for (const section of jsonData.sections) {
+      if (importedResume.sections) {
+        for (const section of importedResume.sections) {
           await this.prisma.resumeSection.create({
             data: {
               resumeId: resume.id,
@@ -680,7 +770,8 @@ export class ResumeExportService {
         resume,
       };
     } catch (error) {
-      throw new Error(`Failed to import resume: ${error.message}`);
+      const message = error instanceof Error ? error.message : 'Unknown import error';
+      throw new Error(`Failed to import resume: ${message}`);
     }
   }
 }
