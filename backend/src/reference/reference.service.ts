@@ -1,11 +1,18 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+
+export type CreateReferenceInput = Pick<
+  Prisma.ReferenceUncheckedCreateInput,
+  'name' | 'position' | 'company' | 'contact' | 'relationship'
+>;
+export type UpdateReferenceInput = Partial<CreateReferenceInput>;
 
 @Injectable()
 export class ReferenceService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: number, createDto: any) {
+  async create(userId: number, createDto: CreateReferenceInput) {
     const reference = await this.prisma.reference.create({
       data: {
         userId,
@@ -47,7 +54,7 @@ export class ReferenceService {
     return reference;
   }
 
-  async update(userId: number, id: number, updateDto: any) {
+  async update(userId: number, id: number, updateDto: UpdateReferenceInput) {
     const reference = await this.prisma.reference.findFirst({
       where: {
         id,
@@ -60,7 +67,7 @@ export class ReferenceService {
     }
 
     const updated = await this.prisma.reference.update({
-      where: { id },
+      where: { id, userId },
       data: {
         name: updateDto.name,
         position: updateDto.position,
@@ -86,7 +93,7 @@ export class ReferenceService {
     }
 
     await this.prisma.reference.delete({
-      where: { id },
+      where: { id, userId },
     });
 
     return { message: 'Đã xóa người tham chiếu thành công' };

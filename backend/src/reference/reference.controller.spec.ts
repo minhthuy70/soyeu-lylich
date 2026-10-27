@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ReferenceController } from './reference.controller';
 import { ReferenceService } from './reference.service';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 
 describe('ReferenceController', () => {
   let controller: ReferenceController;
-  let service: jest.Mocked<ReferenceService>;
 
   const mockService = {
     create: jest.fn(),
@@ -29,7 +29,6 @@ describe('ReferenceController', () => {
     }).compile();
 
     controller = module.get<ReferenceController>(ReferenceController);
-    service = module.get(ReferenceService);
     jest.clearAllMocks();
   });
 
@@ -44,15 +43,14 @@ describe('ReferenceController', () => {
 
       const result = await controller.create(mockReq, dto);
 
-      expect(service.create).toHaveBeenCalledWith(8, dto);
+      expect(mockService.create).toHaveBeenCalledWith(8, dto);
       expect(result).toEqual({ id: 1, ...dto });
     });
 
-    it('should fallback to userId 1 if req.user is undefined', async () => {
+    it('should require an authenticated user instead of falling back to another user', () => {
       const dto = { name: 'Trần B' };
-      await controller.create({}, dto);
 
-      expect(service.create).toHaveBeenCalledWith(1, dto);
+      expect(() => controller.create({} as AuthenticatedRequest, dto)).toThrow();
     });
   });
 
@@ -62,7 +60,7 @@ describe('ReferenceController', () => {
 
       await controller.findAll(mockReq);
 
-      expect(service.findAll).toHaveBeenCalledWith(8);
+      expect(mockService.findAll).toHaveBeenCalledWith(8);
     });
   });
 
@@ -72,7 +70,7 @@ describe('ReferenceController', () => {
 
       await controller.getByCompany(mockReq, 'Google');
 
-      expect(service.getByCompany).toHaveBeenCalledWith(8, 'Google');
+      expect(mockService.getByCompany).toHaveBeenCalledWith(8, 'Google');
     });
   });
 
@@ -80,9 +78,9 @@ describe('ReferenceController', () => {
     it('should call service.findOne with userId and parsed id', async () => {
       mockService.findOne.mockResolvedValue({ id: 2 } as any);
 
-      const result = await controller.findOne(mockReq, '2');
+      const result = await controller.findOne(mockReq, 2);
 
-      expect(service.findOne).toHaveBeenCalledWith(8, 2);
+      expect(mockService.findOne).toHaveBeenCalledWith(8, 2);
       expect(result).toEqual({ id: 2 });
     });
   });
@@ -92,9 +90,9 @@ describe('ReferenceController', () => {
       const updateDto = { position: 'CTO' };
       mockService.update.mockResolvedValue({ id: 2, ...updateDto } as any);
 
-      const result = await controller.update(mockReq, '2', updateDto);
+      const result = await controller.update(mockReq, 2, updateDto);
 
-      expect(service.update).toHaveBeenCalledWith(8, 2, updateDto);
+      expect(mockService.update).toHaveBeenCalledWith(8, 2, updateDto);
       expect(result).toEqual({ id: 2, ...updateDto });
     });
   });
@@ -103,9 +101,9 @@ describe('ReferenceController', () => {
     it('should call service.remove with userId and parsed id', async () => {
       mockService.remove.mockResolvedValue({ message: 'Deleted' } as any);
 
-      const result = await controller.remove(mockReq, '2');
+      const result = await controller.remove(mockReq, 2);
 
-      expect(service.remove).toHaveBeenCalledWith(8, 2);
+      expect(mockService.remove).toHaveBeenCalledWith(8, 2);
       expect(result).toEqual({ message: 'Deleted' });
     });
   });

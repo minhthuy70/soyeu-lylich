@@ -9,9 +9,12 @@ import {
   Query,
   UseGuards,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ReferenceService } from './reference.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
+import type { CreateReferenceInput, UpdateReferenceInput } from './reference.service';
 
 @Controller('references')
 @UseGuards(JwtAuthGuard)
@@ -19,38 +22,36 @@ export class ReferenceController {
   constructor(private readonly referenceService: ReferenceService) {}
 
   @Post()
-  async create(@Request() req, @Body() createDto: any) {
-    const userId = req.user?.id || 1;
-    return this.referenceService.create(userId, createDto);
+  create(@Request() req: AuthenticatedRequest, @Body() createDto: CreateReferenceInput) {
+    return this.referenceService.create(req.user.id, createDto);
   }
 
   @Get()
-  async findAll(@Request() req) {
-    const userId = req.user?.id || 1;
-    return this.referenceService.findAll(userId);
+  findAll(@Request() req: AuthenticatedRequest) {
+    return this.referenceService.findAll(req.user.id);
   }
 
   @Get('by-company')
-  async getByCompany(@Request() req, @Query('company') company: string) {
-    const userId = req.user?.id || 1;
-    return this.referenceService.getByCompany(userId, company);
+  getByCompany(@Request() req: AuthenticatedRequest, @Query('company') company: string) {
+    return this.referenceService.getByCompany(req.user.id, company);
   }
 
   @Get(':id')
-  async findOne(@Request() req, @Param('id') id: string) {
-    const userId = req.user?.id || 1;
-    return this.referenceService.findOne(userId, parseInt(id));
+  findOne(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.referenceService.findOne(req.user.id, id);
   }
 
   @Put(':id')
-  async update(@Request() req, @Param('id') id: string, @Body() updateDto: any) {
-    const userId = req.user?.id || 1;
-    return this.referenceService.update(userId, parseInt(id), updateDto);
+  update(
+    @Request() req: AuthenticatedRequest,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateDto: UpdateReferenceInput
+  ) {
+    return this.referenceService.update(req.user.id, id, updateDto);
   }
 
   @Delete(':id')
-  async remove(@Request() req, @Param('id') id: string) {
-    const userId = req.user?.id || 1;
-    return this.referenceService.remove(userId, parseInt(id));
+  remove(@Request() req: AuthenticatedRequest, @Param('id', ParseIntPipe) id: number) {
+    return this.referenceService.remove(req.user.id, id);
   }
 }

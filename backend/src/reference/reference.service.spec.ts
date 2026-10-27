@@ -116,13 +116,18 @@ describe('ReferenceService', () => {
       const updated = { ...mockReference, position: 'VP of Engineering' };
       prisma.reference.update.mockResolvedValue(updated);
 
-      const result = await service.update(1, 1, { position: 'VP of Engineering' });
+      await service.update(1, 1, { position: 'VP of Engineering' });
 
       expect(prisma.reference.update).toHaveBeenCalledWith({
-        where: { id: 1 },
-        data: expect.objectContaining({ position: 'VP of Engineering' }),
+        where: { id: 1, userId: 1 },
+        data: {
+          name: undefined,
+          position: 'VP of Engineering',
+          company: undefined,
+          contact: undefined,
+          relationship: undefined,
+        },
       });
-      expect(result.position).toBe('VP of Engineering');
     });
 
     it('should throw NotFoundException when updating non-existent reference', async () => {
@@ -139,7 +144,7 @@ describe('ReferenceService', () => {
 
       const result = await service.remove(1, 1);
 
-      expect(prisma.reference.delete).toHaveBeenCalledWith({ where: { id: 1 } });
+      expect(prisma.reference.delete).toHaveBeenCalledWith({ where: { id: 1, userId: 1 } });
       expect(result).toEqual({ message: 'Đã xóa người tham chiếu thành công' });
     });
 
