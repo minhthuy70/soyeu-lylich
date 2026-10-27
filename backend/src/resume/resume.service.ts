@@ -44,7 +44,7 @@ export class ResumeService {
     const resume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
-        resumeSections: true,
+        sections: true,
       },
     });
 
@@ -95,7 +95,7 @@ export class ResumeService {
     const originalResume = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId },
       include: {
-        resumeSections: true,
+        sections: true,
       },
     });
 
@@ -114,12 +114,15 @@ export class ResumeService {
 
     // Duplicate resume sections
     await Promise.all(
-      originalResume.resumeSections.map((section) =>
+      originalResume.sections.map((section) =>
         this.prisma.resumeSection.create({
           data: {
-            ...section,
-            id: undefined,
             resumeId: duplicatedResume.id,
+            sectionType: section.sectionType,
+            customName: section.customName,
+            description: section.description,
+            isEnabled: section.isEnabled,
+            order: section.order,
           },
         })
       )
