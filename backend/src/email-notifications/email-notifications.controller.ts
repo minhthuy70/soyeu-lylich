@@ -1,6 +1,7 @@
-import { Controller, Post, Get, Body, Param, UseGuards, Request } from '@nestjs/common';
+import { BadRequestException, Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
 import { EmailNotificationService } from './email-notifications.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { AuthenticatedRequest } from '../auth/authenticated-request.type';
 
 @Controller('email-notifications')
 @UseGuards(JwtAuthGuard)
@@ -8,24 +9,35 @@ export class EmailNotificationsController {
   constructor(private readonly emailNotificationService: EmailNotificationService) {}
 
   @Post('security-alert')
-  async sendSecurityAlert(@Body() body: any, @Request() req) {
-    const userId = req.user?.id || 1;
-    const email = req.user?.email || body.email;
+  sendSecurityAlert(
+    @Body()
+    body: {
+      alertType: 'login' | 'password_change' | '2fa_enabled' | 'suspicious_activity';
+      details?: unknown;
+    },
+    @Request() req: AuthenticatedRequest
+  ) {
     return this.emailNotificationService.sendSecurityAlert(
-      userId,
-      email,
+      req.user.id,
+      req.user.email,
       body.alertType,
       body.details
     );
   }
 
   @Post('resume-sharing')
-  async sendResumeSharingNotification(@Body() body: any, @Request() req) {
-    const userId = req.user?.id || 1;
-    const email = req.user?.email || body.email;
+  sendResumeSharingNotification(
+    @Body()
+    body: {
+      resumeTitle: string;
+      sharedWith: string;
+      shareType: 'public' | 'private' | 'email';
+    },
+    @Request() req: AuthenticatedRequest
+  ) {
     return this.emailNotificationService.sendResumeSharingNotification(
-      userId,
-      email,
+      req.user.id,
+      req.user.email,
       body.resumeTitle,
       body.sharedWith,
       body.shareType
@@ -33,54 +45,75 @@ export class EmailNotificationsController {
   }
 
   @Post('weekly-summary')
-  async sendWeeklySummary(@Body() body: any, @Request() req) {
-    const userId = req.user?.id || 1;
-    const email = req.user?.email || body.email;
-    return this.emailNotificationService.sendWeeklySummary(userId, email, body.summary);
+  sendWeeklySummary(
+    @Body()
+    body: {
+      summary: {
+        profileViews: number;
+        shares: number;
+        newConnections: number;
+        achievements: number;
+      };
+    },
+    @Request() req: AuthenticatedRequest
+  ) {
+    return this.emailNotificationService.sendWeeklySummary(
+      req.user.id,
+      req.user.email,
+      body.summary
+    );
   }
 
   @Post('certificate-expiry')
-  async sendCertificateExpiryReminder(@Body() body: any, @Request() req) {
-    const userId = req.user?.id || 1;
-    const email = req.user?.email || body.email;
+  sendCertificateExpiryReminder(
+    @Body()
+    body: { certificateName: string; expiryDate: string; daysUntilExpiry: number },
+    @Request() req: AuthenticatedRequest
+  ) {
+    const expiryDate = new Date(body.expiryDate);
+    if (Number.isNaN(expiryDate.getTime())) {
+      throw new BadRequestException('Expiry date must be a valid date');
+    }
+
     return this.emailNotificationService.sendCertificateExpiryReminder(
-      userId,
-      email,
+      req.user.id,
+      req.user.email,
       body.certificateName,
-      body.expiryDate,
+      expiryDate,
       body.daysUntilExpiry
     );
   }
 
   @Post('profile-milestone')
-  async sendProfileViewMilestone(@Body() body: any, @Request() req) {
-    const userId = req.user?.id || 1;
-    const email = req.user?.email || body.email;
+  sendProfileViewMilestone(
+    @Body() body: { milestone: number; currentViews: number },
+    @Request() req: AuthenticatedRequest
+  ) {
     return this.emailNotificationService.sendProfileViewMilestone(
-      userId,
-      email,
+      req.user.id,
+      req.user.email,
       body.milestone,
       body.currentViews
     );
   }
 
   @Post('account-verification')
-  async sendAccountVerification(@Body() body: { email: string; token: string }) {
+  sendAccountVerification(@Body() body: { email: string; token: string }) {
     return this.emailNotificationService.sendAccountVerification(body.email, body.token);
   }
 
   @Post('password-reset')
-  async sendPasswordReset(@Body() body: { email: string; token: string }) {
+  sendPasswordReset(@Body() body: { email: string; token: string }) {
     return this.emailNotificationService.sendPasswordReset(body.email, body.token);
   }
 
   @Post('batch/weekly-summary')
-  async sendWeeklySummariesToAll() {
+  sendWeeklySummariesToAll() {
     return this.emailNotificationService.sendWeeklySummariesToAllUsers();
   }
 
   @Post('batch/certificate-expiry')
-  async sendCertificateExpiryReminders() {
+  sendCertificateExpiryReminders() {
     return this.emailNotificationService.sendCertificateExpiryReminders();
   }
 }

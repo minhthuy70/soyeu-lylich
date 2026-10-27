@@ -3,11 +3,11 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class EmailNotificationService {
   // 1. Security Alert Email
-  async sendSecurityAlert(
+  sendSecurityAlert(
     userId: number,
     email: string,
     alertType: 'login' | 'password_change' | '2fa_enabled' | 'suspicious_activity',
-    details?: any
+    details?: unknown
   ) {
     // In production, use Nodemailer, SendGrid, AWS SES, or similar
     console.log(`Sending security alert email to ${email}: ${alertType}`);
@@ -27,7 +27,7 @@ export class EmailNotificationService {
   }
 
   // 2. Resume Sharing Notification
-  async sendResumeSharingNotification(
+  sendResumeSharingNotification(
     userId: number,
     email: string,
     resumeTitle: string,
@@ -44,7 +44,7 @@ export class EmailNotificationService {
   }
 
   // 3. Weekly Summary Email
-  async sendWeeklySummary(
+  sendWeeklySummary(
     userId: number,
     email: string,
     summary: {
@@ -64,7 +64,7 @@ export class EmailNotificationService {
   }
 
   // 4. Certificate Expiry Email
-  async sendCertificateExpiryReminder(
+  sendCertificateExpiryReminder(
     userId: number,
     email: string,
     certificateName: string,
@@ -73,7 +73,7 @@ export class EmailNotificationService {
   ) {
     console.log(`Sending certificate expiry reminder to ${email}`);
     console.log(
-      `Certificate: ${certificateName}, Expires: ${expiryDate}, Days left: ${daysUntilExpiry}`
+      `Certificate: ${certificateName}, Expires: ${expiryDate.toISOString()}, Days left: ${daysUntilExpiry}`
     );
 
     const urgency =
@@ -86,12 +86,7 @@ export class EmailNotificationService {
   }
 
   // 5. Profile View Milestone Email
-  async sendProfileViewMilestone(
-    userId: number,
-    email: string,
-    milestone: number,
-    currentViews: number
-  ) {
+  sendProfileViewMilestone(userId: number, email: string, milestone: number, currentViews: number) {
     console.log(`Sending profile view milestone email to ${email}`);
     console.log(`Milestone: ${milestone}, Current views: ${currentViews}`);
 
@@ -102,7 +97,7 @@ export class EmailNotificationService {
   }
 
   // Helper: Send account verification email (complement to existing auth logic)
-  async sendAccountVerification(email: string, token: string) {
+  sendAccountVerification(email: string, token: string) {
     console.log(`Sending account verification email to ${email}`);
     console.log(`Verification token: ${token}`);
 
@@ -113,7 +108,7 @@ export class EmailNotificationService {
   }
 
   // Helper: Send password reset email (complement to existing auth logic)
-  async sendPasswordReset(email: string, token: string) {
+  sendPasswordReset(email: string, token: string) {
     console.log(`Sending password reset email to ${email}`);
     console.log(`Reset token: ${token}`);
 
@@ -124,7 +119,7 @@ export class EmailNotificationService {
   }
 
   // Batch send weekly summaries (for scheduled jobs)
-  async sendWeeklySummariesToAllUsers() {
+  sendWeeklySummariesToAllUsers() {
     console.log('Sending weekly summaries to all users');
     // In production, query all users with weekly summaries enabled
     // and send individual emails
@@ -136,7 +131,7 @@ export class EmailNotificationService {
   }
 
   // Batch send certificate expiry reminders (for scheduled jobs)
-  async sendCertificateExpiryReminders() {
+  sendCertificateExpiryReminders() {
     console.log('Sending certificate expiry reminders');
     // In production, query certificates expiring soon
     // and send reminders to respective users
